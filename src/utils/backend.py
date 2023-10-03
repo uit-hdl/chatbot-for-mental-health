@@ -89,7 +89,7 @@ def dump_conversation_with_timestamp(conversation, label="conversation"):
 
 def dump_conversation_to_textfile(filename, conversation):
     """Dumps a conversation to a textfile."""
-    path_relative = f"{CONVERSATIONS_DIR}/{filename}"
+    path_relative = f"{CONVERSATIONS_DIR}/formatted/{filename}"
     full_path = get_full_path_and_create_dir(path_relative)
     # Remove the initial prompt
     conversation = conversation[1:]

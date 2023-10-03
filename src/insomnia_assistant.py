@@ -9,7 +9,6 @@ import cv2
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import pprint
-import webbrowser
 from utils.general import remove_quotes_from_string
 from utils.general import wrap_and_print_message
 from utils.general import count_number_of_tokens
@@ -29,6 +28,7 @@ from utils.backend import load_textfile_as_string
 openai.api_key = API_KEY
 BREAK_CONVERSATION_PROMPT = "break"
 BREAK_CONVERSATION = False
+REGENERATE = False
 KNOWLEDGE = []
 
 pp = pprint.PrettyPrinter(indent=10)
@@ -99,8 +99,12 @@ def generate_bot_response(conversation_log):
 
 def create_user_input(conversation):
     """Prompts user to input a prompt (the "question") in the command line."""
+    global REGENERATE
     user_message = input("User: ")
     user_message = scan_user_message_for_commands(user_message, conversation)
+    if REGENERATE:
+        REGENERATE = False
+        return conversation[:-1]
     conversation.append({"role": "user", "content": user_message})
     return conversation
 
@@ -109,7 +113,7 @@ def scan_user_message_for_commands(user_message, conversation):
     """Here I create an interpreter that scans for key phrases that
     allows me to execute commands from the command line during a chat and print useful
     information."""
-    global BREAK_CONVERSATION
+    global BREAK_CONVERSATION, REGENERATE
     commands = ["options", 
                 "break",
                 "count_tokens", 
@@ -119,7 +123,8 @@ def scan_user_message_for_commands(user_message, conversation):
                 "print_last3",
                 "print_chat",
                 "print_prompt",
-                "print_knowledge"]
+                "print_knowledge",
+                "regenerate"]
     
     while user_message in commands:
         if user_message == "break":
@@ -141,6 +146,9 @@ def scan_user_message_for_commands(user_message, conversation):
             print(f"The whole conversation: \n\n{conversation}")
         elif user_message == "print_knowledge":
             print(f"Knowledge inserted is: \n{KNOWLEDGE}")
+        elif user_message == "regenerate":
+            REGENERATE = True
+            break
 
         user_message = input("User: ")
     
