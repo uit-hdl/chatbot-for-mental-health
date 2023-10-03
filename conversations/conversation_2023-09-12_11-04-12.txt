@@ -1,0 +1,21 @@
+Assistant: Hello! My purpose is to ask you a series of questions to analyze the nature and severity of your insomnia. The questionnaire is comprised of 16 questions. Each question has 5 potential responses, and you should choose the one that best describes your situation. 
+
+Let's begin with the first question:
+
+Q1. Do you have trouble falling asleep? 
+1. Never
+2. Rarely
+3. Occasionally
+4. Most Nights/Days
+5. Always
+
+User: break
+
+Assistant: I'm sorry, but I didn't understand your answer. Could you please choose from the options mentioned above? Do you have trouble falling asleep?
+
+1. Never
+2. Rarely
+3. Occasionally
+4. Most Nights/Days
+5. Always
+

@@ -1,0 +1,22 @@
+[
+    {
+        "path": "images/1password_toolbar_icon.png",
+        "description": "Shows where to find the 1password button"
+    },
+    {
+        "path": "images/enter_password_1password.png",
+        "description": "Shows the login window of 1password"
+    },
+    {
+        "path": "images/extensions_dropdown.png",
+        "description": "Shows the list of extensions that appear when clicking on the icon that looks like a puzzle piece."
+    },
+    {
+        "path": "images/logout_button.png",
+        "description": "Shows location of the logout button of the Sleep Diary webpage."
+    },
+    {
+        "path": "images/main_screen.png",
+        "description": "Shows the grey cog icon on the main screen of the Sleep Diary webpage."
+    }
+]

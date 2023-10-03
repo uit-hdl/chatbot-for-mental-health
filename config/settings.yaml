@@ -1,0 +1,2 @@
+word_wrap: 80  # N.o. characters before line gets wrapped.
+plot_duration: 10000

@@ -1,0 +1,51 @@
+Assistant: Hello! I'm here to assist with your login issues related to the Consensus Sleep Diary app. Is this the correct topic you need help with?
+
+User: yes
+
+Assistant: Great. Can you please tell me what you've tried so far in terms of logging in?
+
+User: I dont remember what to do
+
+Assistant: No worries at all. First, you'll want to navigate to the webpage: https://app.consensussleepdiary.com/#/login/
+
+From there, are you able to see a place to enter your username and password?
+
+User: No, it just says login
+
+Assistant: That's okay. Look for a button or link that says 'Login'. Once you click on it, you should be redirected to a page where you can enter your username and password. Do you see this page now?
+
+User: Yes
+
+Assistant: Great! Now, you need to use 1password to help you remember your login details. To access 1password, click on the blue and white icon that looks like a keyhole located in the upper right corner of your screen. I'll illustrate with a screenshot. 
+
+¤: display_image{images/1password_toolbar_icon.png} :¤ 
+
+If you can't see this icon, click on the grey jigsaw icon in the upper right corner. In the drop-down menu, you should see the 1password extension.
+
+Let me know if you managed to get there.
+
+User: I have
+
+Assistant: Awesome! Now go ahead and enter your password for 1password and press enter. Remember, if 1password isn't suggesting a password for the Sleep Diary app, make sure you're logged in to 1password first. After logging in to 1password, go back to the Sleep Diary login page, click on the "email" field, and 1password should offer to autofill your details. Can you try that?
+
+User: This is too much information at once
+
+Assistant: I apologize for that. Let's break it down. First, click on the 1password icon and a log in window will prompt. Enter your password for 1password and press enter. Once done, let me know.
+
+User: can you show me an image of that?
+
+Assistant: Certainly! Here is a screenshot illustrating where to enter your 1password's password:
+
+¤: display_image{images/enter_password_1password.png} :¤
+
+Once you've entered your password for 1password and logged in, let me know.
+
+User: Cool!
+
+Assistant: Great! Now, go back to the Sleep Diary login page. Click on the "email" field, and 1password shoul
+d offer to autofill your details. Does that work?
+
+User: yes
+
+Assistant: Fantastic! I'm glad to hear that. If you encounter any more issues, feel free to ask. Have a nice day!
+

@@ -1,0 +1,26 @@
+Assistant: Hello! I am here to help with any issues you might be facing with logging into your account for the Consensus Sleep Diary. Do you need assistance with that?
+
+User: yes, my login information does not work
+
+Assistant: I see. Let's try to solve this. Just to confirm, have you made sure that you're entering the correct username and password? Remember, passwords are case-sensitive.
+
+User: yes
+
+Assistant: Alright, do you remember if you used 1Password to store your login information for the Consensus Sleep Diary?
+
+User: yes
+
+Assistant: Great. To access that information, click on the blue-white icon that looks like a key hole in the upper right corner of your screen.
+
+¤: display_image{images/1password_toolbar_icon.png} :¤ 
+
+If you don't see this icon, click on the icon in the upper right corner that looks like a puzzle piece.
+
+¤: display_image{images/extensions_dropdown.png} :¤
+
+From the drop down list, select 1Password. If you want it to always be visible, click on the 'pin' icon next to the 1Password icon. After opening 1Password, enter your password and press enter. Let me know once you've done that.
+
+User: break
+
+Assistant: I understand you need a pause. Take your time, and when you're ready, you can continue with the steps I've provided. I'll be right here if you need any further assistance.
+

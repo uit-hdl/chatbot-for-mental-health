@@ -1,0 +1,21 @@
+Assistant: Hello! I am here to guide you through a series of questions to assess the type and severity of your sleep problems. This questionaire comprises of 16 questions. For each question, you will choose from 5 possible answers which best suits your situation. Here is the first question for us to get started:
+
+Do you have trouble falling asleep?
+1. Never
+2. Rarely
+3. Occasionally
+4. Most Nights/Days
+5. Always
+
+User: break
+
+Assistant: It seems like your response doesn't fit with the response options for this question. Let me remind you of the options:
+
+1. Never
+2. Rarely
+3. Occasionally
+4. Most Nights/Days
+5. Always
+
+So, do you have trouble falling asleep? Please respond with the number of the option that best describes your experience.
+

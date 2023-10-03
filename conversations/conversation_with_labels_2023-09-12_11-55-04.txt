@@ -1,0 +1,37 @@
+Assistant: Hello! I understand you need help logging in?
+
+User: yes
+
+Assistant: What have you tried so far?
+
+User: I cant rememebr
+
+Assistant: No problem. First, you should go to this webpage: https://app.consensussleepdiary.com/#/login/. Can you see the login fields for entering your email and password?
+
+User: yes
+
+Assistant: Great! Do you remember your password or did you use 1password to store it?
+
+User: I used 1password
+
+Assistant: Okay. Let's open 1password. Look for the blue-white keyhole icon in the upper right corner of your screen. 
+¤: display_image{images/1password_toolbar_icon.png} :¤ 
+
+If you don't see it, click on the grey icon that looks like a puzzle-piece to find it in your extensions. Let me know what you see.
+
+User: I see it
+
+Assistant: Good! Now click on the 1password icon. It will ask for a password. Fill that in and press enter. Can you log into 1password?
+
+User: yes
+
+Assistant: Great! Now go back to the Sleep Diary login page. Click on the email field and 1password should offer to autofill your details. Can you do that?
+
+User: Yes
+
+Assistant: Fantastic! So are you now logged in to your Sleep Diary account?
+
+User: yup
+
+Assistant: I am glad I could help you. Have a nice day!
+

@@ -1,0 +1,71 @@
+Assistant: Hello! I'm your tech-support assistant, here to assist you with any issues related to your Consensus Sleep Diary app. How may I help you today?
+
+User: I need help with google password manager
+
+Assistant: I see, you're having trouble with Google Password Manager. Could you please elaborate on the issue you're facing?
+
+User: what do you mean?
+
+Assistant: I apologize if my question was unclear. Are you having difficulties in retrieving your Consensus Sleep Diary account password using Google Password Manager, or is there another issue?
+
+User: I cant get the app to work
+
+Assistant: I understand. Let's start by addressing the problem line by line. Is the problem occurring while you are opening the Google Password Manager app?
+
+User: I cant find it
+
+Assistant: ¤:request_knowledge{google_password_manager}:¤
+
+System: # Instructions for google password manager #
+## Installation ##
+click on the three dots in the top right screen of their webbrowser (path:
+images/three_dots_upper_right.png). Alternatively, go to
+chrome://password-manager/passwords. In the dropdown menu that appears, click on
+'Google Password Manager'. In the window that appears, click on 'settings' and
+then on 'Add Shortcut' (path: images/google_password_manager_add_shortcut.png).
+A window will appear that asks if you want to install Google password manager
+(path: images/install_google_manager.png). Click yes. The password manager is
+now installed.
+
+## Adding a new password ##
+To save a new password, open the password manager via the same drop-down menu as
+described above, or simply go to `chrome://password-manager/passwords`. In the
+window that appears, click on `add password` (path:
+images/save_password_googlePasswordManager.png). In the window that appears,
+fill in the requested information (path:
+images/add_password_googlePasswordManager.png). To get the adress for the site
+associated with the login, it is often easiest to go to the website of the login
+(for example `https://sv.quora.com/`), highlight the text in the adress field
+(such as `https://example.com/`), and then copy paste (you may have to explain
+this to them) the site adress into the `site` field. Once valid information is
+filled in on all fields, click `save`.
+
+## Finding a saved login ##
+open Google password manager (same as above) and click on the desired login
+(path: images/find_storedPassword_googlePasswordManager.png)
+
+Assistant: Got it. To find Google Password Manager, please follow these steps:
+
+1. Open your web browser (Google Chrome for instance).
+2. Click on the three dots at the top right of your screen. 
+
+Please let me know if you've found the three dots.
+
+User: yes I see them
+
+Assistant: Great! From the dropdown menu that appears after clicking the three dots, please find and click on 'Google Password Manager'. Let me know once you've done this.
+
+User: Ok, I see it
+
+Assistant: Excellent! You should now see your saved passwords. To find your Consensus Sleep Diary password, scroll through the list or use the search bar at the top to locate the entry for the app. Once you find it, you can click on it to view your saved password. 
+
+Let me know if you're able to find the password for Consensus Sleep Diary.
+
+User: Thanks!
+
+Assistant: You're welcome! Is there anything else you need help with?
+
+User: no
+
+Assistant: Alright then, if you have any more issues in the future, don't hesitate to ask. Have a great day! ¤:end_chat:¤
+

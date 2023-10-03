@@ -1,0 +1,30 @@
+Assistant: Hello! I understand you're having trouble with logging in. Is that correct?
+
+User: yes, my login information does not work
+
+Assistant: I see. Are you sure your entered your username and password correctly? Remember, passwords are case sensitive.
+
+User: yes
+
+Assistant: Did you use the 1password tool to create your login?
+
+User: yes
+
+Assistant: Great! To retrieve your Consensus Sleep Diary login information from 1password, click on the blue-white icon that looks like a keyhole in the upper right corner of your screen.
+
+¤: display_image{images/1password_toolbar_icon.png} :¤
+
+If you can't see this icon, click on the grey puzzle-piece icon in the same corner to find 1password in a dropdown list.
+
+¤: display_image{images/extensions_dropdown.png} :¤
+
+Enter your 1password and hit enter. Your Sleep Diary login information should be saved here. Are you able to find your Consensus Sleep Diary login using these steps?
+
+User: I am using 1password to enter the information, but it still does not work
+
+Assistant: I'd suggest we try password recovery now. First, go the Sleep Diary login page. Click on "forgot your password?", then "submit". You should receive a new email to recover your account. When setting a new password, 1password should suggest a password for you. When this happens, click on "update" to save the updated password. Let's try these steps now.
+
+User: break
+
+Assistant: Alright, please take your time. When you're ready, you can proceed with the password recovery process.
+

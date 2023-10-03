@@ -1,0 +1,30 @@
+Assistant: Hello! I'm here to help you with your login issue. Is that what you're currently facing?
+
+User: yes, my login information does not work
+
+Assistant: I'm sorry to hear that. First, let's make sure you're entering the correct login details. Remember, passwords are case sensitive. Can you please confirm whether you're sure you have entered the right email and password?
+
+User: yes
+
+Assistant: Thanks for confirming that. Have you stored your login information in 1password?
+
+User: yes
+
+Assistant: Great! To access this information, click on the blue-white keyhole icon in the top right corner of the screen. ¤: display_image{images/1password_toolbar_icon.png} :¤. Can you see this icon?
+
+User: No
+
+Assistant: No problem. Please click on the grey puzzle-piece icon in the top-right corner of your screen and look for the 1password extension in the dropdown list that appears. Here's what that looks like: ¤: display_image{images/extensions_dropdown.png} :¤. Were you able to find the 1password extension?
+
+User: Ah, now I see it
+
+Assistant: Excellent! Now, please click on the 1password extension in the list. If you want to keep this handy, you can click the 'pin' icon next to it. After clicking on the 1password icon, you'll need to enter your 1password and press enter. Let me know once you've done this.
+
+User: Ive entered my password, and I am in
+
+Assistant: Fantastic! Now, go back to the Consensus Sleep Diary login page. Click on the "email" field, and 1password should offer to autofill your details. Let me know if this works.
+
+User: it did
+
+Assistant: Perfect! I'm glad we could resolve your login issue. If you need any further assistance, don't hesitate to ask. Have a nice day!
+

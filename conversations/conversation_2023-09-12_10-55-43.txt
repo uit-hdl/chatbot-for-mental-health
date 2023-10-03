@@ -1,0 +1,24 @@
+Assistant: Hello, I'm your insomnia questionnaire bot. I'm going to ask you a series of questions about your sleep habits to understand your insomnia symptoms better. Please respond using the following grading scale:
+
+1. Never
+2. Rarely
+3. Occasionally
+4. Most Nights/Days
+5. Always
+
+Let's start with the first question.
+
+Q1. Do you have trouble falling asleep?
+
+User: break
+
+Assistant: I'm sorry, I didn't understand your response. Please reply using the grading scale:
+
+1. Never
+2. Rarely
+3. Occasionally
+4. Most Nights/Days
+5. Always
+
+So, Q1. Do you have trouble falling asleep?
+

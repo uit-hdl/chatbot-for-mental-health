@@ -1,0 +1,28 @@
+Assistant: Hello! I understand you're experiencing issues with logging into your account. Is that what we're addressing today?
+
+User: yes
+
+Assistant: Perfect. Can you let me know what you've attempted so far in order to log in?
+
+User: I tried to get it to work... 
+
+Assistant: That's perfectly fine. Let's start by navigating to the login page: https://app.consensussleepdiary.com/#/login/. Have you arrived at the login page?
+
+User: yes
+
+Assistant: Great. Let's use 1password to find your login credentials. To use 1password, click on the blue-white icon that looks like a key hole in the upper right corner of your screen. ¤: display_image{images/1password_toolbar_icon.png} :¤
+
+Do you see this icon?
+
+User: yes
+
+Assistant: Good. Now, click on it. It might ask you for a password. If it does, enter the password for 1password and press enter. Did that work?
+
+User: yes
+
+Assistant: Excellent. Now, go back to the Sleep Diary login page, click on the "email" field, and 1password should offer to autofill your login details. Let me know if you're able to log in now.
+
+User: Yes
+
+Assistant: Terrific! I'm glad I could assist you. Have a nice day!
+

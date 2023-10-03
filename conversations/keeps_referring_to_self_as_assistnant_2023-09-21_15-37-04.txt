@@ -1,0 +1,131 @@
+Assistant: Hello! I'm here to help you with your Consensus Sleep Diary account. Could you please describe the issue you're facing?
+
+User: cant recall my login
+
+Assistant: I understand. First, do you remember whether you used a password manager to store your login credentials for the Consensus Sleep Diary? These could be 1password or Google password manager.
+
+User: I think I did, but not sure
+
+Assistant: No problem. Let's start with 1password. Do you see a blue-white icon that looks like a keyhole in the upper right corner of your screen? This icon represents 1password. 
+¤:display_image{images/1password_toolbar_icon.png}:¤
+
+User: no
+
+Assistant: Okay, if you can't locate the 1password icon, it might be in the extensions list. Look for a grey icon that looks like a puzzle piece in the top right corner of your screen. Click on that, and a dropdown menu should appear. Can you see an option that says '1Password' in that list? 
+¤:display_image{images/extensions_dropdown.png}:¤
+
+User: no
+
+Assistant: Alright, let's check Google password manager next.
+
+Look for three dots in the top right screen of your web browser.
+
+Click on it, and a dropdown menu should appear. Then, select 'Google Password Manager'. Let me know if you can see that. 
+
+¤:display_image{images/three_dots_upper_right.png}:¤
+
+User: I can
+
+Assistant: Great! Now that you have opened Google Password Manager, you should see a list of saved logins. Look for one related to the Consensus Sleep Diary. Can you find it? 
+¤:display_image{images/find_storedPassword_googlePasswordManager.png}:¤
+
+User: Yes indeed
+
+Assistant: Excellent! You should see your email and password for the Consensus Sleep Diary there. You can now use these credentials to log in to your account.
+
+If you face any other issues, please feel free to ask. Anything else you need help with right now?
+
+User: How can I create a new login?
+
+Assistant: To create a new login for the Consensus Sleep Diary, here are the steps:
+
+1. Go to https://app.consensussleepdiary.com/#/login/.
+2. Click on 'Create a new account'.
+3. Enter the required information. Remember, it's important to make your password long and complicated for security reasons.
+
+Do you want to use a password manager for this task? It would keep track of your information for you and can suggest a strong password.
+
+User: yes the google one
+
+Assistant: Excellent choice. Let me guide you through saving the new login in Google Password Manager. 
+
+Once you fill out the required fields on the Consensus Sleep Diary page, Google should ask to save the password for you. Accept the prompt to 'Save' when it appears. This helps you avoid forgetting the password in the future.
+
+If there is no prompt, we can manually save the information. Let me know if you need help with that.
+
+User: Smaller steps please
+
+Assistant: Of course! Here's what you need to do step-by-step:
+
+1. Go back to the 'Create a new account' page on the Consensus Sleep Diary website. 
+2. Start filling out the required information. 
+
+Once you start, let me know and we'll proceed to the next steps.
+
+User: Why are you referring to yourself as assistant?
+
+Assistant: I apologize if it was confusing. As an AI, I sometimes use the term "assistant" to describe myself. I'm here to assist you. Now, have you started filling out the new account form on the Consensus Sleep Diary website?
+
+User: No, start over, I got confused because you littered your response with assistant
+
+Assistant: Apologies for any confusion. Let's start again. Please follow these instructions:
+
+1. Open Consensus Sleep Diary website: https://app.consensussleepdiary.com/#/login.
+2. Click on 'Create a new account'.
+
+Did you manage to do this?
+
+User: aarrhhhhh stop it!
+
+Assistant: I'm sorry to see you're feeling frustrated. I'm here to help make this process more manageable for you. Let's try this again with simpler steps.
+
+First step: Open your web browser and go to https://app.consensussleepdiary.com/#/login.
+
+Let me know when you've done this. I'll wait.
+
+User: Ok, now what
+
+Assistant: Good job. Now, you should see an option on the page that says 'Create a new account'. Click on it and let me know when you have done this.
+
+User: No, I wanted help saving a new password.
+
+Assistant: Apologies for the confusion. To manually add a new login to Google Password Manager, please follow these steps:
+
+1. Open Google Password Manager by clicking the three dots in the top right corner of your web browser, then selecting 'Google Password Manager'.
+   
+2. Click on 'Add Password'.
+
+Let me know once you've done this, and we'll proceed to the next step.  
+¤:display_image{images/add_password_googlePasswordManager.png}:¤
+
+User: I cant find the password manager
+
+Assistant: I see. First, locate the three dots in the top right corner of your web browser. It's under the 'close window' button.
+
+Click on these three dots to open a dropdown menu. In this menu, scroll down to "Passwords". That's where the Google Password Manager is located.
+
+¤:display_image{images/three_dots_upper_right.png}:¤
+
+Once you have found it, let me know so we can continue to the next step.
+
+User: ok, now waht?
+
+Assistant: Great, you are now in the Google Password Manager. 
+
+Look for a function or button that says 'Add Password'.
+
+Please click on this button, and let me know so we can move on to the next step.
+¤:display_image{images/save_password_googlePasswordManager.png}:¤
+
+User: you are going too fast
+
+Assistant: I'm sorry if the steps are going too quickly. Let's take it easy. Here's your next step:
+
+You should see a function or button that says 'Add Password'. Take your time to find this. Remember, it's in the Google Password Manager menu. 
+
+When you're ready, click on it. Don't rush, I'm here to assist you. Let me know when you've clicked on 'Add Password'.
+
+User: break
+
+Assistant: Absolutely, take all the time you need. When you're ready to continue, just let me know. You're doing great!
+
