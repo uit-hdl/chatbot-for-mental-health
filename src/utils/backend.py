@@ -9,6 +9,8 @@ from collections import namedtuple
 ROOT_DIR = pathlib.Path(__file__).parents[2]
 API_DIR = os.path.join(pathlib.Path(__file__).parents[3], "api-keys")
 CONVERSATIONS_DIR = os.path.join(ROOT_DIR, "conversations")
+CONVERSATIONS_RAW_DIR = os.path.join(CONVERSATIONS_DIR, "raw")
+CONVERSATIONS_FORMATTED_DIR = os.path.join(CONVERSATIONS_DIR, "formatted")
 USER_DATA_DIR = os.path.join(ROOT_DIR, "user-data")
 IMAGES_DIR = os.path.join(ROOT_DIR, "images")
 VIDEOS_DIR = os.path.join(ROOT_DIR, "videos")
@@ -50,6 +52,15 @@ def load_yaml_file(file_path, return_named_tuple=False):
         return yaml_data
 
 
+def load_json_from_path(
+        file_path: str,
+) -> dict:
+    """Read yaml file from `path`."""
+    with open(file_path, mode="r", encoding="utf-8") as jfl:
+        json_loaded = json.load(jfl)
+    return json_loaded
+
+
 def get_full_path_and_create_dir(file_path):
     """Takes a path relative to the output folder and creates the full path.
     Also creates the specified directory if it does not exist."""
@@ -60,16 +71,16 @@ def get_full_path_and_create_dir(file_path):
     return path
 
 
-def dump_dict_to_json(
-        dump_dict: dict,
-        path_relative: str,
+def dump_to_json(
+        file,
+        file_path,
 ) -> None:
     """Save thr `dump_dict` to the json file under the path given in relation to
     the root directory."""
-    full_path = get_full_path_and_create_dir(path_relative)
+    full_path = get_full_path_and_create_dir(file_path)
     with open(full_path, mode="w", encoding='utf-8') as json_file:
         json.dump(
-            dump_dict,
+            file,
             json_file,
             sort_keys=True,
             indent=4)
@@ -106,6 +117,12 @@ def convert_dict_to_namedtuple(dictionary: dict):
     values = list(dictionary.values())
     named_tuple = namedtuple('named_tuple', names)
     return named_tuple(*values)
+
+def add_extension(path, extension):
+    """Takes a path relative to the output folder and adds the specified extension (e.g., '.csv') if the path has no extension."""
+    if os.path.splitext(path)[-1] == '':
+        path += extension
+    return path
 
 
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)

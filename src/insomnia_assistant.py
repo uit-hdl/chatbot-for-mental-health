@@ -20,9 +20,8 @@ from utils.backend import USER_DATA_DIR
 from utils.backend import SETTINGS
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
-from utils.backend import VIDEOS_DIR
-from utils.backend import dump_dict_to_json
-from utils.backend import dump_conversation_with_timestamp
+from utils.backend import CONVERSATIONS_RAW_DIR
+from utils.backend import dump_to_json
 from utils.backend import load_textfile_as_string
 
 openai.api_key = API_KEY
@@ -44,7 +43,7 @@ def sleep_diary_assistant_bot(chatbot_id="referral"):
     while True:
         conversation = create_user_input(conversation)
         if conversation_is_ended():
-            ask_user_if_conversation_should_be_stored(conversation)
+            offer_to_store_conversation(conversation)
             break
         conversation = generate_bot_response(conversation)
 
@@ -72,7 +71,7 @@ def sleep_diary_assistant_bot(chatbot_id="referral"):
                 display_chatbot_response(conversation)
             else:
                 general_info_dict = convert_json_string_to_dict(json_data)
-                dump_dict_to_json(general_info_dict, f"{USER_DATA_DIR}/user_data.json")
+                dump_to_json(general_info_dict, f"{USER_DATA_DIR}/user_data.json")
 
 
 def initiate_new_conversation(inital_prompt):
@@ -274,16 +273,17 @@ def conversation_is_ended():
         return False
 
 
-def ask_user_if_conversation_should_be_stored(conversation):
+def offer_to_store_conversation(conversation):
     """Asks the user in the console if he wants to store the conversation, and
     if so, how to name it."""
     store_conversation = input("Store conversation? (Y/N): ").strip().lower()
     if store_conversation == "y":
-        label = input("Do you want to label the file? Hit enter for no label: ").strip().lower()
+        label = input("File name (hit enter for default): ").strip().lower()
         if label == "":
             label = "conversation"
         label = label.replace(" ", "_")
-        dump_conversation_with_timestamp(conversation, label)
+        file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
+        dump_to_json(conversation, file_path)
     else:
         print("Conversation not stored")
 

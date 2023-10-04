@@ -1,0 +1,8 @@
+Assistant: Hello! I am here to direct you to the appropriate AI assistant. What do you wish to talk about?
+
+User: I need help
+
+Assistant: I'd be happy to assist you. Could you please specify the problem a bit more? Are you having technical issues or are you looking for advice on a specific area such as cognitive behavioral therapy or insomnia?
+
+User: break
+
