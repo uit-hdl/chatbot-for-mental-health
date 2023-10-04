@@ -23,6 +23,7 @@ from utils.backend import VIDEOS_DIR
 from utils.backend import CONVERSATIONS_RAW_DIR
 from utils.backend import dump_to_json
 from utils.backend import load_textfile_as_string
+from utils.backend import load_yaml_file
 
 openai.api_key = API_KEY
 BREAK_CONVERSATION_PROMPT = "break"
@@ -33,12 +34,17 @@ KNOWLEDGE = []
 pp = pprint.PrettyPrinter(indent=10)
 
 
-def sleep_diary_assistant_bot(chatbot_id="referral"):
+def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     """Running this function starts a conversation with a tutorial bot that
     helps explain how a web-app (https://app.consensussleepdiary.com)
     functions. The web app is a free online app for collecting sleep data."""
-    conversation = initiate_new_conversation(PROMPTS[chatbot_id])
-    display_chatbot_response(conversation)
+    prompt = PROMPTS[chatbot_id]
+
+    if chat_filepath is None:
+        conversation = initiate_new_conversation(prompt)
+        display_chatbot_response(conversation)
+    else:
+        conversation = continue_previous_conversation(chat_filepath, prompt)
 
     while True:
         conversation = create_user_input(conversation)
@@ -79,6 +85,15 @@ def initiate_new_conversation(inital_prompt):
     conversation = []
     conversation.append({'role': 'system', 'content': inital_prompt})
     conversation = generate_bot_response(conversation)
+    return conversation
+
+
+def continue_previous_conversation(chat_filepath, prompt):
+    """Inserts the current prompt into a previous conversation that was discontinued."""
+    conversation = load_yaml_file(chat_filepath)
+    # Replace original prompt with requested prompt
+    conversation[0] = {'role': 'system', 'content': prompt}
+    display_whole_conversation(conversation)
     return conversation
 
 
@@ -241,6 +256,14 @@ def display_chatbot_response(conversation):
     wrap_and_print_message(role, message_cleaned)
 
 
+def display_whole_conversation(conversation):
+    """Prints the entire conversation (excluding the prompt) in the console."""
+    for message in conversation[1:]:
+        role = message["role"]
+        message = message['content'].strip()
+        wrap_and_print_message(role, message)
+
+
 def remove_code_syntax_from_message(message):
     """Removes code syntax which is intended for backend purposes only."""
     message_no_json = re.sub(r'\¤¤¤(.*?)\¤¤¤', '', message, flags=re.DOTALL)
@@ -281,9 +304,11 @@ def offer_to_store_conversation(conversation):
         label = input("File name (hit enter for default): ").strip().lower()
         if label == "":
             label = "conversation"
-        label = label.replace(" ", "_")
         file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
+        if grab_last_response(conversation) == "break":
+            conversation = conversation[:-1]
         dump_to_json(conversation, file_path)
+        print(f"Conversation stored in {file_path}")
     else:
         print("Conversation not stored")
 
@@ -295,11 +320,17 @@ def display_collected_data(collected_info=None):
 
 
 if __name__  ==  "__main__":
+    arg1 = "referral"
+    arg2 = None
+
     if len(sys.argv) > 1:
-        argument = sys.argv[1]  # First command-line argument
-    else:
-        argument = "referral"
-    if argument == "options":
+        arg1 = sys.argv[1]
+        if arg1 == "":
+            arg1 = "referral"
+    if len(sys.argv) > 2:
+        arg2 = sys.argv[2]
+        
+    if arg1 == "options":
         print(f"The assistant IDs are: \n{pp.pformat(list(PROMPTS.keys()))}")
     else:
-        sleep_diary_assistant_bot(chatbot_id=argument)
+        sleep_diary_assistant_bot(chatbot_id=arg1, chat_filepath=arg2)

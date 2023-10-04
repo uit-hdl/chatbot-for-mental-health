@@ -10,6 +10,7 @@ from utils.backend import CONVERSATIONS_DIR
 from utils.backend import get_full_path_and_create_dir
 from utils.backend import CONVERSATIONS_RAW_DIR
 
+
 def format_conversation(filename, output_filename):
     """Loads a the conversation (in json format) and prints it to a text file in conversation/formatted."""
     filename = add_extension(f"{CONVERSATIONS_RAW_DIR}/{filename}", ".json")
