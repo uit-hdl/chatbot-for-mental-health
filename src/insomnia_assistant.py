@@ -9,6 +9,8 @@ import cv2
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import pprint
+import readline
+
 from utils.general import remove_quotes_from_string
 from utils.general import wrap_and_print_message
 from utils.general import count_number_of_tokens
