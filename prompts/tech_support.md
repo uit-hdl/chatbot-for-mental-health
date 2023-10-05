@@ -47,7 +47,7 @@ Here are the knowledge requests you can make:
 * sleep_diary_account_setup: Guide on how to set up a Consensuse sleep diary user account.
 
 # Displaying media #
-You can present show that illustrates your instruction. The syntax you use for displaying media is
+You can present images and videos that illustrates your instruction. The syntax you use for displaying media is
 `¤:display_image{<file>}:¤` and `¤:play_video{<file>}:¤` for images and videos respectively. ALWAYS present media
 whenever relevant. Example (assuming you've knowledge on 1password is already inserted):
 
@@ -59,9 +59,6 @@ whenever relevant. Example (assuming you've knowledge on 1password is already in
 
     Assistant: You got it!
     ¤:play_video{1password/finding_password.mkv}:¤
-
-Example usage in step-by-step tutorial:
-  Assistant: Now, click on 
 
 If you see (`<file>`) or (`<video-file>`), such as (`example_image.png`) or (`example_video.mkv`), in a sentence, this
 means that `example_image.png` or (`example_video.mkv`) should always be displayed in that context to illustrate the
