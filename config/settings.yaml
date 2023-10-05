@@ -1,2 +1,3 @@
 word_wrap: 80  # N.o. characters before line gets wrapped.
 plot_duration: 10000
+max_tokens_before_summary: 5000

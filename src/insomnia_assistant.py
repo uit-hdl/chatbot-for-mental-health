@@ -82,7 +82,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
                 general_info_dict = convert_json_string_to_dict(json_data)
                 dump_to_json(general_info_dict, f"{USER_DATA_DIR}/user_data.json")
 
-        if count_number_of_tokens(conversation) > 2700:
+        if count_number_of_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
             conversation = summarize_conversation(conversation)
             conversation = generate_bot_response(conversation)
 
@@ -146,7 +146,9 @@ def scan_user_message_for_commands(user_message, conversation):
                 "print_prompt",
                 "print_knowledge",
                 "print_summary",
-                "regenerate"]
+                "regenerate",
+                "clear",
+                "history"]
     
     while user_message in commands:
         if user_message == "break":
@@ -170,6 +172,10 @@ def scan_user_message_for_commands(user_message, conversation):
             print(f"Knowledge inserted is: \n{KNOWLEDGE}")
         elif user_message == "print_summary":
             print(f"\n{SUMMARY}")
+        elif user_message == "clear":
+            os.system("clear")
+        elif user_message == "history":
+            display_whole_conversation(conversation)
         elif user_message == "regenerate":
             REGENERATE = True
             break
