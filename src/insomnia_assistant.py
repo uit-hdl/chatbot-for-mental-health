@@ -15,6 +15,7 @@ from utils.general import remove_quotes_from_string
 from utils.general import wrap_and_print_message
 from utils.general import count_number_of_tokens
 from utils.general import play_video
+from utils.general import conversation_list_to_string
 from utils.backend import MODEL_ID
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
@@ -81,6 +82,10 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
                 general_info_dict = convert_json_string_to_dict(json_data)
                 dump_to_json(general_info_dict, f"{USER_DATA_DIR}/user_data.json")
 
+        if count_number_of_tokens(conversation) > 2700:
+            conversation = summarize_conversation(conversation)
+            conversation = generate_bot_response(conversation)
+
 
 def initiate_new_conversation(inital_prompt):
     """Initiates a conversation with the chat bot."""
@@ -99,18 +104,18 @@ def continue_previous_conversation(chat_filepath, prompt):
     return conversation
 
 
-def generate_bot_response(conversation_log):
+def generate_bot_response(conversation):
     """Takes the conversation log, and updates it with the response of the
     chatbot as a function of the chat history."""
     response = openai.ChatCompletion.create(
         model=MODEL_ID,
-        messages=conversation_log,
+        messages=conversation,
     )
-    conversation_log.append({
+    conversation.append({
         'role': response.choices[0].message.role,
         'content': response.choices[0].message.content.strip()
     })
-    return conversation_log
+    return conversation
 
 
 def create_user_input(conversation):
@@ -129,7 +134,7 @@ def scan_user_message_for_commands(user_message, conversation):
     """Here I create an interpreter that scans for key phrases that
     allows me to execute commands from the command line during a chat and print useful
     information."""
-    global BREAK_CONVERSATION, REGENERATE
+    global BREAK_CONVERSATION, REGENERATE, SUMMARY
     commands = ["options", 
                 "break",
                 "count_tokens", 
@@ -140,6 +145,7 @@ def scan_user_message_for_commands(user_message, conversation):
                 "print_chat",
                 "print_prompt",
                 "print_knowledge",
+                "print_summary",
                 "regenerate"]
     
     while user_message in commands:
@@ -162,6 +168,8 @@ def scan_user_message_for_commands(user_message, conversation):
             print(f"The whole conversation: \n\n{conversation}")
         elif user_message == "print_knowledge":
             print(f"Knowledge inserted is: \n{KNOWLEDGE}")
+        elif user_message == "print_summary":
+            print(f"\n{SUMMARY}")
         elif user_message == "regenerate":
             REGENERATE = True
             break
@@ -251,6 +259,24 @@ def direct_to_new_assistant(json_ticket):
     return new_conversation
 
 
+def summarize_conversation(conversation):
+    global SUMMARY
+    conversation_messages, system_messages = separate_system_from_conversation(conversation)
+    conversation_messages = remove_code_syntax_from_whole_conversation(conversation_messages)
+    conversation_string = conversation_list_to_string(conversation_messages)
+    prompt_summary_bot = insert_information_in_prompt(prompt=PROMPTS["summary_bot"], info=conversation_string)
+    conversation_with_summary_bot = initiate_new_conversation(prompt_summary_bot)
+    SUMMARY = grab_last_response(conversation_with_summary_bot)
+    conversation_summarized = reconstruct_conversation_with_summary(system_messages, SUMMARY)
+    return conversation_summarized
+
+
+def reconstruct_conversation_with_summary(system_messages, summary):
+    conversation_reconstructed = system_messages
+    conversation_reconstructed.append({'role': 'system', 'content': summary})
+    return conversation_reconstructed
+
+
 def display_chatbot_response(conversation):
     role = conversation[-1]['role'].strip()
     message = conversation[-1]['content'].strip()
@@ -273,6 +299,19 @@ def remove_code_syntax_from_message(message):
     # Remove surplus spaces
     message_cleaned = re.sub(r' {2,}(?![\n])', ' ', message_no_code)
     return message_cleaned
+
+
+def remove_code_syntax_from_whole_conversation(conversation):
+    for i, message in enumerate(conversation):
+        if message["role"] == "Assistant":
+            conversation[i]["content"] = remove_code_syntax_from_message(message)
+    return conversation
+
+
+def separate_system_from_conversation(conversation):
+    conversation_messages = [message for message in conversation if message["role"] != "system"]
+    system_messages = [message for message in conversation if message["role"] == "system"]
+    return conversation_messages, system_messages
 
 
 def convert_json_string_to_dict(json_data: str):

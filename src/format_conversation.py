@@ -36,6 +36,7 @@ def dump_conversation_to_textfile(filename, conversation):
     full_path = get_full_path_and_create_dir(path_relative)
     # Remove the initial prompt
     conversation = conversation[1:]
+
     with open(full_path, "w") as file:
         for message in conversation:
             role = message["role"]

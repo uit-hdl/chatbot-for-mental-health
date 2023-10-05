@@ -60,3 +60,9 @@ def play_video(video_file):
 def strip_trailing_linebreaks(message):
     """Strip trailing line breaks (newlines) from the end of a string."""
     return message.rstrip('\n')
+
+
+def conversation_list_to_string(conversation):
+    """Takes a conversation in the form of a list of dictionaries, and returns a string with the
+    whole conversation"""
+    return "\n".join([f"{d['role']}: {d['content']}" for d in conversation])
