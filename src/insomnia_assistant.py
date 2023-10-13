@@ -27,6 +27,7 @@ from utils.backend import CONVERSATIONS_RAW_DIR
 from utils.backend import dump_to_json
 from utils.backend import load_textfile_as_string
 from utils.backend import load_yaml_file
+from utils.backend import add_extension
 
 openai.api_key = API_KEY
 BREAK_CONVERSATION_PROMPT = "break"
@@ -42,7 +43,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     helps explain how a web-app (https://app.consensussleepdiary.com)
     functions. The web app is a free online app for collecting sleep data."""
     prompt = PROMPTS[chatbot_id]
-
+    
     if chat_filepath is None:
         conversation = initiate_new_conversation(prompt)
         display_chatbot_response(conversation)
@@ -210,10 +211,8 @@ def scan_for_command(response: str):
 
 def get_knowledge_if_requested(extracted_code):
     if extracted_code and "request_knowledge" in extracted_code:
-        if "1password" in extracted_code:
-            knowledge = load_textfile_as_string("library/1password.md")
-        elif "google_password_manager" in extracted_code:
-            knowledge = load_textfile_as_string("library/google_password_manager.md")
+        file = extract_filename_from_syntax(extracted_code, "library", ".md")
+        knowledge = load_textfile_as_string(file)
         KNOWLEDGE.append(knowledge)
         return knowledge
 
@@ -231,13 +230,10 @@ def display_if_media(extracted_code):
     syntax used to display an image is ¤:display_image{<file>}:¤ (replace with `display_video` for
     video)."""
     if "display_image" in extracted_code:
-        file = re.search(r'\{(.*?)}', extracted_code)
-        file = file.group(1)
-        file = remove_quotes_from_string(file)
-        file = os.path.join(IMAGES_DIR, file)
+        file = extract_filename_from_syntax(extracted_code, IMAGES_DIR)
         img = mpimg.imread(file)
-        plt.imshow(img)
         
+        plt.imshow(img)
         plt.gca().set_axis_off()  # Turn off the axes
         plt.subplots_adjust(top=1, bottom=0, right=1, left=0, hspace=0, wspace=0)
         plt.margins(0, 0)
@@ -248,11 +244,20 @@ def display_if_media(extracted_code):
         plt.close()
 
     elif "play_video" in extracted_code:
-        file = re.search(r'\{(.*?)}', extracted_code)
-        file = file.group(1)
-        file = remove_quotes_from_string(file)
-        file = os.path.join(VIDEOS_DIR, file)
+        file = extract_filename_from_syntax(extracted_code, VIDEOS_DIR)
         play_video(file)
+
+
+def extract_filename_from_syntax(extracted_code, directory, extension=None):
+    """Takes code such as `{request_knowledge(discussion_comparison_with_jaffe_study)}` and
+    finds the full path of the file. `directory` is the directory that holds the file in extracted
+    code."""
+    file = re.search(r'\{(.*?)}', extracted_code)
+    file = file.group(1)
+    file = remove_quotes_from_string(file)
+    if extension:
+        file = add_extension(file, extension)
+    return os.path.join(directory, file)
 
 
 def direct_to_new_assistant(json_ticket):

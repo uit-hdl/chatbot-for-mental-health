@@ -1,0 +1,5 @@
+All echocardiogram examinations were conducted in accordance with the American Society of Echocardiography's Guidelines, utilizing a GE Vivid E9 ultrasound scanner from GE Medical in Horten, Norway. These examinations were carried out by an experienced echo technician before the heart sounds were annotated. The results were then reviewed by an experienced physician, MS.
+
+The severity of Aortic Stenosis (AS) and Mitral Stenosis (MS) was graded on a scale of 0 to 3, which included categories for absent, mild, moderate, and severe. Aortic Regurgitation (AR) and Mitral Regurgitation (MR) severity were assessed on a scale of 0 to 4, which included categories for absent, trace, mild, moderate, and severe.
+
+AS severity was determined using the aortic valve mean pressure gradient (AVPGmean) with cutoff values at 15 mm Hg (indicating mild AS), 20 mm Hg (moderate AS), and 40 mm Hg (severe AS).
