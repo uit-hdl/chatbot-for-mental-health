@@ -3,31 +3,33 @@ import ast
 import re
 import sys
 import os
-import time
 import cv2
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import pprint
-import readline
 
-from utils.general import remove_quotes_from_string
+from typing import List
+from typing import Dict
+
 from utils.general import wrap_and_print_message
 from utils.general import count_number_of_tokens
 from utils.general import play_video
 from utils.general import conversation_list_to_string
+from utils.general import extract_commands
+from utils.general import scan_for_json_data
+from utils.general import print_assistant_message
+from utils.general import print_user_message
 from utils.backend import MODEL_ID
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import USER_DATA_DIR
 from utils.backend import SETTINGS
-from utils.backend import IMAGES_DIR
-from utils.backend import VIDEOS_DIR
 from utils.backend import CONVERSATIONS_RAW_DIR
 from utils.backend import dump_to_json
 from utils.backend import load_textfile_as_string
 from utils.backend import load_yaml_file
-from utils.backend import add_extension
+from utils.backend import get_filename
 
 openai.api_key = API_KEY
 BREAK_CONVERSATION_PROMPT = "break"
@@ -35,7 +37,11 @@ BREAK_CONVERSATION = False
 REGENERATE = False
 KNOWLEDGE = []
 
-pp = pprint.PrettyPrinter(indent=10)
+GREEN = "\033[92m"
+BLUE = "\033[94m"
+RESET = "\033[0m"
+
+pp = pprint.PrettyPrinter(indent=2, width=100)
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
@@ -59,20 +65,20 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
 
         chatbot_response = grab_last_response(conversation)
         json_data = scan_for_json_data(chatbot_response)
-        extracted_code = scan_for_command(chatbot_response)
-        knowledge = get_knowledge_if_requested(extracted_code)
+        commands = extract_commands(chatbot_response)
+        requested_knowledge = get_knowledge_requests(commands)
 
-        if knowledge:
-            print(f"\nInserting requested information into conversation...")
-            conversation = insert_knowledge_and_generate_response(conversation, knowledge)
+        if requested_knowledge:
+            conversation = insert_knowledge(conversation, requested_knowledge)
+            conversation = generate_bot_response(conversation)
             chatbot_response = grab_last_response(conversation)
             json_data = scan_for_json_data(chatbot_response)
-            extracted_code = scan_for_command(chatbot_response)
+            commands = extract_commands(chatbot_response)
     
         display_chatbot_response(conversation)
     
-        if extracted_code:
-            display_if_media(extracted_code)
+        if commands:
+            display_if_media(commands)
 
         if json_data:
             json_dict = convert_json_string_to_dict(json_data)
@@ -101,7 +107,7 @@ def continue_previous_conversation(chat_filepath, prompt):
     conversation = load_yaml_file(chat_filepath)
     # Replace original prompt with requested prompt
     conversation[0] = {'role': 'system', 'content': prompt}
-    display_whole_conversation(conversation)
+    print_whole_conversation(conversation)
     return conversation
 
 
@@ -122,7 +128,7 @@ def generate_bot_response(conversation):
 def create_user_input(conversation):
     """Prompts user to input a prompt (the "question") in the command line."""
     global REGENERATE
-    user_message = input("User: ")
+    user_message = input(GREEN + "user" + RESET  + ": ")
     user_message = scan_user_message_for_commands(user_message, conversation)
     if REGENERATE:
         REGENERATE = False
@@ -155,6 +161,7 @@ def scan_user_message_for_commands(user_message, conversation):
         if user_message == "break":
             BREAK_CONVERSATION = True
             break
+        # conversation_no_linebreaks = remove_linebreaks(conversation)
         elif user_message == "options":
             print(f"Possible commands are {commands}")
         elif user_message == "count_tokens":
@@ -166,9 +173,13 @@ def scan_user_message_for_commands(user_message, conversation):
         elif user_message == "print_prompt":
             print(f"The system prompt is: \n\n{conversation[0]['content']}")
         elif user_message == "print_last3":
+            print("\n*** Printing last 3 messages... ***")
             print(f"The last 3 messages are: \n\n{conversation[-3:]}")
+            print("*** End of printing last 3 messages ***\n")
         elif user_message == "print_chat":
-            print(f"The whole conversation: \n\n{conversation}")
+            print("\n*** Printing whole chat... ***")
+            print_whole_conversation(conversation)
+            print("*** End of printing whole chat ***\n")
         elif user_message == "print_knowledge":
             print(f"Knowledge inserted is: \n{KNOWLEDGE}")
         elif user_message == "print_summary":
@@ -176,12 +187,12 @@ def scan_user_message_for_commands(user_message, conversation):
         elif user_message == "clear":
             os.system("clear")
         elif user_message == "history":
-            display_whole_conversation(conversation)
+            print_whole_conversation(conversation)
         elif user_message == "regenerate":
             REGENERATE = True
             break
 
-        user_message = input("User: ")
+        user_message = input("user: ")
     
     return user_message
 
@@ -190,74 +201,47 @@ def grab_last_response(conversation):
     return conversation[-1]["content"]
 
 
-def scan_for_json_data(response: str):
-    """Scans a string for '¤¤¤ <json contet> ¤¤¤'. If two '¤¤¤' are detected,
-    returns the content between these substrings."""
-    clean_text = response.replace("\n", "")
-    json_string = re.findall(r'\¤¤¤(.*?)\¤¤¤', clean_text)
-    if len(json_string) == 0:
-        return None
-    else:
-        return json_string[0]
+def get_knowledge_requests(commands: List[Dict]) -> List[Dict]:
+    """Fetches the text associated with each knowledge request command."""
+    knowledge_list = []
+    if commands:
+        for command in commands:
+            if command["type"] == "request_knowledge":
+                knowledge = {}
+                knowledge["file"] = command["file"]
+                knowledge["content"] = load_textfile_as_string(command["file"])
+                knowledge_list.append(knowledge)
+    return knowledge_list
 
 
-def scan_for_command(response: str):
-    """Scans a string for '¤: <command> :¤', and extracts the command."""
-    match = re.search(r'\¤:(.*?)\:¤', response, flags=re.DOTALL)
-    if match:
-        extracted_code = match.group(1)
-        return extracted_code
-
-
-def get_knowledge_if_requested(extracted_code):
-    if extracted_code and "request_knowledge" in extracted_code:
-        file = extract_filename_from_syntax(extracted_code, "library", ".md")
-        knowledge = load_textfile_as_string(file)
-        KNOWLEDGE.append(knowledge)
-        return knowledge
-
-
-def insert_knowledge_and_generate_response(conversation, knowledge):
+def insert_knowledge(conversation, knowledge_list):
     """Inserts knowledge into the conversation, and lets bot produce a new
     response using that information."""
-    conversation.append({'role': 'system', 'content': knowledge})
-    conversation = generate_bot_response(conversation)
+    for knowledge in knowledge_list:
+        print(f"\nInserting information `{get_filename(knowledge['file'])}` into conversation...")
+        conversation.append({'role': 'system', 'content': knowledge["content"]})
     return conversation
 
 
-def display_if_media(extracted_code):
+def display_if_media(commands: list):
     """If extracted code contains command to display image, displays image. The
     syntax used to display an image is ¤:display_image{<file>}:¤ (replace with `display_video` for
     video)."""
-    if "display_image" in extracted_code:
-        file = extract_filename_from_syntax(extracted_code, IMAGES_DIR)
-        img = mpimg.imread(file)
-        
-        plt.imshow(img)
-        plt.gca().set_axis_off()  # Turn off the axes
-        plt.subplots_adjust(top=1, bottom=0, right=1, left=0, hspace=0, wspace=0)
-        plt.margins(0, 0)
-        plt.gca().yaxis.set_major_locator(plt.NullLocator())
+    for command in commands:
+        if command["type"] == "display_image":
+            img = mpimg.imread(command["file"])
+            plt.imshow(img)
+            plt.gca().set_axis_off()  # Turn off the axes
+            plt.subplots_adjust(top=1, bottom=0, right=1, left=0, hspace=0, wspace=0)
+            plt.margins(0, 0)
+            plt.gca().yaxis.set_major_locator(plt.NullLocator())
 
-        plt.show(block=False)
-        plt.pause(SETTINGS["plot_duration"])
-        plt.close()
+            plt.show(block=False)
+            plt.pause(SETTINGS["plot_duration"])
+            plt.close()
 
-    elif "play_video" in extracted_code:
-        file = extract_filename_from_syntax(extracted_code, VIDEOS_DIR)
-        play_video(file)
-
-
-def extract_filename_from_syntax(extracted_code, directory, extension=None):
-    """Takes code such as `{request_knowledge(discussion_comparison_with_jaffe_study)}` and
-    finds the full path of the file. `directory` is the directory that holds the file in extracted
-    code."""
-    file = re.search(r'\{(.*?)}', extracted_code)
-    file = file.group(1)
-    file = remove_quotes_from_string(file)
-    if extension:
-        file = add_extension(file, extension)
-    return os.path.join(directory, file)
+        elif command["type"] == "play_video":
+            play_video(command["file"])
 
 
 def direct_to_new_assistant(json_ticket):
@@ -266,7 +250,7 @@ def direct_to_new_assistant(json_ticket):
     prompt = get_prompt_for_assistant(json_ticket["assistant_id"])
     prompt_modified = insert_information_in_prompt(prompt, info=json_ticket["topic"])
     new_conversation = initiate_new_conversation(prompt_modified)
-    print(f"User is redirected to assistant {json_ticket['assistant_id']}")
+    print(f"user is redirected to assistant {json_ticket['assistant_id']}")
     return new_conversation
 
 
@@ -295,7 +279,7 @@ def display_chatbot_response(conversation):
     wrap_and_print_message(role, message_cleaned)
 
 
-def display_whole_conversation(conversation):
+def print_whole_conversation(conversation):
     """Prints the entire conversation (excluding the prompt) in the console."""
     for message in conversation[1:]:
         role = message["role"]

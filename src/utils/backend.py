@@ -14,6 +14,7 @@ CONVERSATIONS_FORMATTED_DIR = os.path.join(CONVERSATIONS_DIR, "formatted")
 USER_DATA_DIR = os.path.join(ROOT_DIR, "user-data")
 IMAGES_DIR = os.path.join(ROOT_DIR, "images")
 VIDEOS_DIR = os.path.join(ROOT_DIR, "videos")
+LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
@@ -22,6 +23,14 @@ SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
 CONVERSATION_BREAK_CUE = "Have a nice day!"
+# Map showing location of files related to each type of command.
+COMMAND_TO_DIR_MAP = {"request_knowledge": LIBRARY_DIR,
+                      "display_image": IMAGES_DIR,
+                      "play_video": VIDEOS_DIR}
+# Extensions associated with the files of each type of command.
+COMMAND_TO_EXTENSION_MAP = {"request_knowledge": ".md",
+                            "display_image": ".png",
+                            "play_video": ".mkv"}
 
 
 def collect_prompts_in_dictionary(directory_path):
@@ -123,6 +132,13 @@ def add_extension(path, extension):
     if os.path.splitext(path)[-1] == '':
         path += extension
     return path
+
+
+def get_filename(file_path, include_extension=False):
+    file_name = os.path.basename(file_path)
+    if include_extension:
+        return file_name
+    return os.path.splitext(file_name)[0]
 
 
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)

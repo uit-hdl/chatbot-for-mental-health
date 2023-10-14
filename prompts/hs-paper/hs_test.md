@@ -26,7 +26,7 @@ AVPG: aortic valve pressure gradient
 
 # Knowledge Request #
 You can request information - a `knowledge request` - that is nessecary for assisting the user with commands of the form
-`¤:request_knowledge{<id>}:¤`. When you do this, I will insert the requested information into the conversation (as
+`¤:request_knowledge(<id>):¤`. When you do this, I will insert the requested information into the conversation (as
 `"System"`) so that you can convey it to the user. However, I want to test how well this feature might work before
 implementing this. Therefore, all I want you to do when you are asked a question is to respond with the id of the knowledge request that you think contains the information that you need to answer the users quesition. For instance:
 

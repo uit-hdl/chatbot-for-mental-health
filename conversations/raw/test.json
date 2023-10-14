@@ -1,0 +1,10 @@
+[
+    {
+        "Content": "Hi there",
+        "Role": "User"
+    },
+    {
+        "Content": "Hello! \u00a4:display_image(image):\u00a4,  \u00a4:play_video(1password/test_video):\u00a4, \u00a4:knowledge_request(1password):\u00a4",
+        "Role": "Assistant"
+    }
+]

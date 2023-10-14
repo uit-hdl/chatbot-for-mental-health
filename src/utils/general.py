@@ -2,9 +2,18 @@
 import tiktoken
 import re
 import textwrap
+import os
 
+from utils.backend import add_extension
 from utils.backend import MODEL_ID
+from utils.backend import COMMAND_TO_DIR_MAP
+from utils.backend import COMMAND_TO_EXTENSION_MAP
 from moviepy.editor import VideoFileClip
+
+GREEN = "\033[92m"
+BLUE = "\033[94m"
+RESET = "\033[0m"
+
 
 def count_number_of_tokens(conversation):
     """Counts the number of tokens in a conversation. Uses token encoder
@@ -12,7 +21,7 @@ def count_number_of_tokens(conversation):
     encoding = tiktoken.encoding_for_model(MODEL_ID)
     num_tokens = 0
     for message in conversation:
-        # "User: assistant:" corresponds to 4 tokens
+        # "user: assistant:" corresponds to 4 tokens
         num_tokens += 4
         num_tokens += len(encoding.encode(message["content"]))
     num_tokens += 2  # every reply is primed with <im_start>assistant
@@ -44,7 +53,11 @@ def wrap_and_print_message(role, message, line_length=80):
         formatted_paragraph = '\n'.join(wrapped_paragraph)
 
         if i == 0:
-            formatted_message = f'\n{role}: {formatted_paragraph}\n'
+            if role == "user":
+                colour = GREEN
+            else:
+                colour = BLUE
+            formatted_message = f'\n{colour + role + RESET}: {formatted_paragraph}\n'
         else:
             formatted_message = f'{formatted_paragraph}\n'
 
@@ -62,7 +75,75 @@ def strip_trailing_linebreaks(message):
     return message.rstrip('\n')
 
 
+def remove_lineabreaks_from_conversation(conversation):
+    modified_conversation = []
+    for message in conversation:
+        modified_message = message.copy()  # Create a copy of the original message
+        if 'content' in modified_message:
+            modified_message['content'] = modified_message['content'].replace('\n', ' ')
+        modified_conversation.append(modified_message)
+
+    return modified_conversation
+
+
+def remove_linebreaks(text):
+    return text['content'].replace('\n', ' ')
+
+
 def conversation_list_to_string(conversation):
     """Takes a conversation in the form of a list of dictionaries, and returns a string with the
     whole conversation"""
     return "\n".join([f"{d['role']}: {d['content']}" for d in conversation])
+
+
+def extract_commands(response: str):
+    """Scans response for '¤:command_name(file_name):¤', and extracts the command name and
+    filepath for each commmand. Extracted commands are returned as list of dictionaries with keys
+    `file` and `type` indicating the command type and the file argument of the command."""
+    command_pattern = r'¤:(.*?):¤'
+    command_strings = re.findall(command_pattern, response)
+    commands = []
+    for command_string in command_strings:
+        command = {}
+        open_parenthesis_index = command_string.find("(")
+        command["type"] = command_string[:open_parenthesis_index]
+        directory = COMMAND_TO_DIR_MAP[command["type"]]
+        extension = COMMAND_TO_EXTENSION_MAP[command["type"]]
+        command["file"] = extract_filename_from_command(command_string, directory, extension)
+        commands.append(command)
+
+    return commands
+
+
+def extract_filename_from_command(command, directory, extension=None):
+    """Takes code such as `request_knowledge(discussion_comparison_with_jaffe_study)` and
+    finds the full path of the file. `directory` is the directory that holds the file in extracted
+    code."""
+    match = re.search(r'\((.*?)\)', command)
+    if match:
+        file = match.group(1)
+        file = remove_quotes_from_string(file)
+        if extension:
+            file = add_extension(file, extension)
+        return os.path.join(directory, file)
+    else:
+        print("No file provided as argument in command")
+
+
+def scan_for_json_data(response: str) -> str:
+    """Scans a string for '¤¤¤ <json contet> ¤¤¤'. If two '¤¤¤' are detected,
+    returns the content between these substrings."""
+    clean_text = response.replace("\n", "")
+    json_string = re.findall(r'\¤¤¤(.*?)\¤¤¤', clean_text)
+    if len(json_string) == 0:
+        return None
+    else:
+        return json_string[0]
+    
+    
+def print_assistant_message(message):
+    print(GREEN + message + RESET)
+
+
+def print_user_message(message):
+    print(BLUE + message + RESET)
