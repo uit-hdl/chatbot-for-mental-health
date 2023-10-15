@@ -18,14 +18,14 @@ from utils.general import play_video
 from utils.general import conversation_list_to_string
 from utils.general import extract_commands
 from utils.general import scan_for_json_data
-from utils.general import print_assistant_message
-from utils.general import print_user_message
+from utils.general import dump_conversation_to_textfile
 from utils.backend import MODEL_ID
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import USER_DATA_DIR
 from utils.backend import SETTINGS
 from utils.backend import CONVERSATIONS_RAW_DIR
+from utils.backend import CONVERSATIONS_FORMATTED_DIR
 from utils.backend import dump_to_json
 from utils.backend import load_textfile_as_string
 from utils.backend import load_yaml_file
@@ -35,6 +35,7 @@ openai.api_key = API_KEY
 BREAK_CONVERSATION_PROMPT = "break"
 BREAK_CONVERSATION = False
 REGENERATE = False
+N_STRIP = 0
 KNOWLEDGE = []
 
 GREEN = "\033[92m"
@@ -127,12 +128,12 @@ def generate_bot_response(conversation):
 
 def create_user_input(conversation):
     """Prompts user to input a prompt (the "question") in the command line."""
-    global REGENERATE
+    global REGENERATE, N_STRIP
     user_message = input(GREEN + "user" + RESET  + ": ")
     user_message = scan_user_message_for_commands(user_message, conversation)
     if REGENERATE:
         REGENERATE = False
-        return conversation[:-1]
+        return conversation[:-N_STRIP]
     conversation.append({"role": "user", "content": user_message})
     return conversation
 
@@ -141,7 +142,7 @@ def scan_user_message_for_commands(user_message, conversation):
     """Here I create an interpreter that scans for key phrases that
     allows me to execute commands from the command line during a chat and print useful
     information."""
-    global BREAK_CONVERSATION, REGENERATE, SUMMARY
+    global BREAK_CONVERSATION, REGENERATE, SUMMARY, N_STRIP
     commands = ["options", 
                 "break",
                 "count_tokens", 
@@ -153,7 +154,11 @@ def scan_user_message_for_commands(user_message, conversation):
                 "print_prompt",
                 "print_knowledge",
                 "print_summary",
-                "regenerate",
+                "strip_last1",
+                "strip_last2",
+                "strip_last3",
+                "strip_last4",
+                "strip_last5",
                 "clear",
                 "history"]
     
@@ -188,10 +193,11 @@ def scan_user_message_for_commands(user_message, conversation):
             os.system("clear")
         elif user_message == "history":
             print_whole_conversation(conversation)
-        elif user_message == "regenerate":
+        elif "strip_last" in user_message:
             REGENERATE = True
+            N_STRIP = int(user_message[-1])
             break
-
+    
         user_message = input("user: ")
     
     return user_message
@@ -340,11 +346,14 @@ def offer_to_store_conversation(conversation):
         label = input("File name (hit enter for default): ").strip().lower()
         if label == "":
             label = "conversation"
-        file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
+        json_file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
+        txt_file_path = f"{CONVERSATIONS_FORMATTED_DIR}/{label}.md"
         if grab_last_response(conversation) == "break":
+            # Remove break
             conversation = conversation[:-1]
-        dump_to_json(conversation, file_path)
-        print(f"Conversation stored in {file_path}")
+        dump_to_json(conversation, json_file_path)
+        dump_conversation_to_textfile(conversation, txt_file_path)
+        print(f"Conversation stored in {json_file_path} and {txt_file_path}")
     else:
         print("Conversation not stored")
 

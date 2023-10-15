@@ -3,11 +3,19 @@ import tiktoken
 import re
 import textwrap
 import os
+import datetime
 
-from utils.backend import add_extension
+from typing import List
+from typing import Dict
+
 from utils.backend import MODEL_ID
 from utils.backend import COMMAND_TO_DIR_MAP
 from utils.backend import COMMAND_TO_EXTENSION_MAP
+from utils.backend import CONVERSATIONS_DIR
+from utils.backend import CONVERSATIONS_RAW_DIR
+from utils.backend import get_full_path_and_create_dir
+from utils.backend import load_json_from_path
+from utils.backend import add_extension
 from moviepy.editor import VideoFileClip
 
 GREEN = "\033[92m"
@@ -64,15 +72,15 @@ def wrap_and_print_message(role, message, line_length=80):
         print(formatted_message)
 
 
+def strip_trailing_linebreaks(message):
+    """Strip trailing line breaks (newlines) from the end of a string."""
+    return message.rstrip('\n')
+
+
 def play_video(video_file):
     video = VideoFileClip(video_file)
     video.preview()
     video.close()
-
-
-def strip_trailing_linebreaks(message):
-    """Strip trailing line breaks (newlines) from the end of a string."""
-    return message.rstrip('\n')
 
 
 def remove_lineabreaks_from_conversation(conversation):
@@ -96,13 +104,14 @@ def conversation_list_to_string(conversation):
     return "\n".join([f"{d['role']}: {d['content']}" for d in conversation])
 
 
-def extract_commands(response: str):
+def extract_commands(response: str) -> List[Dict]:
     """Scans response for '¤:command_name(file_name):¤', and extracts the command name and
     filepath for each commmand. Extracted commands are returned as list of dictionaries with keys
     `file` and `type` indicating the command type and the file argument of the command."""
     command_pattern = r'¤:(.*?):¤'
     command_strings = re.findall(command_pattern, response)
     commands = []
+    
     for command_string in command_strings:
         command = {}
         open_parenthesis_index = command_string.find("(")
@@ -139,11 +148,30 @@ def scan_for_json_data(response: str) -> str:
         return None
     else:
         return json_string[0]
-    
-    
-def print_assistant_message(message):
-    print(GREEN + message + RESET)
 
 
-def print_user_message(message):
-    print(BLUE + message + RESET)
+def dump_conversation_to_textfile(conversation: list, filepath: str):
+    """Dumps a conversation to a Markdown file with color-coded roles."""
+    full_path = get_full_path_and_create_dir(filepath)
+
+    with open(full_path, "w") as file:
+        for i, message in enumerate(conversation):
+            role = message["role"]
+            content = message["content"]
+
+            if role == "assistant":
+                colored_role = '**<font color="#44cc44">assistant</font>**'
+            elif role == "user":
+                colored_role = '**<font color="#3399ff">user</font>**'
+            elif role == "system":
+                colored_role = '**<font color="#999999">system</font>**'
+            else:
+                colored_role = role  # For any other roles
+
+            if i==1:
+                header = "\n\n\n\n# Conversation \n\n\n\n"
+                formatted_message = f"{header}{colored_role}: {content}  \n\n\n\n"
+            else:
+                formatted_message = f"\n{colored_role}: {content}  \n\n\n\n"
+    
+            file.write(formatted_message)

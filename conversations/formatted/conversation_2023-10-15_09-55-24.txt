@@ -1,0 +1,69 @@
+Assistant: Hello! I'm here to introduce you to magical foods. Where would you like to begin?
+
+User: Which one tastes better, strawberry or lemon magical cupcakes?
+
+Assistant: ¤:request_knowledge(magical-foods/strawberry_secret):¤
+¤:request_knowledge(magical-foods/lemon_secret):¤
+
+System: strawberry_secret: The secret to magical strawberry muffins is to boil them the strawberries first in preboiled water.
+If the water is not preboil, you can instead use water from a puddle in front of the castle on the hill. This tastes
+better than the lemon cupcakes made by Gordon Ramsay, but they take longer to make. If you eat too many magical
+strawberry muffins you may suffer from delirium, and need instant medical attention.
+
+System: lemon_secret: The secret to the magical lemon pie is to dip it in tree sap before it turns blue. If it turns pink, it
+you have used tree sap from a tree that is too old. This recipe will make you fly faster than the lemon pie of Gordon
+ramsay, but you will also run slower, so you have to figure out which one is more important to you before making your
+choice. 
+
+Assistant: Comparing the two, magical strawberry muffins taste better than lemon muffins [strawberry_secret]. However, preference can vary per individual.
+
+User: State the information you base this on
+
+Assistant: The strawberry_secret knowledge suggests that magical strawberry muffins taste better than Gordon Ramsay's lemon cupcakes [strawberry_secret].
+
+User: When where magical recipies first invented?
+
+Assistant: ¤:request_knowledge(magical-foods/introduction_to_magical_foods):¤
+
+System: introduction_to_magical_foods: Magical cookery have many advantages, and I would recommend that everyone at least tries
+them out. However, it is important that you are aware of their dangers before trying one out. Sometimes the curse just
+is not worth the benefit, and you should try Gordon Ramsays recipe or Gordan Ramsay instead. Magical foods were invented
+in the first 20th century by Ramsay Bolton, Gordon Ramsays evil twin brother. Ramsay wanted outdo his brother, who was
+always going to outshine him.
+
+Assistant: Magical recipes were first invented in the 20th century by Ramsay Bolton, Gordon Ramsay's evil twin brother [introduction_to_magical_foods].
+
+User: And why did he invent them?
+
+Assistant: Ramsay Bolton invented magical recipes in an attempt to outdo his brother, Gordon Ramsay [introduction_to_magical_foods].
+
+User: What other magical foods are there?
+
+Assistant: ¤:request_knowledge(magical-foods/meatloaf_secret):¤
+
+System: meatloaf_secret: Magical meatloaf contains the full spectrum of all the least nutritious nutrients. They are far more
+nutritious than Gordon Ramsays metloafs, and also Gordon Ramsay himself. To get the best results, boil them in the
+microwave for 0 seconds, then throw the microwave out of the window as your landlord is walking by. Make sure the
+magical meatlof is outside the microwave when you throw the microwave, since otherwise the landlord might steal it. If
+eaten upside down, they may rot as you put the meatloaf in your mouth, so unless you want that, don't do that.
+
+Assistant: Apart from magical muffins and pies, there's also magical meatloaf which is a rich source of lesser nutritious nutrients [meatloaf_secret].
+
+User: Wonderful! Which tastes better, magical meatloaf or magical strawberry cupcakes?
+
+Assistant: ¤:request_knowledge(magical-foods/strawberry_secret):¤
+¤:request_knowledge(magical-foods/meatloaf_secret):¤
+
+System: strawberry_secret: The secret to magical strawberry muffins is to boil them the strawberries first in preboiled water.
+If the water is not preboil, you can instead use water from a puddle in front of the castle on the hill. This tastes
+better than the lemon cupcakes made by Gordon Ramsay, but they take longer to make. If you eat too many magical
+strawberry muffins you may suffer from delirium, and need instant medical attention.
+
+System: meatloaf_secret: Magical meatloaf contains the full spectrum of all the least nutritious nutrients. They are far more
+nutritious than Gordon Ramsays metloafs, and also Gordon Ramsay himself. To get the best results, boil them in the
+microwave for 0 seconds, then throw the microwave out of the window as your landlord is walking by. Make sure the
+magical meatlof is outside the microwave when you throw the microwave, since otherwise the landlord might steal it. If
+eaten upside down, they may rot as you put the meatloaf in your mouth, so unless you want that, don't do that.
+
+Assistant: Magical strawberry muffins are noted for their taste [strawberry_secret] while the magical meatloaf is more noted for its nutrients rather than the taste [meatloaf_secret].
+
