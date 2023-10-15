@@ -164,11 +164,13 @@ def dump_conversation_to_textfile(conversation: list, filepath: str):
             elif role == "user":
                 colored_role = '**<font color="#3399ff">user</font>**'
             elif role == "system":
+                if i > 0:
+                    content = f'<font color="#999999">{content}</font>'
                 colored_role = '**<font color="#999999">system</font>**'
             else:
                 colored_role = role  # For any other roles
 
-            if i==1:
+            if i == 1:
                 header = "\n\n\n\n# Conversation \n\n\n\n"
                 formatted_message = f"{header}{colored_role}: {content}  \n\n\n\n"
             else:
