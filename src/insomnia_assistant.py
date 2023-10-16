@@ -1,5 +1,4 @@
 import openai
-import ast
 import re
 import sys
 import os
@@ -63,33 +62,27 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             offer_to_store_conversation(conversation)
             break
         conversation = generate_bot_response(conversation)
+        commands, knowledge_requests = process_syntax_of_bot_response(conversation)
 
-        chatbot_response = grab_last_response(conversation)
-        json_data = scan_for_json_data(chatbot_response)
-        commands = extract_commands(chatbot_response)
-        requested_knowledge = get_knowledge_requests(commands)
-
-        if requested_knowledge:
-            conversation = insert_knowledge(conversation, requested_knowledge)
+        while knowledge_requests:
+            conversation = insert_knowledge(conversation, knowledge_requests)
             conversation = generate_bot_response(conversation)
-            chatbot_response = grab_last_response(conversation)
-            json_data = scan_for_json_data(chatbot_response)
-            commands = extract_commands(chatbot_response)
-    
+            commands, knowledge_requests = process_syntax_of_bot_response(conversation)
+
+        json_dictionaries = scan_last_response_for_json_data(conversation)
         display_chatbot_response(conversation)
     
         if commands:
             display_if_media(commands)
 
-        if json_data:
-            json_dict = convert_json_string_to_dict(json_data)
-            if json_dict["data_type"] == "referral_ticket":
-                conversation = direct_to_new_assistant(json_ticket=json_dict)
+        if json_dictionaries:
+            referral_ticket, sources = process_json_data(json_dictionaries)
+            if referral_ticket:
+                conversation = direct_to_new_assistant(referral_ticket)
                 display_chatbot_response(conversation)
-            else:
-                general_info_dict = convert_json_string_to_dict(json_data)
-                dump_to_json(general_info_dict, f"{USER_DATA_DIR}/user_data.json")
-
+            if sources:
+                print("sources found")
+    
         if count_number_of_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
             conversation = summarize_conversation(conversation)
             conversation = generate_bot_response(conversation)
@@ -207,7 +200,16 @@ def grab_last_response(conversation):
     return conversation[-1]["content"]
 
 
-def get_knowledge_requests(commands: List[Dict]) -> List[Dict]:
+def process_syntax_of_bot_response(conversation):
+    """Scans the response for symbols ¤: and :¤, and extracts the name of the commands, the
+    file-arguments of the commands. Returns two lists of dictionaries."""
+    chatbot_response = grab_last_response(conversation)
+    commands = extract_commands(chatbot_response)
+    knowledge_requests = check_for_knowledge_requests(commands)
+    return commands, knowledge_requests
+
+
+def check_for_knowledge_requests(commands: List[Dict]) -> List[Dict]:
     """Fetches the text associated with each knowledge request command."""
     knowledge_list = []
     if commands:
@@ -250,6 +252,22 @@ def display_if_media(commands: list):
             play_video(command["file"])
 
 
+def process_json_data(json_dictionaries):
+    """The dictionaries can be of type user_data, """
+    referral_ticket = None
+    sources = None
+
+    for dictionary in json_dictionaries:
+        if "assistant_id" in dictionary:
+            referral_ticket = dictionary
+        elif "source" in dictionary:
+            sources = dictionary
+        else:
+            dump_to_json(dictionary, f"{USER_DATA_DIR}/user_data.json")
+
+    return referral_ticket, sources
+
+
 def direct_to_new_assistant(json_ticket):
     """Takes information about the users issue condensed into a json string, and
     redirects to the appropriate chatbot assistant."""
@@ -258,6 +276,10 @@ def direct_to_new_assistant(json_ticket):
     new_conversation = initiate_new_conversation(prompt_modified)
     print(f"user is redirected to assistant {json_ticket['assistant_id']}")
     return new_conversation
+
+
+def scan_last_response_for_json_data(conversation):
+    return scan_for_json_data(grab_last_response(conversation))
 
 
 def summarize_conversation(conversation):
@@ -313,11 +335,6 @@ def separate_system_from_conversation(conversation):
     conversation_messages = [message for message in conversation if message["role"] != "system"]
     system_messages = [message for message in conversation if message["role"] == "system"]
     return conversation_messages, system_messages
-
-
-def convert_json_string_to_dict(json_data: str):
-    """Converts json file content extracted from a string into a dictionary."""
-    return ast.literal_eval(json_data)
 
 
 def get_prompt_for_assistant(assistant_id):

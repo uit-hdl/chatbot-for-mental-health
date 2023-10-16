@@ -1,4 +1,4 @@
-
+import ast
 import tiktoken
 import re
 import textwrap
@@ -139,15 +139,19 @@ def extract_filename_from_command(command, directory, extension=None):
         print("No file provided as argument in command")
 
 
-def scan_for_json_data(response: str) -> str:
-    """Scans a string for '¤¤¤ <json contet> ¤¤¤'. If two '¤¤¤' are detected,
-    returns the content between these substrings."""
+
+def scan_for_json_data(response: str) -> list[Dict]:
+    """Scans a string for '¤¤¤ <json content> ¤¤¤'. If multiple '¤¤¤' pairs are detected,
+    returns a list of content between these substrings."""
     clean_text = response.replace("\n", "")
-    json_string = re.findall(r'\¤¤¤(.*?)\¤¤¤', clean_text)
-    if len(json_string) == 0:
-        return None
-    else:
-        return json_string[0]
+    json_strings = re.findall(r'\¤¤¤(.*?)\¤¤¤', clean_text)
+    json_dicts = [convert_json_string_to_dict(string) for string in json_strings]
+    return json_dicts
+
+
+def convert_json_string_to_dict(json_data: str):
+    """Converts json file content extracted from a string into a dictionary."""
+    return ast.literal_eval(json_data)
 
 
 def dump_conversation_to_textfile(conversation: list, filepath: str):
