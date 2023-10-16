@@ -36,3 +36,5 @@ methods_study_design
 
 User: How did they handle noisy audio?
 methods_heart_sound_annotation
+
+user: How did they predict aortic stenosis?
