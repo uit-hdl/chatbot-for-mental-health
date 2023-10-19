@@ -141,10 +141,10 @@ def extract_filename_from_command(command, directory, extension=None):
 
 
 def scan_for_json_data(response: str) -> list[Dict]:
-    """Scans a string for '¤¤¤ <json content> ¤¤¤'. If multiple '¤¤¤' pairs are detected,
+    """Scans a string for '¤¤ <json content> ¤¤'. If multiple '¤¤' pairs are detected,
     returns a list of content between these substrings."""
     clean_text = response.replace("\n", "")
-    json_strings = re.findall(r'\¤¤¤(.*?)\¤¤¤', clean_text)
+    json_strings = re.findall(r'\¤¤(.*?)\¤¤', clean_text)
     json_dicts = [convert_json_string_to_dict(string) for string in json_strings]
     return json_dicts
 

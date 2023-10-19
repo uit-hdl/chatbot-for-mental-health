@@ -6,6 +6,7 @@ import cv2
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import numpy as np
 import pprint
 
 from typing import List
@@ -28,13 +29,17 @@ from utils.backend import CONVERSATIONS_FORMATTED_DIR
 from utils.backend import dump_to_json
 from utils.backend import load_textfile_as_string
 from utils.backend import load_yaml_file
+from utils.backend import load_json_from_path
 from utils.backend import get_filename
+from utils.backend import file_exists
 
 openai.api_key = API_KEY
 BREAK_CONVERSATION_PROMPT = "break"
 BREAK_CONVERSATION = False
 REGENERATE = False
 N_STRIP = 0
+INACTIVITY_THRESHOLD = 1
+VERBOSE = 1
 KNOWLEDGE = []
 
 GREEN = "\033[92m"
@@ -80,12 +85,13 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             if referral_ticket:
                 conversation = direct_to_new_assistant(referral_ticket)
                 display_chatbot_response(conversation)
-            if sources:
-                print("sources found")
-    
+                continue
+
         if count_number_of_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
             conversation = summarize_conversation(conversation)
             conversation = generate_bot_response(conversation)
+        
+        conversation = remove_inactive_sources(conversation)
 
 
 def initiate_new_conversation(inital_prompt):
@@ -197,6 +203,7 @@ def scan_user_message_for_commands(user_message, conversation):
 
 
 def grab_last_response(conversation):
+    """Grab the last response. Convenience function for better code-readability."""
     return conversation[-1]["content"]
 
 
@@ -217,7 +224,10 @@ def check_for_knowledge_requests(commands: List[Dict]) -> List[Dict]:
             if command["type"] == "request_knowledge":
                 knowledge = {}
                 knowledge["file"] = command["file"]
-                knowledge["content"] = load_textfile_as_string(command["file"])
+                if file_exists(knowledge["file"]):
+                    knowledge["content"] = load_textfile_as_string(command["file"])
+                else:
+                    knowledge["content"] = None
                 knowledge_list.append(knowledge)
     return knowledge_list
 
@@ -226,8 +236,13 @@ def insert_knowledge(conversation, knowledge_list):
     """Inserts knowledge into the conversation, and lets bot produce a new
     response using that information."""
     for knowledge in knowledge_list:
-        print(f"\nInserting information `{get_filename(knowledge['file'])}` into conversation...")
-        conversation.append({'role': 'system', 'content': knowledge["content"]})
+        source_name = get_filename(knowledge['file'])
+        if file_exists(knowledge['file']):
+            print(f"\nInserting information `{source_name}` into conversation...")
+            message = f"source {source_name}: {knowledge['content']}"
+        else:
+            message = "Requested source not available."
+        conversation.append({'role': 'system', 'content': message})
     return conversation
 
 
@@ -253,14 +268,14 @@ def display_if_media(commands: list):
 
 
 def process_json_data(json_dictionaries):
-    """The dictionaries can be of type user_data, """
+    """Takes a list of json dictionaries, infers the type of data they contain, and handles them
+    accordingly. Datatypes can be referrals, sources, or data describing the user."""
     referral_ticket = None
     sources = None
-
     for dictionary in json_dictionaries:
         if "assistant_id" in dictionary:
             referral_ticket = dictionary
-        elif "source" in dictionary:
+        elif "sources" in dictionary:
             sources = dictionary
         else:
             dump_to_json(dictionary, f"{USER_DATA_DIR}/user_data.json")
@@ -279,7 +294,54 @@ def direct_to_new_assistant(json_ticket):
 
 
 def scan_last_response_for_json_data(conversation):
+    """Grabs last resonse and scans for json data nested in the response."""
     return scan_for_json_data(grab_last_response(conversation))
+
+
+def remove_inactive_sources(conversation):
+    """Scans the conversation for sources that have not been used recently."""
+    # conversation = load_json_from_path("conversations/raw/test.json")
+    system_messages = [message["content"] for message in conversation[1:] if message["role"]=="system"]
+    sources = [extract_source_name(message) for message in system_messages if message.startswith("source")]
+    # Remove `None`
+    sources = [source for source in sources if source]
+    if sources:
+        inactivity_times = [count_time_since_last_citation(conversation, source) for source in sources]
+        sources_to_remove = np.array(sources)[np.array(inactivity_times) >= INACTIVITY_THRESHOLD]
+        
+        for index, message in enumerate(conversation):
+            if index == 0:
+                # Skip prompt
+                continue
+            if message["role"] == "system":
+                source_name = extract_source_name(message["content"])
+                if source_name in sources_to_remove:
+                    conversation[index]["content"] = "inactive source removed"
+                    if VERBOSE==2:
+                        print(f"Removing inactive source {source_name}\n")
+
+    return conversation
+
+
+def extract_source_name(message):
+    pattern = r'source (\w+):'
+    match = re.search(pattern, message)
+    if match:
+        return match.group(1)
+
+
+def count_time_since_last_citation(conversation, source_name):
+    """Counts the number of responses since the source was last cited. If cited in the last
+    response, this value is 0."""
+    assistant_messages = [message["content"] for message in conversation if message["role"]=="assistant"]
+    inactivity_time = None
+    for i in range(1, len(assistant_messages) + 1):
+        if source_name in assistant_messages[-i]:
+            inactivity_time = i - 1
+            break
+    if inactivity_time is None:
+        print(f"\n the source {source_name} was not found\n")
+    return inactivity_time
 
 
 def summarize_conversation(conversation):
@@ -317,7 +379,7 @@ def print_whole_conversation(conversation):
 
 def remove_code_syntax_from_message(message):
     """Removes code syntax which is intended for backend purposes only."""
-    message_no_json = re.sub(r'\¤¤¤(.*?)\¤¤¤', '', message, flags=re.DOTALL)
+    message_no_json = re.sub(r'\¤¤(.*?)\¤¤', '', message, flags=re.DOTALL)
     message_no_code = re.sub(r'\¤:(.*?)\:¤', '', message_no_json)
     # Remove surplus spaces
     message_cleaned = re.sub(r' {2,}(?![\n])', ' ', message_no_code)
@@ -325,6 +387,7 @@ def remove_code_syntax_from_message(message):
 
 
 def remove_code_syntax_from_whole_conversation(conversation):
+    """Removes code syntax from every message in the conversation."""
     for i, message in enumerate(conversation):
         if message["role"] == "Assistant":
             conversation[i]["content"] = remove_code_syntax_from_message(message)
@@ -332,6 +395,8 @@ def remove_code_syntax_from_whole_conversation(conversation):
 
 
 def separate_system_from_conversation(conversation):
+    """Finds the system messages, and returns the conversation without system messages and a list of
+    the system messages."""
     conversation_messages = [message for message in conversation if message["role"] != "system"]
     system_messages = [message for message in conversation if message["role"] == "system"]
     return conversation_messages, system_messages

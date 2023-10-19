@@ -101,7 +101,7 @@ assistant (with an associated `assistant_id`) from this list:
 
 If no assistant matches the requested topic, simply say that the topic is outside of your area of expertise. The format
 for making referrals is: 
-`referral_info: ¤¤¤{"data_type": "referral_ticket", "assistant_id": <assistant_id>, "topic": <summary of  user request>¤¤¤`
+`referral_info: ¤¤{"data_type": "referral_ticket", "assistant_id": <assistant_id>, "topic": <summary of  user request>¤¤`
 
 Example:
 
@@ -114,13 +114,13 @@ Example:
     User: Yes
 
     Assistant:
-    ¤¤¤
+    ¤¤
     {
     "data_type": "referral_ticket",
     "assistant_id": "cbti",
     "topic": "Wants to know why they should track their sleep"
     }
-    ¤¤¤
+    ¤¤
 
 When you redirect the user, end the conversation directly with the referral information, and do not end with a farewell
 message.

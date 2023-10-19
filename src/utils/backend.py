@@ -65,6 +65,7 @@ def load_json_from_path(
         file_path: str,
 ) -> dict:
     """Read yaml file from `path`."""
+    file_path = get_full_path(file_path)
     with open(file_path, mode="r", encoding="utf-8") as jfl:
         json_loaded = json.load(jfl)
     return json_loaded
@@ -73,11 +74,15 @@ def load_json_from_path(
 def get_full_path_and_create_dir(file_path):
     """Takes a path relative to the output folder and creates the full path.
     Also creates the specified directory if it does not exist."""
-    path = os.path.join(ROOT_DIR, file_path)
+    path = get_full_path(file_path)
     dirpath = os.path.dirname(path)
     if dirpath != '':
         os.makedirs(dirpath, exist_ok=True)
     return path
+
+
+def get_full_path(path_relative):
+    return os.path.join(ROOT_DIR, path_relative)
 
 
 def dump_to_json(
@@ -139,6 +144,11 @@ def get_filename(file_path, include_extension=False):
     if include_extension:
         return file_name
     return os.path.splitext(file_name)[0]
+
+
+def file_exists(file_path):
+    return os.path.isfile(file_path)
+    
 
 
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)

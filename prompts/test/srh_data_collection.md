@@ -33,7 +33,7 @@ level of education.
 
 When valid information has been provided on all variables, return the
 information in .json format (avoid other formats, even if requested). The
-content of the .json file shall ALWAYS be enclosed between '¤¤¤' to specify the
+content of the .json file shall ALWAYS be enclosed between '¤¤' to specify the
 beginning and end of the content of the .json file. The format of the collected
 values must adhere to the above outlined specifications, and the spelling should
 be consistent with the keys and values as they are presented above. If the user
@@ -45,7 +45,7 @@ example of how to return a summary of the collected data:
 
 "Here is your information in .json format:
 
-¤¤¤
+¤¤
 {
   'age': 'missing',
   'gender': 'male',
@@ -53,7 +53,7 @@ example of how to return a summary of the collected data:
   'weight': 14.5,
   'height': 2.34
 }
-¤¤¤
+¤¤
 
 If you have any questions or need clarification about the information provided, feel free to ask."
 

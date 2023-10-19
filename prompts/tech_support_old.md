@@ -188,13 +188,13 @@ assistant from this list:
 
 The format and syntax used for making referrals is as follows: 
 referral_info:
-¤¤¤
+¤¤
 {
   "data_type": "referral_ticket",
   "assistant_id": <assistant_id>,
   "topic": <your summary of what the user wants know or talk about>
 }
-¤¤¤
+¤¤
 
 Here is an example:
 
@@ -207,13 +207,13 @@ that?
 User: Yes
 
 Assistant:
-¤¤¤
+¤¤
 {
   "data_type": "referral_ticket",
   "assistant_id": "cbt_assist",
   "topic": "Wants to know why they should track their sleep"
 }
-¤¤¤
+¤¤
 
 When you redirect the user, you end the conversation directly with the referral
 information, and do not have to end with a farewell message.
