@@ -9,6 +9,7 @@ from collections import namedtuple
 ROOT_DIR = pathlib.Path(__file__).parents[2]
 API_DIR = os.path.join(pathlib.Path(__file__).parents[3], "api-keys")
 CONVERSATIONS_DIR = os.path.join(ROOT_DIR, "conversations")
+CONVERSATIONS_CURRENT_DIR = os.path.join(ROOT_DIR, "conversations/current")
 CONVERSATIONS_RAW_DIR = os.path.join(CONVERSATIONS_DIR, "raw")
 CONVERSATIONS_FORMATTED_DIR = os.path.join(CONVERSATIONS_DIR, "formatted")
 USER_DATA_DIR = os.path.join(ROOT_DIR, "user-data")
@@ -18,7 +19,7 @@ LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
-API_KEY_PATH = os.path.join(API_DIR, "insomnia_bot.yaml")
+API_KEY_PATH = os.path.join(API_DIR, "insomnia_bot_azure.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
@@ -98,6 +99,11 @@ def dump_to_json(
             json_file,
             sort_keys=True,
             indent=4)
+
+
+def dump_current_conversation(conversation, filename="conversation"):
+    file_path = f"{CONVERSATIONS_CURRENT_DIR}/{filename}.json"
+    dump_to_json(conversation, file_path)
 
 
 def dump_conversation_with_timestamp(conversation, label="conversation"):

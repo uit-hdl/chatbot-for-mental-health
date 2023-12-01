@@ -23,9 +23,18 @@ BLUE = "\033[94m"
 RESET = "\033[0m"
 
 
-def count_number_of_tokens(conversation):
+def count_tokens_used_to_create_last_response(conversation):
+    tokens_in = count_tokens(conversation[:-1])
+    tokens_out = count_tokens(conversation[-1])
+    return tokens_in + tokens_out
+
+
+def count_tokens(conversation):
     """Counts the number of tokens in a conversation. Uses token encoder
-    https://github.com/openai/tiktoken/blob/main/tiktoken/model.py"""
+    https://github.com/openai/tiktoken/blob/main/tiktoken/model.py. Input argument can be either a list or a dictionary (for instance the last response in the conversation)."""
+    if isinstance(conversation, dict):
+        # Ensure list format
+        conversation = [conversation]
     encoding = tiktoken.encoding_for_model(MODEL_ID)
     num_tokens = 0
     for message in conversation:
@@ -181,3 +190,7 @@ def dump_conversation_to_textfile(conversation: list, filepath: str):
                 formatted_message = f"\n{colored_role}: {content}  \n\n\n\n"
     
             file.write(formatted_message)
+            
+            
+def remove_none(array: list):
+    return [x for x in array if x is not None]

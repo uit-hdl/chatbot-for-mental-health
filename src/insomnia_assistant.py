@@ -3,6 +3,8 @@ import re
 import sys
 import os
 import cv2
+import time
+import logging
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -13,27 +15,34 @@ from typing import List
 from typing import Dict
 
 from utils.general import wrap_and_print_message
-from utils.general import count_number_of_tokens
+from utils.general import count_tokens
 from utils.general import play_video
 from utils.general import conversation_list_to_string
 from utils.general import extract_commands
 from utils.general import scan_for_json_data
 from utils.general import dump_conversation_to_textfile
+from utils.general import remove_none
+from utils.general import count_tokens_used_to_create_last_response
 from utils.backend import MODEL_ID
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import USER_DATA_DIR
 from utils.backend import SETTINGS
+from utils.backend import CONFIG
 from utils.backend import CONVERSATIONS_RAW_DIR
 from utils.backend import CONVERSATIONS_FORMATTED_DIR
 from utils.backend import dump_to_json
+from utils.backend import dump_current_conversation
 from utils.backend import load_textfile_as_string
 from utils.backend import load_yaml_file
-from utils.backend import load_json_from_path
 from utils.backend import get_filename
 from utils.backend import file_exists
 
 openai.api_key = API_KEY
+openai.api_type = CONFIG["api_type"]
+openai.api_base = CONFIG["api_base"]
+openai.api_version = CONFIG["api_version"]
+
 BREAK_CONVERSATION_PROMPT = "break"
 BREAK_CONVERSATION = False
 REGENERATE = False
@@ -41,12 +50,18 @@ N_STRIP = 0
 INACTIVITY_THRESHOLD = 1
 VERBOSE = 1
 KNOWLEDGE = []
+N_TOKENS_USED = []
+RESPONSE_TIMES = []
 
 GREEN = "\033[92m"
 BLUE = "\033[94m"
 RESET = "\033[0m"
 
 pp = pprint.PrettyPrinter(indent=2, width=100)
+logging.basicConfig(filename='experiment.log', 
+                    level=logging.INFO, 
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
@@ -54,12 +69,12 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     helps explain how a web-app (https://app.consensussleepdiary.com)
     functions. The web app is a free online app for collecting sleep data."""
     prompt = PROMPTS[chatbot_id]
-    
-    if chat_filepath is None:
+
+    if chat_filepath:
+        conversation = continue_previous_conversation(chat_filepath, prompt)
+    else:
         conversation = initiate_new_conversation(prompt)
         display_chatbot_response(conversation)
-    else:
-        conversation = continue_previous_conversation(chat_filepath, prompt)
 
     while True:
         conversation = create_user_input(conversation)
@@ -76,7 +91,8 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
 
         json_dictionaries = scan_last_response_for_json_data(conversation)
         display_chatbot_response(conversation)
-    
+        dump_current_conversation(conversation)
+
         if commands:
             display_if_media(commands)
 
@@ -87,7 +103,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
                 display_chatbot_response(conversation)
                 continue
 
-        if count_number_of_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
+        if count_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
             conversation = summarize_conversation(conversation)
             conversation = generate_bot_response(conversation)
         
@@ -114,14 +130,19 @@ def continue_previous_conversation(chat_filepath, prompt):
 def generate_bot_response(conversation):
     """Takes the conversation log, and updates it with the response of the
     chatbot as a function of the chat history."""
+    start_time = time.time()
     response = openai.ChatCompletion.create(
-        model=MODEL_ID,
+        model=CONFIG["model_id"],
         messages=conversation,
+        engine=CONFIG["deployment_name"],
     )
+    end_time = time.time()
     conversation.append({
         'role': response.choices[0].message.role,
         'content': response.choices[0].message.content.strip()
     })
+    RESPONSE_TIMES.append(end_time - start_time)
+    N_TOKENS_USED.append(count_tokens_used_to_create_last_response(conversation))
     return conversation
 
 
@@ -148,6 +169,7 @@ def scan_user_message_for_commands(user_message, conversation):
                 "count_words",
                 "calc_cost", 
                 "print_response",
+                "print_response_times",
                 "print_last3",
                 "print_chat",
                 "print_prompt",
@@ -159,7 +181,8 @@ def scan_user_message_for_commands(user_message, conversation):
                 "strip_last4",
                 "strip_last5",
                 "clear",
-                "history"]
+                "history",
+                "log"]
     
     while user_message in commands:
         if user_message == "break":
@@ -169,11 +192,13 @@ def scan_user_message_for_commands(user_message, conversation):
         elif user_message == "options":
             print(f"Possible commands are {commands}")
         elif user_message == "count_tokens":
-            print(f"The number of tokens is: {count_number_of_tokens(conversation)}")
+            print(f"The number of tokens used is: {np.sum(np.array(N_TOKENS_USED))}")
         elif user_message == "calc_cost":
-            print(f"The number of tokens is: {count_number_of_tokens(conversation)*.0003246:.3} kr")
+            print(f"The number of tokens is: {count_tokens(conversation)*.0003246:.3} kr")
         elif user_message == "print_response":
             print(grab_last_response(conversation))
+        elif user_message == "print_response_times":
+            print(f"Response_times:{RESPONSE_TIMES} ({np.sum(np.array(RESPONSE_TIMES)):.4}s total)")
         elif user_message == "print_prompt":
             print(f"The system prompt is: \n\n{conversation[0]['content']}")
         elif user_message == "print_last3":
@@ -192,6 +217,12 @@ def scan_user_message_for_commands(user_message, conversation):
             os.system("clear")
         elif user_message == "history":
             print_whole_conversation(conversation)
+        elif user_message == "log":
+            response_times_rounded = [np.round(t, 4) for t in RESPONSE_TIMES]
+            time_total = np.sum(np.array(RESPONSE_TIMES))
+            tokens_total = np.sum(np.array(N_TOKENS_USED))
+            logging.info(f"\nResponse times: {response_times_rounded} ({time_total:.4}s total)")
+            logging.info(f"Tokens used: {N_TOKENS_USED} ({tokens_total} total)")
         elif "strip_last" in user_message:
             REGENERATE = True
             N_STRIP = int(user_message[-1])
@@ -300,13 +331,15 @@ def scan_last_response_for_json_data(conversation):
 
 def remove_inactive_sources(conversation):
     """Scans the conversation for sources that have not been used recently."""
-    # conversation = load_json_from_path("conversations/raw/test.json")
     system_messages = [message["content"] for message in conversation[1:] if message["role"]=="system"]
     sources = [extract_source_name(message) for message in system_messages if message.startswith("source")]
-    # Remove `None`
-    sources = [source for source in sources if source]
+    sources = remove_none(sources)
     if sources:
+        
         inactivity_times = [count_time_since_last_citation(conversation, source) for source in sources]
+        inactivity_times = remove_none(inactivity_times)
+        print(f"\nInactivity times: {inactivity_times}\n")
+        print(f"\nsources: {sources}\n")
         sources_to_remove = np.array(sources)[np.array(inactivity_times) >= INACTIVITY_THRESHOLD]
         
         for index, message in enumerate(conversation):
@@ -334,13 +367,11 @@ def count_time_since_last_citation(conversation, source_name):
     """Counts the number of responses since the source was last cited. If cited in the last
     response, this value is 0."""
     assistant_messages = [message["content"] for message in conversation if message["role"]=="assistant"]
-    inactivity_time = None
+    inactivity_time = 0
     for i in range(1, len(assistant_messages) + 1):
         if source_name in assistant_messages[-i]:
             inactivity_time = i - 1
             break
-    if inactivity_time is None:
-        print(f"\n the source {source_name} was not found\n")
     return inactivity_time
 
 

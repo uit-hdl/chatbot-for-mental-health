@@ -1,1 +1,5 @@
 model_id: "gpt-4"
+api_base: "https://gpt4-for-trusting.openai.azure.com/"
+deployment_name: "test-chatbot"
+api_version: "2023-05-15"
+api_type: "azure"
