@@ -23,7 +23,6 @@ from utils.general import scan_for_json_data
 from utils.general import dump_conversation_to_textfile
 from utils.general import remove_none
 from utils.general import count_tokens_used_to_create_last_response
-from utils.backend import MODEL_ID
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import USER_DATA_DIR
