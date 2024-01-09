@@ -52,6 +52,7 @@ KNOWLEDGE = []
 N_TOKENS_USED = []
 RESPONSE_TIMES = []
 
+# Chat colors
 GREEN = "\033[92m"
 BLUE = "\033[94m"
 RESET = "\033[0m"
