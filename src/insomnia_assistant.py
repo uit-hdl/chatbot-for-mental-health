@@ -370,8 +370,8 @@ def remove_inactive_sources(conversation):
             count_time_since_last_citation(conversation, source) for source in sources
         ]
         inactivity_times = remove_none(inactivity_times)
-        print(f"\nDuration of inactivity for sources: {inactivity_times}\n")
-        print(f"\nsources: {sources}\n")
+        print_source_info(sources, inactivity_times)
+        
         sources_to_remove = np.array(sources)[
             np.array(inactivity_times) >= SETTINGS["inactivity_threshold"]
         ]
@@ -384,7 +384,7 @@ def remove_inactive_sources(conversation):
                 source_name = extract_source_name(message["content"])
                 if source_name in sources_to_remove:
                     conversation[index]["content"] = "inactive source removed"
-                    if VERBOSE == 2:
+                    if SETTINGS["print_removal_of_inactive_source"]:
                         print(f"Removing inactive source {source_name}\n")
 
     return conversation
@@ -525,6 +525,12 @@ def display_collected_data(collected_info=None):
     if collected_info:
         print(f"\nThe collected data is\n")
         print(f"{collected_info}")
+
+
+def print_source_info(sources, inactivity_times):
+    if SETTINGS["print_info_on_sources"]:
+        print(f"\nDuration of inactivity for sources: {inactivity_times}\n")
+        print(f"\nsources: {sources}\n")
 
 
 if __name__ == "__main__":
