@@ -123,15 +123,24 @@ def extract_commands(response: str) -> List[Dict]:
     commands = []
     
     for command_string in command_strings:
-        command = {}
-        open_parenthesis_index = command_string.find("(")
-        command["type"] = command_string[:open_parenthesis_index]
-        directory = COMMAND_TO_DIR_MAP[command["type"]]
-        extension = COMMAND_TO_EXTENSION_MAP[command["type"]]
-        command["file"] = extract_filename_from_command(command_string, directory, extension)
-        commands.append(command)
-    print(commands)
+        command_dict = get_command_file_and_type(command_string)
+        commands.append(command_dict)
+
     return commands
+
+
+def get_command_file_and_type(command_string: str):
+    """Takes a string of the form 'command_name(file_name)' and returns a dictionary with command
+    type (name of the command) and file (None if command has no argument)."""
+    open_parenthesis_index = command_string.find("(")
+    command_type = command_string[:open_parenthesis_index]
+    if command_type in COMMAND_TO_DIR_MAP.keys():
+        directory = COMMAND_TO_DIR_MAP[command_type]
+        extension = COMMAND_TO_EXTENSION_MAP[command_type]
+        file = extract_filename_from_command(command_string, directory, extension)
+        return {"type": command_type, "file": file}
+    else:
+        return {"type": command_type, "file": None}
 
 
 def extract_filename_from_command(command, directory, extension=None):
@@ -147,7 +156,7 @@ def extract_filename_from_command(command, directory, extension=None):
         return os.path.join(directory, file)
     else:
         print("No file provided as argument in command")
-
+        return None
 
 
 def scan_for_json_data(response: str) -> list[Dict]:

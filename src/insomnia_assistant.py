@@ -46,7 +46,6 @@ BREAK_CONVERSATION_PROMPT = "break"
 BREAK_CONVERSATION = False
 REGENERATE = False
 N_STRIP = 0
-INACTIVITY_THRESHOLD = 1
 VERBOSE = 1
 KNOWLEDGE = []
 N_TOKENS_USED = []
@@ -96,6 +95,10 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
 
         if commands:
             display_if_media(commands)
+            check_for_request_to_end_chat(commands)
+            if BREAK_CONVERSATION:
+                offer_to_store_conversation(conversation)
+                break
 
         if json_dictionaries:
             referral_ticket, sources = process_json_data(json_dictionaries)
@@ -310,6 +313,13 @@ def display_if_media(commands: list):
             play_video(command["file"])
 
 
+def check_for_request_to_end_chat(commands: dict):
+    global BREAK_CONVERSATION
+    for command in commands:
+        if command["type"] == "end_chat":
+            BREAK_CONVERSATION = True
+    
+
 def process_json_data(json_dictionaries):
     """Takes a list of json dictionaries, infers the type of data they contain, and handles them
     accordingly. Datatypes can be referrals, sources, or data describing the user."""
@@ -363,7 +373,7 @@ def remove_inactive_sources(conversation):
         print(f"\nDuration of inactivity for sources: {inactivity_times}\n")
         print(f"\nsources: {sources}\n")
         sources_to_remove = np.array(sources)[
-            np.array(inactivity_times) >= INACTIVITY_THRESHOLD
+            np.array(inactivity_times) >= SETTINGS["inactivity_threshold"]
         ]
 
         for index, message in enumerate(conversation):
