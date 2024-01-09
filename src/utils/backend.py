@@ -13,8 +13,8 @@ CONVERSATIONS_CURRENT_DIR = os.path.join(ROOT_DIR, "conversations/current")
 CONVERSATIONS_RAW_DIR = os.path.join(CONVERSATIONS_DIR, "raw")
 CONVERSATIONS_FORMATTED_DIR = os.path.join(CONVERSATIONS_DIR, "formatted")
 USER_DATA_DIR = os.path.join(ROOT_DIR, "user-data")
-IMAGES_DIR = os.path.join(ROOT_DIR, "images")
-VIDEOS_DIR = os.path.join(ROOT_DIR, "videos")
+IMAGES_DIR = os.path.join(ROOT_DIR, "media/images")
+VIDEOS_DIR = os.path.join(ROOT_DIR, "media/videos")
 LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 
@@ -24,7 +24,7 @@ SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
 CONVERSATION_BREAK_CUE = "Have a nice day!"
-# Map showing location of files related to each type of command.
+# Map showing directory with files related to each type of command.
 COMMAND_TO_DIR_MAP = {"request_knowledge": LIBRARY_DIR,
                       "display_image": IMAGES_DIR,
                       "play_video": VIDEOS_DIR}

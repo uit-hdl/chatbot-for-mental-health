@@ -116,7 +116,8 @@ def conversation_list_to_string(conversation):
 def extract_commands(response: str) -> List[Dict]:
     """Scans response for '¤:command_name(file_name):¤', and extracts the command name and
     filepath for each commmand. Extracted commands are returned as list of dictionaries with keys
-    `file` and `type` indicating the command type and the file argument of the command."""
+    `file` and `type` indicating the command type and the file argument of the command. For example 
+    [{'type': 'display_image', 'file': '/home/per/UIt/chatbots/chatGPT4/insomnia-assistant/images/login_sleep_diary.png'}]"""
     command_pattern = r'¤:(.*?):¤'
     command_strings = re.findall(command_pattern, response)
     commands = []
@@ -129,7 +130,7 @@ def extract_commands(response: str) -> List[Dict]:
         extension = COMMAND_TO_EXTENSION_MAP[command["type"]]
         command["file"] = extract_filename_from_command(command_string, directory, extension)
         commands.append(command)
-
+    print(commands)
     return commands
 
 
