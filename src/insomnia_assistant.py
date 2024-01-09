@@ -58,10 +58,11 @@ BLUE = "\033[94m"
 RESET = "\033[0m"
 
 pp = pprint.PrettyPrinter(indent=2, width=100)
-logging.basicConfig(filename='experiment.log', 
-                    level=logging.INFO, 
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
+logging.basicConfig(
+    filename="experiment.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
@@ -78,7 +79,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
 
     while True:
         conversation = create_user_input(conversation)
-        if conversation_is_ended():
+        if conversation_status() == "ended":
             offer_to_store_conversation(conversation)
             break
         conversation = generate_bot_response(conversation)
@@ -106,14 +107,16 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         if count_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
             conversation = summarize_conversation(conversation)
             conversation = generate_bot_response(conversation)
-        
+
         conversation = remove_inactive_sources(conversation)
 
 
-def initiate_new_conversation(inital_prompt):
+def initiate_new_conversation(inital_prompt, system_message=None):
     """Initiates a conversation with the chat bot."""
     conversation = []
-    conversation.append({'role': 'system', 'content': inital_prompt})
+    conversation.append({"role": "system", "content": inital_prompt})
+    if system_message:
+        conversation.append({"role": "system", "content": system_message})
     conversation = generate_bot_response(conversation)
     return conversation
 
@@ -122,7 +125,7 @@ def continue_previous_conversation(chat_filepath, prompt):
     """Inserts the current prompt into a previous conversation that was discontinued."""
     conversation = load_yaml_file(chat_filepath)
     # Replace original prompt with requested prompt
-    conversation[0] = {'role': 'system', 'content': prompt}
+    conversation[0] = {"role": "system", "content": prompt}
     print_whole_conversation(conversation)
     return conversation
 
@@ -137,10 +140,12 @@ def generate_bot_response(conversation):
         engine=CONFIG["deployment_name"],
     )
     end_time = time.time()
-    conversation.append({
-        'role': response.choices[0].message.role,
-        'content': response.choices[0].message.content.strip()
-    })
+    conversation.append(
+        {
+            "role": response.choices[0].message.role,
+            "content": response.choices[0].message.content.strip(),
+        }
+    )
     RESPONSE_TIMES.append(end_time - start_time)
     N_TOKENS_USED.append(count_tokens_used_to_create_last_response(conversation))
     return conversation
@@ -149,7 +154,7 @@ def generate_bot_response(conversation):
 def create_user_input(conversation):
     """Prompts user to input a prompt (the "question") in the command line."""
     global REGENERATE, N_STRIP
-    user_message = input(GREEN + "user" + RESET  + ": ")
+    user_message = input(GREEN + "user" + RESET + ": ")
     user_message = scan_user_message_for_commands(user_message, conversation)
     if REGENERATE:
         REGENERATE = False
@@ -159,31 +164,32 @@ def create_user_input(conversation):
 
 
 def scan_user_message_for_commands(user_message, conversation):
-    """Here I create an interpreter that scans for key phrases that
-    allows me to execute commands from the command line during a chat and print useful
-    information."""
+    """Scans user input for commands, allowing them to execute commands from the command line during
+    a chat and receive useful information."""
     global BREAK_CONVERSATION, REGENERATE, SUMMARY, N_STRIP
-    commands = ["options", 
-                "break",
-                "count_tokens", 
-                "count_words",
-                "calc_cost", 
-                "print_response",
-                "print_response_times",
-                "print_last3",
-                "print_chat",
-                "print_prompt",
-                "print_knowledge",
-                "print_summary",
-                "strip_last1",
-                "strip_last2",
-                "strip_last3",
-                "strip_last4",
-                "strip_last5",
-                "clear",
-                "history",
-                "log"]
-    
+    commands = [
+        "options",
+        "break",
+        "count_tokens",
+        "count_words",
+        "calc_cost",
+        "print_response",
+        "print_response_times",
+        "print_last3",
+        "print_chat",
+        "print_prompt",
+        "print_knowledge",
+        "print_summary",
+        "strip_last1",
+        "strip_last2",
+        "strip_last3",
+        "strip_last4",
+        "strip_last5",
+        "clear",
+        "history",
+        "log",
+    ]
+
     while user_message in commands:
         if user_message == "break":
             BREAK_CONVERSATION = True
@@ -194,11 +200,15 @@ def scan_user_message_for_commands(user_message, conversation):
         elif user_message == "count_tokens":
             print(f"The number of tokens used is: {np.sum(np.array(N_TOKENS_USED))}")
         elif user_message == "calc_cost":
-            print(f"The number of tokens is: {count_tokens(conversation)*.0003246:.3} kr")
+            print(
+                f"The number of tokens is: {count_tokens(conversation)*.0003246:.3} kr"
+            )
         elif user_message == "print_response":
             print(grab_last_response(conversation))
         elif user_message == "print_response_times":
-            print(f"Response_times:{RESPONSE_TIMES} ({np.sum(np.array(RESPONSE_TIMES)):.4}s total)")
+            print(
+                f"Response_times:{RESPONSE_TIMES} ({np.sum(np.array(RESPONSE_TIMES)):.4}s total)"
+            )
         elif user_message == "print_prompt":
             print(f"The system prompt is: \n\n{conversation[0]['content']}")
         elif user_message == "print_last3":
@@ -221,15 +231,17 @@ def scan_user_message_for_commands(user_message, conversation):
             response_times_rounded = [np.round(t, 4) for t in RESPONSE_TIMES]
             time_total = np.sum(np.array(RESPONSE_TIMES))
             tokens_total = np.sum(np.array(N_TOKENS_USED))
-            logging.info(f"\nResponse times: {response_times_rounded} ({time_total:.4}s total)")
+            logging.info(
+                f"\nResponse times: {response_times_rounded} ({time_total:.4}s total)"
+            )
             logging.info(f"Tokens used: {N_TOKENS_USED} ({tokens_total} total)")
         elif "strip_last" in user_message:
             REGENERATE = True
             N_STRIP = int(user_message[-1])
             break
-    
+
         user_message = input("user: ")
-    
+
     return user_message
 
 
@@ -267,13 +279,13 @@ def insert_knowledge(conversation, knowledge_list):
     """Inserts knowledge into the conversation, and lets bot produce a new
     response using that information."""
     for knowledge in knowledge_list:
-        source_name = get_filename(knowledge['file'])
-        if file_exists(knowledge['file']):
+        source_name = get_filename(knowledge["file"])
+        if file_exists(knowledge["file"]):
             print(f"\nInserting information `{source_name}` into conversation...")
             message = f"source {source_name}: {knowledge['content']}"
         else:
             message = "Requested source not available."
-        conversation.append({'role': 'system', 'content': message})
+        conversation.append({"role": "system", "content": message})
     return conversation
 
 
@@ -318,8 +330,9 @@ def direct_to_new_assistant(json_ticket):
     """Takes information about the users issue condensed into a json string, and
     redirects to the appropriate chatbot assistant."""
     prompt = get_prompt_for_assistant(json_ticket["assistant_id"])
-    prompt_modified = insert_information_in_prompt(prompt, info=json_ticket["topic"])
-    new_conversation = initiate_new_conversation(prompt_modified)
+    # prompt_modified = insert_information_in_prompt(prompt, info=json_ticket["topic"])
+    system_message = f"Here is a summary of the users issue: {json_ticket['topic']}"
+    new_conversation = initiate_new_conversation(prompt, system_message)
     print(f"user is redirected to assistant {json_ticket['assistant_id']}")
     return new_conversation
 
@@ -330,18 +343,29 @@ def scan_last_response_for_json_data(conversation):
 
 
 def remove_inactive_sources(conversation):
-    """Scans the conversation for sources that have not been used recently."""
-    system_messages = [message["content"] for message in conversation[1:] if message["role"]=="system"]
-    sources = [extract_source_name(message) for message in system_messages if message.startswith("source")]
+    """Scans the conversation for sources that have not been used recently (inactive sources)."""
+    system_messages = [
+        message["content"]
+        for message in conversation[1:]
+        if message["role"] == "system"
+    ]
+    sources = [
+        extract_source_name(message)
+        for message in system_messages
+        if message.startswith("source")
+    ]
     sources = remove_none(sources)
     if sources:
-        
-        inactivity_times = [count_time_since_last_citation(conversation, source) for source in sources]
+        inactivity_times = [
+            count_time_since_last_citation(conversation, source) for source in sources
+        ]
         inactivity_times = remove_none(inactivity_times)
-        print(f"\nInactivity times: {inactivity_times}\n")
+        print(f"\nDuration of inactivity for sources: {inactivity_times}\n")
         print(f"\nsources: {sources}\n")
-        sources_to_remove = np.array(sources)[np.array(inactivity_times) >= INACTIVITY_THRESHOLD]
-        
+        sources_to_remove = np.array(sources)[
+            np.array(inactivity_times) >= INACTIVITY_THRESHOLD
+        ]
+
         for index, message in enumerate(conversation):
             if index == 0:
                 # Skip prompt
@@ -350,14 +374,15 @@ def remove_inactive_sources(conversation):
                 source_name = extract_source_name(message["content"])
                 if source_name in sources_to_remove:
                     conversation[index]["content"] = "inactive source removed"
-                    if VERBOSE==2:
+                    if VERBOSE == 2:
                         print(f"Removing inactive source {source_name}\n")
 
     return conversation
 
 
-def extract_source_name(message):
-    pattern = r'source (\w+):'
+def extract_source_name(message: str):
+    """Takes a message/response and scans for the name of the source being used, if any."""
+    pattern = r"source (\w+):"
     match = re.search(pattern, message)
     if match:
         return match.group(1)
@@ -366,7 +391,9 @@ def extract_source_name(message):
 def count_time_since_last_citation(conversation, source_name):
     """Counts the number of responses since the source was last cited. If cited in the last
     response, this value is 0."""
-    assistant_messages = [message["content"] for message in conversation if message["role"]=="assistant"]
+    assistant_messages = [
+        message["content"] for message in conversation if message["role"] == "assistant"
+    ]
     inactivity_time = 0
     for i in range(1, len(assistant_messages) + 1):
         if source_name in assistant_messages[-i]:
@@ -376,26 +403,35 @@ def count_time_since_last_citation(conversation, source_name):
 
 
 def summarize_conversation(conversation):
+    """Uses chatbot to summarize the conversation. This did not work too well..."""
     global SUMMARY
-    conversation_messages, system_messages = separate_system_from_conversation(conversation)
-    conversation_messages = remove_code_syntax_from_whole_conversation(conversation_messages)
+    conversation_messages, system_messages = separate_system_from_conversation(
+        conversation
+    )
+    conversation_messages = remove_code_syntax_from_whole_conversation(
+        conversation_messages
+    )
     conversation_string = conversation_list_to_string(conversation_messages)
-    prompt_summary_bot = insert_information_in_prompt(prompt=PROMPTS["summary_bot"], info=conversation_string)
+    prompt_summary_bot = insert_information_in_prompt(
+        prompt=PROMPTS["summary_bot"], info=conversation_string
+    )
     conversation_with_summary_bot = initiate_new_conversation(prompt_summary_bot)
     SUMMARY = grab_last_response(conversation_with_summary_bot)
-    conversation_summarized = reconstruct_conversation_with_summary(system_messages, SUMMARY)
+    conversation_summarized = reconstruct_conversation_with_summary(
+        system_messages, SUMMARY
+    )
     return conversation_summarized
 
 
 def reconstruct_conversation_with_summary(system_messages, summary):
     conversation_reconstructed = system_messages
-    conversation_reconstructed.append({'role': 'system', 'content': summary})
+    conversation_reconstructed.append({"role": "system", "content": summary})
     return conversation_reconstructed
 
 
 def display_chatbot_response(conversation):
-    role = conversation[-1]['role'].strip()
-    message = conversation[-1]['content'].strip()
+    role = conversation[-1]["role"].strip()
+    message = conversation[-1]["content"].strip()
     message_cleaned = remove_code_syntax_from_message(message)
     wrap_and_print_message(role, message_cleaned)
 
@@ -404,16 +440,16 @@ def print_whole_conversation(conversation):
     """Prints the entire conversation (excluding the prompt) in the console."""
     for message in conversation[1:]:
         role = message["role"]
-        message = message['content'].strip()
+        message = message["content"].strip()
         wrap_and_print_message(role, message)
 
 
 def remove_code_syntax_from_message(message):
     """Removes code syntax which is intended for backend purposes only."""
-    message_no_json = re.sub(r'\¤¤(.*?)\¤¤', '', message, flags=re.DOTALL)
-    message_no_code = re.sub(r'\¤:(.*?)\:¤', '', message_no_json)
+    message_no_json = re.sub(r"\¤¤(.*?)\¤¤", "", message, flags=re.DOTALL)
+    message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message_no_json)
     # Remove surplus spaces
-    message_cleaned = re.sub(r' {2,}(?![\n])', ' ', message_no_code)
+    message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
     return message_cleaned
 
 
@@ -428,8 +464,12 @@ def remove_code_syntax_from_whole_conversation(conversation):
 def separate_system_from_conversation(conversation):
     """Finds the system messages, and returns the conversation without system messages and a list of
     the system messages."""
-    conversation_messages = [message for message in conversation if message["role"] != "system"]
-    system_messages = [message for message in conversation if message["role"] == "system"]
+    conversation_messages = [
+        message for message in conversation if message["role"] != "system"
+    ]
+    system_messages = [
+        message for message in conversation if message["role"] == "system"
+    ]
     return conversation_messages, system_messages
 
 
@@ -442,13 +482,13 @@ def insert_information_in_prompt(prompt: str, info: str):
     return prompt.replace("<insert_info>", info)
 
 
-def conversation_is_ended():
+def conversation_status():
     """Checks if conversation has ended by scanning for a predefined substring
     that acts as a cue to end the conversation."""
     if BREAK_CONVERSATION:
-        return True
+        return "ended"
     else:
-        return False
+        return "active"
 
 
 def offer_to_store_conversation(conversation):
@@ -477,7 +517,7 @@ def display_collected_data(collected_info=None):
         print(f"{collected_info}")
 
 
-if __name__  ==  "__main__":
+if __name__ == "__main__":
     arg1 = "referral"
     arg2 = None
 
@@ -487,7 +527,7 @@ if __name__  ==  "__main__":
             arg1 = "referral"
     if len(sys.argv) > 2:
         arg2 = sys.argv[2]
-        
+
     if arg1 == "options":
         print(f"The assistant IDs are: \n{pp.pformat(list(PROMPTS.keys()))}")
     else:
