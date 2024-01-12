@@ -1,7 +1,0 @@
-I want you to answer my questions with with a single words, number, date or name. If you agree say ok.
-
-Who is the father of ramsay bolton?
-
-
-
-Please return this texts with the requested fields filled in: The father of Ramsay Bolton is {name}. He was initially loyal to {name}. He renamed Theon to {name}. Through an arrangement orchestrated by {name}, Ramsay is wed to {name}, who escapes from Winterfell along with Theon. His rule was ended by {name}. Ramsay is executed for his crimes, rendering House {name} extinct and restoring House {name} as the ruling family of the North. Following {names} murder and the decimation of the {name}-loyal northern army at the {name}, he follows his father in pledging allegiance to House {name} and is legitimized as {name}.
