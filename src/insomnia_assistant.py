@@ -50,7 +50,6 @@ BREAK_CONVERSATION = False
 REGENERATE_RESPONSE = False
 # If chat is reset back in time, this variable controlls how many responses should be stripped from chat
 N_STRIP = 0
-VERBOSE = 1
 N_TOKENS_USED = []
 RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
 
