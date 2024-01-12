@@ -23,6 +23,14 @@ BLUE = "\033[94m"
 RESET = "\033[0m"
 
 
+def print_whole_conversation(conversation):
+    """Prints the entire conversation (excluding the prompt) in the console."""
+    for message in conversation[1:]:
+        role = message["role"]
+        message = message["content"].strip()
+        wrap_and_print_message(role, message)
+
+
 def count_tokens_used_to_create_last_response(conversation):
     tokens_in = count_tokens(conversation[:-1])
     tokens_out = count_tokens(conversation[-1])
@@ -204,3 +212,8 @@ def dump_conversation_to_textfile(conversation: list, filepath: str):
             
 def remove_none(array: list):
     return [x for x in array if x is not None]
+
+
+def grab_last_response(conversation):
+    """Grab the last response. Convenience function for better code-readability."""
+    return conversation[-1]["content"]

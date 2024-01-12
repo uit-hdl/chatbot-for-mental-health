@@ -26,7 +26,7 @@ with `...`):
 
     User: 1password
 
-    Assistant: ¤:request_knowledge(1password):¤
+    Assistant: ¤:request_knowledge(tech-1password):¤
 
     System: 1password is a password manager that ...
 

@@ -23,6 +23,9 @@ from utils.general import scan_for_json_data
 from utils.general import dump_conversation_to_textfile
 from utils.general import remove_none
 from utils.general import count_tokens_used_to_create_last_response
+from utils.general import grab_last_response
+from utils.general import print_whole_conversation
+from utils.user_commands import scan_user_message_for_commands
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import USER_DATA_DIR
@@ -45,10 +48,11 @@ openai.api_version = CONFIG["api_version"]
 # Initiate global variables
 BREAK_CONVERSATION = False
 REGENERATE_RESPONSE = False
+# If chat is reset back in time, this variable controlls how many responses should be stripped from chat
 N_STRIP = 0
 VERBOSE = 1
 N_TOKENS_USED = []
-RESPONSE_TIMES = []
+RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
 
 # Chat colors
 GREEN = "\033[92m"
@@ -57,7 +61,7 @@ RESET = "\033[0m"
 
 pp = pprint.PrettyPrinter(indent=2, width=100)
 logging.basicConfig(
-    filename="experiment.log",
+    filename="log/chat.log",
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
@@ -165,88 +169,7 @@ def create_user_input(conversation):
     return conversation
 
 
-def scan_user_message_for_commands(user_message, conversation):
-    """Scans user input for commands, allowing them to execute commands from the command line during
-    a chat and receive useful information."""
-    global BREAK_CONVERSATION, REGENERATE_RESPONSE, SUMMARY, N_STRIP
-    commands = [
-        "options",
-        "break",
-        "count_tokens",
-        "count_words",
-        "calc_cost",
-        "print_response",
-        "print_response_times",
-        "print_last3",
-        "print_chat",
-        "print_prompt",
-        "print_summary",
-        "strip_last1",
-        "strip_last2",
-        "strip_last3",
-        "strip_last4",
-        "strip_last5",
-        "clear",
-        "history",
-        "log",
-    ]
 
-    while user_message in commands:
-        if user_message == "break":
-            BREAK_CONVERSATION = True
-            break
-        # conversation_no_linebreaks = remove_linebreaks(conversation)
-        elif user_message == "options":
-            print(f"Possible commands are {commands}")
-        elif user_message == "count_tokens":
-            print(f"The number of tokens used is: {np.sum(np.array(N_TOKENS_USED))}")
-        elif user_message == "calc_cost":
-            print(
-                f"The number of tokens is: {count_tokens(conversation)*.0003246:.3} kr"
-            )
-        elif user_message == "print_response":
-            print(grab_last_response(conversation))
-        elif user_message == "print_response_times":
-            print(
-                f"Response_times:{RESPONSE_TIMES} ({np.sum(np.array(RESPONSE_TIMES)):.4}s total)"
-            )
-        elif user_message == "print_prompt":
-            print(f"The system prompt is: \n\n{conversation[0]['content']}")
-        elif user_message == "print_last3":
-            print("\n*** Printing last 3 messages... ***")
-            print(f"The last 3 messages are: \n\n{conversation[-3:]}")
-            print("*** End of printing last 3 messages ***\n")
-        elif user_message == "print_chat":
-            print("\n*** Printing whole chat... ***")
-            print_whole_conversation(conversation)
-            print("*** End of printing whole chat ***\n")
-        elif user_message == "print_summary":
-            print(f"\n{SUMMARY}")
-        elif user_message == "clear":
-            os.system("clear")
-        elif user_message == "history":
-            print_whole_conversation(conversation)
-        elif user_message == "log":
-            response_times_rounded = [np.round(t, 4) for t in RESPONSE_TIMES]
-            time_total = np.sum(np.array(RESPONSE_TIMES))
-            tokens_total = np.sum(np.array(N_TOKENS_USED))
-            logging.info(
-                f"\nResponse times: {response_times_rounded} ({time_total:.4}s total)"
-            )
-            logging.info(f"Tokens used: {N_TOKENS_USED} ({tokens_total} total)")
-        elif "strip_last" in user_message:
-            REGENERATE_RESPONSE = True
-            N_STRIP = int(user_message[-1])
-            break
-
-        user_message = input("user: ")
-
-    return user_message
-
-
-def grab_last_response(conversation):
-    """Grab the last response. Convenience function for better code-readability."""
-    return conversation[-1]["content"]
 
 
 def process_syntax_of_bot_response(conversation):
@@ -314,7 +237,7 @@ def check_for_request_to_end_chat(commands: dict):
     for command in commands:
         if command["type"] == "end_chat":
             BREAK_CONVERSATION = True
-    
+
 
 def process_json_data(json_dictionaries):
     """Takes a list of json dictionaries, infers the type of data they contain, and handles them
@@ -367,7 +290,7 @@ def remove_inactive_sources(conversation):
         ]
         inactivity_times = remove_none(inactivity_times)
         print_source_info(sources, inactivity_times)
-        
+
         sources_to_remove = np.array(sources)[
             np.array(inactivity_times) >= SETTINGS["inactivity_threshold"]
         ]
@@ -440,14 +363,6 @@ def display_chatbot_response(conversation):
     message = conversation[-1]["content"].strip()
     message_cleaned = remove_code_syntax_from_message(message)
     wrap_and_print_message(role, message_cleaned)
-
-
-def print_whole_conversation(conversation):
-    """Prints the entire conversation (excluding the prompt) in the console."""
-    for message in conversation[1:]:
-        role = message["role"]
-        message = message["content"].strip()
-        wrap_and_print_message(role, message)
 
 
 def remove_code_syntax_from_message(message):
