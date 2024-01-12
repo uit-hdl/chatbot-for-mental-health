@@ -18,7 +18,7 @@ from utils.general import wrap_and_print_message
 from utils.general import count_tokens
 from utils.general import play_video
 from utils.general import conversation_list_to_string
-from utils.general import extract_commands
+from utils.general import extract_commands_and_filepaths
 from utils.general import scan_for_json_data
 from utils.general import dump_conversation_to_textfile
 from utils.general import remove_none
@@ -39,6 +39,7 @@ from utils.backend import load_textfile_as_string
 from utils.backend import load_yaml_file
 from utils.backend import get_filename
 from utils.backend import file_exists
+from utils.backend import get_shared_subfolder_name
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
@@ -70,6 +71,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     """Running this function starts a conversation with a tutorial bot that
     helps explain how a web-app (https://app.consensussleepdiary.com)
     functions. The web app is a free online app for collecting sleep data."""
+    
     prompt = PROMPTS[chatbot_id]
 
     if chat_filepath:
@@ -84,12 +86,12 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             offer_to_store_conversation(conversation)
             break
         conversation = generate_bot_response(conversation)
-        commands, knowledge_requests = process_syntax_of_bot_response(conversation)
+        commands, knowledge_requests = process_syntax_of_bot_response(conversation, chatbot_id)
 
         while knowledge_requests:
             conversation = insert_knowledge(conversation, knowledge_requests)
             conversation = generate_bot_response(conversation)
-            commands, knowledge_requests = process_syntax_of_bot_response(conversation)
+            commands, knowledge_requests = process_syntax_of_bot_response(conversation, chatbot_id)
 
         json_dictionaries = scan_last_response_for_json_data(conversation)
         display_chatbot_response(conversation)
@@ -168,14 +170,11 @@ def create_user_input(conversation):
     return conversation
 
 
-
-
-
-def process_syntax_of_bot_response(conversation):
+def process_syntax_of_bot_response(conversation, chatbot_id):
     """Scans the response for symbols ¤: and :¤, and extracts the name of the commands, the
     file-arguments of the commands. Returns two lists of dictionaries."""
     chatbot_response = grab_last_response(conversation)
-    commands = extract_commands(chatbot_response)
+    commands = extract_commands_and_filepaths(chatbot_response, chatbot_id)
     knowledge_requests = check_for_knowledge_requests(commands)
     return commands, knowledge_requests
 

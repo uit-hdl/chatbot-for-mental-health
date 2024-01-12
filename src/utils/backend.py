@@ -24,14 +24,18 @@ SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
 CONVERSATION_BREAK_CUE = "Have a nice day!"
-# Map showing directory with files related to each type of command.
-COMMAND_TO_DIR_MAP = {"request_knowledge": LIBRARY_DIR,
-                      "display_image": IMAGES_DIR,
-                      "play_video": VIDEOS_DIR}
+# Map showing which directories contains files corresponding to each type of command
+COMMAND_TO_DIR_MAP = {
+    "request_knowledge": LIBRARY_DIR,
+    "display_image": IMAGES_DIR,
+    "play_video": VIDEOS_DIR,
+}
 # Extensions associated with the files of each type of command.
-COMMAND_TO_EXTENSION_MAP = {"request_knowledge": ".md",
-                            "display_image": ".png",
-                            "play_video": ".mkv"}
+COMMAND_TO_EXTENSION_MAP = {
+    "request_knowledge": ".md",
+    "display_image": ".png",
+    "play_video": ".mkv",
+}
 
 
 def collect_prompts_in_dictionary(directory_path):
@@ -48,13 +52,13 @@ def collect_prompts_in_dictionary(directory_path):
 
 def load_textfile_as_string(file_path):
     """Loads a text file and returns the contents as a string."""
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         file_string = file.read()
     return file_string
 
 
 def load_yaml_file(file_path, return_named_tuple=False):
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         yaml_data = yaml.safe_load(file)
     if return_named_tuple:
         return convert_dict_to_namedtuple(yaml_data)
@@ -63,7 +67,7 @@ def load_yaml_file(file_path, return_named_tuple=False):
 
 
 def load_json_from_path(
-        file_path: str,
+    file_path: str,
 ) -> dict:
     """Read yaml file from `path`."""
     file_path = get_full_path(file_path)
@@ -77,7 +81,7 @@ def get_full_path_and_create_dir(file_path):
     Also creates the specified directory if it does not exist."""
     path = get_full_path(file_path)
     dirpath = os.path.dirname(path)
-    if dirpath != '':
+    if dirpath != "":
         os.makedirs(dirpath, exist_ok=True)
     return path
 
@@ -87,18 +91,14 @@ def get_full_path(path_relative):
 
 
 def dump_to_json(
-        file,
-        file_path,
+    file,
+    file_path,
 ) -> None:
     """Save thr `dump_dict` to the json file under the path given in relation to
     the root directory."""
     full_path = get_full_path_and_create_dir(file_path)
-    with open(full_path, mode="w", encoding='utf-8') as json_file:
-        json.dump(
-            file,
-            json_file,
-            sort_keys=True,
-            indent=4)
+    with open(full_path, mode="w", encoding="utf-8") as json_file:
+        json.dump(file, json_file, sort_keys=True, indent=4)
 
 
 def dump_current_conversation(conversation, filename="conversation"):
@@ -112,7 +112,7 @@ def dump_conversation_with_timestamp(conversation, label="conversation"):
     through the 'label' argument."""
     # Get the current date and time
     current_datetime = datetime.datetime.now()
-    formatted_datetime = current_datetime.strftime('%Y-%m-%d_%H-%M-%S')
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
     filename = f"{label}_{formatted_datetime}.txt"
     dump_conversation_to_textfile(filename, conversation)
     print(f"Conversation stored in {filename}")
@@ -135,12 +135,13 @@ def convert_dict_to_namedtuple(dictionary: dict):
     """Converts a dictionary to a named tuple."""
     names = list(dictionary.keys())
     values = list(dictionary.values())
-    named_tuple = namedtuple('named_tuple', names)
+    named_tuple = namedtuple("named_tuple", names)
     return named_tuple(*values)
+
 
 def add_extension(path, extension):
     """Takes a path relative to the output folder and adds the specified extension (e.g., '.csv') if the path has no extension."""
-    if os.path.splitext(path)[-1] == '':
+    if os.path.splitext(path)[-1] == "":
         path += extension
     return path
 
@@ -154,7 +155,40 @@ def get_filename(file_path, include_extension=False):
 
 def file_exists(file_path):
     return os.path.isfile(file_path)
-    
+
+
+def get_shared_subfolder_name(prompt_file_name: str):
+    """The files associated with an assistant bot should be put into sub-folders, such as
+    media/images/example-assistant/image_a.png and media/videos/example-assistant/video_a.mkv, where
+    example-assistant is the name shared by all subfolders related to this assistant, which I refer
+    to as the projects shared subfolder name. This function takes the file name of the prompt,
+    identifies its relative filepath, and inferrs the projects shared subfolder name based on that
+    information. The purpose of this function to avoid having to rename file paths in all prompts
+    and sources of an assistant bot every time I change the path to a file.
+    """
+    prompt_path = get_relative_path_of_prompts_file(prompt_file_name)
+    # Get the directory name from the file path
+    directory = os.path.dirname(prompt_path)
+    # Split the directory path into components
+    components = directory.split(os.path.sep)
+    # Check if there is a subfolder (at least two components)
+    if len(components) >= 2:
+        return components[-1]  # Return the name of the subfolder
+    else:
+        return None  # Return None if there is no subfolder
+
+
+def get_relative_path_of_prompts_file(prompt_file_name: str):
+    full_path = PROMPTS_DIR
+    prompt_file_name = add_extension(prompt_file_name, ".md")
+    # Iterate over the files in the directory
+    for root, dirs, files in os.walk(full_path):
+        if prompt_file_name in files:
+            # File found, print the relative path from the root directory
+            relative_path = os.path.relpath(
+                os.path.join(root, prompt_file_name), start=ROOT_DIR
+            )
+            return relative_path
 
 
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)

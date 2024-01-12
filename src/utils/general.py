@@ -16,6 +16,7 @@ from utils.backend import CONVERSATIONS_RAW_DIR
 from utils.backend import get_full_path_and_create_dir
 from utils.backend import load_json_from_path
 from utils.backend import add_extension
+from utils.backend import get_shared_subfolder_name
 from moviepy.editor import VideoFileClip
 
 GREEN = "\033[92m"
@@ -121,7 +122,7 @@ def conversation_list_to_string(conversation):
     return "\n".join([f"{d['role']}: {d['content']}" for d in conversation])
 
 
-def extract_commands(response: str) -> List[Dict]:
+def extract_commands_and_filepaths(response: str, chatbot_id) -> List[Dict]:
     """Scans response for '¤:command_name(file_name):¤', and extracts the command name and
     filepath for each commmand. Extracted commands are returned as list of dictionaries with keys
     `file` and `type` indicating the command type and the file argument of the command. For example 
@@ -131,19 +132,21 @@ def extract_commands(response: str) -> List[Dict]:
     commands = []
     
     for command_string in command_strings:
-        command_dict = get_command_file_and_type(command_string)
+        command_dict = get_command_file_and_type(command_string, chatbot_id)
         commands.append(command_dict)
 
     return commands
 
 
-def get_command_file_and_type(command_string: str):
+def get_command_file_and_type(command_string: str, chatbot_id):
     """Takes a string of the form 'command_name(file_name)' and returns a dictionary with command
     type (name of the command) and file (None if command has no argument)."""
     open_parenthesis_index = command_string.find("(")
     command_type = command_string[:open_parenthesis_index]
     if command_type in COMMAND_TO_DIR_MAP.keys():
-        directory = COMMAND_TO_DIR_MAP[command_type]
+        directory_for_filetype = COMMAND_TO_DIR_MAP[command_type]
+        shared_subfolder_name = get_shared_subfolder_name(chatbot_id)
+        directory = os.path.join(directory_for_filetype, shared_subfolder_name)
         extension = COMMAND_TO_EXTENSION_MAP[command_type]
         file = extract_filename_from_command(command_string, directory, extension)
         return {"type": command_type, "file": file}

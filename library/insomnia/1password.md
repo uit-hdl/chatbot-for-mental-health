@@ -1,14 +1,14 @@
 # Tutorial videos
-* Finding a password/login in 1password: `tech-support/finding_password.mkv`
-* Editing a password/login in 1password: `tech-support/edit_login.mkv`
+* Finding a password/login in 1password: `finding_password.mkv`
+* Editing a password/login in 1password: `edit_login.mkv`
 
 # Logging into 1password
-* Click on the icon (blue key hole) in the upper right corner of their web-browser (`tech-support/1password_toolbar_icon.png`)
+* Click on the icon (blue key hole) in the upper right corner of their web-browser (`1password_toolbar_icon.png`)
     * If not visible: click the grey icon in the upper right corner that looks like a puzzle-piece
-      (`tech-support/extensions_dropdown.png`).
+      (`extensions_dropdown.png`).
       * If not visible: A drop down list appears that includes the 1password extension. Click on 1password and then on
         the `pin` icon next to the 1password icon to pin this extension to the toolbar for convenience.
-* Clicking the 1password icon, a window appears where they type their password (`tech-support/enter_password_1password.png`)
+* Clicking the 1password icon, a window appears where they type their password (`enter_password_1password.png`)
   and then press enter to finally log into 1passpord.
 
 # Updating password
@@ -18,19 +18,19 @@ password.
 
 # Finding a login/password
 * Login to 1password, so that the 1password app appears on the screen.
-* Under the search bar (`tech-support/1password_login_search.png`) is a little box. Click it, and a drop down menu appears
+* Under the search bar (`1password_login_search.png`) is a little box. Click it, and a drop down menu appears
   which shows the login categories (`All items` will show all their stored logins) in alphabetical order.
 * Click on the desired login. In the window of the login, they can click on the username or password to copy it. They
   can then paste it to where they need it.
 
-They can also find a login by searching for it in the 1password search field (`tech-support/1password_login_search.png`).
+They can also find a login by searching for it in the 1password search field (`1password_login_search.png`).
 
 # Edit login
 * Login to 1password.
 * Click the three dots in the upper right corner of the 1password-window. In the dropdown menu that appears, click
-  `edit` (`tech-support/1password_edit_login1.png`). 
+  `edit` (`1password_edit_login1.png`). 
 * They get directed to a new window where they can edit details like username, password, and website related to the
-  password (`tech-support/1password_edit_login2.png`).
+  password (`1password_edit_login2.png`).
 
 # Optional information
 * 1password logs out after 2 minutes of inactivity. If you want functionalities of 1password such as autofilling
@@ -48,6 +48,6 @@ Assistant: Do you see an icon (blue key hole) in the upper right corner of your 
 user: no
 
 Assistant: What about a grey icon in the upper right corner that looks like a puzzle-piece, do you see that?
-      ¤:display_image(tech-support/extensions_dropdown.png):¤
+      ¤:display_image(extensions_dropdown.png):¤
 
 Notice that you avoided answering like this: If A, then this. If not A then do that...
