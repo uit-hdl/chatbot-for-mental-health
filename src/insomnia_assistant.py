@@ -42,12 +42,12 @@ openai.api_type = CONFIG["api_type"]
 openai.api_base = CONFIG["api_base"]
 openai.api_version = CONFIG["api_version"]
 
+# Initiate global variables
 BREAK_CONVERSATION_PROMPT = "break"
 BREAK_CONVERSATION = False
-REGENERATE = False
+REGENERATE_RESPONSE = False
 N_STRIP = 0
 VERBOSE = 1
-KNOWLEDGE = []
 N_TOKENS_USED = []
 RESPONSE_TIMES = []
 
@@ -156,11 +156,11 @@ def generate_bot_response(conversation):
 
 def create_user_input(conversation):
     """Prompts user to input a prompt (the "question") in the command line."""
-    global REGENERATE, N_STRIP
+    global REGENERATE_RESPONSE, N_STRIP
     user_message = input(GREEN + "user" + RESET + ": ")
     user_message = scan_user_message_for_commands(user_message, conversation)
-    if REGENERATE:
-        REGENERATE = False
+    if REGENERATE_RESPONSE:
+        REGENERATE_RESPONSE = False
         return conversation[:-N_STRIP]
     conversation.append({"role": "user", "content": user_message})
     return conversation
@@ -169,7 +169,7 @@ def create_user_input(conversation):
 def scan_user_message_for_commands(user_message, conversation):
     """Scans user input for commands, allowing them to execute commands from the command line during
     a chat and receive useful information."""
-    global BREAK_CONVERSATION, REGENERATE, SUMMARY, N_STRIP
+    global BREAK_CONVERSATION, REGENERATE_RESPONSE, SUMMARY, N_STRIP
     commands = [
         "options",
         "break",
@@ -181,7 +181,6 @@ def scan_user_message_for_commands(user_message, conversation):
         "print_last3",
         "print_chat",
         "print_prompt",
-        "print_knowledge",
         "print_summary",
         "strip_last1",
         "strip_last2",
@@ -222,8 +221,6 @@ def scan_user_message_for_commands(user_message, conversation):
             print("\n*** Printing whole chat... ***")
             print_whole_conversation(conversation)
             print("*** End of printing whole chat ***\n")
-        elif user_message == "print_knowledge":
-            print(f"Knowledge inserted is: \n{KNOWLEDGE}")
         elif user_message == "print_summary":
             print(f"\n{SUMMARY}")
         elif user_message == "clear":
@@ -239,7 +236,7 @@ def scan_user_message_for_commands(user_message, conversation):
             )
             logging.info(f"Tokens used: {N_TOKENS_USED} ({tokens_total} total)")
         elif "strip_last" in user_message:
-            REGENERATE = True
+            REGENERATE_RESPONSE = True
             N_STRIP = int(user_message[-1])
             break
 
