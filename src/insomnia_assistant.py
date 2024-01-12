@@ -43,7 +43,6 @@ openai.api_base = CONFIG["api_base"]
 openai.api_version = CONFIG["api_version"]
 
 # Initiate global variables
-BREAK_CONVERSATION_PROMPT = "break"
 BREAK_CONVERSATION = False
 REGENERATE_RESPONSE = False
 N_STRIP = 0
