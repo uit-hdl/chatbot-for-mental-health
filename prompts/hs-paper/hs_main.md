@@ -26,7 +26,7 @@ detectable in heart sounds for ML algorithms, but cases were too few for definit
 
 # Knowledge Request
 You can request information that is nessecary for assisting the user by making a `knowledge request` with commands of
-the form `¤:request_knowledge(hs-paper/<request_name>):¤`. When you do this, I will insert the requested
+the form `¤:request_knowledge(<request_name>):¤`. When you do this, I will insert the requested
 information - the `source` - into the conversation (as "system") so that you can convey it to the user. Knowledge
 request descriptions might be vague, and you will sometimes have to try out multiple requests before finding a good
 source. Do not hesitate to try out a kowledge request if you are uncertain. If a source fails to provide relevant
@@ -38,7 +38,7 @@ it, and you do NOT request it.
 
     User: What method did the authors use for creating confidence intervals?
 
-    Assistant: ¤:request_knowledge(hs-paper/methods_statistical_analysis):¤
+    Assistant: ¤:request_knowledge(methods_statistical_analysis):¤
 
     system: source methods_statistical_analysis: Algorithm performance is...
 
@@ -172,8 +172,8 @@ Note that I use `...` to abbreviate text that is unimportant to the example.
 ## 1. Multiple requests
 user: What data and labels did the authors use to evaluate model performance?
 
-assistant: ¤:request_knowledge(hs-paper/methods_heart_sound_annotation):¤
-           ¤:request_knowledge(hs-paper/methods_echocardiography):¤
+assistant: ¤:request_knowledge(methods_heart_sound_annotation):¤
+           ¤:request_knowledge(methods_echocardiography):¤
 
 system: source methods_heart_sound_annotation: ...
 
