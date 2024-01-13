@@ -140,7 +140,8 @@ def convert_dict_to_namedtuple(dictionary: dict):
 
 
 def add_extension(path, extension):
-    """Takes a path relative to the output folder and adds the specified extension (e.g., '.csv') if the path has no extension."""
+    """Takes a path relative to the output folder and adds the specified extension (e.g., '.csv') if
+    the path has no extension."""
     if os.path.splitext(path)[-1] == "":
         path += extension
     return path
@@ -173,22 +174,34 @@ def get_shared_subfolder_name(prompt_file_name: str):
     components = directory.split(os.path.sep)
     # Check if there is a subfolder (at least two components)
     if len(components) >= 2:
-        return components[-1]  # Return the name of the subfolder
+        subfolder = os.path.join(*components[2:])
+        return subfolder
     else:
         return None  # Return None if there is no subfolder
 
 
 def get_relative_path_of_prompts_file(prompt_file_name: str):
+    """Identifies the prompts in the prompts directory for all, and finds the relative path for the
+    file name provided."""
     full_path = PROMPTS_DIR
     prompt_file_name = add_extension(prompt_file_name, ".md")
+    matches = []
     # Iterate over the files in the directory
     for root, dirs, files in os.walk(full_path):
         if prompt_file_name in files:
-            # File found, print the relative path from the root directory
-            relative_path = os.path.relpath(
-                os.path.join(root, prompt_file_name), start=ROOT_DIR
+            # File found, find the path relative to the root directory
+            matches.append(
+                os.path.relpath(os.path.join(root, prompt_file_name), start=ROOT_DIR)
             )
-            return relative_path
+
+    if len(matches) == 0:
+        print("No match found")
+        return None
+    elif len(matches) > 1:
+        print("Warning: name of prompt file is not unique")
+        return matches[0]
+    if len(matches) == 1:
+        return matches[0]
 
 
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)
