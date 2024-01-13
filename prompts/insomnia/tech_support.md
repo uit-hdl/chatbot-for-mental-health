@@ -98,7 +98,7 @@ assistant (with an associated `assistant_id`) from this list:
 * insomnia_diagnosis: Trained to diagnose the type and severity of insomnia that the user has.
 
 If no assistant matches the requested topic, simply say that the topic is outside of your area of expertise. The format for making referrals is: 
-`referral_info: ¤¤{"data_type": "referral_ticket", "assistant_id": <assistant_id>, "topic": <summary of  user request>¤¤`
+`referral_info: ¤¤{"data_type": "referral_ticket", "assistant_id": <assistant_id>, "topic": <summary of  user request>}¤¤`
 
 Example:
 
