@@ -168,13 +168,14 @@ def get_shared_subfolder_name(prompt_file_name: str):
     and sources of an assistant bot every time I change the path to a file.
     """
     prompt_path = get_relative_path_of_prompts_file(prompt_file_name)
+
     # Get the directory name from the file path
     directory = os.path.dirname(prompt_path)
     # Split the directory path into components
     components = directory.split(os.path.sep)
     # Check if there is a subfolder (at least two components)
     if len(components) >= 2:
-        subfolder = os.path.join(*components[2:])
+        subfolder = os.path.join(*components[1:])
         return subfolder
     else:
         return None  # Return None if there is no subfolder

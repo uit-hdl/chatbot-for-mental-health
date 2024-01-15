@@ -1,8 +1,8 @@
 word_wrap: 80  # N.o. characters before line gets wrapped.
 plot_duration: 10000  # The duration of time for which the figures are shown (uggly solution...)
 max_tokens_before_summary: 30000  # not in use
-inactivity_threshold: 1  # Remove source from conversation if it has not been cited in the last ... messages
+inactivity_threshold: 2  # Remove source from conversation if it has not been cited in the last ... messages
 # Verbosity settings: control what gets printed in the console during the chat
 print_info_on_sources: True
 print_when_information_is_inserted: True
-print_removal_of_inactive_source: False
+print_removal_of_inactive_source: True

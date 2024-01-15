@@ -5,6 +5,7 @@ import os
 from utils.general import grab_last_response
 from utils.general import count_tokens
 from utils.general import print_whole_conversation
+from utils.general import offer_to_store_conversation
 
 logging.basicConfig(
     filename="log/chat.log",
@@ -16,11 +17,14 @@ logging.basicConfig(
 def scan_user_message_for_commands(
     user_message,
     conversation,
+    break_conversation
 ):
     """Scans user input for commands, allowing them to execute commands from the command line during
     a chat to receive diagnostic information or perform other actions without interrupting the
     chat."""
-    global GRAB_LAST_RESPONSE, REGENERATE_RESPONSE, SUMMARY, N_TOKENS_USED, RESPONSE_TIMES, N_STRIP
+    global GRAB_LAST_RESPONSE, SUMMARY, N_TOKENS_USED, RESPONSE_TIMES
+    
+    n_rewind = None
     commands = [
         "options",
         "break",
@@ -33,19 +37,19 @@ def scan_user_message_for_commands(
         "print_chat",
         "print_prompt",
         "print_summary",
-        "strip_last1",
-        "strip_last2",
-        "strip_last3",
-        "strip_last4",
-        "strip_last5",
+        "rewind_by1",
+        "rewind_by2",
+        "rewind_by3",
+        "rewind_by4",
         "clear",
         "history",
         "log",
+        "store_chat"
     ]
 
     while user_message in commands:
         if user_message == "break":
-            BREAK_CONVERSATION = True
+            break_conversation = True
             break
 
         elif user_message == "options":
@@ -88,6 +92,9 @@ def scan_user_message_for_commands(
 
         elif user_message == "history":
             print_whole_conversation(conversation)
+            
+        elif user_message == "store_chat":
+            offer_to_store_conversation(conversation)
 
         elif user_message == "log":
             response_times_rounded = [np.round(t, 4) for t in RESPONSE_TIMES]
@@ -98,11 +105,11 @@ def scan_user_message_for_commands(
             )
             logging.info(f"Tokens used: {N_TOKENS_USED} ({tokens_total} total)")
 
-        elif "strip_last" in user_message:
-            REGENERATE_RESPONSE = True
-            N_STRIP = int(user_message[-1])
+        elif "rewind_by" in user_message:
+            n_rewind = int(user_message[-1])
+            print(n_rewind)
             break
 
         user_message = input("user: ")
 
-    return user_message
+    return user_message, n_rewind, break_conversation

@@ -13,10 +13,12 @@ from utils.backend import COMMAND_TO_DIR_MAP
 from utils.backend import COMMAND_TO_EXTENSION_MAP
 from utils.backend import CONVERSATIONS_DIR
 from utils.backend import CONVERSATIONS_RAW_DIR
+from utils.backend import CONVERSATIONS_FORMATTED_DIR
 from utils.backend import get_full_path_and_create_dir
 from utils.backend import load_json_from_path
 from utils.backend import add_extension
 from utils.backend import get_shared_subfolder_name
+from utils.backend import dump_to_json
 from moviepy.editor import VideoFileClip
 
 GREEN = "\033[92m"
@@ -181,6 +183,7 @@ def scan_for_json_data(response: str) -> list[Dict]:
 
 def convert_json_string_to_dict(json_data: str):
     """Converts json file content extracted from a string into a dictionary."""
+    print(json_data)
     return ast.literal_eval(json_data)
 
 
@@ -213,10 +216,59 @@ def dump_conversation_to_textfile(conversation: list, filepath: str):
             file.write(formatted_message)
             
             
-def remove_none(array: list):
+def remove_nones(array: list):
+    """Remove elements of list of type `None`"""
     return [x for x in array if x is not None]
 
 
 def grab_last_response(conversation):
     """Grab the last response. Convenience function for better code-readability."""
     return conversation[-1]["content"]
+
+
+def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list):
+    """Resets the conversation back to bot-response n_current - n_rewind. If n_rewind == 1 then
+    conversation resets to the second to last bot-response, allowing you to investigate the bots
+    behaviour given the chat up to that point. Useful for testing how likely the bot is to reproduce
+    an error (such as forgetting an instruction) or a desired response, since you don't have to
+    restart the conversation from scratch."""
+    assistant_indices = [
+        i for i, d in enumerate(conversation) if d.get("role") == "assistant"
+    ]
+    n_rewind = min([n_rewind, len(assistant_indices) - 1])
+    index_reset = assistant_indices[-(n_rewind + 1)]
+    return conversation[: index_reset + 1]
+
+
+
+def offer_to_store_conversation(conversation):
+    """Asks the user in the console if he wants to store the conversation, and
+    if so, how to name it."""
+    store_conversation_response = input("Store conversation? (Y/N): ").strip().lower()
+    if store_conversation_response == "y":
+        label = input("File name (hit enter for default): ").strip().lower()
+        if label == "":
+            label = "conversation"
+        store_conversation(conversation, label)
+    else:
+        print("Conversation not stored")
+
+
+def store_conversation(conversation: list, label: str="conversation"):
+    """Stores conversation in json format in conversations/raw and in formatted 
+    markdown file in conversations/formatted. Default name is `conversation`."""
+    json_file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
+    txt_file_path = f"{CONVERSATIONS_FORMATTED_DIR}/{label}.md"
+    if grab_last_response(conversation) == "break":
+        # Remove break
+        conversation = conversation[:-1]
+    dump_to_json(conversation, json_file_path)
+    dump_conversation_to_textfile(conversation, txt_file_path)
+    print(f"Conversation stored in {json_file_path} and {txt_file_path}")
+
+
+def test(x):
+    global GLOBAL_VAR
+    if x>1:
+        GLOBAL_VAR = 2
+        print(GLOBAL_VAR)

@@ -21,18 +21,18 @@ from utils.general import conversation_list_to_string
 from utils.general import extract_commands_and_filepaths
 from utils.general import scan_for_json_data
 from utils.general import dump_conversation_to_textfile
-from utils.general import remove_none
+from utils.general import remove_nones
 from utils.general import count_tokens_used_to_create_last_response
 from utils.general import grab_last_response
 from utils.general import print_whole_conversation
+from utils.general import rewind_chat_by_n_assistant_responses
+from utils.general import offer_to_store_conversation
 from utils.user_commands import scan_user_message_for_commands
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import USER_DATA_DIR
 from utils.backend import SETTINGS
 from utils.backend import CONFIG
-from utils.backend import CONVERSATIONS_RAW_DIR
-from utils.backend import CONVERSATIONS_FORMATTED_DIR
 from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation
 from utils.backend import load_textfile_as_string
@@ -48,9 +48,9 @@ openai.api_version = CONFIG["api_version"]
 
 # Initiate global variables
 BREAK_CONVERSATION = False
-REGENERATE_RESPONSE = False
+REWIND_CONVERSATION = False
 # If chat is reset back in time, this variable controlls how many responses should be stripped from chat
-N_STRIP = 0
+N_REWIND = 0
 N_TOKENS_USED = []
 RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
 
@@ -71,14 +71,14 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     """Running this function starts a conversation with a tutorial bot that
     helps explain how a web-app (https://app.consensussleepdiary.com)
     functions. The web app is a free online app for collecting sleep data."""
-    
+
     prompt = PROMPTS[chatbot_id]
 
     if chat_filepath:
         conversation = continue_previous_conversation(chat_filepath, prompt)
     else:
         conversation = initiate_new_conversation(prompt)
-        display_chatbot_response(conversation)
+        display_last_response(conversation)
 
     while True:
         conversation = create_user_input(conversation)
@@ -86,15 +86,19 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             offer_to_store_conversation(conversation)
             break
         conversation = generate_bot_response(conversation)
-        commands, knowledge_requests = process_syntax_of_bot_response(conversation, chatbot_id)
+        commands, knowledge_requests = process_syntax_of_bot_response(
+            conversation, chatbot_id
+        )
 
         while knowledge_requests:
             conversation = insert_knowledge(conversation, knowledge_requests)
             conversation = generate_bot_response(conversation)
-            commands, knowledge_requests = process_syntax_of_bot_response(conversation, chatbot_id)
+            commands, knowledge_requests = process_syntax_of_bot_response(
+                conversation, chatbot_id
+            )
 
         json_dictionaries = scan_last_response_for_json_data(conversation)
-        display_chatbot_response(conversation)
+        display_last_response(conversation)
         dump_current_conversation(conversation)
 
         if commands:
@@ -108,7 +112,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             referral_ticket, sources = process_json_data(json_dictionaries)
             if referral_ticket:
                 conversation = direct_to_new_assistant(referral_ticket)
-                display_chatbot_response(conversation)
+                display_last_response(conversation)
                 continue
 
         if count_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
@@ -160,12 +164,19 @@ def generate_bot_response(conversation):
 
 def create_user_input(conversation):
     """Prompts user to input a prompt (the "question") in the command line."""
-    global REGENERATE_RESPONSE, N_STRIP
-    user_message = input(GREEN + "user" + RESET + ": ")
-    user_message = scan_user_message_for_commands(user_message, conversation)
-    if REGENERATE_RESPONSE:
-        REGENERATE_RESPONSE = False
-        return conversation[:-N_STRIP]
+    global BREAK_CONVERSATION
+
+    while True:
+        user_message = input(GREEN + "user" + RESET + ": ")
+        user_message, n_rewind, BREAK_CONVERSATION = scan_user_message_for_commands(
+            user_message, conversation, BREAK_CONVERSATION
+        )
+        if n_rewind:
+            conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
+            print(f"** Rewinding by {n_rewind} bot responses **")
+            reprint_whole_conversation(conversation)
+        else:
+            break
     conversation.append({"role": "user", "content": user_message})
     return conversation
 
@@ -281,12 +292,12 @@ def remove_inactive_sources(conversation):
         for message in system_messages
         if message.startswith("source")
     ]
-    sources = remove_none(sources)
+    sources = remove_nones(sources)
     if sources:
         inactivity_times = [
             count_time_since_last_citation(conversation, source) for source in sources
         ]
-        inactivity_times = remove_none(inactivity_times)
+        inactivity_times = remove_nones(inactivity_times)
         print_source_info(sources, inactivity_times)
 
         sources_to_remove = np.array(sources)[
@@ -322,6 +333,7 @@ def count_time_since_last_citation(conversation, source_name):
         message["content"] for message in conversation if message["role"] == "assistant"
     ]
     inactivity_time = 0
+    # Look backwards in conversation to find how long ago since the source was last cited
     for i in range(1, len(assistant_messages) + 1):
         if source_name in assistant_messages[-i]:
             inactivity_time = i - 1
@@ -356,9 +368,24 @@ def reconstruct_conversation_with_summary(system_messages, summary):
     return conversation_reconstructed
 
 
-def display_chatbot_response(conversation):
-    role = conversation[-1]["role"].strip()
-    message = conversation[-1]["content"].strip()
+def reprint_whole_conversation(conversation, include_system_messages=True):
+    """Reprints whole conversation (not including the prompt)."""
+    for message in conversation[1:]:
+        if not include_system_messages and message["role"] == "system":
+            continue
+        else:
+            display_message_without_syntax(message)
+
+
+def display_last_response(conversation):
+    """Displays the last response of the conversation (removes syntax)."""
+    display_message_without_syntax(message_dict=conversation[-1])
+
+
+def display_message_without_syntax(message_dict: dict):
+    """Takes a message in dictionary form, removes the code syntax, and prints it in the console."""
+    role = message_dict["role"].strip()
+    message = message_dict["content"].strip()
     message_cleaned = remove_code_syntax_from_message(message)
     wrap_and_print_message(role, message_cleaned)
 
@@ -408,26 +435,6 @@ def conversation_status():
         return "ended"
     else:
         return "active"
-
-
-def offer_to_store_conversation(conversation):
-    """Asks the user in the console if he wants to store the conversation, and
-    if so, how to name it."""
-    store_conversation = input("Store conversation? (Y/N): ").strip().lower()
-    if store_conversation == "y":
-        label = input("File name (hit enter for default): ").strip().lower()
-        if label == "":
-            label = "conversation"
-        json_file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
-        txt_file_path = f"{CONVERSATIONS_FORMATTED_DIR}/{label}.md"
-        if grab_last_response(conversation) == "break":
-            # Remove break
-            conversation = conversation[:-1]
-        dump_to_json(conversation, json_file_path)
-        dump_conversation_to_textfile(conversation, txt_file_path)
-        print(f"Conversation stored in {json_file_path} and {txt_file_path}")
-    else:
-        print("Conversation not stored")
 
 
 def display_collected_data(collected_info=None):
