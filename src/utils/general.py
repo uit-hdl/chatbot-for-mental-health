@@ -168,7 +168,7 @@ def get_command_file_and_type(command_string: str, chatbot_id):
     type (name of the command) and file (None if command has no argument)."""
     open_parenthesis_index = command_string.find("(")
     command_type = command_string[:open_parenthesis_index]
-    
+
     if command_type in COMMAND_TO_DIR_MAP.keys():
         directory_for_filetype = COMMAND_TO_DIR_MAP[command_type]
         shared_subfolder = get_shared_subfolder_name(chatbot_id)
@@ -258,12 +258,15 @@ def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list):
     behaviour given the chat up to that point. Useful for testing how likely the bot is to reproduce
     an error (such as forgetting an instruction) or a desired response, since you don't have to
     restart the conversation from scratch."""
-    assistant_indices = [
-        i for i, d in enumerate(conversation) if d.get("role") == "assistant"
-    ]
+    assistant_indices = identify_assistant_reponses(conversation)
     n_rewind = min([n_rewind, len(assistant_indices) - 1])
     index_reset = assistant_indices[-(n_rewind + 1)]
     return conversation[: index_reset + 1]
+
+
+def identify_assistant_reponses(conversation):
+    """Gets the index/indices for the list elements whose role is `assistant`."""
+    return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
 
 
 def offer_to_store_conversation(conversation):

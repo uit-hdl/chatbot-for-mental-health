@@ -4,23 +4,23 @@
         "role": "system"
     },
     {
-        "content": "Hello! I'm here to assist you with any technical issues you might be experiencing with the \"Consensus Sleep Diary\" app. How can I help you today?",
+        "content": "Hello! I'm here to help you with any technical issues you might be experiencing with the \"Consensus Sleep Diary\" app. How can I assist you today?",
         "role": "assistant"
     },
     {
-        "content": "hi help me login",
+        "content": "help me with pwm A please",
         "role": "user"
     },
     {
-        "content": "Of course, let's get started on that. To log in, go to the login page at https://app.consensussleepdiary.com/#/login/. Do you remember your login details? \u00a4:display_image(login_sleep_diary.png):\u00a4",
+        "content": "Sure, I can assist you with password manager A. Could you let me know what specific help you need with it? Are you trying to find a stored password or having issues with the password manager itself?",
         "role": "assistant"
     },
     {
-        "content": "ok, thats nice. I do not, but i used pwm a",
+        "content": "in general",
         "role": "user"
     },
     {
-        "content": "No worries, we can retrieve your login details from the password manager. \u00a4:request_knowledge(password_manager_a):\u00a4",
+        "content": "\u00a4:request_knowledge(password_manager_a):\u00a4",
         "role": "assistant"
     },
     {
@@ -28,15 +28,7 @@
         "role": "system"
     },
     {
-        "content": "The first step to retrieve your login details with Password Manager A is to click on the icon (blue key hole) in the upper right corner of your web browser. \u00a4:display_image(1password_toolbar_icon.png):\u00a4 If the icon is not visible, look for a grey icon that looks like a puzzle-piece and click on it to find the Password Manager A extension. \u00a4:display_image(extensions_dropdown.png):\u00a4 Once you see the Password Manager A icon, click it, and then input your Password Manager password. \u00a4:play_video(finding_password.mkv):\u00a4 \u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4\n\nCan you see the Password Manager A icon now?",
-        "role": "assistant"
-    },
-    {
-        "content": "please dont go through so much information at once",
-        "role": "user"
-    },
-    {
-        "content": "Understood, let's do this one step at a time.\n\nFirst, do you see the Password Manager A icon, which looks like a blue keyhole, at the top right corner of your web browser? \u00a4:display_image(1password_toolbar_icon.png):\u00a4 \u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4",
+        "content": "The first step is to open your 1password app. Do you see a blue keyhole icon in the upper right corner of your web browser? \n\u00a4:display_image(1password_toolbar_icon.png):\u00a4 \u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4",
         "role": "assistant"
     }
 ]

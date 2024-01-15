@@ -26,6 +26,7 @@ from utils.general import print_whole_conversation
 from utils.general import rewind_chat_by_n_assistant_responses
 from utils.general import offer_to_store_conversation
 from utils.general import display_image
+from utils.general import identify_assistant_reponses
 from utils.user_commands import scan_user_message_for_commands
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
@@ -52,6 +53,9 @@ RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
 SYSTEM_WARNING = (
     []
 )  # Collects warnings and reminders when erroneous bot behaviour is detected
+REGENERATE_RESPONSE = (
+    False  # Triggered when the output of the bot violates certain rules
+)
 
 # Chat colors
 GREEN = "\033[92m"
@@ -81,44 +85,50 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
 
     while True:
         conversation = create_user_input(conversation)
+
         if conversation_status() == "ended":
             offer_to_store_conversation(conversation)
             break
-        conversation = generate_bot_response(conversation)
-        commands, knowledge_requests = process_syntax_of_bot_response(
-            conversation, chatbot_id
-        )
+        
+        conversation = generate_bot_response(conversation, chatbot_id)
+        # conversation = generate_raw_bot_response(conversation)
+        # REGENERATE_RESPONSE = False
+        # commands, knowledge_requests = process_syntax_of_bot_response(
+        #     conversation, chatbot_id
+        # )
 
-        while knowledge_requests:
-            conversation = insert_knowledge(conversation, knowledge_requests)
-            conversation = generate_bot_response(conversation)
-            commands, knowledge_requests = process_syntax_of_bot_response(
-                conversation, chatbot_id
-            )
+        # while knowledge_requests:
+        #     conversation = insert_knowledge(conversation, knowledge_requests)
+        #     conversation = generate_raw_bot_response(conversation)
+        #     commands, knowledge_requests = process_syntax_of_bot_response(
+        #         conversation, chatbot_id
+        #     )
 
-        json_dictionaries = scan_last_response_for_json_data(conversation)
-        display_last_response(conversation)
-        dump_current_conversation(conversation)
+        # json_dictionaries = scan_last_response_for_json_data(conversation)
+        # display_last_response(conversation)
+        # dump_current_conversation(conversation)
+        # check_if_more_than_1_media_are_requested(commands)
 
-        if commands:
-            conversation = display_if_media(commands, conversation)
-            check_for_request_to_end_chat(commands)
-            if BREAK_CONVERSATION:
-                offer_to_store_conversation(conversation)
-                break
+        # if commands and not REGENERATE_RESPONSE:
+        #     conversation = display_if_media(commands, conversation)
+        #     check_for_request_to_end_chat(commands)
 
-        if json_dictionaries:
-            referral_ticket, sources = process_json_data(json_dictionaries)
-            if referral_ticket:
-                conversation = direct_to_new_assistant(referral_ticket)
-                display_last_response(conversation)
-                continue
+        # if BREAK_CONVERSATION:
+        #     offer_to_store_conversation(conversation)
+        #     break
 
-        if count_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
-            conversation = summarize_conversation(conversation)
-            conversation = generate_bot_response(conversation)
+        # if json_dictionaries:
+        #     referral_ticket, sources = process_json_data(json_dictionaries)
+        #     if referral_ticket:
+        #         conversation = direct_to_new_assistant(referral_ticket)
+        #         display_last_response(conversation)
+        #         continue
 
-        conversation = remove_inactive_sources(conversation)
+        # if count_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
+        #     conversation = summarize_conversation(conversation)
+        #     conversation = generate_raw_bot_response(conversation)
+
+        # conversation = remove_inactive_sources(conversation)
 
 
 def initiate_new_conversation(inital_prompt, system_message=None):
@@ -127,7 +137,7 @@ def initiate_new_conversation(inital_prompt, system_message=None):
     conversation.append({"role": "system", "content": inital_prompt})
     if system_message:
         conversation.append({"role": "system", "content": system_message})
-    conversation = generate_bot_response(conversation)
+    conversation = generate_raw_bot_response(conversation)
     return conversation
 
 
@@ -140,7 +150,76 @@ def continue_previous_conversation(chat_filepath, prompt):
     return conversation
 
 
-def generate_bot_response(conversation):
+def generate_bot_response(conversation, chatbot_id):
+    global BREAK_CONVERSATION
+    
+    generate_response = True
+    while generate_response:
+        conversation = generate_raw_bot_response(conversation)
+        commands, knowledge_requests = process_syntax_of_bot_response(
+            conversation, chatbot_id
+        )
+
+        while knowledge_requests:
+            conversation = insert_knowledge(conversation, knowledge_requests)
+            conversation = generate_raw_bot_response(conversation)
+            commands, knowledge_requests = process_syntax_of_bot_response(
+                conversation, chatbot_id
+            )
+
+        json_dictionaries = scan_last_response_for_json_data(conversation)
+
+        if more_than_1_media_are_requested_check(commands):
+            conversation = delete_last_bot_response(conversation)
+            conversation.append(
+                {
+                    "role": "system",
+                    "content": "It is illegal to present more than 1 video/image per response!",
+                }
+            )
+            # Illegal response: go back to the beginning of the while-loop
+            continue
+
+        display_last_response(conversation)
+        dump_current_conversation(conversation)
+
+        if commands:
+            conversation = display_if_media(commands, conversation)
+            check_for_request_to_end_chat(commands)
+
+        generate_response = False  # Response has passed criteria: end while-loop
+
+        if BREAK_CONVERSATION:
+            offer_to_store_conversation(conversation)
+            break
+
+        if json_dictionaries:
+            referral_ticket, sources = process_json_data(json_dictionaries)
+            if referral_ticket:
+                conversation = direct_to_new_assistant(referral_ticket)
+                display_last_response(conversation)
+                continue
+
+        if count_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
+            conversation = summarize_conversation(conversation)
+            conversation = generate_raw_bot_response(conversation)
+
+        conversation = remove_inactive_sources(conversation)
+
+    return conversation
+
+
+def delete_last_bot_response(conversation):
+    """Identifies which responses are from the assistant, and deletes the last response from the
+    conversation. Used when the bot response has broken some rule, and we want it to create a new
+    response."""
+    assistant_indices = identify_assistant_reponses(conversation)
+    assistant_indices[-1]
+    del conversation[assistant_indices[-1]]
+    return conversation
+
+
+def generate_raw_bot_response(conversation):
     """Takes the conversation log, and updates it with the response of the
     chatbot as a function of the chat history."""
     start_time = time.time()
@@ -213,7 +292,6 @@ def insert_knowledge(conversation, knowledge_list):
     """Inserts knowledge into the conversation, and lets bot produce a new
     response using that information."""
     for knowledge in knowledge_list:
-        
         source_name = get_filename(knowledge["file"])
         if file_exists(knowledge["file"]):
             print(f"\nInserting information `{source_name}` into conversation...")
@@ -243,6 +321,22 @@ def display_if_media(commands: list, conversation: list):
                 "File does not exist. Display only files that I have referenced."
             )
     return conversation
+
+
+def more_than_1_media_are_requested_check(commands):
+    """Checks if the bot attempts to display more than one piece of media (video or image)
+    at a time (which is not desired)."""
+    if commands is None:
+        return False
+
+    types = np.array([command["type"] for command in commands])
+    index_image_request = types == "display_image"
+    index_video_request = types == "display_video"
+    
+    if np.sum(index_image_request) + np.sum(index_video_request) >= 2:
+        return True
+    else:
+        return False
 
 
 def check_for_request_to_end_chat(commands: dict):
