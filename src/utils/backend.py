@@ -140,14 +140,15 @@ def convert_dict_to_namedtuple(dictionary: dict):
 
 
 def add_extension(path, extension):
-    """Takes a path relative to the output folder and adds the specified extension (e.g., '.csv') if
-    the path has no extension."""
+    """Takes a path relative to the output folder and adds the specified extension 
+    (e.g., '.csv') if the path has no extension."""
     if os.path.splitext(path)[-1] == "":
         path += extension
     return path
 
 
 def get_filename(file_path, include_extension=False):
+    """Gets the name of the file associated with the path."""
     file_name = os.path.basename(file_path)
     if include_extension:
         return file_name
@@ -155,6 +156,9 @@ def get_filename(file_path, include_extension=False):
 
 
 def file_exists(file_path):
+    """Checks if the file in the specified path exists."""
+    if file_path is None:
+        return False
     return os.path.isfile(file_path)
 
 

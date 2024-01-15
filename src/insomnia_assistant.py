@@ -7,7 +7,6 @@ import time
 import logging
 
 import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import numpy as np
 import pprint
 
@@ -26,6 +25,7 @@ from utils.general import grab_last_response
 from utils.general import print_whole_conversation
 from utils.general import rewind_chat_by_n_assistant_responses
 from utils.general import offer_to_store_conversation
+from utils.general import display_image
 from utils.user_commands import scan_user_message_for_commands
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
@@ -49,6 +49,9 @@ BREAK_CONVERSATION = False
 # If chat is reset back in time, this variable controlls how many responses should be stripped from chat
 N_TOKENS_USED = []
 RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
+SYSTEM_WARNING = (
+    []
+)  # Collects warnings and reminders when erroneous bot behaviour is detected
 
 # Chat colors
 GREEN = "\033[92m"
@@ -98,7 +101,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         dump_current_conversation(conversation)
 
         if commands:
-            display_if_media(commands)
+            conversation = display_if_media(commands, conversation)
             check_for_request_to_end_chat(commands)
             if BREAK_CONVERSATION:
                 offer_to_store_conversation(conversation)
@@ -129,7 +132,7 @@ def initiate_new_conversation(inital_prompt, system_message=None):
 
 
 def continue_previous_conversation(chat_filepath, prompt):
-    """Inserts the current prompt into a previous conversation that was discontinued."""
+    """Inserts the current prompt into a previous stored conversation that was discontinued."""
     conversation = load_yaml_file(chat_filepath)
     # Replace original prompt with requested prompt
     conversation[0] = {"role": "system", "content": prompt}
@@ -165,7 +168,11 @@ def create_user_input(conversation):
     while True:
         user_message = input(GREEN + "user" + RESET + ": ")
         user_message, n_rewind, BREAK_CONVERSATION = scan_user_message_for_commands(
-            user_message, conversation, BREAK_CONVERSATION
+            user_message,
+            conversation,
+            BREAK_CONVERSATION,
+            N_TOKENS_USED,
+            RESPONSE_TIMES,
         )
         if n_rewind:
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
@@ -206,35 +213,36 @@ def insert_knowledge(conversation, knowledge_list):
     """Inserts knowledge into the conversation, and lets bot produce a new
     response using that information."""
     for knowledge in knowledge_list:
+        
         source_name = get_filename(knowledge["file"])
         if file_exists(knowledge["file"]):
             print(f"\nInserting information `{source_name}` into conversation...")
             message = f"source {source_name}: {knowledge['content']}"
         else:
-            message = "Requested source not available."
+            message = "Requested source does not exist! Request only sources I have told you to use."
         conversation.append({"role": "system", "content": message})
     return conversation
 
 
-def display_if_media(commands: list):
+def display_if_media(commands: list, conversation: list):
     """If extracted code contains command to display image, displays image. The
     syntax used to display an image is ¤:display_image{<file>}:¤ (replace with `display_video` for
     video)."""
     for command in commands:
-        if command["type"] == "display_image":
-            img = mpimg.imread(command["file"])
-            plt.imshow(img)
-            plt.gca().set_axis_off()  # Turn off the axes
-            plt.subplots_adjust(top=1, bottom=0, right=1, left=0, hspace=0, wspace=0)
-            plt.margins(0, 0)
-            plt.gca().yaxis.set_major_locator(plt.NullLocator())
-
-            plt.show(block=False)
-            plt.pause(SETTINGS["plot_duration"])
-            plt.close()
-
-        elif command["type"] == "play_video":
-            play_video(command["file"])
+        if file_exists(command["file"]):
+            if command["type"] == "display_image":
+                display_image(command["file"])
+            elif command["type"] == "play_video":
+                play_video(command["file"])
+        else:
+            {
+                "role": "system",
+                "content": "File does not exist. Display only files that I have referenced.",
+            }
+            conversation.append(
+                "File does not exist. Display only files that I have referenced."
+            )
+    return conversation
 
 
 def check_for_request_to_end_chat(commands: dict):

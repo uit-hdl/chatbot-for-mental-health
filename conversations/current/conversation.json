@@ -4,39 +4,23 @@
         "role": "system"
     },
     {
-        "content": "Hello! I'm here to help you with any technical issues you may have while using the \"Consensus Sleep Diary\" app. How can I assist you today?",
+        "content": "Hello! I'm here to assist you with any technical issues you might be experiencing with the \"Consensus Sleep Diary\" app. How can I help you today?",
         "role": "assistant"
     },
     {
-        "content": "I see",
+        "content": "hi help me login",
         "role": "user"
     },
     {
-        "content": "Great! If you're having any trouble with logging in, tracking your sleep, or any other aspect of using the \"Consensus Sleep Diary\" app, please let me know, and I'll do my best to guide you through it. What do you need help with?",
+        "content": "Of course, let's get started on that. To log in, go to the login page at https://app.consensussleepdiary.com/#/login/. Do you remember your login details? \u00a4:display_image(login_sleep_diary.png):\u00a4",
         "role": "assistant"
     },
     {
-        "content": "I cant recall my password",
+        "content": "ok, thats nice. I do not, but i used pwm a",
         "role": "user"
     },
     {
-        "content": "I understand. Let's resolve this step by step. Have you already created an account on the Consensus Sleep Diary app? If yes, do you remember if you have used a password manager to create and store your login details?",
-        "role": "assistant"
-    },
-    {
-        "content": "yes i did",
-        "role": "user"
-    },
-    {
-        "content": "That's good to hear. Can you recall which password manager you used? Was it password manager A or password manager B? This information will help me assist you in retrieving your password.",
-        "role": "assistant"
-    },
-    {
-        "content": "a",
-        "role": "user"
-    },
-    {
-        "content": "Great, I can help you with that. Let's start by opening password manager A.\n\n\u00a4:request_knowledge(password_manager_a):\u00a4",
+        "content": "No worries, we can retrieve your login details from the password manager. \u00a4:request_knowledge(password_manager_a):\u00a4",
         "role": "assistant"
     },
     {
@@ -44,47 +28,15 @@
         "role": "system"
     },
     {
-        "content": "The first step to recover your password is to open password manager A. Look for the icon that's a blue keyhole in the upper right corner of your web browser. Do you see that icon?\n\n\u00a4:display_image(1password_toolbar_icon.png):\u00a4 \u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4",
+        "content": "The first step to retrieve your login details with Password Manager A is to click on the icon (blue key hole) in the upper right corner of your web browser. \u00a4:display_image(1password_toolbar_icon.png):\u00a4 If the icon is not visible, look for a grey icon that looks like a puzzle-piece and click on it to find the Password Manager A extension. \u00a4:display_image(extensions_dropdown.png):\u00a4 Once you see the Password Manager A icon, click it, and then input your Password Manager password. \u00a4:play_video(finding_password.mkv):\u00a4 \u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4\n\nCan you see the Password Manager A icon now?",
         "role": "assistant"
     },
     {
-        "content": "no",
+        "content": "please dont go through so much information at once",
         "role": "user"
     },
     {
-        "content": "Alright, let\u2019s check another place. Can you see a grey icon in the upper right corner that looks like a puzzle piece? If you find it, please click on it.\n\n\u00a4:display_image(extensions_dropdown.png):\u00a4 \u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4",
-        "role": "assistant"
-    },
-    {
-        "content": "yes!",
-        "role": "user"
-    },
-    {
-        "content": "Excellent! Now, in the dropdown list that appears, you should see the 1Password extension. Click on the 1Password icon and then click on the 'pin' icon next to the 1Password icon to pin this extension to your toolbar for convenience.\n\nCan you do that and let me know once it's done?\n\n\u00a4:display_image(1password_toolbar_icon.png):\u00a4 \u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4",
-        "role": "assistant"
-    },
-    {
-        "content": "I have",
-        "role": "user"
-    },
-    {
-        "content": "Great! Now that the 1Password icon is pinned to your toolbar, please click on it. A window will appear where you can type your 1Password and then press enter to login.\n\nPlease go ahead and log into 1Password. Let me know if you're able to successfully log in or if you need any further assistance.\n\n\u00a4:display_image(enter_password_1password.png):\u00a4 \u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4",
-        "role": "assistant"
-    },
-    {
-        "content": "im in",
-        "role": "user"
-    },
-    {
-        "content": "Perfect! Now that you're logged into password manager A, you can find your Consensus Sleep Diary login details. In the 1Password app, use the search bar to look for the Consensus Sleep Diary, or find it in the list of logins.\n\nOnce you find it, click on the entry to view your username and password. You can then copy the password and paste it where you need it.\n\nPlease try to locate your Consensus Sleep Diary login now and let me know if you're successful.\n\n\u00a4:display_image(1password_login_search.png):\u00a4 \u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4",
-        "role": "assistant"
-    },
-    {
-        "content": "i found it, thank you!",
-        "role": "user"
-    },
-    {
-        "content": "You're welcome! I'm glad I could help. If you have any more questions or need assistance with anything else, feel free to ask. If not, have a wonderful day! \u00a4:end_chat():\u00a4",
+        "content": "Understood, let's do this one step at a time.\n\nFirst, do you see the Password Manager A icon, which looks like a blue keyhole, at the top right corner of your web browser? \u00a4:display_image(1password_toolbar_icon.png):\u00a4 \u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4",
         "role": "assistant"
     }
 ]
