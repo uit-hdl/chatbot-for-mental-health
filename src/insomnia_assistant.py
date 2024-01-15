@@ -20,7 +20,6 @@ from utils.general import play_video
 from utils.general import conversation_list_to_string
 from utils.general import extract_commands_and_filepaths
 from utils.general import scan_for_json_data
-from utils.general import dump_conversation_to_textfile
 from utils.general import remove_nones
 from utils.general import count_tokens_used_to_create_last_response
 from utils.general import grab_last_response
@@ -39,7 +38,6 @@ from utils.backend import load_textfile_as_string
 from utils.backend import load_yaml_file
 from utils.backend import get_filename
 from utils.backend import file_exists
-from utils.backend import get_shared_subfolder_name
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
@@ -48,16 +46,14 @@ openai.api_version = CONFIG["api_version"]
 
 # Initiate global variables
 BREAK_CONVERSATION = False
-REWIND_CONVERSATION = False
 # If chat is reset back in time, this variable controlls how many responses should be stripped from chat
-N_REWIND = 0
 N_TOKENS_USED = []
 RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
 
 # Chat colors
 GREEN = "\033[92m"
 BLUE = "\033[94m"
-RESET = "\033[0m"
+RESET = "\033[0m"  # used to reset colour
 
 pp = pprint.PrettyPrinter(indent=2, width=100)
 logging.basicConfig(

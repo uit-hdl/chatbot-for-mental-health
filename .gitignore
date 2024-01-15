@@ -160,5 +160,5 @@ cython_debug/
 #.idea/
 
 src/test/
-**/test/
+test*
 conversations/png/
