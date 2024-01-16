@@ -23,7 +23,6 @@ API_KEY_PATH = os.path.join(API_DIR, "insomnia_bot_azure.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
-CONVERSATION_BREAK_CUE = "Have a nice day!"
 # Map showing which directories contains files corresponding to each type of command
 COMMAND_TO_DIR_MAP = {
     "request_knowledge": LIBRARY_DIR,
@@ -39,8 +38,8 @@ COMMAND_TO_EXTENSION_MAP = {
 
 
 def collect_prompts_in_dictionary(directory_path):
-    """Finds paths for all files in directory and subdirectories, and creates a dictionary where the
-    keys are file names and the values are file paths."""
+    """Finds paths for all files in directory and subdirectories, and creates a
+    dictionary where the keys are file names and the values are file paths."""
     all_files = {}
     for root, _, files in os.walk(directory_path):
         for file in files:
@@ -50,25 +49,21 @@ def collect_prompts_in_dictionary(directory_path):
     return all_files
 
 
-def load_textfile_as_string(file_path):
+def load_textfile_as_string(file_path) -> str:
     """Loads a text file and returns the contents as a string."""
     with open(file_path, "r") as file:
         file_string = file.read()
     return file_string
 
 
-def load_yaml_file(file_path, return_named_tuple=False):
+def load_yaml_file(file_path) -> dict:
+    file_path = add_extension(file_path, ".json")
     with open(file_path, "r") as file:
         yaml_data = yaml.safe_load(file)
-    if return_named_tuple:
-        return convert_dict_to_namedtuple(yaml_data)
-    else:
-        return yaml_data
+    return yaml_data
 
 
-def load_json_from_path(
-    file_path: str,
-) -> dict:
+def load_json_from_path(file_path: str) -> dict:
     """Read yaml file from `path`."""
     file_path = get_full_path(file_path)
     with open(file_path, mode="r", encoding="utf-8") as jfl:
@@ -77,7 +72,7 @@ def load_json_from_path(
 
 
 def get_full_path_and_create_dir(file_path):
-    """Takes a path relative to the output folder and creates the full path.
+    """Takes a path relative to the project folder and creates the full path.
     Also creates the specified directory if it does not exist."""
     path = get_full_path(file_path)
     dirpath = os.path.dirname(path)
@@ -87,13 +82,11 @@ def get_full_path_and_create_dir(file_path):
 
 
 def get_full_path(path_relative):
+    """Takes a path relative to the project root folder and produces the full path."""
     return os.path.join(ROOT_DIR, path_relative)
 
 
-def dump_to_json(
-    file,
-    file_path,
-) -> None:
+def dump_to_json(file, file_path):
     """Save thr `dump_dict` to the json file under the path given in relation to
     the root directory."""
     full_path = get_full_path_and_create_dir(file_path)
@@ -102,6 +95,7 @@ def dump_to_json(
 
 
 def dump_current_conversation(conversation, filename="conversation"):
+    """Dumps the conversation to the conversation directory as a json file."""
     file_path = f"{CONVERSATIONS_CURRENT_DIR}/{filename}.json"
     dump_to_json(conversation, file_path)
 
@@ -119,7 +113,7 @@ def dump_conversation_with_timestamp(conversation, label="conversation"):
 
 
 def dump_conversation_to_textfile(filename, conversation):
-    """Dumps a conversation to a textfile."""
+    """Dumps the conversation to a textfile in conversations/formatted/filename."""
     path_relative = f"{CONVERSATIONS_DIR}/formatted/{filename}"
     full_path = get_full_path_and_create_dir(path_relative)
     # Remove the initial prompt
@@ -131,17 +125,9 @@ def dump_conversation_to_textfile(filename, conversation):
             file.write(f"{role.capitalize()}: {content}\n\n")
 
 
-def convert_dict_to_namedtuple(dictionary: dict):
-    """Converts a dictionary to a named tuple."""
-    names = list(dictionary.keys())
-    values = list(dictionary.values())
-    named_tuple = namedtuple("named_tuple", names)
-    return named_tuple(*values)
-
-
 def add_extension(path, extension):
-    """Takes a path relative to the output folder and adds the specified extension 
-    (e.g., '.csv') if the path has no extension."""
+    """Takes a path relative to the output folder and adds the specified 
+    extension (e.g., '.csv') if the path has no extension."""
     if os.path.splitext(path)[-1] == "":
         path += extension
     return path
@@ -163,14 +149,13 @@ def file_exists(file_path):
 
 
 def get_shared_subfolder_name(prompt_file_name: str):
-    """The files associated with an assistant bot should be put into sub-folders, such as
-    media/images/example-assistant/image_a.png and media/videos/example-assistant/video_a.mkv, where
-    example-assistant is the name shared by all subfolders related to this assistant, which I refer
-    to as the projects shared subfolder name. This function takes the file name of the prompt,
-    identifies its relative filepath, and inferrs the projects shared subfolder name based on that
-    information. The purpose of this function to avoid having to rename file paths in all prompts
-    and sources of an assistant bot every time I change the path to a file.
-    """
+    """Convention -> all directories that contain files associated with an assistant must consist of
+    the following two components: the file-specific directory (such as media/images) and an
+    assistant-specific path relative to the file-specific directory. This function takes the name of
+    the assistant and inferrs the assistant-specific relative path. For example, if images are
+    located in 'media/images/ex_bots/ex_bot_A/', then the assistant-specific path is
+    'ex_bots/ex_bot_A/'. Following this convention makes it easier to write prompts, since only the
+    file name needs to be specified."""
     prompt_path = get_relative_path_of_prompts_file(prompt_file_name)
 
     # Get the directory name from the file path
@@ -185,9 +170,9 @@ def get_shared_subfolder_name(prompt_file_name: str):
         return None  # Return None if there is no subfolder
 
 
-def get_relative_path_of_prompts_file(prompt_file_name: str):
+def get_relative_path_of_prompts_file(prompt_file_name: str) -> str:
     """Identifies the prompts in the prompts directory for all, and finds the relative path for the
-    file name provided."""
+    file name provided. Note that prompts should have unique names for this to work well."""
     full_path = PROMPTS_DIR
     prompt_file_name = add_extension(prompt_file_name, ".md")
     matches = []

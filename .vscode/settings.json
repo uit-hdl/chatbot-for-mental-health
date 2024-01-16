@@ -1,4 +1,12 @@
 {
     "editor.wordWrap": "wordWrapColumn",
-    "editor.wordWrapColumn": 80,
+    "editor.wordWrapColumn": 100,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnType": true,
+        "editor.wordWrapColumn": 100,
+        // "editor.rulers": [ // set line wrap lengths
+        //     120 // 79 is also a standard option
+        // ]
+    },
 }

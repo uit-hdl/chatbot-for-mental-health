@@ -50,12 +50,6 @@ BREAK_CONVERSATION = False
 # If chat is reset back in time, this variable controlls how many responses should be stripped from chat
 N_TOKENS_USED = []
 RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
-SYSTEM_WARNING = (
-    []
-)  # Collects warnings and reminders when erroneous bot behaviour is detected
-REGENERATE_RESPONSE = (
-    False  # Triggered when the output of the bot violates certain rules
-)
 
 # Chat colors
 GREEN = "\033[92m"
@@ -105,7 +99,7 @@ def initiate_new_conversation(inital_prompt, system_message=None):
 
 def continue_previous_conversation(chat_filepath, prompt):
     """Inserts the current prompt into a previous stored conversation that was
-    discontinued."""
+    discontinued, so that you can pick up where you left of."""
     conversation = load_yaml_file(chat_filepath)
     # Replace original prompt with requested prompt
     conversation[0] = {"role": "system", "content": prompt}
@@ -121,6 +115,7 @@ def generate_bot_response(conversation, chatbot_id):
     global BREAK_CONVERSATION
 
     generate_response = True
+    
     while generate_response:
         conversation = generate_raw_bot_response(conversation)
         commands, knowledge_requests = process_syntax_of_bot_response(
@@ -128,6 +123,7 @@ def generate_bot_response(conversation, chatbot_id):
         )
 
         while knowledge_requests:
+            # In this loop the bot can request sources until relevant information has been found
             conversation = insert_knowledge(conversation, knowledge_requests)
             conversation = generate_raw_bot_response(conversation)
             commands, knowledge_requests = process_syntax_of_bot_response(
@@ -191,6 +187,7 @@ def delete_last_bot_response(conversation):
 def generate_raw_bot_response(conversation):
     """Takes the conversation log, and updates it with the response of the
     chatbot as a function of the chat history."""
+    global RESPONSE_TIMES, N_TOKENS_USED
     start_time = time.time()
     response = openai.ChatCompletion.create(
         model=CONFIG["model_id"],
@@ -233,8 +230,9 @@ def create_user_input(conversation):
 
 
 def process_syntax_of_bot_response(conversation, chatbot_id):
-    """Scans the response for symbols ¤: and :¤, and extracts the name of the commands, the
-    file-arguments of the commands. Returns two lists of dictionaries."""
+    """Scans the response for symbols ¤: and :¤, and extracts the name of the
+    commands, the file-arguments of the commands. Returns two lists of
+    dictionaries."""
     chatbot_response = grab_last_response(conversation)
     commands = extract_commands_and_filepaths(chatbot_response, chatbot_id)
     knowledge_requests = check_for_knowledge_requests(commands)
@@ -299,8 +297,8 @@ def more_than_1_media_are_requested_check(commands):
         return False
 
     types = np.array([command["type"] for command in commands])
-    index_image_request = types == "display_image"
-    index_video_request = types == "display_video"
+    index_image_request = np.equal(types, "display_image")
+    index_video_request = np.equal(types, "display_video")
 
     if np.sum(index_image_request) + np.sum(index_video_request) >= 2:
         return True

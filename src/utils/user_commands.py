@@ -99,7 +99,6 @@ def scan_user_message_for_commands(
 
         elif "rewind_by" in user_message:
             n_rewind = int(user_message[-1])
-            print(n_rewind)
             break
 
         user_message = input("user: ")

@@ -3,6 +3,7 @@ import tiktoken
 import re
 import textwrap
 import os
+import json
 import datetime
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
@@ -44,6 +45,7 @@ def display_image(image_path):
 
 
 def play_video(video_file):
+    """Plays the video."""
     video = VideoFileClip(video_file)
     video.preview()
     video.close()
@@ -58,6 +60,7 @@ def print_whole_conversation(conversation):
 
 
 def count_tokens_used_to_create_last_response(conversation):
+    """Counts the number of tokens used to generate the last message in the conversation."""
     tokens_in = count_tokens(conversation[:-1])
     tokens_out = count_tokens(conversation[-1])
     return tokens_in + tokens_out
@@ -82,6 +85,7 @@ def count_tokens(conversation):
 
 
 def remove_quotes_from_string(input_str):
+    """Removes quotation marks, `"` or `'`, from a string."""
     pattern = r"[\'\"]"  # Matches either single or double quotes
     result_str = re.sub(pattern, "", input_str)
     return result_str
@@ -125,11 +129,12 @@ def strip_trailing_linebreaks(message):
 
 
 def remove_lineabreaks_from_conversation(conversation):
+    """Removes linebreaks `\n` from conversation."""
     modified_conversation = []
     for message in conversation:
         modified_message = message.copy()  # Create a copy of the original message
         if "content" in modified_message:
-            modified_message["content"] = modified_message["content"].replace("\n", " ")
+            modified_message["content"] = remove_linebreaks(modified_message["content"])
         modified_conversation.append(modified_message)
 
     return modified_conversation
@@ -137,12 +142,12 @@ def remove_lineabreaks_from_conversation(conversation):
 
 def remove_linebreaks(text):
     """Removes line breaks"""
-    return text["content"].replace("\n", " ")
+    return text.replace("\n", " ")
 
 
-def conversation_list_to_string(conversation):
-    """Takes a conversation in the form of a list of dictionaries, and returns a string with the
-    whole conversation"""
+def conversation_list_to_string(conversation: list) -> str:
+    """Takes a conversation in the form of a list of dictionaries, and returns the
+    whole conversation as a string."""
     return "\n".join([f"{d['role']}: {d['content']}" for d in conversation])
 
 
@@ -150,7 +155,8 @@ def extract_commands_and_filepaths(response: str, chatbot_id) -> List[Dict]:
     """Scans response for '¤:command_name(file_name):¤', and extracts the command name and
     filepath for each commmand. Extracted commands are returned as list of dictionaries with keys
     `file` and `type` indicating the command type and the file argument of the command. For example
-    [{'type': 'display_image', 'file': '/home/per/UIt/chatbots/chatGPT4/insomnia-assistant/images/login_sleep_diary.png'}]
+    [{'type': 'display_image', 'file':
+    '/home/per/UIt/chatbots/chatGPT4/insomnia-assistant/images/login_sleep_diary.png'}]
     """
     command_pattern = r"¤:(.*?):¤"
     command_strings = re.findall(command_pattern, response)
@@ -163,9 +169,10 @@ def extract_commands_and_filepaths(response: str, chatbot_id) -> List[Dict]:
     return commands
 
 
-def get_command_file_and_type(command_string: str, chatbot_id):
+def get_command_file_and_type(command_string: str, chatbot_id: str):
     """Takes a string of the form 'command_name(file_name)' and returns a dictionary with command
-    type (name of the command) and file (None if command has no argument)."""
+    type (name of the command, e.g. `command_name`) and file path (None if command has no
+    argument)."""
     open_parenthesis_index = command_string.find("(")
     command_type = command_string[:open_parenthesis_index]
 
@@ -182,13 +189,14 @@ def get_command_file_and_type(command_string: str, chatbot_id):
     return {"type": command_type, "file": None}
 
 
-def extract_filename_from_command(command, extension=None):
+def extract_filename_from_command(command: str, extension=None):
     """Takes code such as `request_knowledge(discussion_comparison_with_jaffe_study)` and
-    finds the full path of the file. `directory` is the directory that holds the file in extracted
-    code."""
+    finds the full path of the file referenced in the argument. `directory` is the directory that
+    holds the file in extracted code."""
     match = re.search(r"\((.*?)\)", command)
     if match:
         file = match.group(1)
+        # In case bot as enclosed filename with quotation marks, remove them
         file = remove_quotes_from_string(file)
         if extension:
             file = add_extension(file, extension)
@@ -207,10 +215,16 @@ def scan_for_json_data(response: str) -> list[Dict]:
     return json_dicts
 
 
-def convert_json_string_to_dict(json_data: str):
+def convert_json_string_to_dict(json_data: str) -> dict:
     """Converts json file content extracted from a string into a dictionary."""
-    print(json_data)
-    return ast.literal_eval(json_data)
+    # Standardize quotation marks
+    json_data = json_data.replace("'", '"')
+    try:
+        result = json.loads(json_data)
+    except json.JSONDecodeError as e:
+        print(f"Warning: error decoding JSON string: {e}")
+        result = None
+    return result
 
 
 def dump_conversation_to_textfile(conversation: list, filepath: str):
@@ -247,12 +261,12 @@ def remove_nones(array: list):
     return [x for x in array if x is not None]
 
 
-def grab_last_response(conversation):
+def grab_last_response(conversation: list) -> str:
     """Grab the last response. Convenience function for better code-readability."""
     return conversation[-1]["content"]
 
 
-def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list):
+def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> list:
     """Resets the conversation back to bot-response n_current - n_rewind. If n_rewind == 1 then
     conversation resets to the second to last bot-response, allowing you to investigate the bots
     behaviour given the chat up to that point. Useful for testing how likely the bot is to reproduce
@@ -264,8 +278,8 @@ def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list):
     return conversation[: index_reset + 1]
 
 
-def identify_assistant_reponses(conversation):
-    """Gets the index/indices for the list elements whose role is `assistant`."""
+def identify_assistant_reponses(conversation) -> list[int]:
+    """Gets the index/indices for `assistant` responses."""
     return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
 
 
