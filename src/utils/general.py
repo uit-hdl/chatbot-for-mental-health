@@ -104,13 +104,14 @@ def remove_quotes_from_string(input_str):
     return result_str
 
 
-def remove_code_syntax_from_message(message):
+def remove_code_syntax_from_message(message: str):
     """Removes code syntax which is intended for backend purposes only."""
     message_no_json = re.sub(r"\¤¤(.*?)\¤¤", "", message, flags=re.DOTALL)
     message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message_no_json)
     # Remove surplus spaces
     message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
     message_cleaned = remove_trailing_newlines(message_cleaned)
+    message_cleaned = remove_excessive_linebreaks(message_cleaned)
     return message_cleaned
 
 
@@ -157,26 +158,11 @@ def wrap_and_print_message(role, message, line_length=80):
         print(formatted_message)
 
 
-def strip_trailing_linebreaks(message):
-    """Strip trailing line breaks (newlines) from the end of a string."""
-    return message.rstrip("\n")
-
-
-def remove_lineabreaks_from_conversation(conversation):
-    """Removes linebreaks `\n` from conversation."""
-    modified_conversation = []
-    for message in conversation:
-        modified_message = message.copy()  # Create a copy of the original message
-        if "content" in modified_message:
-            modified_message["content"] = remove_linebreaks(modified_message["content"])
-        modified_conversation.append(modified_message)
-
-    return modified_conversation
-
-
-def remove_linebreaks(text):
-    """Removes line breaks"""
-    return text.replace("\n", " ")
+def remove_excessive_linebreaks(text: str):
+    """Replaces consecutive line breaks with just two line breaks (may emerge after stripping away
+    commands from bot messages)."""
+    cleaned_text = re.sub(r'\n{3,}', '\n\n', text)
+    return cleaned_text
 
 
 def conversation_list_to_string(conversation: list) -> str:

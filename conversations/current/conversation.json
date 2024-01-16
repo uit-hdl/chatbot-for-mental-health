@@ -4,7 +4,7 @@
         "role": "system"
     },
     {
-        "content": "Hello! I'm here to assist you with any technical issues you may be having with the \"Consensus Sleep Diary\" app. How can I help you today?",
+        "content": "Hello! I'm here to assist you with technical issues related to using the \"Consensus Sleep Diary\" app. How can I help you today?",
         "role": "assistant"
     },
     {
@@ -12,27 +12,19 @@
         "role": "user"
     },
     {
-        "content": "Hello! If you have any questions or need assistance with the Consensus Sleep Diary app, feel free to ask. What can I assist you with?",
+        "content": "Hello! If you're having any technical difficulties with the Consensus Sleep Diary app or have questions about its use, feel free to ask, and I'll assist you. What do you need help with?",
         "role": "assistant"
     },
     {
-        "content": "how do i login?",
+        "content": "i need help to login",
         "role": "user"
     },
     {
-        "content": "To login, go to the login page https://app.consensussleepdiary.com/#/login/. Have you already created an account? \n\n\u00a4:display_image(login_sleep_diary.png):\u00a4",
+        "content": "To login, go to the login page at https://app.consensussleepdiary.com/#/login/. Have you already created a login for the Consensus Sleep Diary app? \u00a4:display_image(login_sleep_diary.png):\u00a4",
         "role": "assistant"
     },
     {
-        "content": "yes, but i dont remember how to use the password a manager",
-        "role": "user"
-    },
-    {
-        "content": "Sure, I can help with that. To clarify, did you use password manager A to create your Sleep Diary login?",
-        "role": "assistant"
-    },
-    {
-        "content": "yes",
+        "content": "can you help me use password manager a? i cant remember how to open it",
         "role": "user"
     },
     {
@@ -44,7 +36,7 @@
         "role": "system"
     },
     {
-        "content": "The first step to using password manager A is to click on the icon that looks like a blue keyhole, which you'll find in the upper right corner of your web browser.\n\n\u00a4:display_image(1password_toolbar_icon.png):\u00a4\n\nDo you see the icon on your screen?\u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4",
+        "content": "Do you see an icon that looks like a blue keyhole in the upper right corner of your web browser? \u00a4:display_image(1password_toolbar_icon.png):\u00a4\u00a4\u00a4{\"sources\": [\"password_manager_a\"]}\u00a4\u00a4",
         "role": "assistant"
     }
 ]
