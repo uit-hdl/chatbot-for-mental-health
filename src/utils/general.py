@@ -66,6 +66,19 @@ def count_tokens_used_to_create_last_response(conversation):
     return tokens_in + tokens_out
 
 
+def calculate_cost_of_response(conversation):
+    """Calculates the cost of generating the last repsonse (which is assumed to be from
+    assistant)."""
+    tokens_in = count_tokens(conversation[:-1])
+    tokens_out = count_tokens(conversation[-1])
+    dollars_tokens_in = tokens_in * SETTINGS["dollars_per_1k_input_token"] / 1000
+    dollars_tokens_out = tokens_out * SETTINGS["dollars_per_1k_output_token"] / 1000
+    kroners_total = (dollars_tokens_in + dollars_tokens_out) * SETTINGS[
+        "kr_to_dollar_ratio"
+    ]
+    return kroners_total
+
+
 def count_tokens(conversation):
     """Counts the number of tokens in a conversation. Uses token encoder
     https://github.com/openai/tiktoken/blob/main/tiktoken/model.py. Input argument can be either a
@@ -89,6 +102,27 @@ def remove_quotes_from_string(input_str):
     pattern = r"[\'\"]"  # Matches either single or double quotes
     result_str = re.sub(pattern, "", input_str)
     return result_str
+
+
+def remove_code_syntax_from_message(message):
+    """Removes code syntax which is intended for backend purposes only."""
+    message_no_json = re.sub(r"\¤¤(.*?)\¤¤", "", message, flags=re.DOTALL)
+    message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message_no_json)
+    # Remove surplus spaces
+    message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
+    message_cleaned = remove_trailing_newlines(message_cleaned)
+    return message_cleaned
+
+
+def remove_trailing_newlines(text):
+    """Removes trailing newline characters (may emerge after stripping away commands from bot
+    messages)."""
+    while text[-1] == " " or text[-1] == "\n":
+        if text[-1] == " ":
+            text = text.rstrip(" ")
+        elif text[-1] == "\n":
+            text = text.rstrip("\n")
+    return text
 
 
 def wrap_and_print_message(role, message, line_length=80):

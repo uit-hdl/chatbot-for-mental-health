@@ -27,6 +27,8 @@ from utils.general import rewind_chat_by_n_assistant_responses
 from utils.general import offer_to_store_conversation
 from utils.general import display_image
 from utils.general import identify_assistant_reponses
+from utils.general import calculate_cost_of_response
+from utils.general import remove_code_syntax_from_message
 from utils.user_commands import scan_user_message_for_commands
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
@@ -50,11 +52,13 @@ BREAK_CONVERSATION = False
 # If chat is reset back in time, this variable controlls how many responses should be stripped from chat
 N_TOKENS_USED = []
 RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
+RESPONSE_COSTS = []  # Tracks the cost (in kr) per response
 
 # Chat colors
-GREEN = "\033[92m"
-BLUE = "\033[94m"
-RESET = "\033[0m"  # used to reset colour
+GREY = "\033[2;30m"  # info messages
+GREEN = "\033[92m"  # user messages
+BLUE = "\033[94m"  # assistant messages
+RESET_COLOR = "\033[0m"  # used to reset colour
 
 pp = pprint.PrettyPrinter(indent=2, width=100)
 logging.basicConfig(
@@ -115,7 +119,7 @@ def generate_bot_response(conversation, chatbot_id):
     global BREAK_CONVERSATION
 
     generate_response = True
-    
+
     while generate_response:
         conversation = generate_raw_bot_response(conversation)
         commands, knowledge_requests = process_syntax_of_bot_response(
@@ -165,11 +169,10 @@ def generate_bot_response(conversation, chatbot_id):
                 display_last_response(conversation)
                 continue
 
-        if count_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
-            conversation = summarize_conversation(conversation)
-            conversation = generate_raw_bot_response(conversation)
-
+        conversation = truncate_conversation_if_nessecary(conversation)
         conversation = remove_inactive_sources(conversation)
+
+        print_summary_info(tokens_used=N_TOKENS_USED, response_costs=RESPONSE_COSTS)
 
     return conversation
 
@@ -187,7 +190,7 @@ def delete_last_bot_response(conversation):
 def generate_raw_bot_response(conversation):
     """Takes the conversation log, and updates it with the response of the
     chatbot as a function of the chat history."""
-    global RESPONSE_TIMES, N_TOKENS_USED
+    global RESPONSE_TIMES, N_TOKENS_USED, RESPONSE_COSTS
     start_time = time.time()
     response = openai.ChatCompletion.create(
         model=CONFIG["model_id"],
@@ -203,6 +206,7 @@ def generate_raw_bot_response(conversation):
     )
     RESPONSE_TIMES.append(end_time - start_time)
     N_TOKENS_USED.append(count_tokens_used_to_create_last_response(conversation))
+    RESPONSE_COSTS.append(calculate_cost_of_response(conversation))
     return conversation
 
 
@@ -211,13 +215,14 @@ def create_user_input(conversation):
     global BREAK_CONVERSATION
 
     while True:
-        user_message = input(GREEN + "user" + RESET + ": ")
+        user_message = input(GREEN + "user" + RESET_COLOR + ": ")
         user_message, n_rewind, BREAK_CONVERSATION = scan_user_message_for_commands(
             user_message,
             conversation,
             BREAK_CONVERSATION,
             N_TOKENS_USED,
             RESPONSE_TIMES,
+            RESPONSE_COSTS,
         )
         if n_rewind:
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
@@ -261,7 +266,7 @@ def insert_knowledge(conversation, knowledge_list):
     for knowledge in knowledge_list:
         source_name = get_filename(knowledge["file"])
         if file_exists(knowledge["file"]):
-            print(f"\nInserting information `{source_name}` into conversation...")
+            print_summary_info(source_name=source_name)
             message = f"source {source_name}: {knowledge['content']}"
         else:
             message = "Requested source does not exist! Request only sources I have told you to use."
@@ -293,7 +298,7 @@ def display_if_media(commands: list, conversation: list):
 def more_than_1_media_are_requested_check(commands):
     """Checks if the bot attempts to display more than one piece of media (video
     or image) at a time (which is not desired)."""
-    if commands is None:
+    if not commands:
         return False
 
     types = np.array([command["type"] for command in commands])
@@ -365,7 +370,7 @@ def remove_inactive_sources(conversation):
             count_time_since_last_citation(conversation, source) for source in sources
         ]
         inactivity_times = remove_nones(inactivity_times)
-        print_source_info(sources, inactivity_times)
+        print_summary_info(sources=sources, inactivity_times=inactivity_times)
 
         sources_to_remove = np.array(sources)[
             np.array(inactivity_times) >= SETTINGS["inactivity_threshold"]
@@ -460,15 +465,6 @@ def display_message_without_syntax(message_dict: dict):
     wrap_and_print_message(role, message_cleaned)
 
 
-def remove_code_syntax_from_message(message):
-    """Removes code syntax which is intended for backend purposes only."""
-    message_no_json = re.sub(r"\¤¤(.*?)\¤¤", "", message, flags=re.DOTALL)
-    message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message_no_json)
-    # Remove surplus spaces
-    message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
-    return message_cleaned
-
-
 def remove_code_syntax_from_whole_conversation(conversation):
     """Removes code syntax from every message in the conversation."""
     for i, message in enumerate(conversation):
@@ -507,17 +503,42 @@ def conversation_status():
         return "active"
 
 
-def display_collected_data(collected_info=None):
-    if collected_info:
-        print(f"\nThe collected data is\n")
-        print(f"{collected_info}")
+def truncate_conversation_if_nessecary(conversation):
+    """Shortens conversation when it gets too long. Uses and GPT assistant to summarize
+    conversation. Work in progress..."""
+    if count_tokens(conversation) > SETTINGS["max_tokens_before_truncation"]:
+        if SETTINGS["truncation_method"] == "summarize":
+            conversation = summarize_conversation(conversation)
+            conversation = generate_raw_bot_response(conversation)
+    return conversation
 
 
-def print_source_info(sources, inactivity_times):
-    """Prints information about the sources (requested) that are being used."""
-    if SETTINGS["print_info_on_sources"]:
-        print(f"\nDuration of inactivity for sources: {inactivity_times}\n")
-        print(f"\nsources: {sources}\n")
+def print_summary_info(
+    tokens_used=None,
+    response_costs=None,
+    sources=None,
+    inactivity_times=None,
+    source_name=None,
+):
+    """Prints useful information. Can be turned of with parameters in config/settings.yaml."""
+
+    if SETTINGS["print_cumulative_tokens"] and tokens_used:
+        print(f"{GREY} Total number of tokens used: {tokens_used[-1]} {RESET_COLOR}")
+
+    if SETTINGS["print_cumulative_cost"] and response_costs:
+        total_cost = np.array(response_costs).sum()
+        print(f"{GREY} Total cost is: {total_cost:.4} kr {RESET_COLOR}")
+
+    if SETTINGS["print_info_on_sources"] and sources:
+        print(f"{GREY} Sources used: {sources} {RESET_COLOR}")
+
+    if SETTINGS["print_info_on_sources"] and inactivity_times:
+        print(f"{GREY} Source inactivity times: {inactivity_times} {RESET_COLOR}")
+
+    if SETTINGS["print_when_source_is_inserted"] and source_name:
+        print(
+            f"{GREY} \nInserting information `{source_name}` into conversation... {RESET_COLOR}"
+        )
 
 
 if __name__ == "__main__":

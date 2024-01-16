@@ -1,12 +1,16 @@
 word_wrap: 80  # N.o. characters before line gets wrapped.
 plot_duration: 10000  # The duration of time for which the figures are shown (uggly solution...)
-max_tokens_before_summary: 30000  # not in use
+max_tokens_before_truncation: 30000  # Determines maximum length before chat gets truncated
 inactivity_threshold: 2  # Remove source from conversation if it has not been cited in the last ... messages
-truncation_method: 
+truncation_method: "cut"  # options -> "cut", "summarize"
 # Verbosity settings: control what gets printed in the console during the chat
 print_info_on_sources: True
-print_when_information_is_inserted: True
+print_when_source_is_inserted: True
 print_removal_of_inactive_source: True
 print_cumulative_cost: True
+print_cumulative_tokens: True
 print_system_messages: True
-cost_per_token: 0.0003246  # kr per token
+# Pricing info
+dollars_per_1k_input_token: 0.03
+dollars_per_1k_output_token: 0.06
+kr_to_dollar_ratio: 0.096  # rate of kr to dollars

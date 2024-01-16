@@ -21,6 +21,7 @@ def scan_user_message_for_commands(
     break_conversation,
     n_tokens_used,
     response_times,
+    cost_total,
 ):
     """Scans user input for commands, allowing them to execute commands from the command line during
     a chat to receive diagnostic information or perform other actions without interrupting the
@@ -55,11 +56,10 @@ def scan_user_message_for_commands(
             print(f"Possible commands are {commands}")
 
         elif user_message == "count_tokens":
-            print(f"The number of tokens used is: {np.sum(np.array(n_tokens_used))}")
+            print(f"The number of tokens used is: {np.array(n_tokens_used).sum()}")
 
         elif user_message == "calc_cost":
-            cost_total = count_tokens(conversation) * SETTINGS["cost_per_token"]
-            print(f"The number of tokens is: {cost_total:.3} kr")
+            print(f"The cost for each response generated is: {cost_total} kr")
 
         elif user_message == "print_response_times":
             cumulative_response_time = np.sum(np.array(response_times))
