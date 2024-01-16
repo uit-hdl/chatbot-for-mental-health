@@ -72,8 +72,8 @@ logging.basicConfig(
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     """Running this function starts a conversation with a tutorial bot that
-    helps explain how a web-app (https://app.consensussleepdiary.com)
-    functions. The web app is a free online app for collecting sleep data."""
+    helps explain how a web-app (https://app.consensussleepdiary.com) functions.
+    The web app is a free online app for collecting sleep data."""
 
     prompt = PROMPTS[chatbot_id]
 
@@ -89,46 +89,8 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         if conversation_status() == "ended":
             offer_to_store_conversation(conversation)
             break
-        
+
         conversation = generate_bot_response(conversation, chatbot_id)
-        # conversation = generate_raw_bot_response(conversation)
-        # REGENERATE_RESPONSE = False
-        # commands, knowledge_requests = process_syntax_of_bot_response(
-        #     conversation, chatbot_id
-        # )
-
-        # while knowledge_requests:
-        #     conversation = insert_knowledge(conversation, knowledge_requests)
-        #     conversation = generate_raw_bot_response(conversation)
-        #     commands, knowledge_requests = process_syntax_of_bot_response(
-        #         conversation, chatbot_id
-        #     )
-
-        # json_dictionaries = scan_last_response_for_json_data(conversation)
-        # display_last_response(conversation)
-        # dump_current_conversation(conversation)
-        # check_if_more_than_1_media_are_requested(commands)
-
-        # if commands and not REGENERATE_RESPONSE:
-        #     conversation = display_if_media(commands, conversation)
-        #     check_for_request_to_end_chat(commands)
-
-        # if BREAK_CONVERSATION:
-        #     offer_to_store_conversation(conversation)
-        #     break
-
-        # if json_dictionaries:
-        #     referral_ticket, sources = process_json_data(json_dictionaries)
-        #     if referral_ticket:
-        #         conversation = direct_to_new_assistant(referral_ticket)
-        #         display_last_response(conversation)
-        #         continue
-
-        # if count_tokens(conversation) > SETTINGS["max_tokens_before_summary"]:
-        #     conversation = summarize_conversation(conversation)
-        #     conversation = generate_raw_bot_response(conversation)
-
-        # conversation = remove_inactive_sources(conversation)
 
 
 def initiate_new_conversation(inital_prompt, system_message=None):
@@ -142,7 +104,8 @@ def initiate_new_conversation(inital_prompt, system_message=None):
 
 
 def continue_previous_conversation(chat_filepath, prompt):
-    """Inserts the current prompt into a previous stored conversation that was discontinued."""
+    """Inserts the current prompt into a previous stored conversation that was
+    discontinued."""
     conversation = load_yaml_file(chat_filepath)
     # Replace original prompt with requested prompt
     conversation[0] = {"role": "system", "content": prompt}
@@ -151,8 +114,12 @@ def continue_previous_conversation(chat_filepath, prompt):
 
 
 def generate_bot_response(conversation, chatbot_id):
+    """Takes a conversation where the last message is from the user and
+    generates a response from the bot. The response is generated iteratively
+    since the bot may first have to request sources and then react to those
+    sources."""
     global BREAK_CONVERSATION
-    
+
     generate_response = True
     while generate_response:
         conversation = generate_raw_bot_response(conversation)
@@ -177,6 +144,8 @@ def generate_bot_response(conversation, chatbot_id):
                     "content": "It is illegal to present more than 1 video/image per response!",
                 }
             )
+            if SETTINGS["print_system_messages"]:
+                display_last_response(conversation)
             # Illegal response: go back to the beginning of the while-loop
             continue
 
@@ -210,9 +179,9 @@ def generate_bot_response(conversation, chatbot_id):
 
 
 def delete_last_bot_response(conversation):
-    """Identifies which responses are from the assistant, and deletes the last response from the
-    conversation. Used when the bot response has broken some rule, and we want it to create a new
-    response."""
+    """Identifies which responses are from the assistant, and deletes the last
+    response from the conversation. Used when the bot response has broken some
+    rule, and we want it to create a new response."""
     assistant_indices = identify_assistant_reponses(conversation)
     assistant_indices[-1]
     del conversation[assistant_indices[-1]]
@@ -304,8 +273,8 @@ def insert_knowledge(conversation, knowledge_list):
 
 def display_if_media(commands: list, conversation: list):
     """If extracted code contains command to display image, displays image. The
-    syntax used to display an image is ¤:display_image{<file>}:¤ (replace with `display_video` for
-    video)."""
+    syntax used to display an image is ¤:display_image{<file>}:¤ (replace with
+    `display_video` for video)."""
     for command in commands:
         if file_exists(command["file"]):
             if command["type"] == "display_image":
@@ -324,15 +293,15 @@ def display_if_media(commands: list, conversation: list):
 
 
 def more_than_1_media_are_requested_check(commands):
-    """Checks if the bot attempts to display more than one piece of media (video or image)
-    at a time (which is not desired)."""
+    """Checks if the bot attempts to display more than one piece of media (video
+    or image) at a time (which is not desired)."""
     if commands is None:
         return False
 
     types = np.array([command["type"] for command in commands])
     index_image_request = types == "display_image"
     index_video_request = types == "display_video"
-    
+
     if np.sum(index_image_request) + np.sum(index_video_request) >= 2:
         return True
     else:
@@ -347,8 +316,9 @@ def check_for_request_to_end_chat(commands: dict):
 
 
 def process_json_data(json_dictionaries):
-    """Takes a list of json dictionaries, infers the type of data they contain, and handles them
-    accordingly. Datatypes can be referrals, sources, or data describing the user."""
+    """Takes a list of json dictionaries, infers the type of data they contain,
+    and handles them accordingly. Datatypes can be referrals, sources, or data
+    describing the user."""
     referral_ticket = None
     sources = None
     for dictionary in json_dictionaries:
@@ -379,7 +349,8 @@ def scan_last_response_for_json_data(conversation):
 
 
 def remove_inactive_sources(conversation):
-    """Scans the conversation for sources that have not been used recently (inactive sources)."""
+    """Scans the conversation for sources that have not been used recently
+    (inactive sources)."""
     system_messages = [
         message["content"]
         for message in conversation[1:]
@@ -417,7 +388,8 @@ def remove_inactive_sources(conversation):
 
 
 def extract_source_name(message: str):
-    """Takes a message/response and scans for the name of the source being used, if any."""
+    """Takes a message/response and scans for the name of the source being used,
+    if any."""
     pattern = r"source (\w+):"
     match = re.search(pattern, message)
     if match:
@@ -425,8 +397,8 @@ def extract_source_name(message: str):
 
 
 def count_time_since_last_citation(conversation, source_name):
-    """Counts the number of responses since the source was last cited. If cited in the last
-    response, this value is 0."""
+    """Counts the number of responses since the source was last cited. If cited
+    in the last response, this value is 0."""
     assistant_messages = [
         message["content"] for message in conversation if message["role"] == "assistant"
     ]
@@ -440,7 +412,8 @@ def count_time_since_last_citation(conversation, source_name):
 
 
 def summarize_conversation(conversation):
-    """Uses chatbot to summarize the conversation. This did not work too well..."""
+    """Uses chatbot to summarize the conversation. This did not work too
+    well..."""
     global SUMMARY
     conversation_messages, system_messages = separate_system_from_conversation(
         conversation
@@ -481,7 +454,8 @@ def display_last_response(conversation):
 
 
 def display_message_without_syntax(message_dict: dict):
-    """Takes a message in dictionary form, removes the code syntax, and prints it in the console."""
+    """Takes a message in dictionary form, removes the code syntax, and prints
+    it in the console."""
     role = message_dict["role"].strip()
     message = message_dict["content"].strip()
     message_cleaned = remove_code_syntax_from_message(message)
@@ -506,8 +480,8 @@ def remove_code_syntax_from_whole_conversation(conversation):
 
 
 def separate_system_from_conversation(conversation):
-    """Finds the system messages, and returns the conversation without system messages and a list of
-    the system messages."""
+    """Finds the system messages, and returns the conversation without system
+    messages and a list of the system messages."""
     conversation_messages = [
         message for message in conversation if message["role"] != "system"
     ]
@@ -542,6 +516,7 @@ def display_collected_data(collected_info=None):
 
 
 def print_source_info(sources, inactivity_times):
+    """Prints information about the sources (requested) that are being used."""
     if SETTINGS["print_info_on_sources"]:
         print(f"\nDuration of inactivity for sources: {inactivity_times}\n")
         print(f"\nsources: {sources}\n")

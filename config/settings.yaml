@@ -7,4 +7,5 @@ print_info_on_sources: True
 print_when_information_is_inserted: True
 print_removal_of_inactive_source: True
 print_cumulative_cost: True
+print_system_messages: True
 cost_per_token: 0.0003246  # kr per token
