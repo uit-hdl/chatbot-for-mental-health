@@ -49,8 +49,11 @@ def collect_prompts_in_dictionary(directory_path):
     return all_files
 
 
-def load_textfile_as_string(file_path) -> str:
+def load_textfile_as_string(file_path, extension=None) -> str:
     """Loads a text file and returns the contents as a string."""
+    if extension:
+        file_path = add_extension(file_path, extension)
+    file_path = get_full_path(file_path)
     with open(file_path, "r") as file:
         file_string = file.read()
     return file_string
@@ -125,6 +128,35 @@ def dump_conversation_to_textfile(filename, conversation):
             file.write(f"{role.capitalize()}: {content}\n\n")
 
 
+def dump_conversation_to_textfile(conversation: list, filepath: str):
+    """Dumps a conversation to a Markdown file with color-coded roles."""
+    full_path = get_full_path_and_create_dir(filepath)
+
+    with open(full_path, "w") as file:
+        for i, message in enumerate(conversation):
+            role = message["role"]
+            content = message["content"]
+
+            if role == "assistant":
+                colored_role = '**<font color="#44cc44">assistant</font>**'
+            elif role == "user":
+                colored_role = '**<font color="#3399ff">user</font>**'
+            elif role == "system":
+                if i > 0:
+                    content = f'<font color="#999999">{content}</font>'
+                colored_role = '**<font color="#999999">system</font>**'
+            else:
+                colored_role = role  # For any other roles
+
+            if i == 1:
+                header = "\n\n\n\n# Conversation \n\n\n\n"
+                formatted_message = f"{header}{colored_role}: {content}  \n\n\n\n"
+            else:
+                formatted_message = f"\n{colored_role}: {content}  \n\n\n\n"
+
+            file.write(formatted_message)
+
+
 def add_extension(path, extension):
     """Takes a path relative to the output folder and adds the specified 
     extension (e.g., '.csv') if the path has no extension."""
@@ -145,7 +177,7 @@ def file_exists(file_path):
     """Checks if the file in the specified path exists."""
     if file_path is None:
         return False
-    return os.path.isfile(file_path)
+    return os.path.isfile(get_full_path(file_path))
 
 
 def get_shared_subfolder_name(prompt_file_name: str):

@@ -10,25 +10,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pprint
 
-from typing import List
-from typing import Dict
-
 from utils.general import wrap_and_print_message
 from utils.general import count_tokens
 from utils.general import play_video
 from utils.general import conversation_list_to_string
-from utils.general import extract_commands_and_filepaths
-from utils.general import scan_for_json_data
 from utils.general import remove_nones
 from utils.general import count_tokens_used_to_create_last_response
 from utils.general import grab_last_response
 from utils.general import print_whole_conversation
-from utils.general import rewind_chat_by_n_assistant_responses
 from utils.general import offer_to_store_conversation
 from utils.general import display_image
-from utils.general import identify_assistant_reponses
+from utils.general import identify_assistant_responses
 from utils.general import calculate_cost_of_response
 from utils.general import remove_code_syntax_from_message
+from utils.process_syntax import process_syntax_of_bot_response
 from utils.user_commands import scan_user_message_for_commands
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
@@ -37,7 +32,6 @@ from utils.backend import SETTINGS
 from utils.backend import CONFIG
 from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation
-from utils.backend import load_textfile_as_string
 from utils.backend import load_yaml_file
 from utils.backend import get_filename
 from utils.backend import file_exists
@@ -122,21 +116,17 @@ def generate_bot_response(conversation, chatbot_id):
 
     while generate_response:
         conversation = generate_raw_bot_response(conversation)
-        commands, knowledge_requests = process_syntax_of_bot_response(
-            conversation, chatbot_id
-        )
+        harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
 
-        while knowledge_requests:
+        while harvested_syntax["knowledge_requests"]:
             # In this loop the bot can request sources until relevant information has been found
-            conversation = insert_knowledge(conversation, knowledge_requests)
-            conversation = generate_raw_bot_response(conversation)
-            commands, knowledge_requests = process_syntax_of_bot_response(
-                conversation, chatbot_id
+            conversation = insert_knowledge(
+                conversation, harvested_syntax["knowledge_requests"]
             )
+            conversation = generate_raw_bot_response(conversation)
+            harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
 
-        json_dictionaries = scan_last_response_for_json_data(conversation)
-
-        if more_than_1_media_are_requested_check(commands):
+        if more_than_1_media_are_requested_check(harvested_syntax):
             conversation = delete_last_bot_response(conversation)
             conversation.append(
                 {
@@ -152,18 +142,18 @@ def generate_bot_response(conversation, chatbot_id):
         display_last_response(conversation)
         dump_current_conversation(conversation)
 
-        if commands:
-            conversation = display_if_media(commands, conversation)
-            check_for_request_to_end_chat(commands)
-
-        generate_response = False  # Response has passed criteria: end while-loop
+        if harvested_syntax["images"] or harvested_syntax["videos"]:
+            conversation = display_if_media(harvested_syntax, conversation)
+        
+        check_for_request_to_end_chat(harvested_syntax)
+        generate_response = False  # Response has passed criteria -> end while-loop
 
         if BREAK_CONVERSATION:
             offer_to_store_conversation(conversation)
             break
 
-        if json_dictionaries:
-            referral_ticket, sources = process_json_data(json_dictionaries)
+        if harvested_syntax["referrals"]:
+            referral_ticket, sources = process_json_data(harvested_syntax["referrals"])
             if referral_ticket:
                 conversation = direct_to_new_assistant(referral_ticket)
                 display_last_response(conversation)
@@ -181,7 +171,7 @@ def delete_last_bot_response(conversation):
     """Identifies which responses are from the assistant, and deletes the last
     response from the conversation. Used when the bot response has broken some
     rule, and we want it to create a new response."""
-    assistant_indices = identify_assistant_reponses(conversation)
+    assistant_indices = identify_assistant_responses(conversation)
     assistant_indices[-1]
     del conversation[assistant_indices[-1]]
     return conversation
@@ -234,91 +224,65 @@ def create_user_input(conversation):
     return conversation
 
 
-def process_syntax_of_bot_response(conversation, chatbot_id):
-    """Scans the response for symbols ¤: and :¤, and extracts the name of the
-    commands, the file-arguments of the commands. Returns two lists of
-    dictionaries."""
-    chatbot_response = grab_last_response(conversation)
-    commands = extract_commands_and_filepaths(chatbot_response, chatbot_id)
-    knowledge_requests = check_for_knowledge_requests(commands)
-    return commands, knowledge_requests
-
-
-def check_for_knowledge_requests(commands: List[Dict]) -> List[Dict]:
-    """Fetches the text associated with each knowledge request command."""
-    knowledge_list = []
-    if commands:
-        for command in commands:
-            if command["type"] == "request_knowledge":
-                knowledge = {}
-                knowledge["file"] = command["file"]
-                if file_exists(knowledge["file"]):
-                    knowledge["content"] = load_textfile_as_string(command["file"])
-                else:
-                    knowledge["content"] = None
-                knowledge_list.append(knowledge)
-    return knowledge_list
-
-
-def insert_knowledge(conversation, knowledge_list):
+def insert_knowledge(conversation, knowledge_list: list[str]):
     """Inserts knowledge into the conversation, and lets bot produce a new
     response using that information."""
     for knowledge in knowledge_list:
-        source_name = get_filename(knowledge["file"])
-        if file_exists(knowledge["file"]):
-            print_summary_info(source_name=source_name)
-            message = f"source {source_name}: {knowledge['content']}"
+        if knowledge["content"]:
+            print_summary_info(source_name=knowledge["source_name"])
+            message = f"source {knowledge['source_name']}: {knowledge['content']}"
         else:
-            message = "Requested source does not exist! Request only sources I have told you to use."
+            message = f"Source {knowledge['source_name']} does not exist! Request only sources I have told you to use."
         conversation.append({"role": "system", "content": message})
     return conversation
 
 
-def display_if_media(commands: list, conversation: list):
+def display_if_media(harvested_syntax: list, conversation: list):
     """If extracted code contains command to display image, displays image. The
     syntax used to display an image is ¤:display_image{<file>}:¤ (replace with
     `display_video` for video)."""
-    for command in commands:
-        if file_exists(command["file"]):
-            if command["type"] == "display_image":
-                display_image(command["file"])
-            elif command["type"] == "play_video":
-                play_video(command["file"])
+    non_existing_file = False
+    for image in harvested_syntax["images"]:
+        if file_exists(image):
+            display_image(image)
         else:
-            {
-                "role": "system",
-                "content": "File does not exist. Display only files that I have referenced.",
-            }
-            conversation.append(
-                "File does not exist. Display only files that I have referenced."
-            )
+            non_existing_file = True
+    for video in harvested_syntax["videos"]:
+        if file_exists(video):
+            play_video(video)
+        else:
+            non_existing_file = True
+
+    if non_existing_file:
+        {
+            "role": "system",
+            "content": "File does not exist. Display only files that I have referenced.",
+        }
+        conversation.append(
+            "File does not exist. Display only files that I have referenced."
+        )
     return conversation
 
 
-def more_than_1_media_are_requested_check(commands):
+def more_than_1_media_are_requested_check(harvested_syntax):
     """Checks if the bot attempts to display more than one piece of media (video
     or image) at a time (which is not desired)."""
-    if not commands:
+    if not harvested_syntax["images"] and not harvested_syntax["videos"]:
         return False
 
-    types = np.array([command["type"] for command in commands])
-    index_image_request = np.equal(types, "display_image")
-    index_video_request = np.equal(types, "display_video")
-
-    if np.sum(index_image_request) + np.sum(index_video_request) >= 2:
+    if len(harvested_syntax["images"]) + len(harvested_syntax["videos"]) >= 2:
         return True
     else:
         return False
 
 
-def check_for_request_to_end_chat(commands: dict):
+def check_for_request_to_end_chat(harvested_syntax: dict):
     global BREAK_CONVERSATION
-    for command in commands:
-        if command["type"] == "end_chat":
-            BREAK_CONVERSATION = True
+    if harvested_syntax["end_chat"]:
+        BREAK_CONVERSATION = True
 
 
-def process_json_data(json_dictionaries):
+def process_json_data(json_dictionaries: dict):
     """Takes a list of json dictionaries, infers the type of data they contain,
     and handles them accordingly. Datatypes can be referrals, sources, or data
     describing the user."""
@@ -511,6 +475,18 @@ def truncate_conversation_if_nessecary(conversation):
             conversation = summarize_conversation(conversation)
             conversation = generate_raw_bot_response(conversation)
     return conversation
+
+
+def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> list:
+    """Resets the conversation back to bot-response n_current - n_rewind. If n_rewind == 1 then
+    conversation resets to the second to last bot-response, allowing you to investigate the bots
+    behaviour given the chat up to that point. Useful for testing how likely the bot is to reproduce
+    an error (such as forgetting an instruction) or a desired response, since you don't have to
+    restart the conversation from scratch."""
+    assistant_indices = identify_assistant_responses(conversation)
+    n_rewind = min([n_rewind, len(assistant_indices) - 1])
+    index_reset = assistant_indices[-(n_rewind + 1)]
+    return conversation[: index_reset + 1]
 
 
 def print_summary_info(
