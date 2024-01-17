@@ -78,7 +78,6 @@ def store_conversation(conversation: list, label: str = "conversation"):
     json_file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
     txt_file_path = f"{CONVERSATIONS_FORMATTED_DIR}/{label}.md"
     if grab_last_response(conversation) == "break":
-        # Remove break
         conversation = conversation[:-1]
     dump_to_json(conversation, json_file_path)
     dump_conversation_to_textfile(conversation, txt_file_path)
@@ -133,7 +132,9 @@ def count_tokens(conversation):
 
 # ## Presenting messages ##
 def remove_quotes_from_string(input_str):
-    """Removes quotation marks, `"` or `'`, from a string."""
+    """Removes quotation marks, `"` or `'`, from a string. Used for standardization
+    in cases where bot is not always consistent, such as play_video("video_name") instead of
+    play_video(video_name)."""
     pattern = r"[\'\"]"  # Matches either single or double quotes
     result_str = re.sub(pattern, "", input_str)
     return result_str
@@ -141,8 +142,7 @@ def remove_quotes_from_string(input_str):
 
 def remove_code_syntax_from_message(message: str):
     """Removes code syntax which is intended for backend purposes only."""
-    message_no_json = re.sub(r"\¤¤(.*?)\¤¤", "", message, flags=re.DOTALL)
-    message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message_no_json)
+    message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message)
     # Remove surplus spaces
     message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
     if message_cleaned:
@@ -170,6 +170,7 @@ def remove_excessive_linebreaks(text: str):
 
 
 def wrap_and_print_message(role, message, line_length=80):
+    """Prints measures, and ensures that line lengths does not exceed a given maximum."""
     paragraphs = message.split("\n\n")  # Split message into paragraphs
 
     for i, paragraph in enumerate(paragraphs):

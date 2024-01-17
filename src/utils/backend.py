@@ -23,19 +23,6 @@ API_KEY_PATH = os.path.join(API_DIR, "insomnia_bot_azure.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
-# Map showing which directories contains files corresponding to each type of command
-COMMAND_TO_DIR_MAP = {
-    "request_knowledge": LIBRARY_DIR,
-    "display_image": IMAGES_DIR,
-    "play_video": VIDEOS_DIR,
-}
-# Extensions associated with the files of each type of command.
-COMMAND_TO_EXTENSION_MAP = {
-    "request_knowledge": ".md",
-    "display_image": ".png",
-    "play_video": ".mkv",
-}
-
 
 def collect_prompts_in_dictionary(directory_path):
     """Finds paths for all files in directory and subdirectories, and creates a

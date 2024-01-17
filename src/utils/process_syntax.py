@@ -13,20 +13,20 @@ from utils.general import grab_last_response
 from utils.general import remove_quotes_from_string
 from utils.backend import add_extension
 from utils.backend import file_exists
-from utils.backend import COMMAND_TO_DIR_MAP
-from utils.backend import COMMAND_TO_EXTENSION_MAP
+from utils.backend import IMAGES_DIR
+from utils.backend import VIDEOS_DIR
+from utils.backend import LIBRARY_DIR
 from utils.backend import load_textfile_as_string
 from utils.backend import get_shared_subfolder_name
 from utils.backend import dump_to_json
 
 
-def process_syntax_of_bot_response(
-    conversation, chatbot_id
-) -> (List[Dict], List[Dict]):
-    """Scans the response for symbols ¤: and :¤, and extracts the name of the
-    commands, the file-arguments of the commands. Commands are 'referral', 'request_knowledge',
-    'display_image', 'play_video', and 'show_sources'. Returns two lists of dictionaries.
-    """
+def process_syntax_of_bot_response(conversation, chatbot_id) -> dict:
+    """Scans the response for symbols ¤: and :¤ and extracts the name of the
+    commands and their arguments. Returns a dictionary with keys being the command types, with each
+    type containing the information collected for that type. Commands are 'referral',
+    'request_knowledge', 'display_image', 'play_video', and 'show_sources'. Dumps the resulting
+    dictionary to chat-info/harvested_syntax.json."""
     subfolder = get_shared_subfolder_name(chatbot_id)
     chatbot_response = grab_last_response(conversation)
     commands, arguments = extract_command_names_and_arguments(chatbot_response)
@@ -42,7 +42,9 @@ def process_syntax_of_bot_response(
     ) = get_image_and_video_requests(commands, arguments, subfolder)
     harvested_syntax["referral"] = get_referral(commands, arguments)
     harvested_syntax["end_chat"] = "end_chat" in commands
+
     dump_to_json(harvested_syntax, "chat-info/harvested_syntax.json")
+
     return harvested_syntax
 
 
@@ -72,7 +74,7 @@ def get_knowledge_requests(
         for command, argument in zip(commands, arguments):
             if command == "request_knowledge":
                 knowledge = {}
-                source_path = os.path.join("library", subfolder, argument) + ".md"
+                source_path = os.path.join(LIBRARY_DIR, subfolder, argument) + ".md"
                 knowledge["source_name"] = argument
                 if file_exists(source_path):
                     knowledge["content"] = load_textfile_as_string(source_path)
@@ -97,14 +99,18 @@ def get_image_and_video_requests(commands, arguments, subfolder) -> list[dict]:
     videos = []
     for command, argument in zip(commands, arguments):
         if command == "display_image":
-            images.append(os.path.join("media/images", subfolder, argument))
+            filename = remove_quotes_from_string(argument)
+            images.append(os.path.join(IMAGES_DIR, subfolder, filename))
         if command == "play_video":
-            videos.append(os.path.join("media/videos", subfolder, argument))
+            filename = remove_quotes_from_string(argument)
+            videos.append(os.path.join(VIDEOS_DIR, subfolder, filename))
 
     return images, videos
 
 
 def get_referral(commands, arguments) -> dict:
+    """Gets the referral dictionary with information on who to redirect the user to,
+    and what the user needs help with."""
     for command, argument in zip(commands, arguments):
         if command == "referral":
             return convert_json_string_to_dict(argument)
@@ -123,71 +129,7 @@ def convert_json_string_to_dict(json_data: str) -> dict:
 
 
 def extract_command_argument(command_string: str) -> str:
-    """Extract command argument from strings such as 'show_video(video_name)'."""
+    """Extract command argument from strings. E.g. 'show_video(video_name)' -> 'show_video'."""
     arg = re.search(r"\((.*?)\)", command_string)
     if arg:
         return arg.group(1)
-
-
-def extract_commands_and_filepaths(response: str, chatbot_id) -> List[Dict]:
-    """Scans response for '¤:command_name(file_name):¤', and extracts the command name and
-    filepath for each commmand. Extracted commands are returned as list of dictionaries with keys
-    `file` and `type` indicating the command type and the file argument of the command. For example
-    [{'type': 'display_image', 'file':
-    '/home/per/UIt/chatbots/chatGPT4/insomnia-assistant/images/login_sleep_diary.png'}]
-    """
-    command_pattern = r"¤:(.*?):¤"
-    command_strings = re.findall(command_pattern, response)
-    commands = []
-
-    for command_string in command_strings:
-        command_dict = get_command_file_and_type(command_string, chatbot_id)
-        commands.append(command_dict)
-
-    return commands
-
-
-def get_command_file_and_type(command_string: str, chatbot_id: str):
-    """Takes a string of the form 'command_name(file_name)' and returns a dictionary with command
-    type (name of the command, e.g. `command_name`) and file path (None if command has no
-    argument)."""
-    open_parenthesis_index = command_string.find("(")
-    command_type = command_string[:open_parenthesis_index]
-
-    if command_type in COMMAND_TO_DIR_MAP.keys():
-        directory_for_filetype = COMMAND_TO_DIR_MAP[command_type]
-        shared_subfolder = get_shared_subfolder_name(chatbot_id)
-        directory = os.path.join(directory_for_filetype, shared_subfolder)
-        extension = COMMAND_TO_EXTENSION_MAP[command_type]
-        filename = extract_filename_from_command(command_string, extension)
-
-        if filename:
-            return {"type": command_type, "file": os.path.join(directory, filename)}
-
-    return {"type": command_type, "file": None}
-
-
-def extract_filename_from_command(command: str, extension=None):
-    """Takes code such as `request_knowledge(discussion_comparison_with_jaffe_study)` and
-    finds the full path of the file referenced in the argument. `directory` is the directory that
-    holds the file in extracted code."""
-    match = re.search(r"\((.*?)\)", command)
-    if match:
-        file = match.group(1)
-        # In case bot as enclosed filename with quotation marks, remove them
-        file = remove_quotes_from_string(file)
-        if extension:
-            file = add_extension(file, extension)
-        return file
-    else:
-        print("No file provided as argument in command")
-        return None
-
-
-def scan_for_json_data(response: str) -> list[Dict]:
-    """Scans a string for '¤¤ <json content> ¤¤'. If multiple '¤¤' pairs are detected,
-    returns a list of content between these substrings."""
-    clean_text = response.replace("\n", "")
-    json_strings = re.findall(r"\¤¤(.*?)\¤¤", clean_text)
-    json_dicts = [convert_json_string_to_dict(string) for string in json_strings]
-    return json_dicts

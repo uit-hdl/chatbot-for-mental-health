@@ -4,15 +4,19 @@
         "role": "system"
     },
     {
-        "content": "Hello! I'm here to assist you with any technical issues you might be having with the \"Consensus Sleep Diary\" app. How can I help you today?",
+        "content": "Here is a summary of the users issue: Unspecified",
+        "role": "system"
+    },
+    {
+        "content": "Hello! I'm here to help you with any technical issues you may be experiencing with the \"Consensus Sleep Diary\" app. How can I assist you today?",
         "role": "assistant"
     },
     {
-        "content": "please redirect me to the bot that specialises in insomnia diagnosis",
+        "content": "wonderful! I need help logging in!",
         "role": "user"
     },
     {
-        "content": "Certainly, I can redirect you to the assistant that specializes in insomnia diagnosis. One moment please.\n\n\u00a4:referral({\"data_type\": \"referral_ticket\", \"assistant_id\": \"insomnia_diagnosis\", \"topic\": \"Inquiry about insomnia diagnosis assistance\"}):\u00a4",
+        "content": "To login, please go to the login page at https://app.consensussleepdiary.com/#/login/. \u00a4:display_image(login_sleep_diary.png):\u00a4\n\nDo you remember your login details?",
         "role": "assistant"
     }
 ]

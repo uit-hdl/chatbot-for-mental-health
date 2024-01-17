@@ -44,14 +44,14 @@ openai.api_version = CONFIG["api_version"]
 # Initiate global variables
 BREAK_CONVERSATION = False
 # If chat is reset back in time, this variable controlls how many responses should be stripped from chat
-N_TOKENS_USED = []
+N_TOKENS_USED = []  # Tracks the number of tokens used to generate each response
 RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
 RESPONSE_COSTS = []  # Tracks the cost (in kr) per response
 
 # Chat colors
 GREY = "\033[2;30m"  # info messages
-GREEN = "\033[92m"  # user messages
-BLUE = "\033[94m"  # assistant messages
+GREEN = "\033[92m"  # user
+BLUE = "\033[94m"  # assistant
 RESET_COLOR = "\033[0m"  # used to reset colour
 
 pp = pprint.PrettyPrinter(indent=2, width=100)
@@ -429,6 +429,7 @@ def separate_system_from_conversation(conversation):
 
 
 def get_prompt_for_assistant(assistant_id):
+    """Gets the prompt (as a string) assosicated with the assistant id."""
     return PROMPTS[assistant_id]
 
 
@@ -477,14 +478,15 @@ def print_summary_info(
     regen_response=None,
     new_assistant_id=None,
 ):
-    """Prints useful information. Can be turned of with parameters in config/settings.yaml."""
+    """Prints useful information. Controlled by parameters in config/settings.yaml. Prints the lines
+    corresponding to the provided arguments."""
 
     if SETTINGS["print_cumulative_tokens"] and tokens_used:
         print(f"{GREY} Total number of tokens used: {tokens_used[-1]} {RESET_COLOR}")
 
     if SETTINGS["print_cumulative_cost"] and response_costs:
         total_cost = np.array(response_costs).sum()
-        print(f"{GREY} Total cost is: {total_cost:.4} kr {RESET_COLOR}")
+        print(f"{GREY} Total cost of chat is: {total_cost:.4} kr {RESET_COLOR}")
 
     if SETTINGS["print_info_on_sources"] and sources:
         print(f"{GREY} Sources used: {sources} {RESET_COLOR}")
