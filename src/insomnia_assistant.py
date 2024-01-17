@@ -1,13 +1,8 @@
 import openai
-import re
 import sys
-import os
-import cv2
 import time
 import logging
 
-import matplotlib.pyplot as plt
-import numpy as np
 import pprint
 
 from utils.general import wrap_and_print_message

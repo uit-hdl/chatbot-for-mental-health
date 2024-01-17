@@ -163,3 +163,4 @@ src/test/
 test*
 conversations/png/
 chat-info/*
+.vscode/
