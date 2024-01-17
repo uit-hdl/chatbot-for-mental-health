@@ -11,12 +11,12 @@ def remove_inactive_sources(conversation):
     """Scans the conversation for sources that have not been used recently
     (inactive sources) and removes them from the conversation (updates system messages).
     """
-    cited_sources = extract_sources_cited(conversation)
+    inserted_sources = extract_sources_inserted_by_system(conversation)
 
-    if cited_sources:
-        inactivity_times = get_inactivity_times_for_sources(conversation, cited_sources)
-        inactive_sources = get_inactive_sources(cited_sources, inactivity_times)
-        print_summary_info(sources=cited_sources, inactivity_times=inactivity_times)
+    if inserted_sources:
+        inactivity_times = get_inactivity_times_for_sources(conversation, inserted_sources)
+        inactive_sources = get_inactive_sources(inserted_sources, inactivity_times)
+        print_summary_info(sources=inserted_sources, inactivity_times=inactivity_times)
         conversation = remove_inactive_sources_from_system_messages(
             conversation, inactive_sources
         )
@@ -24,8 +24,9 @@ def remove_inactive_sources(conversation):
     return conversation
 
 
-def extract_sources_cited(conversation):
-    """Extracts name of sources referenced by system messages."""
+def extract_sources_inserted_by_system(conversation):
+    """Extracts name of sources cited and inserted into the chat by system in the 
+    form of system messages."""
     system_messages = [
         message["content"]
         for message in conversation[1:]

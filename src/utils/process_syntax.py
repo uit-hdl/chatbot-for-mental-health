@@ -74,7 +74,7 @@ def get_knowledge_requests(
             if command == "request_knowledge":
                 knowledge = {}
                 source_path = os.path.join(LIBRARY_DIR, subfolder, argument) + ".md"
-                knowledge["source_name"] = argument
+                knowledge["source_name"] = remove_quotes_from_string(argument)
                 if file_exists(source_path):
                     knowledge["content"] = load_textfile_as_string(source_path)
                 else:

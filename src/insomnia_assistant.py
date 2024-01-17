@@ -30,6 +30,7 @@ from utils.backend import load_yaml_file
 from utils.backend import file_exists
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
+from utils.managing_sources import extract_sources_inserted_by_system
 from utils.user_commands import scan_user_message_for_commands
 
 openai.api_key = API_KEY
@@ -216,13 +217,21 @@ def create_user_input(conversation):
 def insert_knowledge(conversation, knowledge_list: list[str]):
     """Inserts knowledge into the conversation, and lets bot produce a new
     response using that information."""
+
     for knowledge in knowledge_list:
         if knowledge["content"]:
-            print_summary_info(source_name=knowledge["source_name"])
-            message = f"source {knowledge['source_name']}: {knowledge['content']}"
+            inserted_sources = extract_sources_inserted_by_system(conversation)
+            requested_source = knowledge["source_name"]
+            if requested_source in inserted_sources:
+                message = f"The source {requested_source} is already inserted in chat. Never request sources that are already provided!"
+            else:
+                print_summary_info(source_name=requested_source)
+                message = f"source {requested_source}: {knowledge['content']}"
         else:
-            message = f"Source {knowledge['source_name']} does not exist! Request only sources I have told you to use."
+            message = f"Source {requested_source} does not exist! Request only sources I have told you to use."
+
         conversation.append({"role": "system", "content": message})
+    
     return conversation
 
 
