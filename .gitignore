@@ -162,3 +162,4 @@ cython_debug/
 src/test/
 test*
 conversations/png/
+chat-info/*

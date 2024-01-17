@@ -21,6 +21,11 @@ def remove_nones(array: list):
     """Remove elements of list of type `None`"""
     return [x for x in array if x is not None]
 
+
+def contains_only_whitespace(input_string):
+    """Checks if a message is empty (can happen after syntax is removed)."""
+    return all(char.isspace() or char == '' for char in input_string)
+
 # ## Media ##
 def display_image(image_path):
     """Displays the image in the provided path."""

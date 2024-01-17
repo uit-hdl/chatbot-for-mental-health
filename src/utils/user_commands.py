@@ -9,7 +9,7 @@ from utils.general import offer_to_store_conversation
 from utils.backend import SETTINGS
 
 logging.basicConfig(
-    filename="log/chat.log",
+    filename="chat-info/chat.log",
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )

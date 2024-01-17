@@ -23,6 +23,7 @@ from utils.general import display_image
 from utils.general import identify_assistant_responses
 from utils.general import calculate_cost_of_response
 from utils.general import remove_code_syntax_from_message
+from utils.general import contains_only_whitespace
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.user_commands import scan_user_message_for_commands
 from utils.backend import API_KEY
@@ -33,7 +34,6 @@ from utils.backend import CONFIG
 from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation
 from utils.backend import load_yaml_file
-from utils.backend import get_filename
 from utils.backend import file_exists
 
 openai.api_key = API_KEY
@@ -56,7 +56,7 @@ RESET_COLOR = "\033[0m"  # used to reset colour
 
 pp = pprint.PrettyPrinter(indent=2, width=100)
 logging.basicConfig(
-    filename="log/chat.log",
+    filename="chat-info/chat.log",
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
@@ -76,6 +76,8 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         display_last_response(conversation)
 
     while True:
+        if BREAK_CONVERSATION:
+            break
         conversation = create_user_input(conversation)
 
         if conversation_status() == "ended":
@@ -136,6 +138,7 @@ def generate_bot_response(conversation, chatbot_id):
             )
             if SETTINGS["print_system_messages"]:
                 display_last_response(conversation)
+                print_summary_info()
             # Illegal response: go back to the beginning of the while-loop
             continue
 
@@ -143,8 +146,8 @@ def generate_bot_response(conversation, chatbot_id):
         dump_current_conversation(conversation)
 
         if harvested_syntax["images"] or harvested_syntax["videos"]:
-            conversation = display_if_media(harvested_syntax, conversation)
-        
+            conversation = display_media(harvested_syntax, conversation)
+
         check_for_request_to_end_chat(harvested_syntax)
         generate_response = False  # Response has passed criteria -> end while-loop
 
@@ -152,12 +155,10 @@ def generate_bot_response(conversation, chatbot_id):
             offer_to_store_conversation(conversation)
             break
 
-        if harvested_syntax["referrals"]:
-            referral_ticket, sources = process_json_data(harvested_syntax["referrals"])
-            if referral_ticket:
-                conversation = direct_to_new_assistant(referral_ticket)
-                display_last_response(conversation)
-                continue
+        if harvested_syntax["referral"]:
+            conversation = direct_to_new_assistant(harvested_syntax["referral"])
+            display_last_response(conversation)
+            continue
 
         conversation = truncate_conversation_if_nessecary(conversation)
         conversation = remove_inactive_sources(conversation)
@@ -237,7 +238,7 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
     return conversation
 
 
-def display_if_media(harvested_syntax: list, conversation: list):
+def display_media(harvested_syntax: list, conversation: list):
     """If extracted code contains command to display image, displays image. The
     syntax used to display an image is ¤:display_image{<file>}:¤ (replace with
     `display_video` for video)."""
@@ -282,37 +283,14 @@ def check_for_request_to_end_chat(harvested_syntax: dict):
         BREAK_CONVERSATION = True
 
 
-def process_json_data(json_dictionaries: dict):
-    """Takes a list of json dictionaries, infers the type of data they contain,
-    and handles them accordingly. Datatypes can be referrals, sources, or data
-    describing the user."""
-    referral_ticket = None
-    sources = None
-    for dictionary in json_dictionaries:
-        if "assistant_id" in dictionary:
-            referral_ticket = dictionary
-        elif "sources" in dictionary:
-            sources = dictionary
-        else:
-            dump_to_json(dictionary, f"{USER_DATA_DIR}/user_data.json")
-
-    return referral_ticket, sources
-
-
 def direct_to_new_assistant(json_ticket):
     """Takes information about the users issue condensed into a json string, and
     redirects to the appropriate chatbot assistant."""
+    print_summary_info(new_assistant_id=json_ticket["assistant_id"])
     prompt = get_prompt_for_assistant(json_ticket["assistant_id"])
-    # prompt_modified = insert_information_in_prompt(prompt, info=json_ticket["topic"])
     system_message = f"Here is a summary of the users issue: {json_ticket['topic']}"
     new_conversation = initiate_new_conversation(prompt, system_message)
-    print(f"user is redirected to assistant {json_ticket['assistant_id']}")
     return new_conversation
-
-
-def scan_last_response_for_json_data(conversation):
-    """Grabs last resonse and scans for json data nested in the response."""
-    return scan_for_json_data(grab_last_response(conversation))
 
 
 def remove_inactive_sources(conversation):
@@ -426,7 +404,8 @@ def display_message_without_syntax(message_dict: dict):
     role = message_dict["role"].strip()
     message = message_dict["content"].strip()
     message_cleaned = remove_code_syntax_from_message(message)
-    wrap_and_print_message(role, message_cleaned)
+    if not contains_only_whitespace(message_cleaned):
+        wrap_and_print_message(role, message_cleaned)
 
 
 def remove_code_syntax_from_whole_conversation(conversation):
@@ -495,6 +474,8 @@ def print_summary_info(
     sources=None,
     inactivity_times=None,
     source_name=None,
+    regen_response=None,
+    new_assistant_id=None,
 ):
     """Prints useful information. Can be turned of with parameters in config/settings.yaml."""
 
@@ -514,6 +495,14 @@ def print_summary_info(
     if SETTINGS["print_when_source_is_inserted"] and source_name:
         print(
             f"{GREY} \nInserting information `{source_name}` into conversation... {RESET_COLOR}"
+        )
+
+    if SETTINGS["print_when_regen_response"] and regen_response:
+        print(f"{GREY} \nRegenerating response... {RESET_COLOR}")
+
+    if SETTINGS["print_when_user_is_redirected"] and new_assistant_id:
+        print(
+            f"{GREY} user is redirected to assistant {new_assistant_id}... {RESET_COLOR}"
         )
 
 

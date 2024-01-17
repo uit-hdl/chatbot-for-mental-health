@@ -17,6 +17,7 @@ from utils.backend import COMMAND_TO_DIR_MAP
 from utils.backend import COMMAND_TO_EXTENSION_MAP
 from utils.backend import load_textfile_as_string
 from utils.backend import get_shared_subfolder_name
+from utils.backend import dump_to_json
 
 
 def process_syntax_of_bot_response(
@@ -39,17 +40,18 @@ def process_syntax_of_bot_response(
         harvested_syntax["images"],
         harvested_syntax["videos"],
     ) = get_image_and_video_requests(commands, arguments, subfolder)
-    harvested_syntax["referrals"] = get_referrals(commands, arguments)
+    harvested_syntax["referral"] = get_referral(commands, arguments)
     harvested_syntax["end_chat"] = "end_chat" in commands
-
+    dump_to_json(harvested_syntax, "chat-info/harvested_syntax.json")
     return harvested_syntax
 
 
 def extract_command_names_and_arguments(chatbot_response: str) -> (list, list):
     """Takes a response that may contain substrings of the form ¤:command_name(argument):¤ and
     extracts the command names (command_name) and command arguments in lists."""
+    chatbot_response_without_newlines = chatbot_response.replace("\n", "")
     command_pattern = r"¤:(.*?):¤"
-    command_strings = re.findall(command_pattern, chatbot_response)
+    command_strings = re.findall(command_pattern, chatbot_response_without_newlines)
     commands = []
     arguments = []
     for command_string in command_strings:
@@ -102,7 +104,7 @@ def get_image_and_video_requests(commands, arguments, subfolder) -> list[dict]:
     return images, videos
 
 
-def get_referrals(commands, arguments) -> dict:
+def get_referral(commands, arguments) -> dict:
     for command, argument in zip(commands, arguments):
         if command == "referral":
             return convert_json_string_to_dict(argument)
