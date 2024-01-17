@@ -3,6 +3,7 @@ import re
 import textwrap
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import numpy as np
 
 from utils.backend import MODEL_ID
 from utils.backend import CONVERSATIONS_RAW_DIR
@@ -12,19 +13,60 @@ from utils.backend import dump_conversation_to_textfile
 from utils.backend import SETTINGS
 from moviepy.editor import VideoFileClip
 
-GREEN = "\033[92m"
-BLUE = "\033[94m"
-RESET = "\033[0m"
-
-
-def remove_nones(array: list):
-    """Remove elements of list of type `None`"""
-    return [x for x in array if x is not None]
+# Chat colors
+GREY = "\033[2;30m"  # info messages
+GREEN = "\033[92m"  # user
+BLUE = "\033[94m"  # assistant
+RESET_COLOR = "\033[0m"
 
 
 def contains_only_whitespace(input_string):
     """Checks if a message is empty (can happen after syntax is removed)."""
-    return all(char.isspace() or char == '' for char in input_string)
+    return all(char.isspace() or char == "" for char in input_string)
+
+
+def print_summary_info(
+    tokens_used=None,
+    response_costs=None,
+    sources=None,
+    inactivity_times=None,
+    inactive_source=None,
+    source_name=None,
+    regen_response=None,
+    new_assistant_id=None,
+):
+    """Prints useful information. Controlled by parameters in config/settings.yaml. Prints the lines
+    corresponding to the provided arguments."""
+    global SETTINGS
+    if SETTINGS["print_cumulative_tokens"] and tokens_used:
+        print(f"{GREY} Total number of tokens used: {tokens_used[-1]} {RESET_COLOR}")
+
+    if SETTINGS["print_cumulative_cost"] and response_costs:
+        total_cost = np.array(response_costs).sum()
+        print(f"{GREY} Total cost of chat is: {total_cost:.4} kr {RESET_COLOR}")
+
+    if SETTINGS["print_info_on_sources"] and sources:
+        print(f"{GREY} Sources used: {sources} {RESET_COLOR}")
+
+    if SETTINGS["print_info_on_sources"] and inactivity_times:
+        print(f"{GREY} Source inactivity times: {inactivity_times} {RESET_COLOR}")
+
+    if SETTINGS["print_removal_of_inactive_source"] and inactive_source:
+        print(f"{GREY} Removing inactive source {inactive_source} {RESET_COLOR}")
+
+    if SETTINGS["print_when_source_is_inserted"] and source_name:
+        print(
+            f"{GREY} \nInserting information `{source_name}` into conversation... {RESET_COLOR}"
+        )
+
+    if SETTINGS["print_when_regen_response"] and regen_response:
+        print(f"{GREY} \nRegenerating response... {RESET_COLOR}")
+
+    if SETTINGS["print_when_user_is_redirected"] and new_assistant_id:
+        print(
+            f"{GREY} user is redirected to assistant {new_assistant_id}... {RESET_COLOR}"
+        )
+
 
 # ## Media ##
 def display_image(image_path):
@@ -146,8 +188,14 @@ def remove_code_syntax_from_message(message: str):
     # Remove surplus spaces
     message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
     if message_cleaned:
-        message_cleaned = remove_trailing_newlines(message_cleaned)
-        message_cleaned = remove_excessive_linebreaks(message_cleaned)
+        message_cleaned = remove_superflous_linebreaks(message_cleaned)
+    return message_cleaned
+
+
+def remove_superflous_linebreaks(message):
+    """Removes all superflous linebreak characters that may arise after removing commands."""
+    message_cleaned = remove_trailing_newlines(message)
+    message_cleaned = remove_superflous_linebreaks_between_paragraphs(message_cleaned)
     return message_cleaned
 
 
@@ -162,7 +210,7 @@ def remove_trailing_newlines(text):
     return text
 
 
-def remove_excessive_linebreaks(text: str):
+def remove_superflous_linebreaks_between_paragraphs(text: str):
     """Replaces consecutive line breaks with just two line breaks (may emerge after stripping away
     commands from bot messages)."""
     cleaned_text = re.sub(r"\n{3,}", "\n\n", text)
@@ -195,7 +243,9 @@ def wrap_and_print_message(role, message, line_length=80):
                 colour = GREEN
             else:
                 colour = BLUE
-            formatted_message = f"\n{colour + role + RESET}: {formatted_paragraph}\n"
+            formatted_message = (
+                f"\n{colour + role + RESET_COLOR}: {formatted_paragraph}\n"
+            )
         else:
             formatted_message = f"{formatted_paragraph}\n"
 

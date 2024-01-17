@@ -14,7 +14,6 @@ from utils.general import wrap_and_print_message
 from utils.general import count_tokens
 from utils.general import play_video
 from utils.general import conversation_list_to_string
-from utils.general import remove_nones
 from utils.general import count_tokens_used_to_create_last_response
 from utils.general import grab_last_response
 from utils.general import print_whole_conversation
@@ -24,17 +23,19 @@ from utils.general import identify_assistant_responses
 from utils.general import calculate_cost_of_response
 from utils.general import remove_code_syntax_from_message
 from utils.general import contains_only_whitespace
-from utils.process_syntax import process_syntax_of_bot_response
-from utils.user_commands import scan_user_message_for_commands
+from utils.general import print_summary_info
+from utils.general import GREEN
+from utils.general import RESET_COLOR
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
-from utils.backend import USER_DATA_DIR
 from utils.backend import SETTINGS
 from utils.backend import CONFIG
-from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation
 from utils.backend import load_yaml_file
 from utils.backend import file_exists
+from utils.process_syntax import process_syntax_of_bot_response
+from utils.managing_sources import remove_inactive_sources
+from utils.user_commands import scan_user_message_for_commands
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
@@ -43,16 +44,9 @@ openai.api_version = CONFIG["api_version"]
 
 # Initiate global variables
 BREAK_CONVERSATION = False
-# If chat is reset back in time, this variable controlls how many responses should be stripped from chat
 N_TOKENS_USED = []  # Tracks the number of tokens used to generate each response
 RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
 RESPONSE_COSTS = []  # Tracks the cost (in kr) per response
-
-# Chat colors
-GREY = "\033[2;30m"  # info messages
-GREEN = "\033[92m"  # user
-BLUE = "\033[94m"  # assistant
-RESET_COLOR = "\033[0m"  # used to reset colour
 
 pp = pprint.PrettyPrinter(indent=2, width=100)
 logging.basicConfig(
@@ -138,7 +132,6 @@ def generate_bot_response(conversation, chatbot_id):
             )
             if SETTINGS["print_system_messages"]:
                 display_last_response(conversation)
-                print_summary_info()
             # Illegal response: go back to the beginning of the while-loop
             continue
 
@@ -293,69 +286,6 @@ def direct_to_new_assistant(json_ticket):
     return new_conversation
 
 
-def remove_inactive_sources(conversation):
-    """Scans the conversation for sources that have not been used recently
-    (inactive sources)."""
-    system_messages = [
-        message["content"]
-        for message in conversation[1:]
-        if message["role"] == "system"
-    ]
-    sources = [
-        extract_source_name(message)
-        for message in system_messages
-        if message.startswith("source")
-    ]
-    sources = remove_nones(sources)
-    if sources:
-        inactivity_times = [
-            count_time_since_last_citation(conversation, source) for source in sources
-        ]
-        inactivity_times = remove_nones(inactivity_times)
-        print_summary_info(sources=sources, inactivity_times=inactivity_times)
-
-        sources_to_remove = np.array(sources)[
-            np.array(inactivity_times) >= SETTINGS["inactivity_threshold"]
-        ]
-
-        for index, message in enumerate(conversation):
-            if index == 0:
-                # Skip prompt
-                continue
-            if message["role"] == "system":
-                source_name = extract_source_name(message["content"])
-                if source_name in sources_to_remove:
-                    conversation[index]["content"] = "inactive source removed"
-                    if SETTINGS["print_removal_of_inactive_source"]:
-                        print(f"Removing inactive source {source_name}\n")
-
-    return conversation
-
-
-def extract_source_name(message: str):
-    """Takes a message/response and scans for the name of the source being used,
-    if any."""
-    pattern = r"source (\w+):"
-    match = re.search(pattern, message)
-    if match:
-        return match.group(1)
-
-
-def count_time_since_last_citation(conversation, source_name):
-    """Counts the number of responses since the source was last cited. If cited
-    in the last response, this value is 0."""
-    assistant_messages = [
-        message["content"] for message in conversation if message["role"] == "assistant"
-    ]
-    inactivity_time = 0
-    # Look backwards in conversation to find how long ago since the source was last cited
-    for i in range(1, len(assistant_messages) + 1):
-        if source_name in assistant_messages[-i]:
-            inactivity_time = i - 1
-            break
-    return inactivity_time
-
-
 def summarize_conversation(conversation):
     """Uses chatbot to summarize the conversation. This did not work too
     well..."""
@@ -467,45 +397,6 @@ def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> l
     n_rewind = min([n_rewind, len(assistant_indices) - 1])
     index_reset = assistant_indices[-(n_rewind + 1)]
     return conversation[: index_reset + 1]
-
-
-def print_summary_info(
-    tokens_used=None,
-    response_costs=None,
-    sources=None,
-    inactivity_times=None,
-    source_name=None,
-    regen_response=None,
-    new_assistant_id=None,
-):
-    """Prints useful information. Controlled by parameters in config/settings.yaml. Prints the lines
-    corresponding to the provided arguments."""
-
-    if SETTINGS["print_cumulative_tokens"] and tokens_used:
-        print(f"{GREY} Total number of tokens used: {tokens_used[-1]} {RESET_COLOR}")
-
-    if SETTINGS["print_cumulative_cost"] and response_costs:
-        total_cost = np.array(response_costs).sum()
-        print(f"{GREY} Total cost of chat is: {total_cost:.4} kr {RESET_COLOR}")
-
-    if SETTINGS["print_info_on_sources"] and sources:
-        print(f"{GREY} Sources used: {sources} {RESET_COLOR}")
-
-    if SETTINGS["print_info_on_sources"] and inactivity_times:
-        print(f"{GREY} Source inactivity times: {inactivity_times} {RESET_COLOR}")
-
-    if SETTINGS["print_when_source_is_inserted"] and source_name:
-        print(
-            f"{GREY} \nInserting information `{source_name}` into conversation... {RESET_COLOR}"
-        )
-
-    if SETTINGS["print_when_regen_response"] and regen_response:
-        print(f"{GREY} \nRegenerating response... {RESET_COLOR}")
-
-    if SETTINGS["print_when_user_is_redirected"] and new_assistant_id:
-        print(
-            f"{GREY} user is redirected to assistant {new_assistant_id}... {RESET_COLOR}"
-        )
 
 
 if __name__ == "__main__":
