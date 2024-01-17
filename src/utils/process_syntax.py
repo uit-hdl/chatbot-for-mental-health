@@ -11,7 +11,6 @@ from typing import Dict
 
 from utils.general import grab_last_response
 from utils.general import remove_quotes_from_string
-from utils.backend import add_extension
 from utils.backend import file_exists
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
