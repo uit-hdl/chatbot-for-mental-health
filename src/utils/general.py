@@ -97,6 +97,16 @@ def play_video(video_file):
 
 
 # ## Conversation processesing ##
+def delete_last_bot_response(conversation):
+    """Identifies which responses are from the assistant, and deletes the last
+    response from the conversation. Used when the bot response has broken some
+    rule, and we want it to create a new response."""
+    assistant_indices = identify_assistant_responses(conversation)
+    assistant_indices[-1]
+    del conversation[assistant_indices[-1]]
+    return conversation
+
+
 def grab_last_response(conversation: list) -> str:
     """Grab the last response. Convenience function for better code-readability."""
     return conversation[-1]["content"]
