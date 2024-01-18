@@ -34,6 +34,7 @@ def print_summary_info(
     source_name=None,
     regen_response=None,
     new_assistant_id=None,
+    show_image_attempts=None,
 ):
     """Prints useful information. Controlled by parameters in config/settings.yaml. Prints the lines
     corresponding to the provided arguments."""
@@ -67,6 +68,11 @@ def print_summary_info(
             f"{GREY} user is redirected to assistant {new_assistant_id}... {RESET_COLOR}"
         )
 
+    if SETTINGS["show_image_syntax_error_corrected"] and show_image_attempts:
+        print(
+            f"{GREY} Assistant attempted (show: image.png): {show_image_attempts}... {RESET_COLOR}"
+        )
+
 
 # ## Media ##
 def display_image(image_path):
@@ -96,6 +102,12 @@ def grab_last_response(conversation: list) -> str:
     return conversation[-1]["content"]
 
 
+def grab_last_assistant_response(conversation: list) -> str:
+    """Grab the latest assistant response."""
+    index_assistant_messages = identify_assistant_responses(conversation)
+    return conversation[index_assistant_messages[-1]]["content"]
+
+
 def identify_assistant_responses(conversation) -> list[int]:
     """Gets the index/indices for `assistant` responses."""
     return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
@@ -112,6 +124,24 @@ def offer_to_store_conversation(conversation):
         store_conversation(conversation, label)
     else:
         print("Conversation not stored")
+
+
+def correct_erroneous_show_image_command(conversation) -> list:
+    """Sometimes the bot uses (Show: image_name.png), which is really just a reference to the
+    command ¤:display_image(image_name):¤. Note: assumes last response is from assistant.
+    """
+    message = grab_last_response(conversation)
+    pattern = r"\(show: (\w+\.png)\)"
+    matches = re.findall(pattern, message, flags=re.IGNORECASE)
+
+    if matches:
+        corrected_message = re.sub(pattern, r"¤:display_image(\1):¤", message)
+        system_message = "Warning: expressions of the form (show: image.png) have been corrected to ¤:display_image(image.png):¤"
+        conversation[-1]["content"] = corrected_message
+        conversation.append({"role": "system", "content": system_message})
+        print_summary_info(show_image_attempts=matches)
+
+    return conversation
 
 
 def store_conversation(conversation: list, label: str = "conversation"):

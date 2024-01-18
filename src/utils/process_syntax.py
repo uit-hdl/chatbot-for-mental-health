@@ -9,7 +9,7 @@ import ast
 from typing import List
 from typing import Dict
 
-from utils.general import grab_last_response
+from utils.general import grab_last_assistant_response
 from utils.general import remove_quotes_from_string
 from utils.backend import file_exists
 from utils.backend import IMAGES_DIR
@@ -27,7 +27,7 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> dict:
     'request_knowledge', 'display_image', 'play_video', and 'show_sources'. Dumps the resulting
     dictionary to chat-info/harvested_syntax.json."""
     subfolder = get_shared_subfolder_name(chatbot_id)
-    chatbot_response = grab_last_response(conversation)
+    chatbot_response = grab_last_assistant_response(conversation)
     commands, arguments = extract_command_names_and_arguments(chatbot_response)
 
     harvested_syntax = {}
@@ -84,7 +84,7 @@ def get_knowledge_requests(
 
 
 def get_citations(commands: list, arguments: list) -> list[str]:
-    """Get sources that the chatbot has cited in its response."""
+    """Get sources that the chatbot has cited in its response. TODO: Need to add checks..."""
     sources = None
     for command, argument in zip(commands, arguments):
         if command == "cite":

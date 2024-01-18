@@ -2,11 +2,8 @@ import numpy as np
 import logging
 import os
 
-from utils.general import grab_last_response
-from utils.general import count_tokens
 from utils.general import print_whole_conversation
 from utils.general import offer_to_store_conversation
-from utils.backend import SETTINGS
 
 logging.basicConfig(
     filename="chat-info/chat.log",

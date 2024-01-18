@@ -19,6 +19,7 @@ from utils.general import calculate_cost_of_response
 from utils.general import remove_code_syntax_from_message
 from utils.general import contains_only_whitespace
 from utils.general import print_summary_info
+from utils.general import correct_erroneous_show_image_command
 from utils.general import GREEN
 from utils.general import RESET_COLOR
 from utils.backend import API_KEY
@@ -108,6 +109,7 @@ def generate_bot_response(conversation, chatbot_id):
 
     while generate_response:
         conversation = generate_raw_bot_response(conversation)
+        conversation = correct_erroneous_show_image_command(conversation)
         harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
 
         while harvested_syntax["knowledge_requests"]:
@@ -116,6 +118,7 @@ def generate_bot_response(conversation, chatbot_id):
                 conversation, harvested_syntax["knowledge_requests"]
             )
             conversation = generate_raw_bot_response(conversation)
+            conversation = correct_erroneous_show_image_command(conversation)
             harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
 
         if more_than_1_media_are_requested_check(harvested_syntax):
@@ -231,7 +234,7 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
             message = f"Source {requested_source} does not exist! Request only sources I have told you to use."
 
         conversation.append({"role": "system", "content": message})
-    
+
     return conversation
 
 
@@ -252,13 +255,11 @@ def display_media(harvested_syntax: list, conversation: list):
             non_existing_file = True
 
     if non_existing_file:
-        {
+        conversation.append({
             "role": "system",
             "content": "File does not exist. Display only files that I have referenced.",
-        }
-        conversation.append(
-            "File does not exist. Display only files that I have referenced."
-        )
+        })
+
     return conversation
 
 
