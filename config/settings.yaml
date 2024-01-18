@@ -3,6 +3,8 @@ plot_duration: 10000  # The duration of time for which the figures are shown (ug
 max_tokens_before_truncation: 30000  # Determines maximum length before chat gets truncated
 inactivity_threshold: 2  # Remove source from conversation if it has not been cited in the last ... messages
 truncation_method: "cut"  # options -> "cut", "summarize"
+n_attempts_at_producing_valid_response: 2
+max_requests: 2
 # Verbosity settings: control what gets printed in the console during the chat
 print_info_on_sources: True
 print_when_source_is_inserted: True

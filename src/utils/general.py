@@ -130,7 +130,7 @@ def correct_erroneous_show_image_command(conversation) -> list:
     """Sometimes the bot uses (Show: image_name.png), which is really just a reference to the
     command ¤:display_image(image_name):¤. Note: assumes last response is from assistant.
     """
-    message = grab_last_response(conversation)
+    message = grab_last_assistant_response(conversation)
     pattern = r"\(show: (\w+\.png)\)"
     matches = re.findall(pattern, message, flags=re.IGNORECASE)
 
@@ -141,6 +141,13 @@ def correct_erroneous_show_image_command(conversation) -> list:
         conversation.append({"role": "system", "content": system_message})
         print_summary_info(show_image_attempts=matches)
 
+    return conversation
+
+
+def append_system_messages(conversation, system_messages: list[str]):
+    """Appends each message to the conversation under the role of system."""
+    for message in system_messages:
+        conversation.append({"role": "system", "content": message})
     return conversation
 
 

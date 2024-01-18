@@ -20,6 +20,7 @@ from utils.general import remove_code_syntax_from_message
 from utils.general import contains_only_whitespace
 from utils.general import print_summary_info
 from utils.general import correct_erroneous_show_image_command
+from utils.general import append_system_messages
 from utils.general import GREEN
 from utils.general import RESET_COLOR
 from utils.backend import API_KEY
@@ -105,59 +106,105 @@ def generate_bot_response(conversation, chatbot_id):
     sources."""
     global BREAK_CONVERSATION
 
-    generate_response = True
+    (
+        conversation,
+        harvested_syntax,
+    ) = generate_valid_response(conversation, chatbot_id)
 
-    while generate_response:
-        conversation = generate_raw_bot_response(conversation)
-        conversation = correct_erroneous_show_image_command(conversation)
-        harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
+    conversation, harvested_syntax = request_and_insert_sources_until_satisfied(
+        conversation, harvested_syntax, chatbot_id
+    )
 
-        while harvested_syntax["knowledge_requests"]:
-            # In this loop the bot can request sources until relevant information has been found
-            conversation = insert_knowledge(
-                conversation, harvested_syntax["knowledge_requests"]
-            )
-            conversation = generate_raw_bot_response(conversation)
-            conversation = correct_erroneous_show_image_command(conversation)
-            harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
+    display_last_response(conversation)
+    dump_current_conversation(conversation)
 
-        if more_than_1_media_are_requested_check(harvested_syntax):
-            conversation = delete_last_bot_response(conversation)
-            conversation.append(
-                {
-                    "role": "system",
-                    "content": "It is illegal to present more than 1 video/image per response!",
-                }
-            )
-            if SETTINGS["print_system_messages"]:
-                display_last_response(conversation)
-            # Illegal response: go back to the beginning of the while-loop
-            continue
+    if harvested_syntax["images"] or harvested_syntax["videos"]:
+        conversation = display_media(harvested_syntax, conversation)
 
-        display_last_response(conversation)
-        dump_current_conversation(conversation)
+    BREAK_CONVERSATION = check_for_request_to_end_chat(harvested_syntax)
+    if BREAK_CONVERSATION:
+        offer_to_store_conversation(conversation)
 
-        if harvested_syntax["images"] or harvested_syntax["videos"]:
-            conversation = display_media(harvested_syntax, conversation)
-
-        check_for_request_to_end_chat(harvested_syntax)
-        generate_response = False  # Response has passed criteria -> end while-loop
-
-        if BREAK_CONVERSATION:
-            offer_to_store_conversation(conversation)
-            break
-
-        if harvested_syntax["referral"]:
+    if harvested_syntax["referral"]:
+        if harvested_syntax["referral"]["file_exists"]:
             conversation = direct_to_new_assistant(harvested_syntax["referral"])
             display_last_response(conversation)
-            continue
 
-        conversation = truncate_conversation_if_nessecary(conversation)
-        conversation = remove_inactive_sources(conversation)
+    conversation = truncate_conversation_if_nessecary(conversation)
+    conversation = remove_inactive_sources(conversation)
 
-        print_summary_info(tokens_used=N_TOKENS_USED, response_costs=RESPONSE_COSTS)
+    print_summary_info(tokens_used=N_TOKENS_USED, response_costs=RESPONSE_COSTS)
 
     return conversation
+
+
+def generate_valid_response(conversation, chatbot_id):
+    """Generates responses iteratively untill the response passes quality check based on whether or
+    not the requested files exist."""
+    for attempt in range(SETTINGS["n_attempts_at_producing_valid_response"]):
+        (
+            conversation,
+            harvested_syntax,
+            quality_check,
+        ) = generate_bot_response_and_check_quality(conversation, chatbot_id)
+
+        if quality_check == "failed":
+            conversation = delete_last_bot_response(conversation)
+            print(f"Quality check results: {quality_check}")
+        elif quality_check == "passed":
+            break
+
+    if quality_check == "failed":
+        # Generate a response regardless...
+        (
+            conversation,
+            harvested_syntax,
+            _,
+        ) = generate_bot_response_and_check_quality(conversation, chatbot_id)
+        print("Ran out of attempts to pass quality check.")
+
+    return conversation, harvested_syntax
+
+
+def generate_bot_response_and_check_quality(conversation, chatbot_id):
+    """Generates a bot message, corrects common bot errors where they can be easily corrected,
+    extracts commands from the raw message, and checks if the files requested by the commands
+    actually exists. If they do not exist, then system messages are added to the chat to inform the
+    bot of its errors, and quality_check is set to "failed" so to inform that the bot
+    should generate a new response."""
+    conversation = generate_raw_bot_response(conversation)
+    conversation = correct_erroneous_show_image_command(conversation)
+    (
+        harvested_syntax,
+        warning_messages,
+    ) = process_syntax_of_bot_response(conversation, chatbot_id)
+    if warning_messages:
+        conversation = append_system_messages(conversation, warning_messages)
+        print_summary_info(regen_response=True)
+        quality_check = "failed"
+    else:
+        quality_check = "passed"
+
+    return conversation, harvested_syntax, quality_check
+
+
+def request_and_insert_sources_until_satisfied(
+    conversation, harvested_syntax, chatbot_id
+):
+    """Assistant can iteratively request sources untill it is satisfied. Sources are inserted into
+    the conversation by system."""
+    counter = 0
+    while harvested_syntax["knowledge_requests"] and counter < SETTINGS["max_requests"]:
+        conversation = insert_knowledge(
+            conversation, harvested_syntax["knowledge_requests"]
+        )
+        (
+            conversation,
+            harvested_syntax,
+        ) = generate_valid_response(conversation, chatbot_id)
+
+        counter += 1
+    return conversation, harvested_syntax
 
 
 def delete_last_bot_response(conversation):
@@ -244,22 +291,11 @@ def display_media(harvested_syntax: list, conversation: list):
     `display_video` for video)."""
     non_existing_file = False
     for image in harvested_syntax["images"]:
-        if file_exists(image):
-            display_image(image)
-        else:
-            non_existing_file = True
+        if file_exists(image["path"]):
+            display_image(image["path"])
     for video in harvested_syntax["videos"]:
-        if file_exists(video):
-            play_video(video)
-        else:
-            non_existing_file = True
-
-    if non_existing_file:
-        conversation.append({
-            "role": "system",
-            "content": "File does not exist. Display only files that I have referenced.",
-        })
-
+        if file_exists(video["path"]):
+            play_video(video["path"])
     return conversation
 
 
@@ -279,9 +315,10 @@ def check_for_request_to_end_chat(harvested_syntax: dict):
     global BREAK_CONVERSATION
     if harvested_syntax["end_chat"]:
         BREAK_CONVERSATION = True
+    return BREAK_CONVERSATION
 
 
-def direct_to_new_assistant(json_ticket):
+def direct_to_new_assistant(json_ticket, conversation):
     """Takes information about the users issue condensed into a json string, and
     redirects to the appropriate chatbot assistant."""
     print_summary_info(new_assistant_id=json_ticket["assistant_id"])
