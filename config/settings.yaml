@@ -14,7 +14,7 @@ print_cumulative_tokens: True
 print_system_messages: True
 print_when_regen_response: True
 print_when_user_is_redirected: True
-show_image_syntax_error_corrected: True
+print_system_warnings: True
 # Pricing info
 dollars_per_1k_input_token: 0.03
 dollars_per_1k_output_token: 0.06

@@ -35,6 +35,7 @@ def print_summary_info(
     regen_response=None,
     new_assistant_id=None,
     show_image_attempts=None,
+    warning_messages=None,
 ):
     """Prints useful information. Controlled by parameters in config/settings.yaml. Prints the lines
     corresponding to the provided arguments."""
@@ -68,10 +69,11 @@ def print_summary_info(
             f"{GREY} user is redirected to assistant {new_assistant_id}... {RESET_COLOR}"
         )
 
-    if SETTINGS["show_image_syntax_error_corrected"] and show_image_attempts:
-        print(
-            f"{GREY} Assistant attempted (show: image.png): {show_image_attempts}... {RESET_COLOR}"
-        )
+    if SETTINGS["print_system_warnings"] and warning_messages:
+        for message in warning_messages:
+            print(
+                f"{GREY} system: {message} {RESET_COLOR}"
+            )
 
 
 # ## Media ##
@@ -137,8 +139,9 @@ def offer_to_store_conversation(conversation):
 
 
 def correct_erroneous_show_image_command(conversation) -> list:
-    """Sometimes the bot uses (Show: image_name.png), which is really just a reference to the
-    command ¤:display_image(image_name):¤. Note: assumes last response is from assistant.
+    """Sometimes the bot uses (show: image_name.png), which is really just a reference to the
+    command ¤:display_image(image_name):¤ that is used as a shorthand in the prompt. If such an
+    error is identified, converts it to a proper syntax, and appends a system warning.
     """
     message = grab_last_assistant_response(conversation)
     pattern = r"\(show: (\w+\.png)\)"

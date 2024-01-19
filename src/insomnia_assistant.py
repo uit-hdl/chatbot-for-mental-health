@@ -160,7 +160,7 @@ def create_user_input(conversation):
         if n_rewind:
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
             print(f"** Rewinding by {n_rewind} bot responses **")
-            reprint_whole_conversation(conversation)
+            reprint_whole_conversation_without_syntax(conversation)
         else:
             break
     conversation.append({"role": "user", "content": user_message})
@@ -168,18 +168,23 @@ def create_user_input(conversation):
 
 
 def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> list:
-    """Resets the conversation back to bot-response n_current - n_rewind. If n_rewind == 1 then
-    conversation resets to the second to last bot-response, allowing you to investigate the bots
-    behaviour given the chat up to that point. Useful for testing how likely the bot is to reproduce
-    an error (such as forgetting an instruction) or a desired response, since you don't have to
-    restart the conversation from scratch."""
+    """Resets the conversation back to bot-response number = n_current - n_rewind. If n_rewind == 1
+    then conversation resets to the second to last bot-response, allowing you to investigate the
+    bots behaviour given the chat up to that point. Useful for testing how likely the bot is to
+    reproduce an error (such as forgetting an instruction) or a desired response, since you don't
+    have to restart the conversation from scratch. Works by Identifing and deleting messages between
+    the current message and the bot message you are resetting to, but does not nessecarily reset the
+    overall conversation to the state it was in at the time that message was produced (for instance,
+    the prompt might have been altered)."""
     assistant_indices = identify_assistant_responses(conversation)
     n_rewind = min([n_rewind, len(assistant_indices) - 1])
     index_reset = assistant_indices[-(n_rewind + 1)]
     return conversation[: index_reset + 1]
 
 
-def reprint_whole_conversation(conversation, include_system_messages=True):
+def reprint_whole_conversation_without_syntax(
+    conversation, include_system_messages=True
+):
     """Reprints whole conversation (not including the prompt)."""
     for message in conversation[1:]:
         if not include_system_messages and message["role"] == "system":
@@ -199,9 +204,9 @@ def conversation_status():
 
 def generate_bot_response(conversation, chatbot_id):
     """Takes a conversation where the last message is from the user and
-    generates a response from the bot. The response is generated iteratively
-    since the bot may first have to request sources and then react to those
-    sources."""
+    generates a response from the bot. The response is generated iteratively since the bot may first
+    have to request sources and then react to those sources, and also has to pass quality checks.
+    """
     global BREAK_CONVERSATION
 
     (
@@ -236,8 +241,8 @@ def generate_bot_response(conversation, chatbot_id):
 
 
 def generate_valid_response(conversation, chatbot_id):
-    """Generates responses iteratively untill the response passes quality check based on whether or
-    not the requested files exist."""
+    """Generates responses iteratively untill the response passes quality check based criteria such
+    as whether or not the requested files exist."""
     for attempt in range(SETTINGS["n_attempts_at_producing_valid_response"]):
         (
             conversation,
