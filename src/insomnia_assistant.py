@@ -203,9 +203,9 @@ def conversation_status():
 
 
 def generate_bot_response(conversation, chatbot_id):
-    """Takes a conversation where the last message is from the user and
-    generates a response from the bot. The response is generated iteratively since the bot may first
-    have to request sources and then react to those sources, and also has to pass quality checks.
+    """Generates and interprets a message from the assistant. The response is generated iteratively
+    since the bot may first have to request sources and then react to those sources, and also the
+    message has to pass quality checks (primarily checking existance of requested files).
     """
     global BREAK_CONVERSATION
 
@@ -221,8 +221,7 @@ def generate_bot_response(conversation, chatbot_id):
     display_last_response(conversation)
     dump_current_conversation(conversation)
 
-    if harvested_syntax["images"] or harvested_syntax["videos"]:
-        conversation = display_media(harvested_syntax, conversation)
+    conversation = display_if_media(harvested_syntax, conversation)
 
     BREAK_CONVERSATION = check_for_request_to_end_chat(harvested_syntax)
     if BREAK_CONVERSATION:
@@ -329,7 +328,7 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
     return conversation
 
 
-def display_media(harvested_syntax: list, conversation: list):
+def display_if_media(harvested_syntax: list, conversation: list):
     """If extracted code contains command to display image, displays image. The
     syntax used to display an image is ¤:display_image{<file>}:¤ (replace with
     `display_video` for video)."""
