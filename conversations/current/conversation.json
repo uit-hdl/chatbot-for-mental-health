@@ -8,11 +8,19 @@
         "role": "assistant"
     },
     {
-        "content": "hi, tech support please",
+        "content": "hi",
         "role": "user"
     },
     {
-        "content": "Certainly, I will refer you to tech support.\n\n\u00a4:referral({\n  \"data_type\": \"referral_ticket\",\n  \"assistant_id\": \"tech_support_v2\",\n  \"topic\": \"Unspecified\"\n}):\u00a4",
+        "content": "Hello! How can I assist you today? What would you like to discuss or do you need help with something specific?",
+        "role": "assistant"
+    },
+    {
+        "content": "referr me to tech pls",
+        "role": "user"
+    },
+    {
+        "content": "Certainly! Let me create a referral for you.\n\n\u00a4:referral({\n  \"data_type\": \"referral_ticket\",\n  \"assistant_id\": \"tech_support_v2\",\n  \"topic\": \"Unspecified\"\n}):\u00a4",
         "role": "assistant"
     }
 ]

@@ -5,19 +5,14 @@ import logging
 
 import pprint
 
-from utils.general import wrap_and_print_message
 from utils.general import count_tokens
 from utils.general import play_video
 from utils.general import conversation_list_to_string
-from utils.general import count_tokens_used_to_create_last_response
 from utils.general import grab_last_response
 from utils.general import print_whole_conversation
 from utils.general import offer_to_store_conversation
 from utils.general import display_image
 from utils.general import identify_assistant_responses
-from utils.general import calculate_cost_of_response
-from utils.general import remove_code_syntax_from_message
-from utils.general import contains_only_whitespace
 from utils.general import print_summary_info
 from utils.general import correct_erroneous_show_image_command
 from utils.general import append_system_messages
@@ -38,6 +33,8 @@ from utils.manage_conversation_length import reconstruct_conversation_with_summa
 from utils.manage_conversation_length import separate_system_from_conversation
 from utils.manage_conversation_length import remove_code_syntax_from_whole_conversation
 from utils.manage_conversation_length import insert_information_in_prompt
+from utils.chat_display import display_last_response
+from utils.chat_display import display_message_without_syntax
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
@@ -56,6 +53,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
+LOGGER = logging.getLogger(__name__)
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
@@ -117,21 +115,6 @@ def generate_raw_bot_response(conversation):
         }
     )
     return conversation
-
-
-def display_last_response(conversation):
-    """Displays the last response of the conversation (removes syntax)."""
-    display_message_without_syntax(message_dict=conversation[-1])
-
-
-def display_message_without_syntax(message_dict: dict):
-    """Takes a message in dictionary form, removes the code syntax, and prints
-    it in the console."""
-    role = message_dict["role"].strip()
-    message = message_dict["content"].strip()
-    message_cleaned = remove_code_syntax_from_message(message)
-    if not contains_only_whitespace(message_cleaned):
-        wrap_and_print_message(role, message_cleaned)
 
 
 def create_user_input(conversation):
@@ -225,18 +208,16 @@ def generate_valid_response(conversation, chatbot_id):
 
         if quality_check == "failed":
             conversation = delete_last_bot_response(conversation)
-            print(f"Quality check results: {quality_check}")
         elif quality_check == "passed":
             break
 
     if quality_check == "failed":
-        # Generate a response regardless...
         (
             conversation,
             harvested_syntax,
             _,
         ) = generate_bot_response_and_check_quality(conversation, chatbot_id)
-        print("Ran out of attempts to pass quality check.")
+        LOGGER.info("Ran out of attempts to pass quality check.")
 
     return conversation, harvested_syntax
 
@@ -263,9 +244,7 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
     return conversation, harvested_syntax, quality_check
 
 
-def collect_sources_until_satisfied(
-    conversation, harvested_syntax, chatbot_id
-):
+def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):
     """Assistant can iteratively request sources untill it is satisfied. Sources are inserted into
     the conversation by system."""
     counter = 0
