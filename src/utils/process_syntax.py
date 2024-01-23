@@ -5,13 +5,13 @@ import re
 import os
 import json
 import ast
+import logging
 
 from typing import List
 from typing import Dict
 
 from utils.general import grab_last_assistant_response
 from utils.general import remove_quotes_from_string
-from utils.general import print_summary_info
 from utils.backend import file_exists
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
@@ -20,6 +20,13 @@ from utils.backend import PROMPTS_DIR
 from utils.backend import load_textfile_as_string
 from utils.backend import get_shared_subfolder_name
 from utils.backend import dump_to_json
+
+logging.basicConfig(
+    filename="chat-info/chat.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
+)
+LOGGER = logging.getLogger(__name__)
 
 
 def process_syntax_of_bot_response(conversation, chatbot_id) -> (dict, list[str]):
@@ -35,7 +42,9 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> (dict, list[str]
         commands, arguments, subfolder
     )
     warning_messages = generate_warning_messages(harvested_syntax)
-    print_summary_info(warning_messages=warning_messages)
+
+    if warning_messages:
+        LOGGER.info(warning_messages)
     dump_to_json(harvested_syntax, "chat-info/harvested_syntax.json")
 
     return harvested_syntax, warning_messages

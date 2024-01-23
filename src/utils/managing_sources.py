@@ -2,9 +2,17 @@
 removing sources that are not being actively cited (used)."""
 import numpy as np
 import re
-from utils.general import print_summary_info
+import logging
+
 from utils.general import remove_superflous_linebreaks
 from utils.backend import SETTINGS
+
+logging.basicConfig(
+    filename="chat-info/chat.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
+)
+LOGGER = logging.getLogger(__name__)
 
 
 def remove_inactive_sources(conversation):
@@ -14,9 +22,15 @@ def remove_inactive_sources(conversation):
     inserted_sources = extract_sources_inserted_by_system(conversation)
 
     if inserted_sources:
-        inactivity_times = get_inactivity_times_for_sources(conversation, inserted_sources)
+        inactivity_times = get_inactivity_times_for_sources(
+            conversation, inserted_sources
+        )
         inactive_sources = get_inactive_sources(inserted_sources, inactivity_times)
-        print_summary_info(sources=inserted_sources, inactivity_times=inactivity_times)
+        LOGGER(
+            "Inserted sources: %s, Inactivity conters:%s",
+            inactivity_times,
+            inactive_sources,
+        )
         conversation = remove_inactive_sources_from_system_messages(
             conversation, inactive_sources
         )
@@ -25,7 +39,7 @@ def remove_inactive_sources(conversation):
 
 
 def extract_sources_inserted_by_system(conversation):
-    """Extracts name of sources cited and inserted into the chat by system in the 
+    """Extracts name of sources cited and inserted into the chat by system in the
     form of system messages."""
     system_messages = [
         message["content"]
@@ -100,7 +114,7 @@ def remove_inactive_sources_from_system_messages(
                 conversation[message_index][
                     "content"
                 ] = "Inactive source removed due to not being actively cited."
-                print_summary_info(inactive_source=source_name)
+                LOGGER.info("Inactive sources removed: %s", source_name)
     return conversation
 
 

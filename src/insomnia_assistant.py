@@ -2,13 +2,9 @@ import openai
 import sys
 import logging
 
-from utils.general import count_tokens
-from utils.general import conversation_list_to_string
-from utils.general import grab_last_response
 from utils.general import print_whole_conversation
 from utils.general import offer_to_store_conversation
 from utils.general import identify_assistant_responses
-from utils.general import print_summary_info
 from utils.general import correct_erroneous_show_image_command
 from utils.general import append_system_messages
 from utils.general import delete_last_bot_response
@@ -43,7 +39,7 @@ RESPONSE_COSTS = []  # Tracks the cost (in kr) per response
 logging.basicConfig(
     filename="chat-info/chat.log",
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
 )
 LOGGER = logging.getLogger(__name__)
 
@@ -245,14 +241,14 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
             requested_source = knowledge["source_name"]
             if requested_source in inserted_sources:
                 message = f"The source {requested_source} is already inserted in chat. Never request sources that are already provided!"
+                LOGGER.info(message)
             else:
-                print_summary_info(source_name=requested_source)
                 message = f"source {requested_source}: {knowledge['content']}"
         else:
             message = f"Source {requested_source} does not exist! Request only sources I have told you to use."
+            LOGGER.info(message)
 
         conversation.append({"role": "system", "content": message})
-        LOGGER.info(message)
 
     return conversation
 

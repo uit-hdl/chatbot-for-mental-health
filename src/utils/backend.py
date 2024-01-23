@@ -1,10 +1,18 @@
 import yaml
 import json
+import logging
 import os
 import pathlib
 import yaml
 import datetime
-from collections import namedtuple
+
+logging.basicConfig(
+    filename="chat-info/chat.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
+)
+LOGGER = logging.getLogger(__name__)
+
 
 ROOT_DIR = pathlib.Path(__file__).parents[2]
 API_DIR = os.path.join(pathlib.Path(__file__).parents[3], "api-keys")
@@ -152,7 +160,6 @@ def dump_conversation_to_textfile(conversation: list, filepath: str):
 def dump_conversation(conversation: list, label: str = "conversation"):
     """Stores conversation in json format in conversations/raw and in formatted
     markdown file in conversations/formatted. Default name is `conversation`."""
-    global LOGGER
     json_file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
     txt_file_path = f"{CONVERSATIONS_FORMATTED_DIR}/{label}.md"
     if conversation[-1]["content"] == "break":

@@ -1,11 +1,18 @@
 import tiktoken
 import re
 import textwrap
-import numpy as np
+import logging
 
 from utils.backend import MODEL_ID
 from utils.backend import dump_conversation
 from utils.backend import SETTINGS
+
+logging.basicConfig(
+    filename="chat-info/chat.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
+)
+LOGGER = logging.getLogger(__name__)
 
 # Chat colors
 GREY = "\033[2;30m"  # info messages
