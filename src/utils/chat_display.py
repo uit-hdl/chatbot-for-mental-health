@@ -19,3 +19,14 @@ def display_message_without_syntax(message_dict: dict):
     message_cleaned = remove_code_syntax_from_message(message)
     if not contains_only_whitespace(message_cleaned):
         wrap_and_print_message(role, message_cleaned)
+
+
+def reprint_whole_conversation_without_syntax(
+    conversation, include_system_messages=True
+):
+    """Reprints whole conversation (not including the prompt)."""
+    for message in conversation[1:]:
+        if not include_system_messages and message["role"] == "system":
+            continue
+        else:
+            display_message_without_syntax(message)

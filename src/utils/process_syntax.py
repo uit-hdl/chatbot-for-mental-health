@@ -51,11 +51,13 @@ def generate_warning_messages(harvested_syntax) -> list[str]:
             warning_messages.append(
                 f"Source `{knowledge_request['source_name']}` does not exist! Request only sources I have referenced."
             )
+
     for image in harvested_syntax["images"]:
         if not image["file_exists"]:
             warning_messages.append(
                 f"Image `{image['name']}` does not exist! Request only images I have referenced."
             )
+
     for video in harvested_syntax["videos"]:
         if not video["file_exists"]:
             warning_messages.append(
@@ -75,7 +77,7 @@ def generate_warning_messages(harvested_syntax) -> list[str]:
 
 def extract_command_names_and_arguments(chatbot_response: str) -> (list, list):
     """Takes a response that may contain substrings of the form ¤:command_name(argument):¤ and
-    extracts the command names (command_name) and command arguments in lists."""
+    extracts the command names and their command arguments."""
     chatbot_response_without_newlines = chatbot_response.replace("\n", "")
     command_pattern = r"¤:(.*?):¤"
     command_strings = re.findall(command_pattern, chatbot_response_without_newlines)
@@ -103,7 +105,6 @@ def process_and_organize_commands_and_arguments(
     harvested_syntax["images"] = get_image_requests(commands, arguments, subfolder)
     harvested_syntax["videos"] = get_video_requests(commands, arguments, subfolder)
     harvested_syntax["referral"] = get_referral(commands, arguments, subfolder)
-    harvested_syntax["end_chat"] = "end_chat" in commands
     return harvested_syntax
 
 

@@ -34,7 +34,7 @@ from utils.manage_conversation_length import separate_system_from_conversation
 from utils.manage_conversation_length import remove_code_syntax_from_whole_conversation
 from utils.manage_conversation_length import insert_information_in_prompt
 from utils.chat_display import display_last_response
-from utils.chat_display import display_message_without_syntax
+from utils.chat_display import reprint_whole_conversation_without_syntax
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
@@ -117,7 +117,7 @@ def generate_raw_bot_response(conversation):
     return conversation
 
 
-def create_user_input(conversation):
+def create_user_input(conversation) -> list:
     """Prompts user to input a prompt (the "question") in the command line."""
     global BREAK_CONVERSATION
 
@@ -127,9 +127,9 @@ def create_user_input(conversation):
             n_rewind = int(user_message[-1])
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
             reprint_whole_conversation_without_syntax(conversation)
+        else:
             if user_message == "break":
                 BREAK_CONVERSATION = True
-        else:
             break
     conversation.append({"role": "user", "content": user_message})
     return conversation
@@ -148,17 +148,6 @@ def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> l
     n_rewind = min([n_rewind, len(assistant_indices) - 1])
     index_reset = assistant_indices[-(n_rewind + 1)]
     return conversation[: index_reset + 1]
-
-
-def reprint_whole_conversation_without_syntax(
-    conversation, include_system_messages=True
-):
-    """Reprints whole conversation (not including the prompt)."""
-    for message in conversation[1:]:
-        if not include_system_messages and message["role"] == "system":
-            continue
-        else:
-            display_message_without_syntax(message)
 
 
 def generate_processed_bot_response(conversation, chatbot_id) -> list:
@@ -181,10 +170,6 @@ def generate_processed_bot_response(conversation, chatbot_id) -> list:
     dump_current_conversation(conversation)
 
     conversation = display_if_media(harvested_syntax, conversation)
-
-    BREAK_CONVERSATION = check_for_request_to_end_chat(harvested_syntax)
-    if BREAK_CONVERSATION:
-        offer_to_store_conversation(conversation)
 
     if harvested_syntax["referral"]:
         if harvested_syntax["referral"]["file_exists"]:
@@ -236,7 +221,7 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
     ) = process_syntax_of_bot_response(conversation, chatbot_id)
     if warning_messages:
         conversation = append_system_messages(conversation, warning_messages)
-        print_summary_info(regen_response=True)
+        LOGGER.info(warning_messages)
         quality_check = "failed"
     else:
         quality_check = "passed"
@@ -293,13 +278,6 @@ def display_if_media(harvested_syntax: list, conversation: list):
         if file_exists(video["path"]):
             play_video(video["path"])
     return conversation
-
-
-def check_for_request_to_end_chat(harvested_syntax: dict):
-    global BREAK_CONVERSATION
-    if harvested_syntax["end_chat"]:
-        BREAK_CONVERSATION = True
-    return BREAK_CONVERSATION
 
 
 def direct_to_new_assistant(json_ticket):
