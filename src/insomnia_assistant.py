@@ -78,7 +78,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             offer_to_store_conversation(conversation)
             break
 
-        conversation = generate_bot_response(conversation, chatbot_id)
+        conversation = generate_processed_bot_response(conversation, chatbot_id)
         conversation = truncate_conversation_if_nessecary(conversation)
 
 
@@ -178,7 +178,7 @@ def reprint_whole_conversation_without_syntax(
             display_message_without_syntax(message)
 
 
-def generate_bot_response(conversation, chatbot_id):
+def generate_processed_bot_response(conversation, chatbot_id):
     """Generates and interprets a message from the assistant. The response is generated iteratively
     since the bot may first have to request sources and then react to those sources, and also the
     message has to pass quality checks (primarily checking existance of requested files).
