@@ -24,6 +24,11 @@ SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
 
+def get_prompt_for_assistant(assistant_id):
+    """Gets the prompt (as a string) assosicated with the assistant id."""
+    return PROMPTS[assistant_id]
+
+
 def collect_prompts_in_dictionary(directory_path):
     """Finds paths for all files in directory and subdirectories, and creates a
     dictionary where the keys are file names and the values are file paths."""
@@ -145,7 +150,7 @@ def dump_conversation_to_textfile(conversation: list, filepath: str):
 
 
 def add_extension(path, extension):
-    """Takes a path relative to the output folder and adds the specified 
+    """Takes a path relative to the output folder and adds the specified
     extension (e.g., '.csv') if the path has no extension."""
     if os.path.splitext(path)[-1] == "":
         path += extension
@@ -191,7 +196,8 @@ def get_shared_subfolder_name(prompt_file_name: str):
 
 def get_relative_path_of_prompts_file(prompt_file_name: str) -> str:
     """Identifies the prompts in the prompts directory for all, and finds the relative path for the
-    file name provided. Note that prompts should have unique names for this to work well."""
+    file name provided. Note that prompts should have unique names for this to work well.
+    """
     full_path = PROMPTS_DIR
     prompt_file_name = add_extension(prompt_file_name, ".md")
     matches = []

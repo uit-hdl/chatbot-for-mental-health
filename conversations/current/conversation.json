@@ -4,23 +4,83 @@
         "role": "system"
     },
     {
-        "content": "Hello! I'm here to assist you with any technical issues you might have using the \"Consensus Sleep Diary\" app. How can I help you today?",
+        "content": "Here is a summary of the users issue: Unspecified",
+        "role": "system"
+    },
+    {
+        "content": "Hello! I'm here to assist you with the \"Consensus Sleep Diary\" app, specifically for any technical issues you may encounter. How may I help you today?",
         "role": "assistant"
     },
     {
-        "content": "hi",
+        "content": "login?",
         "role": "user"
     },
     {
-        "content": "Hello! Are you looking to log into the Consensus Sleep Diary app, or do you need help with something else?",
+        "content": "To login to the Consensus Sleep Diary app, please go to the login page at https://app.consensussleepdiary.com/#/login/. Do you remember your login details? \u00a4:display_image(login_sleep_diary.png):\u00a4",
         "role": "assistant"
     },
     {
-        "content": "break",
+        "content": "password manager a?",
         "role": "user"
     },
     {
-        "content": "I understand that you may be feeling overwhelmed. Do you need a moment to take a break, or are you having trouble with the app and need assistance on a specific issue?",
+        "content": "It sounds like you might have stored your login details using password manager A. Would you like some help retrieving your Sleep Diary password from there?",
+        "role": "assistant"
+    },
+    {
+        "content": "yes",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:request_knowledge(password_manager_a):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "source password_manager_a: # Tutorial videos\n* Finding a password/login in 1password: `finding_password.mkv`\n* Editing a password/login in 1password: `edit_login.mkv`\n\n# Logging into 1password\n* Click on the icon (blue key hole) in the upper right corner of their web-browser (`show: 1password_toolbar_icon.png`)\n    * If not visible: click the grey icon in the upper right corner that looks like a puzzle-piece\n      (`extensions_dropdown.png`).\n      * If not visible: A drop down list appears that includes the 1password extension. Click on 1password and then on\n        the `pin` icon next to the 1password icon to pin this extension to the toolbar for convenience.\n* Clicking the 1password icon, a window appears where they type their password (`show: enter_password_1password.png`)\n  and then press enter to finally log into 1passpord.\n\n# Updating password\nIf they are changing a password for some website and they click on the field for entering the new password, a 1password\nwindow (assuming they are logged in) will appear which says \"update password\", which they can click on to change the\npassword.\n\n# Finding a login/password\n* Login to 1password, so that the 1password app appears on the screen.\n* Under the search bar (`show: 1password_login_search.png`) is a little box. Click it, and a drop down menu appears\n  which shows the login categories (`All items` will show all their stored logins) in alphabetical order.\n* Click on the desired login. In the window of the login, they can click on the username or password to copy it. They\n  can then paste it to where they need it.\n\nThey can also find a login by searching for it in the 1password search field (`show: 1password_login_search.png`).\n\n# Edit login\n* Login to 1password.\n* Click the three dots in the upper right corner of the 1password-window. In the dropdown menu that appears, click\n  `edit` (`show: 1password_edit_login1.png`). \n* They get directed to a new window where they can edit details like username, password, and website related to the\n  password (`show: 1password_edit_login2.png`).\n\n# Optional information\n* 1password logs out after 2 minutes of inactivity. If you want functionalities of 1password such as autofilling\n  username or password, you have to be logged in.\n* If the user clicks on the `email` or `password` field 1password will offer to autofill the information. They confirm\n  by clicking on the little window that appears.\n\n# How to treat user\nUnless the user specifically requests so, NEVER EVER show more than one step at a time in each response; ask only one question at a time, and NEVER use multiple \"if-then\" statements in a single response.",
+        "role": "system"
+    },
+    {
+        "content": "The first step to retrieve your password from password manager A is to click on the icon that looks like a blue keyhole in the upper right corner of your web browser. If you don\u2019t see this icon, look for a grey icon that resembles a puzzle piece and click on it to find the 1password extension. \u00a4:display_image(1password_toolbar_icon.png):\u00a4 \n\nOnce you\u2019ve found the 1password icon, click on it and log in with your 1password master password. Can you find and click the 1password icon? \u00a4:cite([\"password_manager_a\"]):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "cant find the blue keyhole",
+        "role": "user"
+    },
+    {
+        "content": "If you cannot see the blue keyhole icon, please look for a grey icon in the upper right corner of your web browser that looks like a puzzle piece. Click on this puzzle-piece icon to find the 1password extension. \u00a4:display_image(extensions_dropdown.png):\u00a4\n\nLet me know once you've located the puzzle-piece icon. \u00a4:cite([\"password_manager_a\"]):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "found it",
+        "role": "user"
+    },
+    {
+        "content": "Great! After clicking the puzzle-piece icon, a drop-down list should appear that includes the 1password extension. Please click on 1password. Then, click on the pin icon next to the 1password icon to pin this extension to your toolbar for convenience. \u00a4:display_image(1password_toolbar_icon.png):\u00a4 \n\nDo you see the option to pin the 1password extension? \u00a4:cite([\"password_manager_a\"]):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "okok i see it",
+        "role": "user"
+    },
+    {
+        "content": "Excellent! Now that you have pinned the 1password extension to your toolbar, please click on the 1password icon. A window will appear where you will need to enter your 1password master password. Go ahead and log in with your master password. \u00a4:display_image(enter_password_1password.png):\u00a4 \n\nLet me know once you have logged in to 1password. \u00a4:cite([\"password_manager_a\"]):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "ok i see",
+        "role": "user"
+    },
+    {
+        "content": "Fantastic! Now that you are logged into 1password, you can find your Consensus Sleep Diary login details. \n\nIn the 1password app, there's a search bar at the top. You can use this to search for your Sleep Diary information. Type \"Consensus Sleep Diary\" or \"sleep\" into the search bar to find your login details. \u00a4:display_image(1password_login_search.png):\u00a4\n\nOnce you find the Sleep Diary entry, click on it to view your username and password. You can then copy and paste these details into the login page of the Sleep Diary app.\n\nCan you find your Sleep Diary login details now? \u00a4:cite([\"password_manager_a\"]):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "yes, now how do i log out?",
+        "role": "user"
+    },
+    {
+        "content": "To log out of your Consensus Sleep Diary account, click on the grey cogwheel icon located in the upper right corner of the webpage. Then click on \"log out\" from the options that appear. \u00a4:display_image(logout_button.png):\u00a4\n\nPlease go ahead and do this. Let me know if you were able to log out successfully. \u00a4:cite([\"prompt\"]):\u00a4",
         "role": "assistant"
     }
 ]

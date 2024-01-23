@@ -18,6 +18,7 @@ from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import SETTINGS
 from utils.backend import CONFIG
+from utils.backend import get_prompt_for_assistant
 from utils.backend import dump_current_conversation
 from utils.backend import load_yaml_file
 from utils.process_syntax import process_syntax_of_bot_response
@@ -70,11 +71,14 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             offer_to_store_conversation(conversation)
             break
 
-        conversation, harvested_syntax = generate_processed_bot_response(conversation, chatbot_id)
-        
+        conversation, harvested_syntax = generate_processed_bot_response(
+            conversation, chatbot_id
+        )
+
         display_last_response(conversation)
         display_images(harvested_syntax["images"])
         play_videos(harvested_syntax["videos"])
+
         dump_current_conversation(conversation)
 
         if harvested_syntax["referral"]:
@@ -83,7 +87,6 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
                 display_last_response(conversation)
 
         conversation = remove_inactive_sources(conversation)
-        conversation = truncate_conversation_if_nessecary(conversation)
 
 
 def continue_previous_conversation(chat_filepath: str, prompt: str) -> list:
@@ -169,7 +172,6 @@ def generate_processed_bot_response(conversation, chatbot_id) -> list:
     conversation, harvested_syntax = collect_sources_until_satisfied(
         conversation, harvested_syntax, chatbot_id
     )
-    
     return conversation, harvested_syntax
 
 
@@ -254,6 +256,7 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
             message = f"Source {requested_source} does not exist! Request only sources I have told you to use."
 
         conversation.append({"role": "system", "content": message})
+        LOGGER.info(message)
 
     return conversation
 
@@ -261,48 +264,11 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
 def direct_to_new_assistant(json_ticket):
     """Takes information about the users issue condensed into a json string, and
     redirects to the appropriate chatbot assistant."""
-    print_summary_info(new_assistant_id=json_ticket["assistant_id"])
+    LOGGER.info("Transferring to assistant %s", json_ticket["assistant_id"])
     prompt = get_prompt_for_assistant(json_ticket["assistant_id"])
     system_message = f"Here is a summary of the users issue: {json_ticket['topic']}"
     new_conversation = initiate_new_conversation(prompt, system_message)
     return new_conversation
-
-
-def get_prompt_for_assistant(assistant_id):
-    """Gets the prompt (as a string) assosicated with the assistant id."""
-    return PROMPTS[assistant_id]
-
-
-def truncate_conversation_if_nessecary(conversation):
-    """Shortens conversation when it gets too long. Uses and GPT assistant to summarize
-    conversation. Work in progress..."""
-    if count_tokens(conversation) > SETTINGS["max_tokens_before_truncation"]:
-        if SETTINGS["truncation_method"] == "summarize":
-            conversation = summarize_conversation(conversation)
-            conversation = generate_raw_bot_response(conversation)
-    return conversation
-
-
-def summarize_conversation(conversation):
-    """Uses chatbot to summarize the conversation. This did not work too
-    well..."""
-    global SUMMARY
-    conversation_messages, system_messages = separate_system_from_conversation(
-        conversation
-    )
-    conversation_messages = remove_code_syntax_from_whole_conversation(
-        conversation_messages
-    )
-    conversation_string = conversation_list_to_string(conversation_messages)
-    prompt_summary_bot = insert_information_in_prompt(
-        prompt=PROMPTS["summary_bot"], info=conversation_string
-    )
-    conversation_with_summary_bot = initiate_new_conversation(prompt_summary_bot)
-    SUMMARY = grab_last_response(conversation_with_summary_bot)
-    conversation_summarized = reconstruct_conversation_with_summary(
-        system_messages, SUMMARY
-    )
-    return conversation_summarized
 
 
 if __name__ == "__main__":
