@@ -1,8 +1,6 @@
 import tiktoken
 import re
 import textwrap
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import numpy as np
 
 from utils.backend import MODEL_ID
@@ -11,7 +9,6 @@ from utils.backend import CONVERSATIONS_FORMATTED_DIR
 from utils.backend import dump_to_json
 from utils.backend import dump_conversation_to_textfile
 from utils.backend import SETTINGS
-from moviepy.editor import VideoFileClip
 
 # Chat colors
 GREY = "\033[2;30m"  # info messages
@@ -74,29 +71,6 @@ def print_summary_info(
             print(
                 f"{GREY} system: {message} {RESET_COLOR}"
             )
-
-
-# ## Media ##
-def display_image(image_path):
-    """Displays the image in the provided path."""
-    img = mpimg.imread(image_path)
-    plt.imshow(img)
-    plt.gca().set_axis_off()  # Turn off the axes
-    plt.subplots_adjust(top=1, bottom=0, right=1, left=0, hspace=0, wspace=0)
-    plt.margins(0, 0)
-    plt.gca().yaxis.set_major_locator(plt.NullLocator())
-
-    plt.show(block=False)
-    plt.pause(SETTINGS["plot_duration"])
-    plt.close()
-
-
-def play_video(video_file):
-    """Plays the video."""
-    video = VideoFileClip(video_file)
-    video.preview()
-    video.close()
-
 
 # ## Conversation processesing ##
 def delete_last_bot_response(conversation):

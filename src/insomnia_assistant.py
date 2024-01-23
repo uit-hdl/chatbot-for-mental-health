@@ -1,17 +1,12 @@
 import openai
 import sys
-import time
 import logging
 
-import pprint
-
 from utils.general import count_tokens
-from utils.general import play_video
 from utils.general import conversation_list_to_string
 from utils.general import grab_last_response
 from utils.general import print_whole_conversation
 from utils.general import offer_to_store_conversation
-from utils.general import display_image
 from utils.general import identify_assistant_responses
 from utils.general import print_summary_info
 from utils.general import correct_erroneous_show_image_command
@@ -25,7 +20,6 @@ from utils.backend import SETTINGS
 from utils.backend import CONFIG
 from utils.backend import dump_current_conversation
 from utils.backend import load_yaml_file
-from utils.backend import file_exists
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
 from utils.managing_sources import extract_sources_inserted_by_system
@@ -35,6 +29,8 @@ from utils.manage_conversation_length import remove_code_syntax_from_whole_conve
 from utils.manage_conversation_length import insert_information_in_prompt
 from utils.chat_display import display_last_response
 from utils.chat_display import reprint_whole_conversation_without_syntax
+from utils.chat_display import play_videos
+from utils.chat_display import display_images
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
@@ -47,7 +43,6 @@ N_TOKENS_USED = []  # Tracks the number of tokens used to generate each response
 RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
 RESPONSE_COSTS = []  # Tracks the cost (in kr) per response
 
-pp = pprint.PrettyPrinter(indent=2, width=100)
 logging.basicConfig(
     filename="chat-info/chat.log",
     level=logging.INFO,
@@ -60,7 +55,6 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     """Running this function starts a conversation with a tutorial bot that
     helps explain how a web-app (https://app.consensussleepdiary.com) functions.
     The web app is a free online app for collecting sleep data."""
-
     prompt = PROMPTS[chatbot_id]
 
     if chat_filepath:
@@ -76,7 +70,19 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             offer_to_store_conversation(conversation)
             break
 
-        conversation = generate_processed_bot_response(conversation, chatbot_id)
+        conversation, harvested_syntax = generate_processed_bot_response(conversation, chatbot_id)
+        
+        display_last_response(conversation)
+        display_images(harvested_syntax["images"])
+        play_videos(harvested_syntax["videos"])
+        dump_current_conversation(conversation)
+
+        if harvested_syntax["referral"]:
+            if harvested_syntax["referral"]["file_exists"]:
+                conversation = direct_to_new_assistant(harvested_syntax["referral"])
+                display_last_response(conversation)
+
+        conversation = remove_inactive_sources(conversation)
         conversation = truncate_conversation_if_nessecary(conversation)
 
 
@@ -155,8 +161,6 @@ def generate_processed_bot_response(conversation, chatbot_id) -> list:
     since the bot may first have to request sources and then react to those sources, and also the
     message has to pass quality checks (primarily checking existance of requested files).
     """
-    global BREAK_CONVERSATION
-
     (
         conversation,
         harvested_syntax,
@@ -165,20 +169,8 @@ def generate_processed_bot_response(conversation, chatbot_id) -> list:
     conversation, harvested_syntax = collect_sources_until_satisfied(
         conversation, harvested_syntax, chatbot_id
     )
-
-    display_last_response(conversation)
-    dump_current_conversation(conversation)
-
-    conversation = display_if_media(harvested_syntax, conversation)
-
-    if harvested_syntax["referral"]:
-        if harvested_syntax["referral"]["file_exists"]:
-            conversation = direct_to_new_assistant(harvested_syntax["referral"])
-            display_last_response(conversation)
-
-    conversation = remove_inactive_sources(conversation)
-
-    return conversation
+    
+    return conversation, harvested_syntax
 
 
 def generate_valid_response(conversation, chatbot_id):
@@ -263,20 +255,6 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
 
         conversation.append({"role": "system", "content": message})
 
-    return conversation
-
-
-def display_if_media(harvested_syntax: list, conversation: list):
-    """If extracted code contains command to display image, displays image. The
-    syntax used to display an image is ¤:display_image{<file>}:¤ (replace with
-    `display_video` for video)."""
-    non_existing_file = False
-    for image in harvested_syntax["images"]:
-        if file_exists(image["path"]):
-            display_image(image["path"])
-    for video in harvested_syntax["videos"]:
-        if file_exists(video["path"]):
-            play_video(video["path"])
     return conversation
 
 
