@@ -24,10 +24,6 @@ from utils.backend import load_yaml_file
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
 from utils.managing_sources import extract_sources_inserted_by_system
-from utils.manage_conversation_length import reconstruct_conversation_with_summary
-from utils.manage_conversation_length import separate_system_from_conversation
-from utils.manage_conversation_length import remove_code_syntax_from_whole_conversation
-from utils.manage_conversation_length import insert_information_in_prompt
 from utils.chat_display import display_last_response
 from utils.chat_display import reprint_whole_conversation_without_syntax
 from utils.chat_display import play_videos

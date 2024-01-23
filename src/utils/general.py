@@ -4,10 +4,7 @@ import textwrap
 import numpy as np
 
 from utils.backend import MODEL_ID
-from utils.backend import CONVERSATIONS_RAW_DIR
-from utils.backend import CONVERSATIONS_FORMATTED_DIR
-from utils.backend import dump_to_json
-from utils.backend import dump_conversation_to_textfile
+from utils.backend import dump_conversation
 from utils.backend import SETTINGS
 
 # Chat colors
@@ -21,56 +18,6 @@ def contains_only_whitespace(input_string):
     """Checks if a message is empty (can happen after syntax is removed)."""
     return all(char.isspace() or char == "" for char in input_string)
 
-
-def print_summary_info(
-    tokens_used=None,
-    response_costs=None,
-    sources=None,
-    inactivity_times=None,
-    inactive_source=None,
-    source_name=None,
-    regen_response=None,
-    new_assistant_id=None,
-    show_image_attempts=None,
-    warning_messages=None,
-):
-    """Prints useful information. Controlled by parameters in config/settings.yaml. Prints the lines
-    corresponding to the provided arguments."""
-    global SETTINGS
-    if SETTINGS["print_cumulative_tokens"] and tokens_used:
-        print(f"{GREY} Total number of tokens used: {tokens_used[-1]} {RESET_COLOR}")
-
-    if SETTINGS["print_cumulative_cost"] and response_costs:
-        total_cost = np.array(response_costs).sum()
-        print(f"{GREY} Total cost of chat is: {total_cost:.4} kr {RESET_COLOR}")
-
-    if SETTINGS["print_info_on_sources"] and sources:
-        print(f"{GREY} Sources used: {sources} {RESET_COLOR}")
-
-    if SETTINGS["print_info_on_sources"] and inactivity_times:
-        print(f"{GREY} Source inactivity times: {inactivity_times} {RESET_COLOR}")
-
-    if SETTINGS["print_removal_of_inactive_source"] and inactive_source:
-        print(f"{GREY} Removing inactive source {inactive_source} {RESET_COLOR}")
-
-    if SETTINGS["print_when_source_is_inserted"] and source_name:
-        print(
-            f"{GREY} \nInserting information `{source_name}` into conversation... {RESET_COLOR}"
-        )
-
-    if SETTINGS["print_when_regen_response"] and regen_response:
-        print(f"{GREY} \nRegenerating response... {RESET_COLOR}")
-
-    if SETTINGS["print_when_user_is_redirected"] and new_assistant_id:
-        print(
-            f"{GREY} user is redirected to assistant {new_assistant_id}... {RESET_COLOR}"
-        )
-
-    if SETTINGS["print_system_warnings"] and warning_messages:
-        for message in warning_messages:
-            print(
-                f"{GREY} system: {message} {RESET_COLOR}"
-            )
 
 # ## Conversation processesing ##
 def delete_last_bot_response(conversation):
@@ -107,7 +54,7 @@ def offer_to_store_conversation(conversation):
         label = input("File name (hit enter for default): ").strip().lower()
         if label == "":
             label = "conversation"
-        store_conversation(conversation, label)
+        dump_conversation(conversation, label)
     else:
         print("Conversation not stored")
 
@@ -126,7 +73,6 @@ def correct_erroneous_show_image_command(conversation) -> list:
         system_message = "Warning: expressions of the form (show: image.png) have been corrected to ¤:display_image(image.png):¤"
         conversation[-1]["content"] = corrected_message
         conversation.append({"role": "system", "content": system_message})
-        print_summary_info(show_image_attempts=matches)
 
     return conversation
 
@@ -136,18 +82,6 @@ def append_system_messages(conversation, system_messages: list[str]):
     for message in system_messages:
         conversation.append({"role": "system", "content": message})
     return conversation
-
-
-def store_conversation(conversation: list, label: str = "conversation"):
-    """Stores conversation in json format in conversations/raw and in formatted
-    markdown file in conversations/formatted. Default name is `conversation`."""
-    json_file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
-    txt_file_path = f"{CONVERSATIONS_FORMATTED_DIR}/{label}.md"
-    if grab_last_response(conversation) == "break":
-        conversation = conversation[:-1]
-    dump_to_json(conversation, json_file_path)
-    dump_conversation_to_textfile(conversation, txt_file_path)
-    print(f"Conversation stored in {json_file_path} and {txt_file_path}")
 
 
 def print_whole_conversation(conversation):

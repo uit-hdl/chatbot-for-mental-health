@@ -149,6 +149,19 @@ def dump_conversation_to_textfile(conversation: list, filepath: str):
             file.write(formatted_message)
 
 
+def dump_conversation(conversation: list, label: str = "conversation"):
+    """Stores conversation in json format in conversations/raw and in formatted
+    markdown file in conversations/formatted. Default name is `conversation`."""
+    global LOGGER
+    json_file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
+    txt_file_path = f"{CONVERSATIONS_FORMATTED_DIR}/{label}.md"
+    if conversation[-1]["content"] == "break":
+        conversation = conversation[:-1]
+    dump_to_json(conversation, json_file_path)
+    dump_conversation_to_textfile(conversation, txt_file_path)
+    LOGGER.info(f"Conversation stored in {json_file_path} and {txt_file_path}")
+
+
 def add_extension(path, extension):
     """Takes a path relative to the output folder and adds the specified
     extension (e.g., '.csv') if the path has no extension."""
