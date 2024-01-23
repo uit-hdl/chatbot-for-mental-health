@@ -72,11 +72,9 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         display_last_response(conversation)
 
     while True:
-        if BREAK_CONVERSATION:
-            break
         conversation = create_user_input(conversation)
 
-        if conversation_status() == "ended":
+        if BREAK_CONVERSATION:
             offer_to_store_conversation(conversation)
             break
 
@@ -106,7 +104,7 @@ def initiate_new_conversation(inital_prompt: str, system_message=None):
 
 def generate_raw_bot_response(conversation):
     """Takes the conversation log, and updates it with the response of the
-    chatbot as a function of the chat history."""
+    chatbot as a function of the chat history. Does not interpret bot response."""
     response = openai.ChatCompletion.create(
         model=CONFIG["model_id"],
         messages=conversation,
@@ -146,6 +144,8 @@ def create_user_input(conversation):
             n_rewind = int(user_message[-1])
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
             reprint_whole_conversation_without_syntax(conversation)
+            if user_message == "break":
+                BREAK_CONVERSATION = True
         else:
             break
     conversation.append({"role": "user", "content": user_message})
@@ -176,15 +176,6 @@ def reprint_whole_conversation_without_syntax(
             continue
         else:
             display_message_without_syntax(message)
-
-
-def conversation_status():
-    """Checks if conversation has ended by scanning for a predefined substring
-    that acts as a cue to end the conversation."""
-    if BREAK_CONVERSATION:
-        return "ended"
-    else:
-        return "active"
 
 
 def generate_bot_response(conversation, chatbot_id):
