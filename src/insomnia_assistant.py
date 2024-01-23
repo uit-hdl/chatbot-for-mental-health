@@ -397,17 +397,14 @@ def summarize_conversation(conversation):
 
 
 if __name__ == "__main__":
-    arg1 = "referral"
-    arg2 = None
+    chatbot_id = "referral"
+    chat_filepath = None
 
     if len(sys.argv) > 1:
-        arg1 = sys.argv[1]
-        if arg1 == "":
-            arg1 = "referral"
+        chatbot_id = sys.argv[1]
+        if chatbot_id == "":
+            chatbot_id = "referral"
     if len(sys.argv) > 2:
-        arg2 = sys.argv[2]
+        chat_filepath = sys.argv[2]
 
-    if arg1 == "options":
-        print(f"The assistant IDs are: \n{pp.pformat(list(PROMPTS.keys()))}")
-    else:
-        sleep_diary_assistant_bot(chatbot_id=arg1, chat_filepath=arg2)
+    sleep_diary_assistant_bot(chatbot_id, chat_filepath)
