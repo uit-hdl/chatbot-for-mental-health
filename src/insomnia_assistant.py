@@ -178,7 +178,7 @@ def reprint_whole_conversation_without_syntax(
             display_message_without_syntax(message)
 
 
-def generate_processed_bot_response(conversation, chatbot_id):
+def generate_processed_bot_response(conversation, chatbot_id) -> list:
     """Generates and interprets a message from the assistant. The response is generated iteratively
     since the bot may first have to request sources and then react to those sources, and also the
     message has to pass quality checks (primarily checking existance of requested files).
@@ -190,7 +190,7 @@ def generate_processed_bot_response(conversation, chatbot_id):
         harvested_syntax,
     ) = generate_valid_response(conversation, chatbot_id)
 
-    conversation, harvested_syntax = request_and_insert_sources_until_satisfied(
+    conversation, harvested_syntax = collect_sources_until_satisfied(
         conversation, harvested_syntax, chatbot_id
     )
 
@@ -209,8 +209,6 @@ def generate_processed_bot_response(conversation, chatbot_id):
             display_last_response(conversation)
 
     conversation = remove_inactive_sources(conversation)
-
-    print_summary_info(tokens_used=N_TOKENS_USED, response_costs=RESPONSE_COSTS)
 
     return conversation
 
@@ -265,7 +263,7 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
     return conversation, harvested_syntax, quality_check
 
 
-def request_and_insert_sources_until_satisfied(
+def collect_sources_until_satisfied(
     conversation, harvested_syntax, chatbot_id
 ):
     """Assistant can iteratively request sources untill it is satisfied. Sources are inserted into
