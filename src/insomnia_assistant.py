@@ -84,7 +84,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         conversation = truncate_conversation_if_nessecary(conversation)
 
 
-def continue_previous_conversation(chat_filepath, prompt):
+def continue_previous_conversation(chat_filepath: str, prompt: str) -> list:
     """Inserts the current prompt into a previous stored conversation that was
     discontinued, so that you can pick up where you left of."""
     conversation = load_yaml_file(chat_filepath)
@@ -94,7 +94,7 @@ def continue_previous_conversation(chat_filepath, prompt):
     return conversation
 
 
-def initiate_new_conversation(inital_prompt, system_message=None):
+def initiate_new_conversation(inital_prompt: str, system_message=None):
     """Initiates a conversation with the chat bot."""
     conversation = []
     conversation.append({"role": "system", "content": inital_prompt})
@@ -107,23 +107,17 @@ def initiate_new_conversation(inital_prompt, system_message=None):
 def generate_raw_bot_response(conversation):
     """Takes the conversation log, and updates it with the response of the
     chatbot as a function of the chat history."""
-    global RESPONSE_TIMES, N_TOKENS_USED, RESPONSE_COSTS
-    start_time = time.time()
     response = openai.ChatCompletion.create(
         model=CONFIG["model_id"],
         messages=conversation,
         engine=CONFIG["deployment_name"],
     )
-    end_time = time.time()
     conversation.append(
         {
             "role": response.choices[0].message.role,
             "content": response.choices[0].message.content.strip(),
         }
     )
-    RESPONSE_TIMES.append(end_time - start_time)
-    N_TOKENS_USED.append(count_tokens_used_to_create_last_response(conversation))
-    RESPONSE_COSTS.append(calculate_cost_of_response(conversation))
     return conversation
 
 
