@@ -38,7 +38,6 @@ from utils.manage_conversation_length import reconstruct_conversation_with_summa
 from utils.manage_conversation_length import separate_system_from_conversation
 from utils.manage_conversation_length import remove_code_syntax_from_whole_conversation
 from utils.manage_conversation_length import insert_information_in_prompt
-from utils.user_commands import scan_user_message_for_commands
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
@@ -149,17 +148,9 @@ def create_user_input(conversation):
 
     while True:
         user_message = input(GREEN + "user" + RESET_COLOR + ": ")
-        user_message, n_rewind, BREAK_CONVERSATION = scan_user_message_for_commands(
-            user_message,
-            conversation,
-            BREAK_CONVERSATION,
-            N_TOKENS_USED,
-            RESPONSE_TIMES,
-            RESPONSE_COSTS,
-        )
-        if n_rewind:
+        if "rewind_by" in user_message:
+            n_rewind = int(user_message[-1])
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
-            print(f"** Rewinding by {n_rewind} bot responses **")
             reprint_whole_conversation_without_syntax(conversation)
         else:
             break
