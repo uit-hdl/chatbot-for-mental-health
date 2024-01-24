@@ -79,8 +79,7 @@ passordbehandler, hjelp dem med å lagre det nye passordet. Bruk en `knowledge_r
 Klikk på den grå tannhjulet øverst i høyre hjørne av nettsiden, og deretter på logg ut (show: logout_button.png).
 
 Når du er ferdig med å hjelpe brukeren, spør dem om det er noe annet du kan bistå dem med. Hvis ikke,
-avslutt samtalen med en avsluttende uttalelse. Merk ALLTID slutten av dette siste svaret med
-¤:end_chat():¤, for eksempel "Jeg er glad jeg kunne hjelpe deg. Ha en fin dag! ¤:end_chat():¤".
+avslutt samtalen med en avsluttende uttalelse.
 
 # Omdirigering av brukeren
 Hvis brukeren spør om ting utenfor informasjonen tilgjengelig for deg, kan du omdirigere brukeren til

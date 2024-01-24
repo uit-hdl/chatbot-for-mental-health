@@ -5,15 +5,8 @@ import re
 import logging
 
 from utils.backend import SETTINGS
+from utils.backend import LOGGER
 from utils.general import remove_superflous_linebreaks
-
-
-logging.basicConfig(
-    filename="chat-info/chat.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
-)
-LOGGER = logging.getLogger(__name__)
 
 
 def remove_inactive_sources(conversation) -> list:

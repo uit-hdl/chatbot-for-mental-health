@@ -4,35 +4,19 @@
         "role": "system"
     },
     {
-        "content": "Here is a summary of the users issue: Unspecified",
+        "content": "Here is a summary of the users issue: Login issue",
         "role": "system"
     },
     {
-        "content": "Hello! I'm here to assist you with any technical issues you might have while using the \"Consensus Sleep Diary\" app. How can I help you today?",
+        "content": "Hello! I'm here to help you with any technical issues you might be experiencing with the Consensus Sleep Diary app. How can I assist you today with your login issue?",
         "role": "assistant"
     },
     {
-        "content": "thank you, can u show me how to login?",
+        "content": "login?",
         "role": "user"
     },
     {
-        "content": "Of course! To log in, please go to the login page using this URL: https://app.consensussleepdiary.com/#/login/. Here is where you can find the login fields. \u00a4:display_image(login_sleep_diary.png):\u00a4\n\nDo you remember your login details?",
-        "role": "assistant"
-    },
-    {
-        "content": "no but i keep them in pwm a. Please help me use it",
-        "role": "user"
-    },
-    {
-        "content": "Sure, I'll help you with that. Let's start by opening your password manager A to find your login details. \u00a4:request_knowledge(password_manager_a):\u00a4",
-        "role": "assistant"
-    },
-    {
-        "content": "source password_manager_a: # Tutorial videos\n* Finding a password/login in 1password: `finding_password.mkv`\n* Editing a password/login in 1password: `edit_login.mkv`\n\n# Logging into 1password\n* Click on the icon (blue key hole) in the upper right corner of their web-browser (`show: 1password_toolbar_icon.png`)\n    * If not visible: click the grey icon in the upper right corner that looks like a puzzle-piece\n      (`extensions_dropdown.png`).\n      * If not visible: A drop down list appears that includes the 1password extension. Click on 1password and then on\n        the `pin` icon next to the 1password icon to pin this extension to the toolbar for convenience.\n* Clicking the 1password icon, a window appears where they type their password (`show: enter_password_1password.png`)\n  and then press enter to finally log into 1passpord.\n\n# Updating password\nIf they are changing a password for some website and they click on the field for entering the new password, a 1password\nwindow (assuming they are logged in) will appear which says \"update password\", which they can click on to change the\npassword.\n\n# Finding a login/password\n* Login to 1password, so that the 1password app appears on the screen.\n* Under the search bar (`show: 1password_login_search.png`) is a little box. Click it, and a drop down menu appears\n  which shows the login categories (`All items` will show all their stored logins) in alphabetical order.\n* Click on the desired login. In the window of the login, they can click on the username or password to copy it. They\n  can then paste it to where they need it.\n\nThey can also find a login by searching for it in the 1password search field (`show: 1password_login_search.png`).\n\n# Edit login\n* Login to 1password.\n* Click the three dots in the upper right corner of the 1password-window. In the dropdown menu that appears, click\n  `edit` (`show: 1password_edit_login1.png`). \n* They get directed to a new window where they can edit details like username, password, and website related to the\n  password (`show: 1password_edit_login2.png`).\n\n# Optional information\n* 1password logs out after 2 minutes of inactivity. If you want functionalities of 1password such as autofilling\n  username or password, you have to be logged in.\n* If the user clicks on the `email` or `password` field 1password will offer to autofill the information. They confirm\n  by clicking on the little window that appears.\n\n# How to treat user\nUnless the user specifically requests so, NEVER EVER show more than one step at a time in each response; ask only one question at a time, and NEVER use multiple \"if-then\" statements in a single response.",
-        "role": "system"
-    },
-    {
-        "content": "Great, let's start by accessing Password Manager A. Please find and click on the 1Password icon, which looks like a blue keyhole, in the upper right corner of your web browser.\n\n\u00a4:display_image(1password_toolbar_icon.png):\u00a4\n\nOnce you've clicked on it, a window will appear where you'll need to type your master password for 1Password. Do you see the icon? If not, please let me know. \u00a4:cite([\"password_manager_a\"]):\u00a4",
+        "content": "To login to the Consensus Sleep Diary, please go to https://app.consensussleepdiary.com/#/login/ and enter your username and password. Remember, passwords are case sensitive. Do you remember your login details?\n\u00a4:display_image(login_sleep_diary.png):\u00a4",
         "role": "assistant"
     }
 ]
