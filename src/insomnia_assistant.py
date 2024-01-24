@@ -1,6 +1,5 @@
 import openai
 import sys
-import logging
 import re
 
 from utils.general import offer_to_store_conversation
@@ -34,9 +33,6 @@ openai.api_version = CONFIG["api_version"]
 
 # Initiate global variables
 BREAK_CONVERSATION = False
-N_TOKENS_USED = []  # Tracks the number of tokens used to generate each response
-RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
-RESPONSE_COSTS = []  # Tracks the cost (in kr) per response
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
