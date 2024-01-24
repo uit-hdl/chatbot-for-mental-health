@@ -7,14 +7,8 @@ import logging
 from utils.backend import MODEL_ID
 from utils.backend import dump_conversation
 from utils.backend import SETTINGS
+from utils.backend import LOGGER
 from utils.chat_utilities import identify_assistant_responses
-
-logging.basicConfig(
-    filename="chat-info/chat.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
-)
-LOGGER = logging.getLogger(__name__)
 
 
 def remove_quotes_from_string(input_str):

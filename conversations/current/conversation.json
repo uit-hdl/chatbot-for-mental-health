@@ -4,31 +4,27 @@
         "role": "system"
     },
     {
-        "content": "Hello! I'm here to help you with any technical issues you may be having with the \"Consensus Sleep Diary\" app. How can I assist you today?",
+        "content": "Here is a summary of the users issue: Unspecified",
+        "role": "system"
+    },
+    {
+        "content": "Hello! I'm here to assist you with any technical issues you might have while using the \"Consensus Sleep Diary\" app. How can I help you today?",
         "role": "assistant"
     },
     {
-        "content": "hi, login?",
+        "content": "thank you, can u show me how to login?",
         "role": "user"
     },
     {
-        "content": "To login, go to the login page at https://app.consensussleepdiary.com/#/login/. Do you remember your login details? \u00a4:display_image(login_sleep_diary.png):\u00a4",
+        "content": "Of course! To log in, please go to the login page using this URL: https://app.consensussleepdiary.com/#/login/. Here is where you can find the login fields. \u00a4:display_image(login_sleep_diary.png):\u00a4\n\nDo you remember your login details?",
         "role": "assistant"
     },
     {
-        "content": "password manager a? request it",
+        "content": "no but i keep them in pwm a. Please help me use it",
         "role": "user"
     },
     {
-        "content": "Do you remember if you stored your sleep diary login information with password manager A?",
-        "role": "assistant"
-    },
-    {
-        "content": "yes",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:request_knowledge(password_manager_a):\u00a4",
+        "content": "Sure, I'll help you with that. Let's start by opening your password manager A to find your login details. \u00a4:request_knowledge(password_manager_a):\u00a4",
         "role": "assistant"
     },
     {
@@ -36,15 +32,7 @@
         "role": "system"
     },
     {
-        "content": "The first step is to click on the 1Password icon, which looks like a blue keyhole, in the upper right corner of your web browser. If you don\u2019t see it, look for a grey puzzle-piece icon, click on it, and then pin the 1Password extension for convenience. \u00a4:display_image(1password_toolbar_icon.png):\u00a4 \n\nOnce you've located the icon, click it and log in to find your Sleep Diary login information. \u00a4:cite([\"password_manager_a\"]):\u00a4",
-        "role": "assistant"
-    },
-    {
-        "content": "ok thats all thanks!",
-        "role": "user"
-    },
-    {
-        "content": "You're welcome! If you have any more questions or need further assistance in the future, don't hesitate to reach out. Have a great day!",
+        "content": "Great, let's start by accessing Password Manager A. Please find and click on the 1Password icon, which looks like a blue keyhole, in the upper right corner of your web browser.\n\n\u00a4:display_image(1password_toolbar_icon.png):\u00a4\n\nOnce you've clicked on it, a window will appear where you'll need to type your master password for 1Password. Do you see the icon? If not, please let me know. \u00a4:cite([\"password_manager_a\"]):\u00a4",
         "role": "assistant"
     }
 ]

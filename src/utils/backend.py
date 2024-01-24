@@ -6,13 +6,6 @@ import pathlib
 import yaml
 import datetime
 
-logging.basicConfig(
-    filename="chat-info/chat.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
-)
-LOGGER = logging.getLogger(__name__)
-
 
 ROOT_DIR = pathlib.Path(__file__).parents[2]
 API_DIR = os.path.join(pathlib.Path(__file__).parents[3], "api-keys")
@@ -30,6 +23,14 @@ CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
 API_KEY_PATH = os.path.join(API_DIR, "insomnia_bot_azure.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
+LOGFILE_PATH = os.path.join(ROOT_DIR, "chat-info/chat.log")
+
+logging.basicConfig(
+    filename=LOGFILE_PATH,
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
+)
+LOGGER = logging.getLogger(__name__)
 
 
 def get_prompt_for_assistant(assistant_id):
@@ -243,7 +244,6 @@ PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)
 
 CONFIG = load_yaml_file(CONFIG_PATH)
 SETTINGS = load_yaml_file(SETTINGS_PATH)
-URL = load_yaml_file(URL_MAP_PATH)
 API_KEY = load_yaml_file(API_KEY_PATH)["key"]
 
 MODEL_ID = CONFIG["model_id"]

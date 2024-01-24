@@ -12,6 +12,7 @@ from utils.backend import CONFIG
 from utils.backend import get_prompt_for_assistant
 from utils.backend import dump_current_conversation
 from utils.backend import load_yaml_file
+from utils.backend import LOGGER
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
 from utils.managing_sources import extract_sources_inserted_by_system
@@ -36,13 +37,6 @@ BREAK_CONVERSATION = False
 N_TOKENS_USED = []  # Tracks the number of tokens used to generate each response
 RESPONSE_TIMES = []  # Tracks the time that the bot takes to generate a response
 RESPONSE_COSTS = []  # Tracks the cost (in kr) per response
-
-logging.basicConfig(
-    filename="chat-info/chat.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
-)
-LOGGER = logging.getLogger(__name__)
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):

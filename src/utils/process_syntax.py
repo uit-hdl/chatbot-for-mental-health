@@ -27,13 +27,7 @@ from utils.backend import PROMPTS_DIR
 from utils.backend import load_textfile_as_string
 from utils.backend import get_shared_subfolder_name
 from utils.backend import dump_to_json
-
-logging.basicConfig(
-    filename="chat-info/chat.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
-)
-LOGGER = logging.getLogger(__name__)
+from utils.backend import LOGGER
 
 
 def process_syntax_of_bot_response(conversation, chatbot_id) -> (dict, list[str]):

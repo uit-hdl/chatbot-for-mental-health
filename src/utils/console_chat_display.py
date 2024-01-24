@@ -62,7 +62,7 @@ def wrap_and_print_message(role, message, line_length=80):
 
 def remove_code_syntax_from_message(message: str):
     """Removes code syntax which is intended for backend purposes only."""
-    message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message)
+    message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message, flags=re.DOTALL)
     # Remove surplus spaces
     message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
     if message_cleaned:
@@ -85,7 +85,7 @@ def display_message_without_syntax(message_dict: dict):
         wrap_and_print_message(role, message_cleaned)
 
 
-def contains_only_whitespace(input_string):
+def contains_only_whitespace(input_string) -> bool:
     """Checks if a message is empty (can happen after syntax is removed)."""
     return all(char.isspace() or char == "" for char in input_string)
 
