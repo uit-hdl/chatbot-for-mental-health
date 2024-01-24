@@ -104,7 +104,7 @@ def get_inactive_sources(cited_sources, inactivity_times):
 
 def remove_inactive_sources_from_system_messages(
     conversation, inactive_sources: list[str]
-):
+) -> list:
     """Iterates over system messages, identifies the ones that contain information that is not being
     actively used (inactive source), and removes that information."""
     for message_index, message in enumerate(conversation):
@@ -120,7 +120,7 @@ def remove_inactive_sources_from_system_messages(
     return conversation
 
 
-def message_is_intended_for_user(message: str):
+def message_is_intended_for_user(message: str) -> bool:
     """Used to check if a message contains text intended to be read by the user, or if it contains
     only syntax to be interpreted by the backend."""
     message = remove_superflous_linebreaks(message)

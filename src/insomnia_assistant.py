@@ -4,6 +4,7 @@ import logging
 import re
 
 from utils.general import offer_to_store_conversation
+from utils.general import rewind_chat_by_n_assistant_responses
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import SETTINGS
@@ -14,7 +15,6 @@ from utils.backend import load_yaml_file
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
 from utils.managing_sources import extract_sources_inserted_by_system
-from utils.chat_utilities import identify_assistant_responses
 from utils.chat_utilities import append_system_messages
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import grab_last_assistant_response
@@ -136,21 +136,6 @@ def create_user_input(conversation) -> list:
             break
     conversation.append({"role": "user", "content": user_message})
     return conversation
-
-
-def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> list:
-    """Resets the conversation back to bot-response number = n_current - n_rewind. If n_rewind == 1
-    then conversation resets to the second to last bot-response, allowing you to investigate the
-    bots behaviour given the chat up to that point. Useful for testing how likely the bot is to
-    reproduce an error (such as forgetting an instruction) or a desired response, since you don't
-    have to restart the conversation from scratch. Works by Identifing and deleting messages between
-    the current message and the bot message you are resetting to, but does not nessecarily reset the
-    overall conversation to the state it was in at the time that message was produced (for instance,
-    the prompt might have been altered)."""
-    assistant_indices = identify_assistant_responses(conversation)
-    n_rewind = min([n_rewind, len(assistant_indices) - 1])
-    index_reset = assistant_indices[-(n_rewind + 1)]
-    return conversation[: index_reset + 1]
 
 
 def generate_processed_bot_response(conversation, chatbot_id) -> list:
