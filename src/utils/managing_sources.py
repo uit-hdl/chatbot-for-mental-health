@@ -16,7 +16,7 @@ logging.basicConfig(
 LOGGER = logging.getLogger(__name__)
 
 
-def remove_inactive_sources(conversation):
+def remove_inactive_sources(conversation) -> list:
     """Scans the conversation for sources that have not been used recently
     (inactive sources) and removes them from the conversation (updates system messages).
     """
@@ -42,6 +42,7 @@ def remove_inactive_sources(conversation):
 def extract_sources_inserted_by_system(conversation):
     """Extracts name of sources cited and inserted into the chat by system in the
     form of system messages."""
+    # Find system messages
     system_messages = [
         message["content"]
         for message in conversation[1:]
@@ -59,7 +60,7 @@ def extract_sources_inserted_by_system(conversation):
 
 def extract_source_name(message: str):
     """Takes a message/response and scans for the name of the source being used,
-    if any."""
+    if there are any."""
     pattern = r"source (\w+):"
     match = re.search(pattern, message)
     if match:
