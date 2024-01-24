@@ -97,6 +97,7 @@ def initiate_new_conversation(inital_prompt: str, system_message=None):
     conversation.append({"role": "system", "content": inital_prompt})
     if system_message:
         conversation.append({"role": "system", "content": system_message})
+    LOGGER.info("Starting new conversation.")
     conversation = generate_raw_bot_response(conversation)
     return conversation
 

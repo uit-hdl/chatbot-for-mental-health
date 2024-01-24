@@ -4,23 +4,15 @@
         "role": "system"
     },
     {
-        "content": "Hello! I'm here to assist you with technical issues related to using the \"Consensus Sleep Diary\" app to track your sleep information. How can I help you today?",
+        "content": "Hello! I'm here to help you with any technical issues related to using the \"Consensus Sleep Diary\" app for your CBT-I programme. How can I assist you today?",
         "role": "assistant"
     },
     {
-        "content": "password manager a help please",
+        "content": "pwm a=",
         "role": "user"
     },
     {
-        "content": "Certainly, I can help you with Password Manager A. Could you tell me what you need assistance with? Is it finding your stored password, or something else?",
-        "role": "assistant"
-    },
-    {
-        "content": "doesnt matter",
-        "role": "user"
-    },
-    {
-        "content": "I understand. If you need to find your stored password for the Consensus Sleep Diary app, I can guide you through the steps using Password Manager A. Would you like to proceed with that? If so, I will provide you the necessary instructions.",
+        "content": "It sounds like you might be in need of assistance with Password Manager A. Are you looking to find your stored Sleep Diary password or do you need help setting it up?",
         "role": "assistant"
     },
     {
@@ -28,15 +20,15 @@
         "role": "user"
     },
     {
-        "content": "Great. To access your stored passwords in Password Manager A, you'll need to open the password manager first. Please open the app or program where you normally access Password Manager A, and let me know once you have it open. If you need step-by-step instructions, I can provide those after a quick knowledge check. Would you like me to give you the instructions on how to open Password Manager A?\n\nAlso, here is the image of the login page for the Consensus Sleep Diary app for when you need it.\n\u00a4:display_image(login_sleep_diary.png):\u00a4",
+        "content": "To retrieve your Sleep Diary password from Password Manager A, I can guide you through the steps. Let's begin by opening the Password Manager A application. Do you know how to open it, or do you need assistance with that first step?",
         "role": "assistant"
     },
     {
-        "content": "ok, next",
+        "content": "pls do",
         "role": "user"
     },
     {
-        "content": "Alright, once you have Password Manager A open, the next step is to find your \"Consensus Sleep Diary\" app password within it. Typically, this would involve clicking on an icon or searching for the entry in your password list.\n\nSince I'll need specific information to give you the correct steps, I will request details on how to use Password Manager A. One moment please.\n\n\u00a4:request_knowledge(password_manager_a):\u00a4",
+        "content": "\u00a4:request_knowledge(password_manager_a):\u00a4",
         "role": "assistant"
     },
     {
@@ -44,11 +36,7 @@
         "role": "system"
     },
     {
-        "content": "It is illegal to present more than 1 video/image per response!",
-        "role": "system"
-    },
-    {
-        "content": "The first step to find your password in Password Manager A is to click on the icon in the upper right corner of your web browser. It looks like a blue keyhole. Here's what the icon looks like:\n\u00a4:display_image(1password_toolbar_icon.png):\u00a4\n\nOnce you've clicked on that, a window will appear where you'll type your password to log into Password Manager A. Let me know once you have logged in, or if you need further assistance with this step. \n\nRemember, take your time and I'll be here to help with the next steps.\u00a4:cite([\"password_manager_a\"]):\u00a4",
+        "content": "Great, let's start by opening your Password Manager A. Please click on the Password Manager A icon in your browser's toolbar. It looks like a blue keyhole. Here's what the icon looks like:\n\n\u00a4:display_image(1password_toolbar_icon.png):\u00a4\n\nCan you see the icon? If it's not visible, look for a grey puzzle-piece icon and click on it to find the Password Manager A extension. \u00a4:cite([\"password_manager_a\"]):\u00a4",
         "role": "assistant"
     }
 ]

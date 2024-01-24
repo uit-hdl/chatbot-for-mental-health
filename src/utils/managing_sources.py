@@ -26,10 +26,10 @@ def remove_inactive_sources(conversation):
             conversation, inserted_sources
         )
         inactive_sources = get_inactive_sources(inserted_sources, inactivity_times)
-        LOGGER(
-            "Inserted sources: %s, Inactivity conters:%s",
+        LOGGER.info(
+            "Inserted sources: %s, Time of inactivity for each source:%s",
+            inserted_sources,
             inactivity_times,
-            inactive_sources,
         )
         conversation = remove_inactive_sources_from_system_messages(
             conversation, inactive_sources
