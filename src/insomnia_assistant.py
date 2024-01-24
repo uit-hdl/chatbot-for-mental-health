@@ -1,15 +1,9 @@
 import openai
 import sys
 import logging
+import re
 
-from utils.general import print_whole_conversation
 from utils.general import offer_to_store_conversation
-from utils.general import identify_assistant_responses
-from utils.general import correct_erroneous_show_image_command
-from utils.general import append_system_messages
-from utils.general import delete_last_bot_response
-from utils.general import GREEN
-from utils.general import RESET_COLOR
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import SETTINGS
@@ -20,10 +14,17 @@ from utils.backend import load_yaml_file
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
 from utils.managing_sources import extract_sources_inserted_by_system
-from utils.chat_display import display_last_response
-from utils.chat_display import reprint_whole_conversation_without_syntax
-from utils.chat_display import play_videos
-from utils.chat_display import display_images
+from utils.chat_utilities import identify_assistant_responses
+from utils.chat_utilities import append_system_messages
+from utils.chat_utilities import delete_last_bot_response
+from utils.chat_utilities import grab_last_assistant_response
+from utils.console_chat_display import display_last_response
+from utils.console_chat_display import reprint_whole_conversation_without_syntax
+from utils.console_chat_display import play_videos
+from utils.console_chat_display import print_whole_conversation
+from utils.console_chat_display import display_images
+from utils.console_chat_display import GREEN
+from utils.console_chat_display import RESET_COLOR
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
@@ -214,6 +215,24 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
         quality_check = "passed"
 
     return conversation, harvested_syntax, quality_check
+
+
+def correct_erroneous_show_image_command(conversation) -> list:
+    """Sometimes the bot uses (show: image_name.png), which is really just a reference to the
+    command ¤:display_image(image_name):¤ that is used as a shorthand in the prompt. If such an
+    error is identified, converts it to a proper syntax, and appends a system warning.
+    """
+    message = grab_last_assistant_response(conversation)
+    pattern = r"\(show: (\w+\.png)\)"
+    matches = re.findall(pattern, message, flags=re.IGNORECASE)
+
+    if matches:
+        corrected_message = re.sub(pattern, r"¤:display_image(\1):¤", message)
+        system_message = "Warning: expressions of the form (show: image.png) have been corrected to ¤:display_image(image.png):¤"
+        conversation[-1]["content"] = corrected_message
+        conversation.append({"role": "system", "content": system_message})
+
+    return conversation
 
 
 def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):

@@ -1,11 +1,12 @@
-"""Functions responsible for keeping the length of the conversation down by 
-removing sources that are not being actively cited (used)."""
+"""Functions responsible for keeping down the length of the conversation by 
+removing sources that are not being actively cited/used."""
 import numpy as np
 import re
 import logging
 
-from utils.general import remove_superflous_linebreaks
 from utils.backend import SETTINGS
+from utils.general import remove_superflous_linebreaks
+
 
 logging.basicConfig(
     filename="chat-info/chat.log",

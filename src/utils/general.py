@@ -1,6 +1,5 @@
 import tiktoken
 import re
-import textwrap
 import logging
 
 from utils.backend import MODEL_ID
@@ -14,43 +13,14 @@ logging.basicConfig(
 )
 LOGGER = logging.getLogger(__name__)
 
-# Chat colors
-GREY = "\033[2;30m"  # info messages
-GREEN = "\033[92m"  # user
-BLUE = "\033[94m"  # assistant
-RESET_COLOR = "\033[0m"
 
-
-def contains_only_whitespace(input_string):
-    """Checks if a message is empty (can happen after syntax is removed)."""
-    return all(char.isspace() or char == "" for char in input_string)
-
-
-# ## Conversation processesing ##
-def delete_last_bot_response(conversation):
-    """Identifies which responses are from the assistant, and deletes the last
-    response from the conversation. Used when the bot response has broken some
-    rule, and we want it to create a new response."""
-    assistant_indices = identify_assistant_responses(conversation)
-    assistant_indices[-1]
-    del conversation[assistant_indices[-1]]
-    return conversation
-
-
-def grab_last_response(conversation: list) -> str:
-    """Grab the last response. Convenience function for better code-readability."""
-    return conversation[-1]["content"]
-
-
-def grab_last_assistant_response(conversation: list) -> str:
-    """Grab the latest assistant response."""
-    index_assistant_messages = identify_assistant_responses(conversation)
-    return conversation[index_assistant_messages[-1]]["content"]
-
-
-def identify_assistant_responses(conversation) -> list[int]:
-    """Gets the index/indices for `assistant` responses."""
-    return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
+def remove_quotes_from_string(input_str):
+    """Removes quotation marks, `"` or `'`, from a string. Used for standardization
+    in cases where bot is not always consistent, such as play_video("video_name") instead of
+    play_video(video_name)."""
+    pattern = r"[\'\"]"  # Matches either single or double quotes
+    result_str = re.sub(pattern, "", input_str)
+    return result_str
 
 
 def offer_to_store_conversation(conversation):
@@ -66,40 +36,7 @@ def offer_to_store_conversation(conversation):
         print("Conversation not stored")
 
 
-def correct_erroneous_show_image_command(conversation) -> list:
-    """Sometimes the bot uses (show: image_name.png), which is really just a reference to the
-    command ¤:display_image(image_name):¤ that is used as a shorthand in the prompt. If such an
-    error is identified, converts it to a proper syntax, and appends a system warning.
-    """
-    message = grab_last_assistant_response(conversation)
-    pattern = r"\(show: (\w+\.png)\)"
-    matches = re.findall(pattern, message, flags=re.IGNORECASE)
-
-    if matches:
-        corrected_message = re.sub(pattern, r"¤:display_image(\1):¤", message)
-        system_message = "Warning: expressions of the form (show: image.png) have been corrected to ¤:display_image(image.png):¤"
-        conversation[-1]["content"] = corrected_message
-        conversation.append({"role": "system", "content": system_message})
-
-    return conversation
-
-
-def append_system_messages(conversation, system_messages: list[str]):
-    """Appends each message to the conversation under the role of system."""
-    for message in system_messages:
-        conversation.append({"role": "system", "content": message})
-    return conversation
-
-
-def print_whole_conversation(conversation):
-    """Prints the entire conversation (excluding the prompt) in the console."""
-    for message in conversation[1:]:
-        role = message["role"]
-        message = message["content"].strip()
-        wrap_and_print_message(role, message)
-
-
-def count_tokens_used_to_create_last_response(conversation):
+def count_tokens_used_to_create_last_response(conversation) -> int:
     """Counts the number of tokens used to generate the last message in the conversation."""
     tokens_in = count_tokens(conversation[:-1])
     tokens_out = count_tokens(conversation[-1])
@@ -119,7 +56,7 @@ def calculate_cost_of_response(conversation):
     return kroners_total
 
 
-def count_tokens(conversation):
+def count_tokens(conversation) -> int:
     """Counts the number of tokens in a conversation. Uses token encoder
     https://github.com/openai/tiktoken/blob/main/tiktoken/model.py. Input argument can be either a
     list or a dictionary (for instance the last response in the conversation).
@@ -137,24 +74,7 @@ def count_tokens(conversation):
     return num_tokens
 
 
-# ## Presenting messages ##
-def remove_quotes_from_string(input_str):
-    """Removes quotation marks, `"` or `'`, from a string. Used for standardization
-    in cases where bot is not always consistent, such as play_video("video_name") instead of
-    play_video(video_name)."""
-    pattern = r"[\'\"]"  # Matches either single or double quotes
-    result_str = re.sub(pattern, "", input_str)
-    return result_str
-
-
-def remove_code_syntax_from_message(message: str):
-    """Removes code syntax which is intended for backend purposes only."""
-    message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message)
-    # Remove surplus spaces
-    message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
-    if message_cleaned:
-        message_cleaned = remove_superflous_linebreaks(message_cleaned)
-    return message_cleaned
+# ## Dealing with linebreak characters ##
 
 
 def remove_superflous_linebreaks(message):
@@ -180,44 +100,3 @@ def remove_superflous_linebreaks_between_paragraphs(text: str):
     commands from bot messages)."""
     cleaned_text = re.sub(r"\n{3,}", "\n\n", text)
     return cleaned_text
-
-
-def wrap_and_print_message(role, message, line_length=80):
-    """Prints measures, and ensures that line lengths does not exceed a given maximum."""
-    paragraphs = message.split("\n\n")  # Split message into paragraphs
-
-    for i, paragraph in enumerate(paragraphs):
-        lines = paragraph.split("\n")  # Split each paragraph into lines
-        wrapped_paragraph = []
-
-        for line in lines:
-            # Split the line by line breaks and wrap each part separately
-            parts = line.split("\n")
-            wrapped_parts = [textwrap.wrap(part, line_length) for part in parts]
-
-            # Join the wrapped parts using line breaks and append to the paragraph
-            wrapped_line = "\n".join(
-                "\n".join(wrapped_part) for wrapped_part in wrapped_parts
-            )
-            wrapped_paragraph.append(wrapped_line)
-
-        formatted_paragraph = "\n".join(wrapped_paragraph)
-
-        if i == 0:
-            if role == "user":
-                colour = GREEN
-            else:
-                colour = BLUE
-            formatted_message = (
-                f"\n{colour + role + RESET_COLOR}: {formatted_paragraph}\n"
-            )
-        else:
-            formatted_message = f"{formatted_paragraph}\n"
-
-        print(formatted_message)
-
-
-def conversation_list_to_string(conversation: list) -> str:
-    """Takes a conversation in the form of a list of dictionaries, and returns the
-    whole conversation as a string."""
-    return "\n".join([f"{d['role']}: {d['content']}" for d in conversation])
