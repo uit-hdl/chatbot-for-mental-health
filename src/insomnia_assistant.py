@@ -233,18 +233,19 @@ def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):
 
 
 def insert_knowledge(conversation, knowledge_list: list[str]):
-    """Inserts knowledge into the conversation, and lets bot produce a new
-    response using that information."""
+    """Checks for request to insert knowledge, and inserts knowledge into the conversation under the
+    role of system."""
 
     for knowledge in knowledge_list:
         if knowledge["content"]:
             inserted_sources = extract_sources_inserted_by_system(conversation)
             requested_source = knowledge["source_name"]
             if requested_source in inserted_sources:
-                message = f"The source {requested_source} is already inserted in chat. Never request sources that are already provided!"
+                message = f"The source {requested_source} is already in chat. Never request sources that are already provided!"
                 LOGGER.info(message)
             else:
                 message = f"source {requested_source}: {knowledge['content']}"
+                LOGGER.info("Source %s inserted in conversation.", requested_source)
         else:
             message = f"Source {requested_source} does not exist! Request only sources I have told you to use."
             LOGGER.info(message)
@@ -254,9 +255,9 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
     return conversation
 
 
-def direct_to_new_assistant(json_ticket):
-    """Takes information about the users issue condensed into a json string, and
-    redirects to the appropriate chatbot assistant."""
+def direct_to_new_assistant(json_ticket: str) -> list:
+    """Receives information about the users issue collected in json format, and
+    redirects to the requested chatbot assistant."""
     LOGGER.info("Transferring to assistant %s", json_ticket["assistant_id"])
     prompt = get_prompt_for_assistant(json_ticket["assistant_id"])
     system_message = f"Here is a summary of the users issue: {json_ticket['topic']}"
