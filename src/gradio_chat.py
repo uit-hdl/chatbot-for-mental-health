@@ -4,9 +4,9 @@ import sys
 from utils.backend import PROMPTS
 from utils.general import remove_syntax_from_message
 from utils.chat_utilities import grab_last_response
-from insomnia_assistant import generate_processed_bot_response
-from insomnia_assistant import direct_to_new_assistant
-from insomnia_assistant import remove_inactive_sources
+from console_chat import generate_processed_bot_response
+from console_chat import direct_to_new_assistant
+from console_chat import remove_inactive_sources
 import gradio as gr
 
 CONVERSATION = []
