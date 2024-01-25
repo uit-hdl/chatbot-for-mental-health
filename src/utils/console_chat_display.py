@@ -3,12 +3,11 @@ making it look nice to humans."""
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from moviepy.editor import VideoFileClip
-import re
 import textwrap
 
 from utils.backend import file_exists
 from utils.backend import SETTINGS
-from utils.general import remove_superflous_linebreaks
+from utils.general import remove_syntax_from_message
 
 # Chat colors
 GREY = "\033[2;30m"  # info messages
@@ -17,20 +16,35 @@ BLUE = "\033[94m"  # assistant
 RESET_COLOR = "\033[0m"
 
 
-def print_whole_conversation(conversation):
-    """Prints the entire conversation (excluding the prompt) in the console."""
-    for message in conversation[1:]:
-        role = message["role"]
-        message = message["content"].strip()
-        wrap_and_print_message(role, message)
+def print_whole_conversation_with_backend_info(conversation):
+    """Prints the entire conversation (excluding the prompt) in the console. Includes system
+    messages, and does not remove bot syntax."""
+    for message_dict in conversation[1:]:
+        role = message_dict["role"]
+        message_text = message_dict["content"].strip()
+        message_with_role = prepend_role(message_text, role)
+        message_wrapped = wrap_message(message_with_role)
+        print(message_wrapped)
 
 
-def wrap_and_print_message(role, message, line_length=80):
-    """Prints message, and ensures that line lengths does not exceed a given maximum."""
-    paragraphs = message.split("\n\n")  # Split message into paragraphs
+def prepend_role(message: str, role: str):
+    """Prepends the role (with colour coding) to the beginning of the message."""
+    if role == "user":
+        colour = GREEN
+    elif role == "assistant":
+        colour = BLUE
+    else:
+        colour = GREY
+    return f"\n{colour + role + RESET_COLOR}: {message}\n"
 
-    for i, paragraph in enumerate(paragraphs):
-        lines = paragraph.split("\n")  # Split each paragraph into lines
+
+def wrap_message(message: str, line_length=80):
+    """Wraps the message so that line lengths does not exceed a given maximum."""
+    paragraphs = message.split("\n\n")
+    wrapped_paragraphs = []
+
+    for paragraph in paragraphs:
+        lines = paragraph.split("\n")
         wrapped_paragraph = []
 
         for line in lines:
@@ -44,34 +58,16 @@ def wrap_and_print_message(role, message, line_length=80):
             )
             wrapped_paragraph.append(wrapped_line)
 
-        formatted_paragraph = "\n".join(wrapped_paragraph)
+        wrapped_paragraph = "\n".join(wrapped_paragraph)
+        wrapped_paragraphs.append(wrapped_paragraph)
 
-        if i == 0:
-            if role == "user":
-                colour = GREEN
-            else:
-                colour = BLUE
-            formatted_message = (
-                f"\n{colour + role + RESET_COLOR}: {formatted_paragraph}\n"
-            )
-        else:
-            formatted_message = f"{formatted_paragraph}\n"
+    wrapped_message = "\n\n".join(wrapped_paragraphs)
 
-        print(formatted_message)
-
-
-def remove_code_syntax_from_message(message: str):
-    """Removes code syntax which is intended for backend purposes only."""
-    message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message, flags=re.DOTALL)
-    # Remove surplus spaces
-    message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
-    if message_cleaned:
-        message_cleaned = remove_superflous_linebreaks(message_cleaned)
-    return message_cleaned
+    return wrapped_message
 
 
 def display_last_response(conversation):
-    """Displays the last response of the conversation (removes syntax)."""
+    """Displays the last response of the conversation after stripping away syntax."""
     display_message_without_syntax(message_dict=conversation[-1])
 
 
@@ -80,9 +76,11 @@ def display_message_without_syntax(message_dict: dict):
     it in the console."""
     role = message_dict["role"].strip()
     message = message_dict["content"].strip()
-    message_cleaned = remove_code_syntax_from_message(message)
-    if not contains_only_whitespace(message_cleaned):
-        wrap_and_print_message(role, message_cleaned)
+    message_plain_text = remove_syntax_from_message(message)
+    if not contains_only_whitespace(message_plain_text):
+        message_with_role = prepend_role(message_plain_text, role)
+        message_presentable = wrap_message(message_with_role)
+        print(message_presentable)
 
 
 def contains_only_whitespace(input_string) -> bool:
@@ -93,7 +91,7 @@ def contains_only_whitespace(input_string) -> bool:
 def reprint_whole_conversation_without_syntax(
     conversation, include_system_messages=True
 ):
-    """Reprints whole conversation (not including the prompt)."""
+    """Reprints whole conversation (not including the prompt) without showing encoded commands."""
     for message in conversation[1:]:
         if not include_system_messages and message["role"] == "system":
             continue
@@ -103,8 +101,8 @@ def reprint_whole_conversation_without_syntax(
 
 def display_images(images: dict):
     """If extracted code contains command to display image, displays image. The
-    syntax used to display an image is ¤:play_video{<file>}:¤ (replace with
-    `display_video` for video)."""
+    syntax used to display an image is ¤:play_video{<file>}:¤ (replace with `display_video` for
+    video)."""
     for image in images:
         if file_exists(image["path"]):
             display_image(image["path"])
@@ -126,8 +124,8 @@ def display_image(image_path: str):
 
 def play_videos(videos: dict):
     """If extracted code contains command to display image, displays image. The
-    syntax used to display an image is ¤:play_video{<file>}:¤ (replace with
-    `display_video` for video)."""
+    syntax used to display an image is ¤:play_video{<file>}:¤ (replace with `display_video` for
+    video)."""
     for video in videos:
         if file_exists(video["path"]):
             play_video(video["path"])

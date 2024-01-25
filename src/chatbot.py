@@ -35,7 +35,7 @@ openai.api_version = CONFIG["api_version"]
 BREAK_CONVERSATION = False
 
 
-def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
+def generate_chat_response(chatbot_id, chat_filepath=None):
     """Running this function starts a conversation with a tutorial bot that
     helps explain how a web-app (https://app.consensussleepdiary.com) functions.
     The web app is a free online app for collecting sleep data."""

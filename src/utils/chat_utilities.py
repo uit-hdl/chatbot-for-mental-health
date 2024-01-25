@@ -32,6 +32,5 @@ def delete_last_bot_response(conversation) -> list:
     response from the conversation. Used when the bot response has broken some
     rule, and we want it to create a new response."""
     assistant_indices = identify_assistant_responses(conversation)
-    assistant_indices[-1]
     del conversation[assistant_indices[-1]]
     return conversation

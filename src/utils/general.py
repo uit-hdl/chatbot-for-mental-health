@@ -6,6 +6,17 @@ from utils.backend import dump_conversation
 from utils.chat_utilities import identify_assistant_responses
 
 
+
+def remove_syntax_from_message(message_content: str):
+    """Removes code syntax which is intended for backend purposes only."""
+    message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message_content, flags=re.DOTALL)
+    # Remove surplus spaces
+    message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
+    if message_cleaned:
+        message_cleaned = remove_superflous_linebreaks(message_cleaned)
+    return message_cleaned
+
+
 def remove_quotes_from_string(input_str):
     """Removes quotation marks, `"` or `'`, from a string. Used for standardization
     in cases where bot is not always consistent, such as play_video("video_name") instead of
