@@ -17,12 +17,13 @@ def remove_syntax_from_message(message_content: str):
     return message_cleaned
 
 
-def remove_quotes_from_string(input_str):
+def remove_quotes_and_backticks(input_str):
     """Removes quotation marks, `"` or `'`, from a string. Used for standardization
     in cases where bot is not always consistent, such as play_video("video_name") instead of
     play_video(video_name)."""
     pattern = r"[\'\"]"  # Matches either single or double quotes
     result_str = re.sub(pattern, "", input_str)
+    result_str = result_str.replace("`", "")  # Remove backticks
     return result_str
 
 

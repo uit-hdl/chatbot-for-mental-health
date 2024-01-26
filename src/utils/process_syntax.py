@@ -18,7 +18,7 @@ from typing import List
 from typing import Dict
 
 from utils.chat_utilities import grab_last_assistant_response
-from utils.general import remove_quotes_from_string
+from utils.general import remove_quotes_and_backticks
 from utils.backend import file_exists
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
@@ -103,7 +103,7 @@ def get_knowledge_requests(
             if command == "request_knowledge":
                 knowledge = {}
                 source_path = os.path.join(LIBRARY_DIR, subfolder, argument) + ".md"
-                knowledge["source_name"] = remove_quotes_from_string(argument)
+                knowledge["source_name"] = remove_quotes_and_backticks(argument)
                 if file_exists(source_path):
                     knowledge["content"] = load_textfile_as_string(source_path)
                     knowledge["file_exists"] = True
@@ -139,7 +139,7 @@ def get_image_requests(commands, arguments, subfolder) -> list[dict]:
         if command == "display_image":
             image = {}
             image_path = os.path.join(IMAGES_DIR, subfolder, argument)
-            image["name"] = remove_quotes_from_string(argument)
+            image["name"] = remove_quotes_and_backticks(argument)
             if file_exists(image_path):
                 image["path"] = image_path
                 image["file_exists"] = True
@@ -159,7 +159,7 @@ def get_video_requests(commands, arguments, subfolder) -> list[dict]:
         if command == "play_video":
             video = {}
             video_path = os.path.join(VIDEOS_DIR, subfolder, argument)
-            video["name"] = remove_quotes_from_string(argument)
+            video["name"] = remove_quotes_and_backticks(argument)
             if file_exists(video_path):
                 video["path"] = video_path
                 video["file_exists"] = True
