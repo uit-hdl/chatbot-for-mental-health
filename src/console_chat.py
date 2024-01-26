@@ -252,7 +252,7 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
     return conversation
 
 
-def direct_to_new_assistant(json_ticket: str) -> list:
+def direct_to_new_assistant(json_ticket: dict) -> list:
     """Receives information about the users issue collected in json format, and
     redirects to the requested chatbot assistant."""
     LOGGER.info("Transferring to assistant %s", json_ticket["assistant_id"])
