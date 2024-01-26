@@ -28,14 +28,9 @@ LOGFILE_PATH = os.path.join(ROOT_DIR, "chat-info/chat.log")
 logging.basicConfig(
     filename=LOGFILE_PATH,
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s - %(message)s",
+    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s \n%(message)s",
 )
 LOGGER = logging.getLogger(__name__)
-
-
-def get_prompt_for_assistant(assistant_id):
-    """Gets the prompt (as a string) assosicated with the assistant id."""
-    return PROMPTS[assistant_id]
 
 
 def collect_prompts_in_dictionary(directory_path):

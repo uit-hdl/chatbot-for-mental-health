@@ -9,11 +9,18 @@ from utils.backend import file_exists
 from utils.backend import SETTINGS
 from utils.general import remove_syntax_from_message
 
-# Chat colors
-GREY = "\033[2;30m"  # info messages
-GREEN = "\033[92m"  # user
-BLUE = "\033[94m"  # assistant
 RESET_COLOR = "\033[0m"
+COLOR_TO_ANSI_MAP = {
+    "grey": "\033[2;30m",
+    "green": "\033[92m",
+    "blue": "\033[94m",
+    "reset": "\033[0m",
+}
+ROLE_TO_ANSI_COLOR_MAP = {
+    "assistant": COLOR_TO_ANSI_MAP["blue"],
+    "user": COLOR_TO_ANSI_MAP["green"],
+    "system": COLOR_TO_ANSI_MAP["grey"],
+}
 
 
 def print_whole_conversation_with_backend_info(conversation):
@@ -29,13 +36,8 @@ def print_whole_conversation_with_backend_info(conversation):
 
 def prepend_role(message: str, role: str):
     """Prepends the role (with colour coding) to the beginning of the message."""
-    if role == "user":
-        colour = GREEN
-    elif role == "assistant":
-        colour = BLUE
-    else:
-        colour = GREY
-    return f"\n{colour + role + RESET_COLOR}: {message}\n"
+    colour_ansi = ROLE_TO_ANSI_COLOR_MAP[role]
+    return f"\n{colour_ansi + role + RESET_COLOR}: {message}\n"
 
 
 def wrap_message(message: str, line_length=80):
@@ -136,3 +138,13 @@ def play_video(video_path: str):
     video = VideoFileClip(video_path)
     video.preview()
     video.close()
+
+
+def silent_print(text: str):
+    """Prints text in console in dark grey."""
+    print(color_text(text, "grey"))
+
+
+def color_text(text: str, color="grey"):
+    """Returns text in the desired colour (grey, green, or blue)."""
+    return f"{COLOR_TO_ANSI_MAP[color]}{text}{RESET_COLOR}"

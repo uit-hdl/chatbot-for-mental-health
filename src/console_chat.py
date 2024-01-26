@@ -8,7 +8,6 @@ from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import SETTINGS
 from utils.backend import CONFIG
-from utils.backend import get_prompt_for_assistant
 from utils.backend import dump_current_conversation
 from utils.backend import load_yaml_file
 from utils.backend import LOGGER
@@ -23,7 +22,9 @@ from utils.console_chat_display import reprint_whole_conversation_without_syntax
 from utils.console_chat_display import play_videos
 from utils.console_chat_display import print_whole_conversation_with_backend_info
 from utils.console_chat_display import display_images
-from utils.console_chat_display import GREEN
+from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
+from utils.console_chat_display import color_text
+from utils.console_chat_display import RESET_COLOR
 from utils.console_chat_display import RESET_COLOR
 
 openai.api_key = API_KEY
@@ -39,12 +40,11 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     """Running this function starts a conversation with a tutorial bot that
     helps explain how a web-app (https://app.consensussleepdiary.com) functions.
     The web app is a free online app for collecting sleep data."""
-    prompt = PROMPTS[chatbot_id]
-
+    LOGGER.info(f"\n*** Starting new console chat ***\n")
     if chat_filepath:
-        conversation = continue_previous_conversation(chat_filepath, prompt)
+        conversation = continue_previous_conversation(chat_filepath, chatbot_id)
     else:
-        conversation = initiate_new_conversation(prompt)
+        conversation = initiate_new_conversation(chatbot_id)
         display_last_response(conversation)
 
     while True:
@@ -72,23 +72,24 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         conversation = remove_inactive_sources(conversation)
 
 
-def continue_previous_conversation(chat_filepath: str, prompt: str) -> list:
+def continue_previous_conversation(chat_filepath: str, chatbot_id: str) -> list:
     """Inserts the current prompt into a previous stored conversation that was
     discontinued, so that you can pick up where you left of."""
     conversation = load_yaml_file(chat_filepath)
+    prompt = PROMPTS[chatbot_id]
     # Replace original prompt with requested prompt
     conversation[0] = {"role": "system", "content": prompt}
     print_whole_conversation_with_backend_info(conversation)
     return conversation
 
 
-def initiate_new_conversation(inital_prompt: str, system_message=None):
+def initiate_new_conversation(chatbot_id: str, system_message=None):
     """Initiates a conversation with the chat bot."""
     conversation = []
-    conversation.append({"role": "system", "content": inital_prompt})
+    conversation.append({"role": "system", "content": PROMPTS[chatbot_id]})
     if system_message:
         conversation.append({"role": "system", "content": system_message})
-    LOGGER.info("Starting new conversation.")
+    LOGGER.info("Starting new conversation with %s.", chatbot_id)
     conversation = generate_raw_bot_response(conversation)
     return conversation
 
@@ -115,7 +116,9 @@ def create_user_input(conversation) -> list:
     global BREAK_CONVERSATION
 
     while True:
-        user_message = input(GREEN + "user" + RESET_COLOR + ": ")
+        user_message = input(
+            ROLE_TO_ANSI_COLOR_MAP["user"] + "user" + RESET_COLOR + ": "
+        )
         if "rewind_by" in user_message:
             n_rewind = int(user_message[-1])
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
@@ -198,7 +201,7 @@ def correct_erroneous_show_image_command(conversation) -> list:
     error is identified, converts it to a proper syntax, and appends a system warning.
     """
     message = grab_last_assistant_response(conversation)
-    pattern = r"\(show: (\w+\.png)\)"
+    pattern = r"[`'\"]show:\s*([^`'\"]+\.png)[`'\"]"
     matches = re.findall(pattern, message, flags=re.IGNORECASE)
 
     if matches:
@@ -253,9 +256,8 @@ def direct_to_new_assistant(json_ticket: str) -> list:
     """Receives information about the users issue collected in json format, and
     redirects to the requested chatbot assistant."""
     LOGGER.info("Transferring to assistant %s", json_ticket["assistant_id"])
-    prompt = get_prompt_for_assistant(json_ticket["assistant_id"])
     system_message = f"Here is a summary of the users issue: {json_ticket['topic']}"
-    new_conversation = initiate_new_conversation(prompt, system_message)
+    new_conversation = initiate_new_conversation(json_ticket["assistant_id"], system_message)
     return new_conversation
 
 
