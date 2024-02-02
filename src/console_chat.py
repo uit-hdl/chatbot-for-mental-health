@@ -23,7 +23,7 @@ from utils.console_chat_display import play_videos
 from utils.console_chat_display import print_whole_conversation_with_backend_info
 from utils.console_chat_display import display_images
 from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
-from utils.console_chat_display import color_text
+from utils.console_chat_display import silent_print
 from utils.console_chat_display import RESET_COLOR
 from utils.console_chat_display import RESET_COLOR
 
@@ -243,6 +243,8 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
             else:
                 message = f"source {requested_source}: {knowledge['content']}"
                 LOGGER.info("Source %s inserted in conversation.", requested_source)
+                if SETTINGS["print_knowledge_requests"]:
+                    silent_print(f"Source {requested_source} inserted in conversation.")
         else:
             message = f"Source {requested_source} does not exist! Request only sources I have told you to use."
             LOGGER.info(message)

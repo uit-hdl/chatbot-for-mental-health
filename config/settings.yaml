@@ -4,6 +4,8 @@ max_tokens_before_truncation: 30000  # Determines maximum length before chat get
 inactivity_threshold: 2  # Remove source from conversation if it has not been cited in the last ... messages
 n_attempts_at_producing_valid_response: 2
 max_requests: 2
+# Printing
+print_knowledge_requests: True
 # Pricing info
 dollars_per_1k_input_token: 0.03
 dollars_per_1k_output_token: 0.06
