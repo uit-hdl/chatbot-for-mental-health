@@ -3,8 +3,11 @@
 import re
 
 from utils.backend import dump_conversation
-from utils.chat_utilities import identify_assistant_responses
 
+
+def list_intersection(list_1, list_2) -> list:
+    """Returns the elements that the lists have in common."""
+    return list(set(list_1).intersection(set(list_2)))
 
 
 def remove_syntax_from_message(message_content: str):
@@ -15,6 +18,17 @@ def remove_syntax_from_message(message_content: str):
     if message_cleaned:
         message_cleaned = remove_superflous_linebreaks(message_cleaned)
     return message_cleaned
+
+
+def message_is_intended_for_user(message: str) -> bool:
+    """Used to check if a message contains text intended to be read by the user, or if it contains
+    only syntax to be interpreted by the backend."""
+    message = remove_superflous_linebreaks(message)
+    message = message.replace(" ", "")
+    if message[:2] == "¤:" and message[-2:] == ":¤":
+        return False
+    else:
+        return True
 
 
 def remove_quotes_and_backticks(input_str):
@@ -38,21 +52,6 @@ def offer_to_store_conversation(conversation):
         dump_conversation(conversation, label)
     else:
         print("Conversation not stored")
-
-
-def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> list:
-    """Resets the conversation back to bot-response number = n_current - n_rewind. If n_rewind == 1
-    then conversation resets to the second to last bot-response, allowing you to investigate the
-    bots behaviour given the chat up to that point. Useful for testing how likely the bot is to
-    reproduce an error (such as forgetting an instruction) or a desired response, since you don't
-    have to restart the conversation from scratch. Works by Identifing and deleting messages between
-    the current message and the bot message you are resetting to, but does not nessecarily reset the
-    overall conversation to the state it was in at the time that message was produced (for instance,
-    the prompt might have been altered)."""
-    assistant_indices = identify_assistant_responses(conversation)
-    n_rewind = min([n_rewind, len(assistant_indices) - 1])
-    index_reset = assistant_indices[-(n_rewind + 1)]
-    return conversation[: index_reset + 1]
 
 
 # ## Dealing with linebreak characters ##

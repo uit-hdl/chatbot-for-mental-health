@@ -2,11 +2,10 @@
 removing sources that are not being actively cited/used."""
 import numpy as np
 import re
-import logging
 
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
-from utils.general import remove_superflous_linebreaks
+from utils.general import message_is_intended_for_user
 
 
 def remove_inactive_sources(conversation) -> list:
@@ -111,17 +110,6 @@ def remove_inactive_sources_from_system_messages(
                 ] = "Inactive source removed due to not being actively cited."
                 LOGGER.info("Inactive sources removed: %s", source_name)
     return conversation
-
-
-def message_is_intended_for_user(message: str) -> bool:
-    """Used to check if a message contains text intended to be read by the user, or if it contains
-    only syntax to be interpreted by the backend."""
-    message = remove_superflous_linebreaks(message)
-    message = message.replace(" ", "")
-    if message[:2] == "¤:" and message[-2:] == ":¤":
-        return False
-    else:
-        return True
 
 
 def remove_nones(array: list):

@@ -3,7 +3,6 @@ import sys
 import re
 
 from utils.general import offer_to_store_conversation
-from utils.general import rewind_chat_by_n_assistant_responses
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import SETTINGS
@@ -14,6 +13,7 @@ from utils.backend import LOGGER
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
 from utils.managing_sources import extract_sources_inserted_by_system
+from utils.chat_utilities import rewind_chat_by_n_assistant_responses
 from utils.chat_utilities import append_system_messages
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import grab_last_assistant_response
@@ -114,7 +114,7 @@ def generate_raw_bot_response(conversation):
 def create_user_input(conversation) -> list:
     """Prompts user to input a prompt (the "question") in the command line."""
     global BREAK_CONVERSATION
-
+    
     while True:
         user_message = input(
             ROLE_TO_ANSI_COLOR_MAP["user"] + "user" + RESET_COLOR + ": "
@@ -123,6 +123,7 @@ def create_user_input(conversation) -> list:
             n_rewind = int(user_message[-1])
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
             reprint_whole_conversation_without_syntax(conversation)
+            dump_current_conversation(conversation)
         else:
             if user_message == "break":
                 BREAK_CONVERSATION = True
