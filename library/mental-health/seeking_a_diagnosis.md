@@ -17,8 +17,31 @@ weeks to identify any signs of the condition.
 * **Early signs** of schizophrenia vary from person to person and can be very
 difficult to recognize. Depression, compulsive behaviour, decreased motivation
 and asocial behaviour may be mistaken for normal changes that take place during
-adolescence or linked to drug abuse. As the following figure shows, however,
-these symptoms may be early warning signs of schizophrenia (`show:
-scizophrenia_early_signs.png`).
+adolescence or linked to drug abuse. As the following figure (see description
+below) shows, however, these symptoms may be early warning signs of
+schizophrenia (`show: scizophrenia_early_signs.png`).
+
+* Description of image
+  1. Changes in mood
+    1. Inability to cry or laugh
+    2. Excessive crying or laughing
+    3. Depression, moodiness
+  2. Sensory changes
+    1. Hearing voices
+    2. Increased sensitivity to noise or light
+  3. Changes in appearance
+    1. Wearing strange clothes
+    2. Poor personal hygiene
+  4. Changes in activity
+    1. Extreme activity or inactivity
+    2. Fatigue
+    3. Changes in sleep patterns
+  5. Problems at school or work
+    1. Difficulty concentrating
+    2. Declining academic performance
+  6. Changes in behaviour
+    1. Prolonged staring
+    2. Using illegal drugs
+    3. Avoiding social situations
 
 Present at most ONE bullet point per response!
