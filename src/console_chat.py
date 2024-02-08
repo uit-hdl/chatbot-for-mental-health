@@ -9,6 +9,7 @@ from utils.backend import SETTINGS
 from utils.backend import CONFIG
 from utils.backend import dump_current_conversation
 from utils.backend import load_yaml_file
+from utils.backend import get_source_content_and_path
 from utils.backend import LOGGER
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
@@ -63,7 +64,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         play_videos(harvested_syntax["videos"])
 
         dump_current_conversation(conversation)
-
+        check_sources(conversation[-1]["content"], harvested_syntax, chatbot_id)
         if harvested_syntax["referral"]:
             if harvested_syntax["referral"]["file_exists"]:
                 conversation = direct_to_new_assistant(harvested_syntax["referral"])
@@ -85,13 +86,32 @@ def continue_previous_conversation(chat_filepath: str, chatbot_id: str) -> list:
 
 def initiate_new_conversation(chatbot_id: str, system_message=None):
     """Initiates a conversation with the chat bot."""
-    conversation = []
-    conversation.append({"role": "system", "content": PROMPTS[chatbot_id]})
-    if system_message:
-        conversation.append({"role": "system", "content": system_message})
+    conversation = create_ai_agent(chatbot_id, system_message)
     LOGGER.info("Starting new conversation with %s.", chatbot_id)
     conversation = generate_raw_bot_response(conversation)
     return conversation
+
+
+def create_ai_agent(chatbot_id, system_message=None):
+    """Creates an chatbot assistent by starting a conversation in the openAI list format with the 
+    the initial prompt as the first message."""
+    conversation = [{"role": "system", "content": PROMPTS[chatbot_id]}]
+    if system_message:
+        conversation.append({"role": "system", "content": system_message})
+    return conversation
+
+
+def check_sources(bot_message, harvested_syntax, chatbot_id):
+    """"""
+    if harvested_syntax["sources"]:
+        source_name = harvested_syntax["sources"][0]
+        content, _ = get_source_content_and_path(chatbot_id, source_name)
+        system_message = f"source: '{content}'\n\nbot response: '{bot_message}'\n"
+        overseer = create_ai_agent(
+            "overseer", system_message=system_message
+        )
+        overseer_evaluation = generate_raw_bot_response(overseer)[-1]["content"]
+        print(overseer_evaluation)
 
 
 def generate_raw_bot_response(conversation):

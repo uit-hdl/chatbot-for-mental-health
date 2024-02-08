@@ -22,11 +22,11 @@ from utils.backend import file_exists
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
 from utils.backend import LIBRARY_DIR
+from utils.backend import LOGGER
 from utils.backend import PROMPTS_DIR
 from utils.backend import load_textfile_as_string
 from utils.backend import get_shared_subfolder_name
 from utils.backend import dump_to_json
-from utils.backend import LOGGER
 
 
 def process_syntax_of_bot_response(conversation, chatbot_id) -> (dict, list[str]):

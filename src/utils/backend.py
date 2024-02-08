@@ -235,6 +235,18 @@ def get_relative_path_of_prompts_file(prompt_file_name: str) -> str:
         return matches[0]
 
 
+def get_source_content_and_path(prompt_file_name: str, source_name: str) -> (str, str):
+    """Finds the content and path of a source. The filename of the prompt is used to find the
+    subfolder that the source is expected to be located in."""
+    subfolder = get_shared_subfolder_name(prompt_file_name)
+    path = os.path.join(LIBRARY_DIR, subfolder, source_name) + ".md"
+    if file_exists(path):
+        content = load_textfile_as_string(path)
+    else:
+        content = None
+    return content, path
+
+
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)
 
 CONFIG = load_yaml_file(CONFIG_PATH)
