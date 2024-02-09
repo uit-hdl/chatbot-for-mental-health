@@ -255,9 +255,9 @@ def insert_knowledge(conversation, knowledge_list: list[str]):
     role of system."""
 
     for knowledge in knowledge_list:
+        requested_source = knowledge["source_name"]
         if knowledge["content"]:
             inserted_sources = extract_sources_inserted_by_system(conversation)
-            requested_source = knowledge["source_name"]
             if requested_source in inserted_sources:
                 message = f"The source {requested_source} is already in chat. Never request sources that are already provided!"
                 LOGGER.info(message)

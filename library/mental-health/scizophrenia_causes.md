@@ -16,7 +16,7 @@ has the condition.
 the chance of one twin developing schizophrenia if the other twin has
 the condition is only 50%, and so we know that genetics are not the
 sole cause of the condition.
-2. Likewise, there is no single `environmental factor` that is known to
+4. Likewise, there is no single `environmental factor` that is known to
 cause schizophrenia, although there are certain factors that can
 increase a person’s chances of having the illness: these include
 growing up in a city centre, abusing drugs such as cannabis and
@@ -24,3 +24,11 @@ amphetamines, and experiencing stressful life events. There is some
 evidence that the environment a person is exposed to can interact with
 their genes. Research into this phenomenon is ongoing, but not enough
 is currently known to say who will or won’t develop schizophrenia.
+
+Show relationship between genes, environment, and illness:
+scizophrenia_genes_environment_interactions_venn.png
+
+1. A key feature of schizophrenia is that different combinations of
+   symptoms are seen both between individuals and within an individual
+   over time – whether this has anything to do with an individual’s
+   genes and/or environment is still unclear.
