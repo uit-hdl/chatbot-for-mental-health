@@ -19,10 +19,11 @@ source material. Be strict and err on the side of caution; flag with
 
 Respond in the following format:
 
-{"tag": <conclusion>, "motivation": <summary of motivation>}
+{"flag": <conclusion>, "motivation": <summary of motivation>}
 
-The summary is a VERY brief text of length < 30 words. Set
-"motivation" to "" if tag is "SUPPORTED". Example:
+The summary is a VERY brief text of length < 20 words. Adress the bot
+directly. If the flag is "SUPPORTED, set `"motivation": ""`. Example:
 
-{"conclusion": "WARNING", "motivation": "The text says nothing about
-the effect of exercise on Scizophrenia"}
+{"flag": "WARNING", "motivation": "Your statement is not well
+supported, the text says nothing about the effect of exercise on
+Scizophrenia"}

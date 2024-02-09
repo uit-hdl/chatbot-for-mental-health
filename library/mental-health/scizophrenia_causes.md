@@ -26,7 +26,7 @@ their genes. Research into this phenomenon is ongoing, but not enough
 is currently known to say who will or won’t develop schizophrenia.
 
 Show relationship between genes, environment, and illness:
-scizophrenia_genes_environment_interactions_venn.png
+scizophrenia_genes_environment_interactions.png
 
 1. A key feature of schizophrenia is that different combinations of
    symptoms are seen both between individuals and within an individual

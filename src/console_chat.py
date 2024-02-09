@@ -12,6 +12,7 @@ from utils.backend import load_yaml_file
 from utils.backend import get_source_content_and_path
 from utils.backend import LOGGER
 from utils.process_syntax import process_syntax_of_bot_response
+from utils.process_syntax import convert_json_string_to_dict
 from utils.managing_sources import remove_inactive_sources
 from utils.managing_sources import extract_sources_inserted_by_system
 from utils.chat_utilities import rewind_chat_by_n_assistant_responses
@@ -25,7 +26,6 @@ from utils.console_chat_display import print_whole_conversation_with_backend_inf
 from utils.console_chat_display import display_images
 from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
 from utils.console_chat_display import silent_print
-from utils.console_chat_display import RESET_COLOR
 from utils.console_chat_display import RESET_COLOR
 
 openai.api_key = API_KEY
@@ -64,7 +64,10 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         play_videos(harvested_syntax["videos"])
 
         dump_current_conversation(conversation)
-        check_sources(conversation[-1]["content"], harvested_syntax, chatbot_id)
+        check_sources(
+            conversation, harvested_syntax, chatbot_id
+        )
+
         if harvested_syntax["referral"]:
             if harvested_syntax["referral"]["file_exists"]:
                 conversation = direct_to_new_assistant(harvested_syntax["referral"])
@@ -93,7 +96,7 @@ def initiate_new_conversation(chatbot_id: str, system_message=None):
 
 
 def create_ai_agent(chatbot_id, system_message=None):
-    """Creates an chatbot assistent by starting a conversation in the openAI list format with the 
+    """Creates an chatbot assistent by starting a conversation in the openAI list format with the
     the initial prompt as the first message."""
     conversation = [{"role": "system", "content": PROMPTS[chatbot_id]}]
     if system_message:
@@ -101,8 +104,10 @@ def create_ai_agent(chatbot_id, system_message=None):
     return conversation
 
 
-def check_sources(bot_message, harvested_syntax, chatbot_id):
+def check_sources(conversation, harvested_syntax, chatbot_id):
     """"""
+    bot_message = grab_last_assistant_response(conversation)
+
     if harvested_syntax["sources"]:
         source_name = harvested_syntax["sources"][0]
         content, _ = get_source_content_and_path(chatbot_id, source_name)
@@ -111,7 +116,13 @@ def check_sources(bot_message, harvested_syntax, chatbot_id):
             "overseer", system_message=system_message
         )
         overseer_evaluation = generate_raw_bot_response(overseer)[-1]["content"]
-        print(overseer_evaluation)
+        silent_print(overseer_evaluation)
+        overseer_dict = convert_json_string_to_dict(overseer_evaluation)
+        if not overseer_dict["flag"] == "SUPPORTED":
+            conversation.append(
+                {"role": "system", "content": overseer_dict["motivation"]}
+            )
+    return conversation
 
 
 def generate_raw_bot_response(conversation):
@@ -134,7 +145,7 @@ def generate_raw_bot_response(conversation):
 def create_user_input(conversation) -> list:
     """Prompts user to input a prompt (the "question") in the command line."""
     global BREAK_CONVERSATION
-    
+
     while True:
         user_message = input(
             ROLE_TO_ANSI_COLOR_MAP["user"] + "user" + RESET_COLOR + ": "
