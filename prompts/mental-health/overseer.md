@@ -24,6 +24,5 @@ Respond in the following format:
 The summary is a VERY brief text of length < 20 words. Adress the bot
 directly. If the flag is "SUPPORTED, set `"motivation": ""`. Example:
 
-{"flag": "WARNING", "motivation": "Your statement is not well
-supported, the text says nothing about the effect of exercise on
-Scizophrenia"}
+{"flag": "WARNING", "motivation": "Your sources do not explicitly say
+that exercise benefits Scizophrenia"}

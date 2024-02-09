@@ -6,12 +6,12 @@ some factors that are thought to increase a person’s susceptibility to
 the condition.
 
 # Genes and environment
-2. Schizophrenia is sometimes referred to as a heritable condition, which
-means that if there are certain genes in a person’s DNA their risk of
-developing the illness is increased compared with people without those
-genes. The chance that a person will develop schizophrenia is
-increased from about 1 in 100 to about 1 in 10 if one of their parents
-has the condition.
+2. Schizophrenia is sometimes referred to as a heritable condition,
+which means that if there are certain genes in a person’s DNA their
+risk of developing the illness is increased compared with people
+without those genes. The chance that a person will develop
+schizophrenia is increased from about 1 in 100 to about 1 in 10 if one
+of their parents has the condition.
 3. In identical twins with exactly the same genetic make-up, however,
 the chance of one twin developing schizophrenia if the other twin has
 the condition is only 50%, and so we know that genetics are not the

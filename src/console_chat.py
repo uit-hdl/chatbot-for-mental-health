@@ -64,7 +64,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         play_videos(harvested_syntax["videos"])
 
         dump_current_conversation(conversation)
-        check_sources(
+        conversation = check_sources(
             conversation, harvested_syntax, chatbot_id
         )
 
@@ -104,14 +104,19 @@ def create_ai_agent(chatbot_id, system_message=None):
     return conversation
 
 
-def check_sources(conversation, harvested_syntax, chatbot_id):
-    """"""
+def check_sources(conversation, harvested_syntax: dict, chatbot_id: str) -> list:
+    """An external bot fidelity of bot response to the source it cites."""
     bot_message = grab_last_assistant_response(conversation)
-
+    dummy_sources = ["sources_dont_contain_answer", "no_advice_or_claims"]
     if harvested_syntax["sources"]:
-        source_name = harvested_syntax["sources"][0]
-        content, _ = get_source_content_and_path(chatbot_id, source_name)
-        system_message = f"source: '{content}'\n\nbot response: '{bot_message}'\n"
+        if harvested_syntax["sources"] in dummy_sources:
+            return conversation
+        source_names = harvested_syntax["sources"]
+        source_texts = ""
+        for i, source_name in enumerate(source_names):
+            source_texts += f"source {i}: '{get_source_content_and_path(chatbot_id, source_name)[0]}'\n\n"
+
+        system_message = f"{source_texts}\nbot response: '{bot_message}'\n"
         overseer = create_ai_agent(
             "overseer", system_message=system_message
         )

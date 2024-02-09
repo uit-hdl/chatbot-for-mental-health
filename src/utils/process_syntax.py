@@ -189,8 +189,9 @@ def get_referral(commands, arguments, subfolder: str) -> dict:
 
 def convert_json_string_to_dict(json_data: str) -> dict:
     """Converts json file content extracted from a string into a dictionary."""
-    # Standardize quotation marks
+    # Standardize quotation marks and remove linebreaks
     json_data = json_data.replace("'", '"')
+    json_data = json_data.replace("\n", '')
     try:
         result = json.loads(json_data)
     except json.JSONDecodeError as e:

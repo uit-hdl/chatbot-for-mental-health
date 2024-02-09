@@ -7,6 +7,7 @@ from utils.chat_utilities import grab_last_response
 from console_chat import generate_processed_bot_response
 from console_chat import direct_to_new_assistant
 from console_chat import remove_inactive_sources
+from console_chat import check_sources
 import gradio as gr
 
 CONVERSATION = []
@@ -41,11 +42,12 @@ def chatbot_interface(user_input: str) -> [str, str]:
     CONVERSATION, harvested_syntax = generate_processed_bot_response(
         CONVERSATION, chatbot_id=chatbot_id
     )
-
     image_url = get_image_url(harvested_syntax)
 
     CONVERSATION = remove_inactive_sources(CONVERSATION)
-
+    CONVERSATION = check_sources(
+        CONVERSATION, harvested_syntax, chatbot_id
+    )
     if harvested_syntax["referral"]:
         if harvested_syntax["referral"]["file_exists"]:
             CONVERSATION = direct_to_new_assistant(harvested_syntax["referral"])

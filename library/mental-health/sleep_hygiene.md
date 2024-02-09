@@ -1,4 +1,3 @@
-
 Good dental hygiene is important in determining the health of your teeth and
 gums. Similarly, good sleep hygiene is important in determining the quality and
 quantity of your sleep.
