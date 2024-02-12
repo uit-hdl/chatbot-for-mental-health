@@ -18,12 +18,14 @@ IMAGES_DIR = os.path.join(ROOT_DIR, "media/images")
 VIDEOS_DIR = os.path.join(ROOT_DIR, "media/videos")
 LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
+CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-info")
 
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
 API_KEY_PATH = os.path.join(API_DIR, "insomnia_bot_azure.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
-LOGFILE_PATH = os.path.join(ROOT_DIR, "chat-info/chat.log")
+LOGFILE_PATH = os.path.join(CHAT_INFO_DIR, "chat.log")
+OVERSEER_CONVERSATION_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.md")
 
 logging.basicConfig(
     filename=LOGFILE_PATH,
