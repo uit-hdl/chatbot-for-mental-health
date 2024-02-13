@@ -1,4 +1,4 @@
-1. If you are affected by schizophrenia, you may wonder at some point
+* If you are affected by schizophrenia, you may wonder at some point
 whether it is your fault. The answer to that question is no. No one is
 to blame for schizophrenia. The reasons why some people develop the
 condition and some do not are currently unknown, although there are
@@ -6,17 +6,17 @@ some factors that are thought to increase a person’s susceptibility to
 the condition.
 
 # Genes and environment
-2. Schizophrenia is sometimes referred to as a heritable condition,
+* Schizophrenia is sometimes referred to as a heritable condition,
 which means that if there are certain genes in a person’s DNA their
 risk of developing the illness is increased compared with people
 without those genes. The chance that a person will develop
 schizophrenia is increased from about 1 in 100 to about 1 in 10 if one
 of their parents has the condition.
-3. In identical twins with exactly the same genetic make-up, however,
+* In identical twins with exactly the same genetic make-up, however,
 the chance of one twin developing schizophrenia if the other twin has
 the condition is only 50%, and so we know that genetics are not the
 sole cause of the condition.
-4. Likewise, there is no single `environmental factor` that is known to
+* Likewise, there is no single `environmental factor` that is known to
 cause schizophrenia, although there are certain factors that can
 increase a person’s chances of having the illness: these include
 growing up in a city centre, abusing drugs such as cannabis and
@@ -28,7 +28,7 @@ is currently known to say who will or won’t develop schizophrenia.
 Show relationship between genes, environment, and illness:
 scizophrenia_genes_environment_interactions.png
 
-1. A key feature of schizophrenia is that different combinations of
+* A key feature of schizophrenia is that different combinations of
    symptoms are seen both between individuals and within an individual
    over time – whether this has anything to do with an individual’s
    genes and/or environment is still unclear.

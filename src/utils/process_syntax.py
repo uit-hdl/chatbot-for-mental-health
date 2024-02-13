@@ -10,7 +10,6 @@ main output (from process_syntax_of_bot_response) is
    the bot requests a non-existant file."""
 import re
 import os
-import json
 import ast
 
 from typing import List
@@ -27,6 +26,7 @@ from utils.backend import PROMPTS_DIR
 from utils.backend import load_textfile_as_string
 from utils.backend import get_shared_subfolder_name
 from utils.backend import dump_to_json
+from utils.backend import convert_json_string_to_dict
 
 
 def process_syntax_of_bot_response(conversation, chatbot_id) -> (dict, list[str]):
@@ -169,7 +169,7 @@ def get_video_requests(commands, arguments, subfolder) -> list[dict]:
     return videos
 
 
-def get_referral(commands, arguments, subfolder: str) -> dict:
+def get_referral(commands: list[str], arguments: list[str], subfolder: str) -> dict:
     """Gets the referral dictionary with information on who to redirect the user to,
     and what the user needs help with."""
     for command, argument in zip(commands, arguments):
@@ -185,19 +185,6 @@ def get_referral(commands, arguments, subfolder: str) -> dict:
                 referral_ticket["file_exists"] = False
 
             return referral_ticket
-
-
-def convert_json_string_to_dict(json_data: str) -> dict:
-    """Converts json file content extracted from a string into a dictionary."""
-    # Standardize quotation marks and remove linebreaks
-    json_data = json_data.replace("'", '"')
-    json_data = json_data.replace("\n", '')
-    try:
-        result = json.loads(json_data)
-    except json.JSONDecodeError as e:
-        print(f"Warning: error decoding JSON string: {e}")
-        result = None
-    return result
 
 
 def generate_warning_messages(harvested_syntax) -> list[str]:

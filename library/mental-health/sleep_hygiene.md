@@ -34,7 +34,7 @@ Examples of good sleep hygiene:
 * Use your bed only for sleep and intimate activities.
 * Avoid working, watching TV, or using electronic devices in bed.
 * Spend time outdoors during the day, especially in the morning.
-  * Exposure to natural light helps regulate your body's circadian rhythm.
+  - Exposure to natural light helps regulate your body's circadian rhythm.
 * Limit your time in bed. Restrict your sleep period to the average number of
   hours you have actually slept per night during the preceding week. Dont
   reinforce the idea that the bed is a place for wakefullness. If you aren’t
@@ -43,6 +43,3 @@ Examples of good sleep hygiene:
   concentration decreasing), then return to bed. Don’t confuse tiredness with
   sleepiness, they are different. Tiredness doesn’t lead to sleep, only
   sleepiness does.
-
-Encourage the user to reflect on these points, and think about each point in the
-context of their own life. Present 1 bullet point (*) at a time.

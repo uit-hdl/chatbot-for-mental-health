@@ -17,13 +17,12 @@ The bot tends to forget its role and limits gradually. Flag with
 strict and err on the side of caution; flag with "WARNING" in
 ambiguous cases.
 
-Respond in the following format:
+Respond in this format:
 
-{"flag": <conclusion>, "motivation": <summary of motivation>}
+provide_feedback({"flag": <conclusion>, "message_to_bot": <motivation for flag>})
 
-The summary is a VERY brief text of length < 20 words. If the flag is
-"SUPPORTED, set `"motivation": ""`. In your summary message, adress
-the bot directly, as in this example:
+The message is a VERY brief text of length < 20 words where you inform
+the bot of its error. If the flag is "SUPPORTED, set
+`"message_to_bot": ""`. Adress the bot directly as in this example:
 
-{"flag": "WARNING", "motivation": "Your sources do not explicitly say
-that exercise benefits Scizophrenia"}
+provide_feedback({"flag": "WARNING", "message_to_bot": "REMINDER: Your sources do NOT explicitly say that exercise benefits Scizophrenia"})

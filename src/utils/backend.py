@@ -35,6 +35,21 @@ logging.basicConfig(
 LOGGER = logging.getLogger(__name__)
 
 
+def convert_json_string_to_dict(json_data: str) -> dict:
+    """Converts json file content extracted from a string into a dictionary."""
+    # Ensure proper JSON format (deal with special characters)
+    json_data = json_data.replace("\n", "")
+    json_string_valid_format = json.dumps(json_data)
+    try:
+        # To string (dont know why this works...)
+        python_string = json.loads(json_string_valid_format)
+        dictionary = json.loads(python_string)  # To dictionary
+    except json.JSONDecodeError as e:
+        print(f"Warning: error decoding JSON string: {e}")
+        dictionary = None
+    return dictionary
+
+
 def collect_prompts_in_dictionary(directory_path):
     """Finds paths for all files in directory and subdirectories, and creates a
     dictionary where the keys are file names and the values are file paths."""
@@ -126,7 +141,7 @@ def dump_conversation_to_textfile(filename, conversation):
             file.write(f"{role.capitalize()}: {content}\n\n")
 
 
-def dump_conversation_to_textfile(conversation: list, filepath: str):
+def dump_conversation_to_colorcoded_md_file(conversation: list, filepath: str):
     """Dumps a conversation to a Markdown file with color-coded roles."""
     full_path = get_full_path_and_create_dir(filepath)
 
@@ -163,7 +178,7 @@ def dump_conversation(conversation: list, label: str = "conversation"):
     if conversation[-1]["content"] == "break":
         conversation = conversation[:-1]
     dump_to_json(conversation, json_file_path)
-    dump_conversation_to_textfile(conversation, txt_file_path)
+    dump_conversation_to_colorcoded_md_file(conversation, txt_file_path)
     LOGGER.info(f"Conversation stored in {json_file_path} and {txt_file_path}")
 
 

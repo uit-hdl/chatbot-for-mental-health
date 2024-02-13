@@ -1,9 +1,37 @@
 """Simple utilities for working with the conversation, which are lists of dictionaries, each of
 which have keys 'role' and 'content' (the message) such as identifying responses of a specified
 role."""
-from utils.general import remove_syntax_from_message
+import openai
 from utils.general import message_is_intended_for_user
 from utils.general import list_intersection
+
+
+def generate_raw_bot_response(conversation, config: dict):
+    """Takes the conversation log, and updates it with the response of the
+    chatbot as a function of the chat history. Does not interpret bot response."""
+    response = openai.ChatCompletion.create(
+        model=config["model_id"],
+        messages=conversation,
+        engine=config["deployment_name"],
+    )
+    conversation.append(
+        {
+            "role": response.choices[0].message.role,
+            "content": response.choices[0].message.content.strip(),
+        }
+    )
+    return conversation
+
+
+def initiate_prompt_engineered_ai_agent(
+    prompt: str, system_message: str = None
+) -> list[str]:
+    """Creates an chatbot assistent by starting a conversation in the openAI list format with the
+    the initial prompt as the first message."""
+    conversation = [{"role": "system", "content": prompt}]
+    if system_message:
+        conversation.append({"role": "system", "content": system_message})
+    return conversation
 
 
 def grab_last_response(conversation: list) -> str:
