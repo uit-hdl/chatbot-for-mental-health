@@ -64,9 +64,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         display_images(harvested_syntax["images"])
         play_videos(harvested_syntax["videos"])
 
-        conversation = check_sources(
-            conversation, harvested_syntax, PROMPTS[chatbot_id]
-        )
+        conversation = check_sources(conversation, harvested_syntax, chatbot_id)
         dump_current_conversation(conversation)
 
         if harvested_syntax["referral"]:
@@ -90,7 +88,9 @@ def continue_previous_conversation(chat_filepath: str, chatbot_id: str) -> list:
 
 def initiate_new_conversation(chatbot_id: str, system_message=None):
     """Initiates a conversation with the chat bot."""
-    conversation = initiate_prompt_engineered_ai_agent(chatbot_id, system_message)
+    conversation = initiate_prompt_engineered_ai_agent(
+        PROMPTS[chatbot_id], system_message
+    )
     LOGGER.info("Starting new conversation with %s.", chatbot_id)
     conversation = generate_raw_bot_response(conversation, CONFIG)
     return conversation

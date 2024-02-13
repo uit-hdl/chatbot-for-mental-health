@@ -4,23 +4,23 @@
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello and welcome! I'm here to help you with information on schizophrenia. How can I assist you today? If you have any preference for how I present information, please let me know.",
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide answers about schizophrenia. Feel free to ask any questions, and let me know how you'd like the information presented. If things get confusing, we can adjust as we go. What can I help you with today?",
         "role": "assistant"
     },
     {
-        "content": "I feel like people avoid me",
+        "content": "will i ever improve?",
         "role": "user"
     },
     {
-        "content": "\u00a4:request_knowledge(stigma):\u00a4",
+        "content": "\u00a4:request_knowledge(will_i_get_better):\u00a4",
         "role": "assistant"
     },
     {
-        "content": "source stigma: * Stigma can refer to the negative perceptions and attitudes\nsurrounding certain health conditions or diseases. There is a lot of\nmisconceptions surrounding schizophrenia, which can affect both those\nwith the condition and those who care for them. Many people believe\nthat a person with schizophrenia will switch frequently between normal\nand bizarre behaviour, as if he or she has multiple personalities.\nThis promotes a perception that people with schizophrenia are\nunpredictable and should be feared.\n* They may internalize these misconceptions (self-stigmization). It\nis important for them and for family members not to allow others\u2019\nperceptions to influence how they feel about that person.\n* It is important that they view their illness as something they\n  have, and not something that identifies them.\n* The name \u2018schizophrenia\u2019 is derived from the Greek verb skhizein,\n\u2018to split\u2019, and phren, denoting \u2018soul, spirit or mind\u2019, and originally\ndescribed a group of \u2018schizophrenias\u2019. Although the current language\nsuggests a single, uniform condition, there is great variety in the\nseverity of illness and types of symptoms experienced by people with\nschizophrenia.\n* There have been many suggestions for alternative names that better\ndescribe the diversity of symptoms apparent in people with\nschizophrenia. Indeed, a new term, \u2018Togo Shitcho Sho\u2019 or \u2018integration\ndisorder\u2019, was adopted in Japan in\n2002. Patient groups in the Netherlands are also taking steps towards\nrealizing a name change in their country. The Dutch patient society,\nAnoiksis, has suggested a new name and new concept for schizophrenia,\nwith the aim of reducing the stigma associated with the condition.\n\n* Relevant quote: \u201cI have schizophrenia. I am not schizophrenia. I am\nnot my mental illness. My illness is a part of me.\u201d \u2013 Jonathan\nHarnisch, An Alibiography\n\nOnly give advice or make claims if they are EXPLICITLY stated in a\nsource!\n",
+        "content": "source will_i_get_better: 1. (show: statistics_on_who_gets_better.png) 1 in 5 people will\nrecover completely within 5 years. 3 in 5 people will improve, but may\nstill experience symptoms occasionally. 1 in 5 people will continue to\nhave troublesome symptoms.\n\n2. There is a common misconception that people with schizophrenia have\nno chance of recovery. This is not true: the symptoms of schizophrenia\ncan improve with appropriate treatment, and some people recover\ncompletely. Recovery is a process that involves learning to manage\nyour symptoms, developing support systems and working towards your\ngoals. Appropriate ways to manage your condition with medication and\ntherapy are outlined in the next part of this guide.",
         "role": "system"
     },
     {
-        "content": "S1 \u00a4:cite([\"stigma\"]):\u00a4 (1.1) Stigma can result from misunderstandings about conditions like schizophrenia, leading people to behave differently around those diagnosed with it. It's important to know that such avoidance is more about other people\u2019s misconceptions than it is about you. \n\n(1.2) It's common for individuals with schizophrenia to feel marginalized due to these misconceptions, so you're not alone in this experience. \n\n(1.3) Remember that having schizophrenia is just one aspect of who you are; it does not define your entire identity. \n\n(1.4) There is a recognition that terms like 'schizophrenia' can contribute to misunderstanding and stigma, which is why there are efforts in some places to change the name to something that better reflects the diverse experiences of those affected by it.\n\n(1.5) Here's a relevant quote to keep in mind: \"I have schizophrenia. I am not schizophrenia. I am not my mental illness. My illness is a part of me.\" \u2013 Jonathan Harnisch, An Alibiography\n\nAre there any specific concerns you have about how people treat you that you would like to talk about?",
+        "content": "S2 \u00a4:cite([\"will_i_get_better\"]):\u00a4 There is hope for improvement! \u00a4:display_image(statistics_on_who_gets_better.png):\u00a4 About 1 in 5 people recover completely within 5 years, and 3 in 5 people will improve, though they might still experience symptoms from time to time. Only about 1 in 5 people continue to have troublesome symptoms. It's important to remember that recovery is possible with proper treatment. Would you like to know more about managing your condition?",
         "role": "assistant"
     }
 ]

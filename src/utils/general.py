@@ -80,3 +80,12 @@ def remove_superflous_linebreaks_between_paragraphs(text: str):
     commands from bot messages)."""
     cleaned_text = re.sub(r"\n{3,}", "\n\n", text)
     return cleaned_text
+
+
+def find_substrings_enclosed_by_curly_brackets(input_string) -> list[str]:
+    """Finds all substrings enclosed between `{` and `}`"""
+    # Define a regular expression pattern to find substrings between { and }
+    pattern = r'\{([^}]+)\}'
+    enclosed_substrings = re.findall(pattern, input_string)
+    enclosed_substrings = ["{" + string + "}" for string in enclosed_substrings]
+    return "{" + enclosed_substrings + "}"

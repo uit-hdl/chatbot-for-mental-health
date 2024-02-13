@@ -52,11 +52,9 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> (dict, list[str]
 
 def extract_command_names_and_arguments(chatbot_response: str) -> (list, list):
     """Takes a response, identifies substrings of the form ¤:command_name(argument):¤, and
-    extracts command names and command arguments which are returned as two synchronized lists.
+    extracts command names and command arguments, which are returned as two synchronized lists.
     """
-    chatbot_response_without_newlines = chatbot_response.replace("\n", "")
-    command_pattern = r"¤:(.*?):¤"
-    command_strings = re.findall(command_pattern, chatbot_response_without_newlines)
+    command_strings = get_commands(chatbot_response)
     commands = []
     arguments = []
     for command_string in command_strings:
@@ -66,6 +64,14 @@ def extract_command_names_and_arguments(chatbot_response: str) -> (list, list):
         commands.append(command_name)
         arguments.append(argument)
     return commands, arguments
+
+
+def get_commands(chatbot_response: str) -> list[str]:
+    """Extracts commands from chatbot message as a list of strings."""
+    chatbot_response_without_newlines = chatbot_response.replace("\n", "")
+    command_pattern = r"¤:(.*?):¤"
+    commands = re.findall(command_pattern, chatbot_response_without_newlines)
+    return commands
 
 
 def extract_command_argument(command_string: str) -> str:

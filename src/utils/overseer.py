@@ -2,31 +2,40 @@
 by the chatbot and provides feedback on adherence to things like source materials."""
 
 from utils.backend import get_source_content_and_path
-from utils.backend import dump_conversation_to_textfile
+from utils.backend import dump_conversation_to_colorcoded_md_file
 from utils.backend import convert_json_string_to_dict
 from utils.backend import OVERSEER_CONVERSATION_PATH
+from utils.backend import PROMPTS
+from utils.backend import CONFIG
 from utils.chat_utilities import initiate_prompt_engineered_ai_agent
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import grab_last_response
 from utils.chat_utilities import generate_raw_bot_response
+from utils.process_syntax import extract_command_names_and_arguments
 from utils.console_chat_display import silent_print
 
 
-def check_sources(conversation, harvested_syntax: dict, prompt: str) -> list:
+def check_sources(conversation, harvested_syntax: dict, chatbot_id: str) -> list:
     """An external bot checks fidelity of bot response to the source it cites."""
     bot_message = grab_last_assistant_response(conversation)
     dummy_sources = ["sources_dont_contain_answer", "no_advice_or_claims"]
-    source_names = [
+    # Remove citatons that only label the response and but do not reference a source
+    sources = [
         source for source in harvested_syntax["sources"] if source not in dummy_sources
     ]
-    if source_names:
-        system_message = generate_overseer_input(bot_message, source_names, prompt)
-        overseer = initiate_prompt_engineered_ai_agent("overseer", system_message)
-        overseer = generate_raw_bot_response(overseer)
-        dump_conversation_to_textfile(overseer, OVERSEER_CONVERSATION_PATH)
+    if sources:
+        system_message = generate_overseer_input(bot_message, sources, chatbot_id)
+        overseer = initiate_prompt_engineered_ai_agent(
+            PROMPTS["overseer"], system_message
+        )
+        overseer = generate_raw_bot_response(overseer, CONFIG)
+        dump_conversation_to_colorcoded_md_file(overseer, OVERSEER_CONVERSATION_PATH)
         overseer_evaluation = grab_last_response(overseer)
+        overseer_commands = extract_command_names_and_arguments(overseer_evaluation)
+        overseer_evaluation = overseer_commands[-1][0]
         silent_print(overseer_evaluation)
         overseer_dict = convert_json_string_to_dict(overseer_evaluation)
+
         if overseer_dict["flag"] == "SUPPORTED":
             return conversation
         else:
@@ -48,3 +57,7 @@ def generate_overseer_input(
         source_texts += f"source {i}: '{get_source_content_and_path(chatbot_id, source_name)[0]}'\n\n"
     system_message = f"{source_texts}\nbot response: '{bot_message}'\n"
     return system_message
+
+
+def check_validity_of_overseer_response_(overseer_dict: dict):
+    keys = overseer_dict.keys()
