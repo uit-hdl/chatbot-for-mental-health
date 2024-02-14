@@ -4,6 +4,33 @@ role."""
 import openai
 from utils.general import message_is_intended_for_user
 from utils.general import list_intersection
+from utils.consumption_of_tokens import count_tokens_in_message
+from utils.backend import MODEL_ID
+from utils.backend import SETTINGS
+from utils.console_chat_display import silent_print
+
+
+def check_length_of_chatbot_response(conversation):
+    """Appends system warning to chat if message is long."""
+    bot_response = grab_last_assistant_response(conversation)
+    response_length = count_tokens_in_message(bot_response, MODEL_ID)
+    warning_message = []
+    status = "OK"
+    if response_length > SETTINGS["max_tokens_per_message"]:
+        silent_print("Response exceeds lenght...")
+        warning_message = {
+            "role": "system",
+            "content": f"Your response was {response_length} tokens, which is too long!",
+        }
+        status = "REDO"
+    if response_length > SETTINGS["warning_limit_tokens_per_message"]:
+        silent_print("Response exceeds lenght...")
+        warning_message = {
+            "role": "system",
+            "content": f"Your response was {response_length} tokens, careful!",
+        }
+        status = "WARNING"
+    return warning_message, status
 
 
 def generate_raw_bot_response(conversation, config: dict):

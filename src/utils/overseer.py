@@ -36,12 +36,10 @@ def check_sources(conversation, harvested_syntax: dict, chatbot_id: str) -> list
         silent_print(overseer_evaluation)
         overseer_dict = convert_json_string_to_dict(overseer_evaluation)
 
-        if overseer_dict["flag"] == "SUPPORTED":
-            return conversation
-        else:
-            conversation.append(
-                {"role": "system", "content": overseer_dict["message_to_bot"]}
-            )
+        if overseer_response_is_valid(overseer_dict): 
+            if overseer_dict["flag"] != "SUPPORTED":
+                warning = overseer_dict["message_to_bot"]
+                conversation.append({"role": "system", "content": warning})
 
     return conversation
 
@@ -59,5 +57,9 @@ def generate_overseer_input(
     return system_message
 
 
-def check_validity_of_overseer_response_(overseer_dict: dict):
-    keys = overseer_dict.keys()
+def overseer_response_is_valid(overseer_dict: dict):
+    """Basic check of the message produced by the overseer."""
+    if "flag" in overseer_dict.keys():
+        if "message_to_bot" in overseer_dict.keys():
+            return True
+    return False

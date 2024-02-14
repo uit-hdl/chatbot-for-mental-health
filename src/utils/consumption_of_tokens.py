@@ -38,6 +38,12 @@ def count_tokens(conversation) -> int:
     for message in conversation:
         # "user: assistant:" corresponds to 4 tokens
         num_tokens += 4
-        num_tokens += len(encoding.encode(message["content"]))
+        num_tokens += count_tokens_in_message(message["content"], MODEL_ID)
     num_tokens += 2  # every reply is primed with <im_start>assistant
     return num_tokens
+
+
+def count_tokens_in_message(message: str, model_id):
+    """Counts the number of tokens in a single message."""
+    encoding = tiktoken.encoding_for_model(model_id)
+    return len(encoding.encode(message))

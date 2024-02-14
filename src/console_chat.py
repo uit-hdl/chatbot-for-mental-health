@@ -19,6 +19,7 @@ from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import initiate_prompt_engineered_ai_agent
 from utils.chat_utilities import generate_raw_bot_response
+from utils.chat_utilities import check_length_of_chatbot_response
 from utils.overseer import check_sources
 from utils.console_chat_display import display_last_response
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
@@ -171,6 +172,11 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
         harvested_syntax,
         warning_messages,
     ) = process_syntax_of_bot_response(conversation, chatbot_id)
+    warning_length, length_status = check_length_of_chatbot_response(conversation)
+    if length_status == "REDO":
+        warning_messages += warning_length
+    elif length_status == "WARNING":
+        conversation.append(warning_length)
     if warning_messages:
         conversation = append_system_messages(conversation, warning_messages)
         LOGGER.info(warning_messages)
