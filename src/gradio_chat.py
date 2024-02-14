@@ -3,7 +3,7 @@ import sys
 
 from utils.backend import PROMPTS
 from utils.general import remove_syntax_from_message
-from utils.chat_utilities import grab_last_response
+from utils.chat_utilities import grab_last_assistant_response
 from console_chat import generate_processed_bot_response
 from console_chat import direct_to_new_assistant
 from console_chat import remove_inactive_sources
@@ -52,7 +52,7 @@ def chatbot_interface(user_input: str) -> [str, str]:
         if harvested_syntax["referral"]["file_exists"]:
             CONVERSATION = direct_to_new_assistant(harvested_syntax["referral"])
 
-    response = grab_last_response(CONVERSATION)
+    response = grab_last_assistant_response(CONVERSATION)
     response_no_syntax = remove_syntax_from_message(response)
     return response_no_syntax, image_url
 
