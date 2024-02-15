@@ -3,6 +3,7 @@ import sys
 
 from typing import Tuple
 from utils.backend import PROMPTS
+from utils.backend import dump_current_conversation
 from utils.general import remove_syntax_from_message
 from utils.chat_utilities import grab_last_assistant_response
 from console_chat import generate_processed_bot_response
@@ -49,6 +50,8 @@ def chatbot_interface(user_input: str) -> Tuple[str, str]:
     CONVERSATION = check_sources(
         CONVERSATION, harvested_syntax, chatbot_id
     )
+    dump_current_conversation(CONVERSATION)
+
     if harvested_syntax["referral"]:
         if harvested_syntax["referral"]["file_exists"]:
             CONVERSATION = direct_to_new_assistant(harvested_syntax["referral"])
