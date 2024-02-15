@@ -1,7 +1,8 @@
-Since this is our first session together, I want to provide you with a better
-understanding of sleep and insomnia and explain how this treatment is going to
-help get your sleep back on track. Last, I will explain the sleep log that you
-will be filling out which will be a road map for treatment.
+* Since this is our first session together, I want to provide you with
+a better understanding of sleep and insomnia and explain how this
+treatment is going to help get your sleep back on track. Last, I will
+explain the sleep log that you will be filling out which will be a
+road map for treatment.
 
 # Why is sleep vital to life? 
 *Why do you think sleep is important? What function does it serve?*

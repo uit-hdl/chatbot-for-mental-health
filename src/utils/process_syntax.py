@@ -184,19 +184,20 @@ def get_video_requests(commands, arguments, subfolder) -> list[dict]:
 def get_referral(commands: list[str], arguments: list[str], subfolder: str) -> dict:
     """Gets the referral dictionary with information on who to redirect the user to,
     and what the user needs help with."""
+    referral = None
+
     for command, argument in zip(commands, arguments):
-        if command == "referral":
-            referral_ticket = convert_json_string_to_dict(argument)
-            assistant_path = add_extension(
-                os.path.join(PROMPTS_DIR, subfolder, referral_ticket["assistant_id"]),
+        if command == "request_referral":
+            referral = {}
+            referral["assistant_id"] = argument
+            referral["assistant_path"] = add_extension(
+                os.path.join(PROMPTS_DIR, subfolder, referral["assistant_id"]),
                 ".md",
             )
-            if file_exists(assistant_path):
-                referral_ticket["file_exists"] = True
-            else:
-                referral_ticket["file_exists"] = False
+            referral["file_exists"] = file_exists(referral["assistant_path"])
+            silent_print(referral["assistant_path"])
 
-            return referral_ticket
+    return referral
 
 
 def generate_warning_messages(harvested_syntax) -> list[str]:
