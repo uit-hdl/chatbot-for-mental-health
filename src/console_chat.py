@@ -2,6 +2,7 @@ import openai
 import sys
 import re
 
+from utils.general import silent_print
 from utils.general import offer_to_store_conversation
 from utils.backend import API_KEY
 from utils.backend import PROMPTS
@@ -27,7 +28,6 @@ from utils.console_chat_display import reprint_whole_conversation_without_syntax
 from utils.console_chat_display import play_videos
 from utils.console_chat_display import print_whole_conversation_with_backend_info
 from utils.console_chat_display import display_images
-from utils.console_chat_display import silent_print
 from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
 from utils.console_chat_display import RESET_COLOR
 
@@ -147,6 +147,9 @@ def generate_valid_response(conversation, chatbot_id):
 
         if quality_check == "failed":
             conversation = delete_last_bot_response(conversation)
+            silent_print(
+                "Bot failed quality check, regenerating response (check log for details)."
+            )
         elif quality_check == "passed":
             break
 
@@ -184,6 +187,7 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
         conversation = append_system_messages(conversation, failure_messages)
         LOGGER.info(failure_messages)
         quality_check = "failed"
+        silent_print("")
     else:
         quality_check = "passed"
 

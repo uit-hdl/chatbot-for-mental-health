@@ -14,9 +14,11 @@ import ast
 
 from typing import List
 from typing import Dict
+from typing import Tuple
 
 from utils.chat_utilities import grab_last_assistant_response
 from utils.general import remove_quotes_and_backticks
+from utils.general import silent_print
 from utils.backend import file_exists
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
@@ -27,9 +29,10 @@ from utils.backend import load_textfile_as_string
 from utils.backend import get_shared_subfolder_name
 from utils.backend import dump_to_json
 from utils.backend import convert_json_string_to_dict
+from utils.backend import add_extension
 
 
-def process_syntax_of_bot_response(conversation, chatbot_id) -> (dict, list[str]):
+def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List[str]]:
     """Scans the response for symbols ¤: and :¤ and extracts the name of the
     commands and their arguments. Returns a dictionary with keys being the command types, with each
     type containing the information collected for that type. Commands are 'referral',
@@ -50,7 +53,7 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> (dict, list[str]
     return harvested_syntax, warning_messages
 
 
-def extract_command_names_and_arguments(chatbot_response: str) -> (list, list):
+def extract_command_names_and_arguments(chatbot_response: str) -> Tuple[List, List]:
     """Takes a response, identifies substrings of the form ¤:command_name(argument):¤, and
     extracts command names and command arguments, which are returned as two synchronized lists.
     """
@@ -104,11 +107,14 @@ def get_knowledge_requests(
     the name of the source, and the existance status of the requested source."""
     knoweldge_requests = []
     if commands:
-        for command, argument in zip(commands, arguments):
+        for command, name in zip(commands, arguments):
             if command == "request_knowledge":
                 knowledge = {}
-                source_path = os.path.join(LIBRARY_DIR, subfolder, argument) + ".md"
-                knowledge["source_name"] = remove_quotes_and_backticks(argument)
+                name = remove_quotes_and_backticks(name)
+                knowledge["source_name"] = name
+                source_path = add_extension(
+                    os.path.join(LIBRARY_DIR, subfolder, name), ".md"
+                )
                 if file_exists(source_path):
                     knowledge["content"] = load_textfile_as_string(source_path)
                     knowledge["file_exists"] = True
@@ -181,9 +187,9 @@ def get_referral(commands: list[str], arguments: list[str], subfolder: str) -> d
     for command, argument in zip(commands, arguments):
         if command == "referral":
             referral_ticket = convert_json_string_to_dict(argument)
-            assistant_path = (
-                os.path.join(PROMPTS_DIR, subfolder, referral_ticket["assistant_id"])
-                + ".md"
+            assistant_path = add_extension(
+                os.path.join(PROMPTS_DIR, subfolder, referral_ticket["assistant_id"]),
+                ".md",
             )
             if file_exists(assistant_path):
                 referral_ticket["file_exists"] = True

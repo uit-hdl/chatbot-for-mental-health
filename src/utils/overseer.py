@@ -12,7 +12,7 @@ from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import grab_last_response
 from utils.chat_utilities import generate_raw_bot_response
 from utils.process_syntax import extract_command_names_and_arguments
-from utils.console_chat_display import silent_print
+from utils.general import silent_print
 
 
 def check_sources(conversation, harvested_syntax: dict, chatbot_id: str) -> list:

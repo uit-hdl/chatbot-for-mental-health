@@ -4,6 +4,29 @@ import re
 
 from utils.backend import dump_conversation
 
+RESET_COLOR = "\033[0m"
+COLOR_TO_ANSI_MAP = {
+    "grey": "\033[2;30m",
+    "green": "\033[92m",
+    "blue": "\033[94m",
+    "reset": "\033[0m",
+}
+ROLE_TO_ANSI_COLOR_MAP = {
+    "assistant": COLOR_TO_ANSI_MAP["blue"],
+    "user": COLOR_TO_ANSI_MAP["green"],
+    "system": COLOR_TO_ANSI_MAP["grey"],
+}
+
+
+def silent_print(text: str):
+    """Prints text in console in dark grey."""
+    print(color_text(text, "grey"))
+
+
+def color_text(text: str, color="grey"):
+    """Returns text in the desired colour (grey, green, or blue)."""
+    return f"{COLOR_TO_ANSI_MAP[color]}{text}{RESET_COLOR}"
+
 
 def list_intersection(list_1, list_2) -> list:
     """Returns the elements that the lists have in common."""
@@ -31,12 +54,12 @@ def message_is_intended_for_user(message: str) -> bool:
         return True
 
 
-def remove_quotes_and_backticks(input_str):
+def remove_quotes_and_backticks(input_str) -> str:
     """Removes quotation marks, `"` or `'`, from a string. Used for standardization
     in cases where bot is not always consistent, such as play_video("video_name") instead of
     play_video(video_name)."""
-    pattern = r"[\'\"]"  # Matches either single or double quotes
-    result_str = re.sub(pattern, "", input_str)
+    pattern = r"[\'\"]"  # Pattern that recognizes single and double quotes
+    result_str = re.sub(pattern, "", input_str)  # Remove single and double quotes
     result_str = result_str.replace("`", "")  # Remove backticks
     return result_str
 
@@ -85,7 +108,7 @@ def remove_superflous_linebreaks_between_paragraphs(text: str):
 def find_substrings_enclosed_by_curly_brackets(input_string) -> list[str]:
     """Finds all substrings enclosed between `{` and `}`"""
     # Define a regular expression pattern to find substrings between { and }
-    pattern = r'\{([^}]+)\}'
+    pattern = r"\{([^}]+)\}"
     enclosed_substrings = re.findall(pattern, input_string)
     enclosed_substrings = ["{" + string + "}" for string in enclosed_substrings]
     return "{" + enclosed_substrings + "}"

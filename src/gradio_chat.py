@@ -1,6 +1,7 @@
 """Rudimentary gradio interface chat."""
 import sys
 
+from typing import Tuple
 from utils.backend import PROMPTS
 from utils.general import remove_syntax_from_message
 from utils.chat_utilities import grab_last_assistant_response
@@ -32,7 +33,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id):
     iface.launch(share=True)
 
 
-def chatbot_interface(user_input: str) -> [str, str]:
+def chatbot_interface(user_input: str) -> Tuple[str, str]:
     """Function that goes into gradio interface function. Maps input text to final chatbot
     response and image url (after processing bot commands, gathering pictures, updating chat
     history, etc...)."""

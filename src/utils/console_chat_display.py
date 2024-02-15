@@ -9,19 +9,8 @@ from utils.backend import file_exists
 from utils.backend import SETTINGS
 from utils.chat_utilities import grab_last_assistant_response
 from utils.general import remove_syntax_from_message
-
-RESET_COLOR = "\033[0m"
-COLOR_TO_ANSI_MAP = {
-    "grey": "\033[2;30m",
-    "green": "\033[92m",
-    "blue": "\033[94m",
-    "reset": "\033[0m",
-}
-ROLE_TO_ANSI_COLOR_MAP = {
-    "assistant": COLOR_TO_ANSI_MAP["blue"],
-    "user": COLOR_TO_ANSI_MAP["green"],
-    "system": COLOR_TO_ANSI_MAP["grey"],
-}
+from utils.general import RESET_COLOR
+from utils.general import ROLE_TO_ANSI_COLOR_MAP
 
 
 def print_whole_conversation_with_backend_info(conversation):
@@ -77,7 +66,10 @@ def display_last_response(conversation):
 def display_last_assistant_response(conversation):
     """Displays the last assistant response of the conversation after stripping away syntax."""
     display_message_without_syntax(
-        message_dict=grab_last_assistant_response(conversation)
+        message_dict={
+            "role": "assistant",
+            "content": grab_last_assistant_response(conversation),
+        }
     )
 
 
@@ -146,13 +138,3 @@ def play_video(video_path: str):
     video = VideoFileClip(video_path)
     video.preview()
     video.close()
-
-
-def silent_print(text: str):
-    """Prints text in console in dark grey."""
-    print(color_text(text, "grey"))
-
-
-def color_text(text: str, color="grey"):
-    """Returns text in the desired colour (grey, green, or blue)."""
-    return f"{COLOR_TO_ANSI_MAP[color]}{text}{RESET_COLOR}"
