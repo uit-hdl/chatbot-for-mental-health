@@ -10,5 +10,5 @@ print_knowledge_requests: True
 dollars_per_1k_input_token: 0.03
 dollars_per_1k_output_token: 0.06
 kr_to_dollar_ratio: 0.096  # rate of kr to dollars
-max_tokens_per_message: 200
+max_tokens_per_message: 210  # Limit in prompt + margin
 warning_limit_tokens_per_message: 150

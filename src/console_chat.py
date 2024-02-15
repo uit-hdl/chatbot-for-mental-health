@@ -170,16 +170,18 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
     conversation = correct_erroneous_show_image_command(conversation)
     (
         harvested_syntax,
-        warning_messages,
+        failure_messages,
     ) = process_syntax_of_bot_response(conversation, chatbot_id)
-    warning_length, length_status = check_length_of_chatbot_response(conversation)
+    length_warning, length_status = check_length_of_chatbot_response(conversation)
+
     if length_status == "REDO":
-        warning_messages += warning_length
-    elif length_status == "WARNING":
-        conversation.append(warning_length)
-    if warning_messages:
-        conversation = append_system_messages(conversation, warning_messages)
-        LOGGER.info(warning_messages)
+        failure_messages += length_warning
+    if length_status == "WARNING":
+        conversation.append(length_warning)
+
+    if failure_messages:
+        conversation = append_system_messages(conversation, failure_messages)
+        LOGGER.info(failure_messages)
         quality_check = "failed"
     else:
         quality_check = "passed"
