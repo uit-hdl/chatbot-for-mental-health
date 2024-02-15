@@ -7,6 +7,7 @@ import textwrap
 
 from utils.backend import file_exists
 from utils.backend import SETTINGS
+from utils.chat_utilities import grab_last_assistant_response
 from utils.general import remove_syntax_from_message
 
 RESET_COLOR = "\033[0m"
@@ -71,6 +72,13 @@ def wrap_message(message: str, line_length=80):
 def display_last_response(conversation):
     """Displays the last response of the conversation after stripping away syntax."""
     display_message_without_syntax(message_dict=conversation[-1])
+
+
+def display_last_assistant_response(conversation):
+    """Displays the last assistant response of the conversation after stripping away syntax."""
+    display_message_without_syntax(
+        message_dict=grab_last_assistant_response(conversation)
+    )
 
 
 def display_message_without_syntax(message_dict: dict):

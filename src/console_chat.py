@@ -22,6 +22,7 @@ from utils.chat_utilities import generate_raw_bot_response
 from utils.chat_utilities import check_length_of_chatbot_response
 from utils.overseer import check_sources
 from utils.console_chat_display import display_last_response
+from utils.console_chat_display import display_last_assistant_response
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
 from utils.console_chat_display import play_videos
 from utils.console_chat_display import print_whole_conversation_with_backend_info
@@ -61,7 +62,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             conversation, chatbot_id
         )
 
-        display_last_response(conversation)
+        display_last_assistant_response(conversation)
         display_images(harvested_syntax["images"])
         play_videos(harvested_syntax["videos"])
 

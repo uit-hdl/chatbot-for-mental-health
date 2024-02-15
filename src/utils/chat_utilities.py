@@ -1,6 +1,6 @@
-"""Simple utilities for working with the conversation, which are lists of dictionaries, each of
-which have keys 'role' and 'content' (the message) such as identifying responses of a specified
-role."""
+"""Function for working with the conversation list object and chatbot. 
+conversation is a list of dictionaries, each of which have keys 'role' and 'content' (the message)
+such as identifying responses of a specified role."""
 import openai
 from utils.general import message_is_intended_for_user
 from utils.general import list_intersection
