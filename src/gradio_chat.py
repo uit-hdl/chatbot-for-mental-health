@@ -9,7 +9,7 @@ from utils.chat_utilities import grab_last_assistant_response
 from console_chat import generate_processed_bot_response
 from console_chat import direct_to_new_assistant
 from console_chat import remove_inactive_sources
-from console_chat import check_sources
+from console_chat import overseer_check_of_source_fidelity
 import gradio as gr
 
 CONVERSATION = []
@@ -30,7 +30,11 @@ def chat_with_bot_in_gradio_interface(chatbot_id):
         }
     )
 
-    iface = gr.Interface(fn=chatbot_interface, inputs="text", outputs=["text", "image"])
+    iface = gr.Interface(
+        fn=chatbot_interface,
+        inputs=[gr.Textbox(label="Input text")],
+        outputs=["text", "image"],
+    )
     iface.launch(share=True)
 
 
@@ -47,7 +51,7 @@ def chatbot_interface(user_input: str) -> Tuple[str, str]:
     image_url = get_image_url(harvested_syntax)
 
     CONVERSATION = remove_inactive_sources(CONVERSATION)
-    CONVERSATION = check_sources(
+    CONVERSATION = overseer_check_of_source_fidelity(
         CONVERSATION, harvested_syntax, chatbot_id
     )
     dump_current_conversation(CONVERSATION)

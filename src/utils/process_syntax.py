@@ -18,7 +18,6 @@ from typing import Tuple
 
 from utils.chat_utilities import grab_last_assistant_response
 from utils.general import remove_quotes_and_backticks
-from utils.general import silent_print
 from utils.backend import file_exists
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
@@ -115,6 +114,7 @@ def get_knowledge_requests(
                 source_path = add_extension(
                     os.path.join(LIBRARY_DIR, subfolder, name), ".md"
                 )
+                LOGGER.info(f"Bot requests source: {source_path}")
                 if file_exists(source_path):
                     knowledge["content"] = load_textfile_as_string(source_path)
                     knowledge["file_exists"] = True
@@ -195,7 +195,6 @@ def get_referral(commands: list[str], arguments: list[str], subfolder: str) -> d
                 ".md",
             )
             referral["file_exists"] = file_exists(referral["assistant_path"])
-            silent_print(referral["assistant_path"])
 
     return referral
 

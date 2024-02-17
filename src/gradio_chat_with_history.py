@@ -17,7 +17,8 @@ def chat_with_bot_in_gradio_interface(chatbot_id):
     console to start the conversation in a browser window. Has all features (referrals, knowledge
     requests etc...) EXCEPT playing videos and showing images (ATM)."""
     global DEEP_CHAT
-
+    print(PROMPTS.keys())
+    print(f"The prompt is {PROMPTS["small_talk"]}")
     DEEP_CHAT.append(
         {
             "role": "system",
@@ -29,7 +30,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id):
     iface.launch(share=True)
 
 
-def chatbot_interface(user_message, printed_history: [list, list]) -> str:
+def chatbot_interface(user_message, printed_history: tuple[list, list]) -> str:
     """Function that is passed as argument into gradio interface function. The second argument is
     not used, but is required by gr.ChatInterface()."""
     global DEEP_CHAT
@@ -51,7 +52,7 @@ def chatbot_interface(user_message, printed_history: [list, list]) -> str:
 
 
 if __name__ == "__main__":
-    chatbot_id = "referral"
+    chatbot_id = "small_talk"
     if len(sys.argv) > 1:
         chatbot_id = sys.argv[1]
     chat_with_bot_in_gradio_interface(chatbot_id)

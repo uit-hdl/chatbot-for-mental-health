@@ -15,10 +15,16 @@ from utils.process_syntax import extract_command_names_and_arguments
 from utils.general import silent_print
 
 
-def check_sources(conversation, harvested_syntax: dict, chatbot_id: str) -> list:
-    """An external bot checks fidelity of bot response to the source it cites."""
+def overseer_check_of_source_fidelity(
+    conversation, harvested_syntax: dict, chatbot_id: str
+) -> list:
+    """An overseer bot checks fidelity of bot response to the source it cites."""
     bot_message = grab_last_assistant_response(conversation)
-    dummy_sources = ["sources_dont_contain_answer", "no_advice_or_claims"]
+    dummy_sources = [
+        "init_prompt",
+        "sources_dont_contain_answer",
+        "no_advice_or_claims",
+    ]
     # Remove citatons that only label the response and but do not reference a source
     sources = [
         source for source in harvested_syntax["sources"] if source not in dummy_sources
@@ -31,15 +37,19 @@ def check_sources(conversation, harvested_syntax: dict, chatbot_id: str) -> list
         overseer = generate_raw_bot_response(overseer, CONFIG)
         dump_conversation_to_colorcoded_md_file(overseer, OVERSEER_CONVERSATION_PATH)
         overseer_evaluation = grab_last_response(overseer)
-        overseer_commands = extract_command_names_and_arguments(overseer_evaluation)
-        overseer_evaluation = overseer_commands[-1][0]
-        silent_print(overseer_evaluation)
-        overseer_dict = convert_json_string_to_dict(overseer_evaluation)
+        _, command_arguments = extract_command_names_and_arguments(overseer_evaluation)
 
-        if overseer_response_is_valid(overseer_dict): 
-            if overseer_dict["flag"] != "SUPPORTED":
-                warning = overseer_dict["message_to_bot"]
-                conversation.append({"role": "system", "content": warning})
+        if command_arguments:
+            overseer_evaluation = command_arguments[0]
+            silent_print(overseer_evaluation)
+            overseer_dict = convert_json_string_to_dict(overseer_evaluation)
+
+            if overseer_response_is_valid(overseer_dict): 
+                if overseer_dict["flag"] != "SUPPORTED":
+                    warning = overseer_dict["message_to_bot"]
+                    conversation.append({"role": "system", "content": warning})
+        else:
+            overseer_evaluation = None
 
     return conversation
 

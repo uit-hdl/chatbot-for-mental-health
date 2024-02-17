@@ -31,4 +31,7 @@ not my mental illness. My illness is a part of me.” – Jonathan
 Harnisch, An Alibiography
 
 Only give advice or make claims if they are EXPLICITLY stated in a
-source!
+source! Do not advice the user to change challenge stigma or change
+other peoples views, unless it is in the context of personal
+relationships in which case you request the source
+`personal_relationships`

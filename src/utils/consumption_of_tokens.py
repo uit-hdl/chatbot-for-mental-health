@@ -7,16 +7,16 @@ from utils.backend import MODEL_ID
 
 def count_tokens_used_to_create_last_response(conversation) -> int:
     """Counts the number of tokens used to generate the last message in the conversation."""
-    tokens_in = count_tokens(conversation[:-1])
-    tokens_out = count_tokens(conversation[-1])
+    tokens_in = count_tokens_in_chat(conversation[:-1])
+    tokens_out = count_tokens_in_chat(conversation[-1])
     return tokens_in + tokens_out
 
 
 def calculate_cost_of_response(conversation):
     """Calculates the cost of generating the last repsonse (which is assumed to be from
     assistant)."""
-    tokens_in = count_tokens(conversation[:-1])
-    tokens_out = count_tokens(conversation[-1])
+    tokens_in = count_tokens_in_chat(conversation[:-1])
+    tokens_out = count_tokens_in_chat(conversation[-1])
     dollars_tokens_in = tokens_in * SETTINGS["dollars_per_1k_input_token"] / 1000
     dollars_tokens_out = tokens_out * SETTINGS["dollars_per_1k_output_token"] / 1000
     kroners_total = (dollars_tokens_in + dollars_tokens_out) * SETTINGS[
@@ -25,7 +25,7 @@ def calculate_cost_of_response(conversation):
     return kroners_total
 
 
-def count_tokens(conversation) -> int:
+def count_tokens_in_chat(conversation) -> int:
     """Counts the number of tokens in a conversation. Uses token encoder
     https://github.com/openai/tiktoken/blob/main/tiktoken/model.py. Input argument can be either a
     list or a dictionary (for instance the last response in the conversation).

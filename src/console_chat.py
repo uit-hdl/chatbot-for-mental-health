@@ -1,6 +1,7 @@
 import openai
 import sys
 import re
+import json
 
 from utils.general import silent_print
 from utils.general import offer_to_store_conversation
@@ -21,7 +22,7 @@ from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import initiate_prompt_engineered_ai_agent
 from utils.chat_utilities import generate_raw_bot_response
 from utils.chat_utilities import check_length_of_chatbot_response
-from utils.overseer import check_sources
+from utils.overseer import overseer_check_of_source_fidelity
 from utils.console_chat_display import display_last_response
 from utils.console_chat_display import display_last_assistant_response
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
@@ -30,6 +31,7 @@ from utils.console_chat_display import print_whole_conversation_with_backend_inf
 from utils.console_chat_display import display_images
 from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
 from utils.console_chat_display import RESET_COLOR
+from utils.manage_chat_length import truncate_if_too_long
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
@@ -66,7 +68,9 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         display_images(harvested_syntax["images"])
         play_videos(harvested_syntax["videos"])
 
-        conversation = check_sources(conversation, harvested_syntax, chatbot_id)
+        conversation = overseer_check_of_source_fidelity(
+            conversation, harvested_syntax, chatbot_id
+        )
         dump_current_conversation(conversation)
 
         if harvested_syntax["referral"]:
@@ -75,7 +79,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
                 display_last_response(conversation)
 
         conversation = remove_inactive_sources(conversation)
-
+        conversation = truncate_if_too_long(conversation)
 
 def continue_previous_conversation(chat_filepath: str, chatbot_id: str) -> list:
     """Inserts the current prompt into a previous stored conversation that was
@@ -161,6 +165,7 @@ def generate_valid_response(conversation, chatbot_id):
         ) = generate_bot_response_and_check_quality(conversation, chatbot_id)
         LOGGER.info("Ran out of attempts to pass quality check.")
 
+
     return conversation, harvested_syntax
 
 
@@ -186,8 +191,8 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
     if failure_messages:
         conversation = append_system_messages(conversation, failure_messages)
         LOGGER.info(failure_messages)
+        LOGGER.info("Harvested syntax: %s", json.dumps(harvested_syntax, indent=2))
         quality_check = "failed"
-        silent_print("")
     else:
         quality_check = "passed"
 
