@@ -25,6 +25,7 @@ API_KEY_PATH = os.path.join(API_DIR, "insomnia_bot_azure.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 LOGFILE_PATH = os.path.join(CHAT_INFO_DIR, "chat.log")
+TRUNCATED_MESSAGE_PATH = os.path.join(CHAT_INFO_DIR, "truncated_message.json")
 OVERSEER_CONVERSATION_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.md")
 
 logging.basicConfig(

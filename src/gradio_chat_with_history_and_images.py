@@ -44,8 +44,8 @@ def respond(user_message, surface_chat):
 
     surface_chat.append((user_message, surface_response))
 
-    image_url = get_image_url(harvested_syntax)
-    if image_url:
+    image_url_list = get_image_urls(harvested_syntax)
+    for image_url in image_url_list:
         surface_chat.append((None, (image_url,)))
 
     dump_current_conversation(DEEP_CHAT)
@@ -61,12 +61,12 @@ def respond(user_message, surface_chat):
     return "", surface_chat
 
 
-def get_image_url(harvested_syntax):
+def get_image_urls(harvested_syntax):
     """Gets the path of the image that the bot is trying to show (if any)."""
-    image_url = None
+    image_url_list = []
     for image in harvested_syntax["images"]:
-        image_url = image["path"]
-    return image_url
+        image_url_list.append(image["path"])
+    return image_url_list
 
 
 if __name__ == "__main__":

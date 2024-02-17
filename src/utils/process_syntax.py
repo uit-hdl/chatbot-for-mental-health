@@ -226,8 +226,4 @@ def generate_warning_messages(harvested_syntax) -> list[str]:
             warning_messages.append(
                 f"The assistant `{harvested_syntax['referral']['assistant_id']}` does not exist! Only redirect the user to assistants I have referenced."
             )
-    if len(harvested_syntax["images"]) + len(harvested_syntax["videos"]) >= 2:
-        warning_messages.append(
-            "It is illegal to present more than 1 video/image per response!"
-        )
     return warning_messages
