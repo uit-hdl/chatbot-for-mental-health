@@ -27,6 +27,8 @@ from utils.backend import PROMPTS_DIR
 from utils.backend import load_textfile_as_string
 from utils.backend import get_shared_subfolder_name
 from utils.backend import dump_to_json
+from utils.backend import get_file_names_in_directory
+from utils.backend import get_file_paths_in_directory
 from utils.backend import add_extension
 
 
@@ -36,11 +38,12 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List
     type containing the information collected for that type. Commands are 'referral',
     'request_knowledge', 'display_image', 'play_video', and 'show_sources'. Dumps the resulting
     dictionary to chat-info/harvested_syntax.json."""
-    subfolder = get_shared_subfolder_name(chatbot_id)
+    available_files = get_available_files(chatbot_id)
+
     chatbot_response = grab_last_assistant_response(conversation)
     commands, arguments = extract_command_names_and_arguments(chatbot_response)
     harvested_syntax = process_and_organize_commands_and_arguments(
-        commands, arguments, subfolder
+        commands, arguments, available_files
     )
     warning_messages = generate_warning_messages(harvested_syntax)
 
@@ -49,6 +52,30 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List
     dump_to_json(harvested_syntax, "chat-info/harvested_syntax.json")
 
     return harvested_syntax, warning_messages
+
+
+def get_available_files(chatbot_id: str) -> dict:
+    """Finds and organizes all files (names and paths) associated with the chatbot-ID."""
+    subfolder = get_shared_subfolder_name(chatbot_id)
+
+    available_files = {"sources": {
+        "name": get_file_names_in_directory(os.path.join(LIBRARY_DIR, subfolder)),
+        "path": get_file_paths_in_directory(os.path.join(LIBRARY_DIR, subfolder)),
+    },
+    "assistants": {
+        "name": get_file_names_in_directory(os.path.join(PROMPTS_DIR, subfolder)),
+        "path": get_file_paths_in_directory(os.path.join(PROMPTS_DIR, subfolder)),
+    },
+    "images": {
+        "name": get_file_names_in_directory(os.path.join(IMAGES_DIR, subfolder)),
+        "path": get_file_paths_in_directory(os.path.join(IMAGES_DIR, subfolder)),
+    },
+    "videos": {
+        "name": get_file_names_in_directory(os.path.join(VIDEOS_DIR, subfolder)),
+        "path": get_file_paths_in_directory(os.path.join(VIDEOS_DIR, subfolder)),
+    }}
+
+    return available_files
 
 
 def extract_command_names_and_arguments(chatbot_response: str) -> Tuple[List, List]:
@@ -83,45 +110,60 @@ def extract_command_argument(command_string: str) -> str:
 
 
 def process_and_organize_commands_and_arguments(
-    commands: list, arguments: list, subfolder: str
+    commands: list, arguments: list, available_files: dict
 ):
     """Processes the list of commands and associated arguments, and organizes this information in a
     dictionary."""
     harvested_syntax = {}
-    harvested_syntax["knowledge_requests"] = get_knowledge_requests(
-        commands, arguments, subfolder
+    harvested_syntax["knowledge_insertions"], harvested_syntax["referral"] = (
+        get_knowledge_requests(commands, arguments, available_files)
     )
     harvested_syntax["sources"] = get_assistant_citations(commands, arguments)
-    harvested_syntax["images"] = get_image_requests(commands, arguments, subfolder)
-    harvested_syntax["videos"] = get_video_requests(commands, arguments, subfolder)
-    harvested_syntax["referral"] = get_referral(commands, arguments, subfolder)
+    harvested_syntax["images"] = get_image_requests(commands, arguments, available_files)
+    harvested_syntax["videos"] = get_video_requests(commands, arguments, available_files)
     return harvested_syntax
 
 
 def get_knowledge_requests(
-    commands: list, arguments: list, subfolder: str
+    commands: list, arguments: list, available_files: dict
 ) -> List[Dict]:
-    """Fetches the text (the 'content') associated with each knowledge request command, as well as
-    the name of the source, and the existance status of the requested source."""
-    knoweldge_requests = []
+    """Checks commands for requests to build knowledge or refer to new assistant. 
+    If these commands are found, gets the associated information."""
+    knowledge_insertions = []
+    referral = []
     if commands:
         for command, name in zip(commands, arguments):
             if command == "request_knowledge":
-                knowledge = {}
-                name = remove_quotes_and_backticks(name)
-                knowledge["source_name"] = name
-                source_path = add_extension(
-                    os.path.join(LIBRARY_DIR, subfolder, name), ".md"
-                )
-                LOGGER.info(f"Bot requests source: {source_path}")
-                if file_exists(source_path):
-                    knowledge["content"] = load_textfile_as_string(source_path)
-                    knowledge["file_exists"] = True
+
+                LOGGER.info(f"Bot requests: {name}")
+                if name in available_files["assistants"]["name"]:
+                    referral = {
+                        "name": name,
+                        "content": None,
+                        "type": "referral",
+                        "file_exists": True
+                    }
+                elif name in available_files["sources"]["name"]:
+                    knowledge_insertion = {
+                        "name": name,
+                        "content": load_textfile_as_string(
+                            available_files["sources"]["path"]
+                        ),
+                        "type": "knowledge_insertion",
+                        "file_exists": True
+                    }
                 else:
-                    knowledge["content"] = None
-                    knowledge["file_exists"] = False
-                knoweldge_requests.append(knowledge)
-    return knoweldge_requests
+                    # Requests for non-existing files are arbitrarily handled as insertions
+                    knowledge_insertion = {
+                        "name": name,
+                        "content": None,
+                        "type": "knowledge_insertion",
+                        "file_exists": False
+                    }
+
+                knowledge_insertions.append(knowledge_insertion)
+    
+    return knowledge_insertions, referral
 
 
 def get_assistant_citations(commands: list, arguments: list) -> list[str]:
@@ -139,7 +181,7 @@ def get_assistant_citations(commands: list, arguments: list) -> list[str]:
     return citations
 
 
-def get_image_requests(commands, arguments, subfolder) -> list[dict]:
+def get_image_requests(commands, arguments, available_files) -> list[dict]:
     """Finds file paths, file name, and checks if requested files exists. Returns list with
     dictionary for each requested video, containing the name of the video, status for its existance,
     and file path.
@@ -148,9 +190,8 @@ def get_image_requests(commands, arguments, subfolder) -> list[dict]:
     for command, argument in zip(commands, arguments):
         if command == "display_image":
             image = {}
-            image_path = os.path.join(IMAGES_DIR, subfolder, argument)
-            image["name"] = remove_quotes_and_backticks(argument)
-            if file_exists(image_path):
+            image["name"] = standardize_name(argument, ".png")
+            if image["name"] in available_files["images"]["name"]:
                 image["path"] = image_path
                 image["file_exists"] = True
             else:
@@ -180,49 +221,37 @@ def get_video_requests(commands, arguments, subfolder) -> list[dict]:
     return videos
 
 
-def get_referral(commands: list[str], arguments: list[str], subfolder: str) -> dict:
-    """Gets the referral dictionary with information on who to redirect the user to,
-    and what the user needs help with."""
-    referral = None
-
-    for command, argument in zip(commands, arguments):
-        if command == "request_knowledge":
-            referral = {}
-            referral["assistant_id"] = argument
-            referral["assistant_path"] = add_extension(
-                os.path.join(PROMPTS_DIR, subfolder, referral["assistant_id"]),
-                ".md",
-            )
-            referral["file_exists"] = file_exists(referral["assistant_path"])
-
-    return referral
-
-
 def generate_warning_messages(harvested_syntax) -> list[str]:
     """Checks whether the requested files exists. For each non-existant files that has been
     requested, it creates a corresponding warning message (to be inserted into chat by `system`).
     """
     warning_messages = []
-    for knowledge_request in harvested_syntax["knowledge_requests"]:
-        if not knowledge_request["file_exists"]:
+
+    for insertion in harvested_syntax["knowledge_insertions"]:
+        if insertion["file_exists"] == False:
             warning_messages.append(
-                f"Source `{knowledge_request['source_name']}` does not exist! Request only sources I have referenced."
+                f"`{insertion['name']}` does not exist! Request only sources and assistants I have referenced."
             )
 
     for image in harvested_syntax["images"]:
-        if not image["file_exists"]:
+        if image["file_exists"] == False:
             warning_messages.append(
                 f"Image `{image['name']}` does not exist! Request only images I have referenced."
             )
 
     for video in harvested_syntax["videos"]:
-        if not video["file_exists"]:
+        if video["file_exists"] == False:
             warning_messages.append(
                 f"Video `{video['name']}` does not exist! Request only videos I have referenced."
             )
-    if harvested_syntax["referral"]:
-        if not harvested_syntax["referral"]["file_exists"]:
-            warning_messages.append(
-                f"The assistant `{harvested_syntax['referral']['assistant_id']}` does not exist! Only redirect the user to assistants I have referenced."
-            )
+
     return warning_messages
+
+
+def standardize_name(name: str, extension: str=None):
+    """Standardized the filename that has been extracted from ¤:command(name_of_file):¤."""
+    name_standardized = remove_quotes_and_backticks(name)
+    if extension:
+        name_standardized = add_extension(name, extension)
+    return name_standardized
+    

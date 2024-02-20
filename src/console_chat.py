@@ -19,10 +19,12 @@ from utils.chat_utilities import rewind_chat_by_n_assistant_responses
 from utils.chat_utilities import append_system_messages
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import grab_last_assistant_response
+from utils.chat_utilities import grab_last_response
 from utils.chat_utilities import initiate_prompt_engineered_ai_agent
 from utils.chat_utilities import generate_raw_bot_response
 from utils.chat_utilities import check_length_of_chatbot_response
 from utils.overseer import overseer_check_of_source_fidelity
+from utils.overseer import intent_classification_bot
 from utils.console_chat_display import display_last_response
 from utils.console_chat_display import display_last_assistant_response
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
@@ -54,7 +56,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         display_last_response(conversation)
 
     while True:
-        conversation = create_user_input(conversation)
+        conversation = get_user_input(conversation)
 
         if BREAK_CONVERSATION:
             offer_to_store_conversation(conversation)
@@ -75,11 +77,22 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
 
         if harvested_syntax["referral"]:
             if harvested_syntax["referral"]["file_exists"]:
-                conversation = direct_to_new_assistant(harvested_syntax["referral"])
-                display_last_response(conversation)
+                assistant_name = harvested_syntax["referral"]["name"]
+                conversation.append(
+                    {
+                        "role": "assistant",
+                        "content": "Would you like to be referred to an assistant who is qualified to talk about this topic?",
+                    }
+                )
+                conversation = get_user_input(conversation)
+                intent_classification = intent_classification_bot(grab_last_response(conversation))
+                if intent_classification == "YES":
+                    conversation = direct_to_new_assistant(assistant_name)
+                    display_last_response(conversation)
 
         conversation = remove_inactive_sources(conversation)
         conversation = truncate_if_too_long(conversation)
+
 
 def continue_previous_conversation(chat_filepath: str, chatbot_id: str) -> list:
     """Inserts the current prompt into a previous stored conversation that was
@@ -102,7 +115,7 @@ def initiate_new_conversation(chatbot_id: str, system_message=None):
     return conversation
 
 
-def create_user_input(conversation) -> list:
+def get_user_input(conversation) -> list:
     """Prompts user to input a prompt (the "question") in the command line."""
     global BREAK_CONVERSATION
 
@@ -221,9 +234,9 @@ def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):
     """Assistant can iteratively request sources untill it is satisfied. Sources are inserted into
     the conversation by system."""
     counter = 0
-    while harvested_syntax["knowledge_requests"] and counter < SETTINGS["max_requests"]:
+    while harvested_syntax["knowledge_insertions"] and counter < SETTINGS["max_requests"]:
         conversation = insert_knowledge(
-            conversation, harvested_syntax["knowledge_requests"]
+            conversation, harvested_syntax["knowledge_insertions"]
         )
         (
             conversation,
@@ -233,36 +246,36 @@ def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):
     return conversation, harvested_syntax
 
 
-def insert_knowledge(conversation, knowledge_list: list[str]):
-    """Checks for request to insert knowledge, and inserts knowledge into the conversation under the
-    role of system."""
-
-    for knowledge in knowledge_list:
-        requested_source = knowledge["source_name"]
-        if knowledge["content"]:
-            inserted_sources = extract_sources_inserted_by_system(conversation)
-            if requested_source in inserted_sources:
-                message = f"The source {requested_source} is already in chat. Never request sources that are already provided!"
+def insert_knowledge(conversation, knowledge_insertions: list[str]):
+    """Checks for request to insert knowledge, and inserts knowledge into the conversation.
+    First checks if there sources are already in the chat."""
+    inserted_sources = extract_sources_inserted_by_system(conversation)
+    
+    for source in knowledge_insertions:
+        source_name = source["name"]
+        if source["content"] is not None:
+            # Check if source is in chat already
+            if source["name"] in inserted_sources:
+                message = f"The source {source['name']} is already available in the chat!"
                 LOGGER.info(message)
             else:
-                message = f"source {requested_source}: {knowledge['content']}"
-                LOGGER.info("Source %s inserted in conversation.", requested_source)
+                # Put source content in system message
+                message = f"source {source_name}: {source['content']}"  
+                LOGGER.info("Source %s inserted in conversation.", source["name"])
                 if SETTINGS["print_knowledge_requests"]:
-                    silent_print(f"Source {requested_source} inserted in conversation.")
-        else:
-            message = f"Source {requested_source} does not exist! Request only sources I have told you to use."
-            LOGGER.info(message)
-
+                    silent_print(f"Source {source_name} inserted in conversation.")     
+        
         conversation.append({"role": "system", "content": message})
 
     return conversation
 
 
-def direct_to_new_assistant(referral: dict) -> list:
+def direct_to_new_assistant(assistant_name: str) -> list:
     """Receives information about the users issue collected in json format, and
     redirects to the requested chatbot assistant."""
-    LOGGER.info("Transferring to assistant %s", referral["assistant_id"])
-    new_conversation = initiate_new_conversation(referral["assistant_id"])
+    LOGGER.info("Transferring to assistant %s", assistant_name)
+    silent_print(f"Transferring user to {assistant_name}")
+    new_conversation = initiate_new_conversation(assistant_name)
     return new_conversation
 
 

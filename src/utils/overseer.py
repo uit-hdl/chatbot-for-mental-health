@@ -15,6 +15,7 @@ from utils.process_syntax import extract_command_names_and_arguments
 from utils.general import silent_print
 
 
+## OVERSEER ##
 def overseer_check_of_source_fidelity(
     conversation, harvested_syntax: dict, chatbot_id: str
 ) -> list:
@@ -44,7 +45,7 @@ def overseer_check_of_source_fidelity(
             silent_print(overseer_evaluation)
             overseer_dict = convert_json_string_to_dict(overseer_evaluation)
 
-            if overseer_response_is_valid(overseer_dict): 
+            if overseer_response_is_valid(overseer_dict):
                 if overseer_dict["flag"] != "SUPPORTED":
                     warning = overseer_dict["message_to_bot"]
                     conversation.append({"role": "system", "content": warning})
@@ -73,3 +74,32 @@ def overseer_response_is_valid(overseer_dict: dict):
         if "message_to_bot" in overseer_dict.keys():
             return True
     return False
+
+
+## CONFIRMATION BOT ##
+def intent_classification_bot(user_message) -> str:
+    """Checks if the user is answering yes or no."""
+    confirmation_chat = initiate_prompt_engineered_ai_agent(
+        PROMPTS["confirmation_bot"],
+        system_message="{'user_message': '%s'}" % user_message,
+    )
+    confirmation_bot_response = grab_last_response(
+        generate_raw_bot_response(confirmation_chat, CONFIG)
+    )
+    _, command_arguments = extract_command_names_and_arguments(
+        confirmation_bot_response
+    )
+    intent_classification = interpret_bot_command_argument(command_arguments)
+    return intent_classification
+
+
+def interpret_bot_command_argument(command_arguments: list[str]):
+    """Determines based on the command argument of the bot if it has
+    concluded "YES" or "NO"."""
+    if command_arguments:
+        if command_arguments[0] == "YES":
+            return "YES"
+        else:
+            return "NO"
+    else:
+        return "NO"

@@ -55,12 +55,31 @@ def collect_prompts_in_dictionary(directory_path):
     """Finds paths for all files in directory and subdirectories, and creates a
     dictionary where the keys are file names and the values are file paths."""
     all_files = {}
+    file_paths = get_file_paths_in_directory(directory_path)
+    for file_path in file_paths:
+        file_name_without_extension = os.path.splitext(file_path)[0]
+        all_files[file_name_without_extension] = load_textfile_as_string(file_path)
+    return all_files
+
+
+def get_file_paths_in_directory(directory_path):
+    """Get the paths of all files within the specified directory and its subdirectories."""
+    file_names = []
     for root, _, files in os.walk(directory_path):
         for file in files:
-            file_path = os.path.join(root, file)
-            file_name_without_extension = os.path.splitext(file)[0]
-            all_files[file_name_without_extension] = load_textfile_as_string(file_path)
-    return all_files
+            files.append(os.path.join(root, file))
+    return file_names
+
+
+def get_file_names_in_directory(directory_path):
+    """Retrieve the names of all files (without extensions) within the specified directory and its
+    subdirectories."""
+    file_names = []
+    for _, _, files in os.walk(directory_path):
+        for file in files:
+            file_name, _ = os.path.splitext(file)
+            file_names.append(file_name)
+    return file_names
 
 
 def load_textfile_as_string(file_path, extension=None) -> str:
