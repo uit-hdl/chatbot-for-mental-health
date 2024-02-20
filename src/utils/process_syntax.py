@@ -187,7 +187,7 @@ def get_referral(commands: list[str], arguments: list[str], subfolder: str) -> d
     referral = None
 
     for command, argument in zip(commands, arguments):
-        if command == "request_referral":
+        if command == "redirect_to_assistant":
             referral = {}
             referral["assistant_id"] = argument
             referral["assistant_path"] = add_extension(

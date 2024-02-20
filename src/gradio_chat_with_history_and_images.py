@@ -17,14 +17,14 @@ from utils.general import remove_syntax_from_message
 DEEP_CHAT = []
 
 
-def chat_with_bot_in_gradio_interface(chatbot_id, server_port=5000):
+def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     global DEEP_CHAT
     DEEP_CHAT = initiate_prompt_engineered_ai_agent(
         PROMPTS[chatbot_id],
     )
 
     with gr.Blocks() as demo:
-        chatbot = gr.Chatbot()
+        chatbot = gr.Chatbot(label="Your input")
         msg = gr.Textbox()
 
         msg.submit(respond, [msg, chatbot], [msg, chatbot])
