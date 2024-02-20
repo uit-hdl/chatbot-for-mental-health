@@ -19,12 +19,10 @@ from utils.chat_utilities import rewind_chat_by_n_assistant_responses
 from utils.chat_utilities import append_system_messages
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import grab_last_assistant_response
-from utils.chat_utilities import grab_last_response
 from utils.chat_utilities import initiate_prompt_engineered_ai_agent
 from utils.chat_utilities import generate_raw_bot_response
 from utils.chat_utilities import check_length_of_chatbot_response
 from utils.overseer import overseer_check_of_source_fidelity
-from utils.overseer import intent_classification_bot
 from utils.console_chat_display import display_last_response
 from utils.console_chat_display import display_last_assistant_response
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
@@ -78,17 +76,8 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         if harvested_syntax["referral"]:
             if harvested_syntax["referral"]["file_exists"]:
                 assistant_name = harvested_syntax["referral"]["name"]
-                conversation.append(
-                    {
-                        "role": "assistant",
-                        "content": "Would you like to be referred to an assistant who is qualified to talk about this topic?",
-                    }
-                )
-                conversation = get_user_input(conversation)
-                intent_classification = intent_classification_bot(grab_last_response(conversation))
-                if intent_classification == "YES":
-                    conversation = direct_to_new_assistant(assistant_name)
-                    display_last_response(conversation)
+                conversation = direct_to_new_assistant(assistant_name)
+                display_last_response(conversation)
 
         conversation = remove_inactive_sources(conversation)
         conversation = truncate_if_too_long(conversation)

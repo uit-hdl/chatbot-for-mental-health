@@ -108,6 +108,8 @@ def display_images(images: dict):
     for image in images:
         if file_exists(image["path"]):
             display_image(image["path"])
+        else:
+            print(image["path"])
 
 
 def display_image(image_path: str):

@@ -30,6 +30,7 @@ from utils.backend import dump_to_json
 from utils.backend import get_file_names_in_directory
 from utils.backend import get_file_paths_in_directory
 from utils.backend import add_extension
+from utils.backend import remove_extension
 
 
 def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List[str]]:
@@ -134,9 +135,11 @@ def get_knowledge_requests(
     if commands:
         for command, name in zip(commands, arguments):
             if command == "request_knowledge":
-
+                name = standardize_name(name)
                 LOGGER.info(f"Bot requests: {name}")
+
                 if name in available_files["assistants"]["name"]:
+                    # Referral requested
                     referral = {
                         "name": name,
                         "content": None,
@@ -144,25 +147,29 @@ def get_knowledge_requests(
                         "file_exists": True
                     }
                 elif name in available_files["sources"]["name"]:
-                    knowledge_insertion = {
-                        "name": name,
-                        "content": load_textfile_as_string(
-                            available_files["sources"]["path"]
-                        ),
-                        "type": "knowledge_insertion",
-                        "file_exists": True
-                    }
+                    # Knowledge insertion requested
+                    path = available_files["sources"]["path"][
+                        available_files["sources"]["name"].index(name)
+                    ]
+                    knowledge_insertions.append(
+                        {
+                            "name": name,
+                            "content": load_textfile_as_string(path),
+                            "type": "knowledge_insertion",
+                            "file_exists": True,
+                        }
+                    )
                 else:
-                    # Requests for non-existing files are arbitrarily handled as insertions
-                    knowledge_insertion = {
-                        "name": name,
-                        "content": None,
-                        "type": "knowledge_insertion",
-                        "file_exists": False
-                    }
+                    # Requests for non-existing files are arbitrarily treated as insertions
+                    knowledge_insertions.append(
+                        {
+                            "name": name,
+                            "content": None,
+                            "type": "knowledge_insertion",
+                            "file_exists": False,
+                        }
+                    )
 
-                knowledge_insertions.append(knowledge_insertion)
-    
     return knowledge_insertions, referral
 
 
@@ -189,35 +196,40 @@ def get_image_requests(commands, arguments, available_files) -> list[dict]:
     images = []
     for command, argument in zip(commands, arguments):
         if command == "display_image":
-            image = {}
-            image["name"] = standardize_name(argument, ".png")
-            if image["name"] in available_files["images"]["name"]:
-                image["path"] = image_path
-                image["file_exists"] = True
+            name = standardize_name(argument)
+
+            if name in available_files["images"]["name"]:
+                path = available_files["images"]["path"][
+                    available_files["images"]["name"].index(name)
+                ]
+                image = {"name": name, "path": path, "file_exists": True}
             else:
-                image["path"] = None
-                image["file_exists"] = False
+                image = {"name": name, "path": None, "file_exists": False}
+
             images.append(image)
+
     return images
 
 
-def get_video_requests(commands, arguments, subfolder) -> list[dict]:
+def get_video_requests(commands, arguments, available_files) -> list[dict]:
     """(similar to get_image_requests) Finds file paths, file name, and checks if requested files
     exists. Returns list with dictionary for each requested video, indicating the name of the video,
     status for its existance, and file path."""
     videos = []
     for command, argument in zip(commands, arguments):
         if command == "play_video":
-            video = {}
-            video_path = os.path.join(VIDEOS_DIR, subfolder, argument)
-            video["name"] = remove_quotes_and_backticks(argument)
-            if file_exists(video_path):
-                video["path"] = video_path
-                video["file_exists"] = True
+            name = standardize_name(argument)
+
+            if name in available_files["videos"]["name"]:
+                path = available_files["videos"]["path"][
+                    available_files["videos"]["name"].index(name)
+                ]
+                video = {"name": name, "path": path, "file_exists": True}
             else:
-                video["path"] = None
-                video["file_exists"] = False
+                video = {"name": name, "path": None, "file_exists": False}
+
             videos.append(video)
+
     return videos
 
 
@@ -248,10 +260,9 @@ def generate_warning_messages(harvested_syntax) -> list[str]:
     return warning_messages
 
 
-def standardize_name(name: str, extension: str=None):
-    """Standardized the filename that has been extracted from ¤:command(name_of_file):¤."""
+def standardize_name(name: str):
+    """Standardized the filename that has been extracted from 
+    ¤:command(name_of_file):¤ by removing extra strings and adding extension if desired"""
     name_standardized = remove_quotes_and_backticks(name)
-    if extension:
-        name_standardized = add_extension(name, extension)
+    name_standardized = remove_extension(name)
     return name_standardized
-    

@@ -57,7 +57,7 @@ def collect_prompts_in_dictionary(directory_path):
     all_files = {}
     file_paths = get_file_paths_in_directory(directory_path)
     for file_path in file_paths:
-        file_name_without_extension = os.path.splitext(file_path)[0]
+        file_name_without_extension = os.path.splitext(os.path.basename(file_path))[0]
         all_files[file_name_without_extension] = load_textfile_as_string(file_path)
     return all_files
 
@@ -204,10 +204,16 @@ def dump_conversation(conversation: list, label: str = "conversation"):
 
 def add_extension(path, extension):
     """Takes a path relative to the output folder and adds the specified
-    extension (e.g., '.csv') if the path has no extension."""
+    extension (e.g., '.csv') IF the path has no extension."""
     if os.path.splitext(path)[-1] == "":
         path += extension
     return path
+
+
+def remove_extension(path):
+    """Removes the extension from the path or file"""
+    path_without_extension, _ = os.path.splitext(path)
+    return path_without_extension
 
 
 def get_filename(file_path, include_extension=False):
