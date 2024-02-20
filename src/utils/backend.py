@@ -67,7 +67,7 @@ def get_file_paths_in_directory(directory_path):
     file_names = []
     for root, _, files in os.walk(directory_path):
         for file in files:
-            files.append(os.path.join(root, file))
+            file_names.append(os.path.join(root, file))
     return file_names
 
 
