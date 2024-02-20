@@ -27,7 +27,6 @@ from utils.backend import PROMPTS_DIR
 from utils.backend import load_textfile_as_string
 from utils.backend import get_shared_subfolder_name
 from utils.backend import dump_to_json
-from utils.backend import convert_json_string_to_dict
 from utils.backend import add_extension
 
 
@@ -187,7 +186,7 @@ def get_referral(commands: list[str], arguments: list[str], subfolder: str) -> d
     referral = None
 
     for command, argument in zip(commands, arguments):
-        if command == "redirect_to_assistant":
+        if command == "request_knowledge":
             referral = {}
             referral["assistant_id"] = argument
             referral["assistant_path"] = add_extension(
