@@ -4,23 +4,23 @@
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to share information on schizophrenia. How can I assist you today? If you need something explained more simply or slowly, feel free to tell me.",
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information on schizophrenia. If you have any questions or need clarification on this topic, please feel free to ask. If any part of our conversation is hard to follow, let me know, and I'll adjust my responses to help you better understand. How can I assist you today?",
         "role": "assistant"
     },
     {
-        "content": "i cant sleep",
+        "content": "will i get better?",
         "role": "user"
     },
     {
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 I'm sorry to hear that you're having trouble sleeping. Sleep issues can be particularly challenging. Would you like to speak with a specialist assistant who can provide more detailed advice on sleep in relation to schizophrenia?",
+        "content": "\u00a4:request_knowledge(will_i_get_better):\u00a4",
         "role": "assistant"
     },
     {
-        "content": "yes",
-        "role": "user"
+        "content": "source will_i_get_better: 1. (show: statistics_on_who_gets_better.png) 1 in 5 people will\nrecover completely within 5 years. 3 in 5 people will improve, but may\nstill experience symptoms occasionally. 1 in 5 people will continue to\nhave troublesome symptoms.\n\n2. There is a common misconception that people with schizophrenia have\nno chance of recovery. This is not true: the symptoms of schizophrenia\ncan improve with appropriate treatment, and some people recover\ncompletely. Recovery is a process that involves learning to manage\nyour symptoms, developing support systems and working towards your\ngoals. Appropriate ways to manage your condition with medication and\ntherapy are outlined in the next part of this guide.",
+        "role": "system"
     },
     {
-        "content": "\u00a4:request_knowledge(sleep_assistant):\u00a4",
+        "content": "\u00a4:cite([\"will_i_get_better\"]):\u00a4 (1) Recovery is different for everyone. Some people do recover completely within five years, others improve but might still experience symptoms sometimes, and a few will continue to have symptoms that are more troublesome. \u00a4:display_image(statistics_on_who_gets_better.png):\u00a4\n\n(2) It's important to know that many people with schizophrenia can improve with the right treatment, and there's definitely hope for recovery. Would you like to know more about the treatment options and strategies for managing schizophrenia?",
         "role": "assistant"
     }
 ]

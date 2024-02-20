@@ -116,7 +116,7 @@ def process_and_organize_commands_and_arguments(
     """Processes the list of commands and associated arguments, and organizes this information in a
     dictionary."""
     harvested_syntax = {}
-    harvested_syntax["knowledge_insertions"], harvested_syntax["referral"] = (
+    harvested_syntax["knowledge_extensions"], harvested_syntax["referral"] = (
         get_knowledge_requests(commands, arguments, available_files)
     )
     harvested_syntax["sources"] = get_assistant_citations(commands, arguments)
@@ -130,7 +130,7 @@ def get_knowledge_requests(
 ) -> List[Dict]:
     """Checks commands for requests to build knowledge or refer to new assistant. 
     If these commands are found, gets the associated information."""
-    knowledge_insertions = []
+    knowledge_extensions = []
     referral = []
     if commands:
         for command, name in zip(commands, arguments):
@@ -151,26 +151,26 @@ def get_knowledge_requests(
                     path = available_files["sources"]["path"][
                         available_files["sources"]["name"].index(name)
                     ]
-                    knowledge_insertions.append(
+                    knowledge_extensions.append(
                         {
                             "name": name,
                             "content": load_textfile_as_string(path),
-                            "type": "knowledge_insertion",
+                            "type": "knowledge_extension",
                             "file_exists": True,
                         }
                     )
                 else:
                     # Requests for non-existing files are arbitrarily treated as insertions
-                    knowledge_insertions.append(
+                    knowledge_extensions.append(
                         {
                             "name": name,
                             "content": None,
-                            "type": "knowledge_insertion",
+                            "type": "knowledge_extension",
                             "file_exists": False,
                         }
                     )
 
-    return knowledge_insertions, referral
+    return knowledge_extensions, referral
 
 
 def get_assistant_citations(commands: list, arguments: list) -> list[str]:
@@ -239,7 +239,7 @@ def generate_warning_messages(harvested_syntax) -> list[str]:
     """
     warning_messages = []
 
-    for insertion in harvested_syntax["knowledge_insertions"]:
+    for insertion in harvested_syntax["knowledge_extensions"]:
         if insertion["file_exists"] == False:
             warning_messages.append(
                 f"`{insertion['name']}` does not exist! Request only sources and assistants I have referenced."

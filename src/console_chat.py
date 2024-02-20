@@ -223,9 +223,9 @@ def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):
     """Assistant can iteratively request sources untill it is satisfied. Sources are inserted into
     the conversation by system."""
     counter = 0
-    while harvested_syntax["knowledge_insertions"] and counter < SETTINGS["max_requests"]:
+    while harvested_syntax["knowledge_extensions"] and counter < SETTINGS["max_requests"]:
         conversation = insert_knowledge(
-            conversation, harvested_syntax["knowledge_insertions"]
+            conversation, harvested_syntax["knowledge_extensions"]
         )
         (
             conversation,
@@ -235,12 +235,12 @@ def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):
     return conversation, harvested_syntax
 
 
-def insert_knowledge(conversation, knowledge_insertions: list[str]):
+def insert_knowledge(conversation, knowledge_extensions: list[str]):
     """Checks for request to insert knowledge, and inserts knowledge into the conversation.
     First checks if there sources are already in the chat."""
     inserted_sources = extract_sources_inserted_by_system(conversation)
     
-    for source in knowledge_insertions:
+    for source in knowledge_extensions:
         source_name = source["name"]
         if source["content"] is not None:
             # Check if source is in chat already
