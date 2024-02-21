@@ -18,7 +18,6 @@ from typing import Tuple
 
 from utils.chat_utilities import grab_last_assistant_response
 from utils.general import remove_quotes_and_backticks
-from utils.backend import file_exists
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
 from utils.backend import LIBRARY_DIR
@@ -29,7 +28,6 @@ from utils.backend import get_shared_subfolder_name
 from utils.backend import dump_to_json
 from utils.backend import get_file_names_in_directory
 from utils.backend import get_file_paths_in_directory
-from utils.backend import add_extension
 from utils.backend import remove_extension
 
 

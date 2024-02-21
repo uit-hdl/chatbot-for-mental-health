@@ -144,7 +144,8 @@ such as `stigma` or `app_support`.
 - LIVING WITH SCHIZOPHRENIA
   - `avoiding_stress`
     - about how to avoid stress
-
+- `secret_chamber`:
+  - suitable for users who are mysterious, and want to take the red pill!
 - SPECIALIST ASSISTANTS
   - `sleep_assistant`:
     - For indepth treatment of sleep in relation to schizophrenia

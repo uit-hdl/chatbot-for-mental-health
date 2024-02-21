@@ -66,7 +66,8 @@ def collect_prompts_in_dictionary(directory_path):
 def get_file_paths_in_directory(directory_path):
     """Get the paths of all files within the specified directory and its subdirectories."""
     file_names = []
-    for root, _, files in os.walk(directory_path):
+    full_directory_path = get_full_path(directory_path)
+    for root, _, files in os.walk(full_directory_path):
         for file in files:
             file_names.append(os.path.join(root, file))
     return file_names
@@ -76,7 +77,8 @@ def get_file_names_in_directory(directory_path):
     """Retrieve the names of all files (without extensions) within the specified directory and its
     subdirectories."""
     file_names = []
-    for _, _, files in os.walk(directory_path):
+    full_directory_path = get_full_path(directory_path)
+    for _, _, files in os.walk(full_directory_path):
         for file in files:
             file_name, _ = os.path.splitext(file)
             file_names.append(file_name)
