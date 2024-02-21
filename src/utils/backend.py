@@ -56,27 +56,6 @@ def convert_json_string_to_dict(json_data: str) -> dict:
     return dictionary
 
 
-def collect_prompts_in_dictionary(directory_path):
-    """Finds paths for all files in directory and subdirectories, and creates a
-    dictionary where the keys are file names and the values are file paths."""
-    all_files = {}
-    file_paths = get_file_paths_in_directory(directory_path)
-    for file_path in file_paths:
-        file_name_without_extension = os.path.splitext(os.path.basename(file_path))[0]
-        all_files[file_name_without_extension] = load_textfile_as_string(file_path)
-    return all_files
-
-
-def get_file_paths_in_directory(directory_path):
-    """Get the paths of all files within the specified directory and its subdirectories."""
-    file_names = []
-    full_directory_path = get_full_path(directory_path)
-    for root, _, files in os.walk(full_directory_path):
-        for file in files:
-            file_names.append(os.path.join(root, file))
-    return file_names
-
-
 def get_file_names_in_directory(directory_path):
     """Retrieve the names of all files (without extensions) within the specified directory and its
     subdirectories."""
@@ -168,14 +147,6 @@ def remove_extension(path):
     return path_without_extension
 
 
-def get_filename(file_path, include_extension=False):
-    """Gets the name of the file associated with the path."""
-    file_name = os.path.basename(file_path)
-    if include_extension:
-        return file_name
-    return os.path.splitext(file_name)[0]
-
-
 def file_exists(file_path):
     """Checks if the file in the specified path exists."""
     if file_path is None:
@@ -183,7 +154,30 @@ def file_exists(file_path):
     return os.path.isfile(get_full_path(file_path))
 
 
-def get_shared_subfolder_name(prompt_file_name: str):
+def get_source_content_and_path(chatbot_id: str, source_name: str) -> Tuple[str, str]:
+    """Finds the content and path of a source. The filename of the prompt is used to find the
+    subfolder that the source is expected to be located in."""
+    source_path = get_path_to_source(source_name, chatbot_id)
+    if source_path:
+        content = load_textfile_as_string(source_path)
+    else:
+        content = None
+    return content, source_path
+
+
+def get_path_to_source(source_name: str, chatbot_id: str):
+    """Finds the full path to the specified source."""
+    bot_subfolder = get_subfolder_of_assistant(chatbot_id)
+    sources_directory = os.path.join(LIBRARY_DIR, bot_subfolder)
+    source_paths = get_file_paths_in_directory(sources_directory)
+    source_names = [get_filename(source_path) for source_path in source_paths]
+    if source_name in source_names:
+        return source_paths[source_names.index(source_name)]
+    else:
+        return None
+
+
+def get_subfolder_of_assistant(prompt_file_name: str):
     """Convention -> all directories that contain files associated with an assistant must consist of
     the following two components: the file-specific directory (such as media/images) and an
     assistant-specific path relative to the file-specific directory. This function takes the name of
@@ -230,18 +224,33 @@ def get_relative_path_of_prompt_file(prompt_file_name: str) -> str:
         return matches[0]
 
 
-def get_source_content_and_path(
-    prompt_file_name: str, source_name: str
-) -> Tuple[str, str]:
-    """Finds the content and path of a source. The filename of the prompt is used to find the
-    subfolder that the source is expected to be located in."""
-    subfolder = get_shared_subfolder_name(prompt_file_name)
-    path = os.path.join(LIBRARY_DIR, subfolder, source_name) + ".md"
-    if file_exists(path):
-        content = load_textfile_as_string(path)
-    else:
-        content = None
-    return content, path
+def get_file_paths_in_directory(directory_path):
+    """Get the paths of all files within the specified directory and its subdirectories."""
+    file_names = []
+    full_directory_path = get_full_path(directory_path)
+    for root, _, files in os.walk(full_directory_path):
+        for file in files:
+            file_names.append(os.path.join(root, file))
+    return file_names
+
+
+def get_filename(file_path, include_extension=False):
+    """Gets the name of the file associated with the path."""
+    file_name = os.path.basename(file_path)
+    if include_extension:
+        return file_name
+    return os.path.splitext(file_name)[0]
+
+
+def collect_prompts_in_dictionary(directory_path):
+    """Finds paths for all files in directory and subdirectories, and creates a
+    dictionary where the keys are file names and the values are file paths."""
+    all_files = {}
+    file_paths = get_file_paths_in_directory(directory_path)
+    for file_path in file_paths:
+        file_name_without_extension = os.path.splitext(os.path.basename(file_path))[0]
+        all_files[file_name_without_extension] = load_textfile_as_string(file_path)
+    return all_files
 
 
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)

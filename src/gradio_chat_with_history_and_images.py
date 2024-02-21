@@ -4,7 +4,7 @@ import time
 
 
 from console_chat import PROMPTS
-from console_chat import initiate_prompt_engineered_ai_agent
+from console_chat import initiate_conversation_with_prompt
 from console_chat import remove_inactive_sources
 from console_chat import generate_processed_bot_response
 from console_chat import grab_last_assistant_response
@@ -19,7 +19,7 @@ DEEP_CHAT = []
 
 def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     global DEEP_CHAT
-    DEEP_CHAT = initiate_prompt_engineered_ai_agent(
+    DEEP_CHAT = initiate_conversation_with_prompt(
         PROMPTS[chatbot_id],
     )
 

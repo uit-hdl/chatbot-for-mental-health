@@ -25,7 +25,7 @@ from utils.backend import LOGGER
 from utils.backend import PROMPTS_DIR
 from utils.backend import HARVESTED_SYNTAX_DUMP_PATH
 from utils.backend import load_textfile_as_string
-from utils.backend import get_shared_subfolder_name
+from utils.backend import get_subfolder_of_assistant
 from utils.backend import dump_to_json
 from utils.backend import get_file_names_in_directory
 from utils.backend import get_file_paths_in_directory
@@ -56,7 +56,7 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List
 
 def get_available_files(chatbot_id: str) -> dict:
     """Finds and organizes all files (names and paths) associated with the chatbot-ID."""
-    subfolder = get_shared_subfolder_name(chatbot_id)
+    subfolder = get_subfolder_of_assistant(chatbot_id)
 
     available_files = {"sources": {
         "name": get_file_names_in_directory(os.path.join(LIBRARY_DIR, subfolder)),

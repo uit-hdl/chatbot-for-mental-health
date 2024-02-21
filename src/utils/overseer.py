@@ -7,7 +7,7 @@ from utils.backend import convert_json_string_to_dict
 from utils.backend import OVERSEER_DUMP_PATH
 from utils.backend import PROMPTS
 from utils.backend import CONFIG
-from utils.chat_utilities import initiate_prompt_engineered_ai_agent
+from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import grab_last_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
@@ -19,29 +19,38 @@ from utils.general import silent_print
 def overseer_check_of_source_fidelity(
     conversation, harvested_syntax: dict, chatbot_id: str
 ) -> list:
-    """An overseer bot checks fidelity of bot response to the source it cites."""
-    bot_message = grab_last_assistant_response(conversation)
-    dummy_sources = [
+    """An overseer bot checks fidelity of bot response to the source it cites. Only considers `real`
+    sources, i.e., sources that reference a file that contains information (as opposed to dummy
+    sources that serve to classify what type of response the bot is giving)."""
+
+    chatbot_message = grab_last_assistant_response(conversation)
+    non_info_sources = [
         "init_prompt",
         "sources_dont_contain_answer",
         "no_advice_or_claims",
     ]
     # Remove citatons that only label the response and but do not reference a source
-    sources = [
-        source for source in harvested_syntax["sources"] if source not in dummy_sources
+    info_sources = [
+        source
+        for source in harvested_syntax["sources"]
+        if source not in non_info_sources
     ]
-    if sources:
-        system_message = generate_overseer_input(bot_message, sources, chatbot_id)
-        overseer = initiate_prompt_engineered_ai_agent(
-            PROMPTS["overseer"], system_message
+    if info_sources:
+        overseer_input_str = generate_overseer_input(
+            chatbot_message, info_sources, chatbot_id
         )
-        overseer = generate_and_add_raw_bot_response(overseer, CONFIG)
-        dump_to_json(overseer, OVERSEER_DUMP_PATH)
-        overseer_evaluation = grab_last_response(overseer)
+        backend_conversation = initiate_conversation_with_prompt(
+            PROMPTS["overseer"], overseer_input_str
+        )
+        backend_conversation = generate_and_add_raw_bot_response(
+            backend_conversation, CONFIG
+        )
+        dump_to_json(backend_conversation, OVERSEER_DUMP_PATH)
+        overseer_evaluation = grab_last_response(backend_conversation)
         _, command_arguments = extract_command_names_and_arguments(overseer_evaluation)
 
         if command_arguments:
-            overseer_evaluation = command_arguments[0]
+            overseer_evaluation = command_arguments[0] # The overseer command has only one argument
             silent_print(overseer_evaluation)
             overseer_dict = convert_json_string_to_dict(overseer_evaluation)
 
@@ -79,7 +88,7 @@ def overseer_response_is_valid(overseer_dict: dict):
 ## CONFIRMATION BOT ##
 def intent_classification_bot(user_message) -> str:
     """Checks if the user is answering yes or no."""
-    confirmation_chat = initiate_prompt_engineered_ai_agent(
+    confirmation_chat = initiate_conversation_with_prompt(
         PROMPTS["confirmation_bot"],
         system_message="{'user_message': '%s'}" % user_message,
     )

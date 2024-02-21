@@ -1,13 +1,23 @@
 """Function for working with the conversation list object and chatbot. 
 conversation is a list of dictionaries, each of which have keys 'role' and 'content' (the message)
 such as identifying responses of a specified role."""
+
 import openai
+
 from utils.general import message_is_intended_for_user
 from utils.general import list_intersection
 from utils.consumption_of_tokens import count_tokens_in_message
 from utils.backend import MODEL_ID
 from utils.backend import SETTINGS
+from utils.backend import API_KEY
+from utils.backend import SETTINGS
+from utils.backend import CONFIG
 from utils.general import silent_print
+
+openai.api_key = API_KEY
+openai.api_type = CONFIG["api_type"]
+openai.api_base = CONFIG["api_base"]
+openai.api_version = CONFIG["api_version"]
 
 
 def check_length_of_chatbot_response(conversation):
@@ -51,7 +61,7 @@ def generate_and_add_raw_bot_response(conversation, config: dict):
     return conversation
 
 
-def initiate_prompt_engineered_ai_agent(
+def initiate_conversation_with_prompt(
     prompt: str, system_message: str = None
 ) -> list[str]:
     """Creates an chatbot assistent by starting a conversation in the openAI list format with the

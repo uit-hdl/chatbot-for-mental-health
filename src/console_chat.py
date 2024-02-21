@@ -1,4 +1,3 @@
-import openai
 import sys
 import re
 import json
@@ -19,7 +18,7 @@ from utils.chat_utilities import rewind_chat_by_n_assistant_responses
 from utils.chat_utilities import append_system_messages
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import grab_last_assistant_response
-from utils.chat_utilities import initiate_prompt_engineered_ai_agent
+from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.chat_utilities import check_length_of_chatbot_response
 from utils.overseer import overseer_check_of_source_fidelity
@@ -33,10 +32,6 @@ from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
 from utils.console_chat_display import RESET_COLOR
 from utils.manage_chat_length import truncate_if_too_long
 
-openai.api_key = API_KEY
-openai.api_type = CONFIG["api_type"]
-openai.api_base = CONFIG["api_base"]
-openai.api_version = CONFIG["api_version"]
 
 # Initiate global variables
 BREAK_CONVERSATION = False
@@ -96,7 +91,7 @@ def continue_previous_conversation(chat_filepath: str, chatbot_id: str) -> list:
 
 def initiate_new_conversation(chatbot_id: str, system_message=None):
     """Initiates a conversation with the chat bot."""
-    conversation = initiate_prompt_engineered_ai_agent(
+    conversation = initiate_conversation_with_prompt(
         PROMPTS[chatbot_id], system_message
     )
     LOGGER.info("Starting new conversation with %s.", chatbot_id)
