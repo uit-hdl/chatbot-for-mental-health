@@ -4,7 +4,7 @@ by the chatbot and provides feedback on adherence to things like source material
 from utils.backend import get_source_content_and_path
 from utils.backend import dump_to_json
 from utils.backend import convert_json_string_to_dict
-from utils.backend import OVERSEER_CONVERSATION_PATH
+from utils.backend import OVERSEER_DUMP_PATH
 from utils.backend import PROMPTS
 from utils.backend import CONFIG
 from utils.chat_utilities import initiate_prompt_engineered_ai_agent
@@ -36,7 +36,7 @@ def overseer_check_of_source_fidelity(
             PROMPTS["overseer"], system_message
         )
         overseer = generate_and_add_raw_bot_response(overseer, CONFIG)
-        dump_to_json(overseer, OVERSEER_CONVERSATION_PATH)
+        dump_to_json(overseer, OVERSEER_DUMP_PATH)
         overseer_evaluation = grab_last_response(overseer)
         _, command_arguments = extract_command_names_and_arguments(overseer_evaluation)
 

@@ -23,6 +23,7 @@ from utils.backend import VIDEOS_DIR
 from utils.backend import LIBRARY_DIR
 from utils.backend import LOGGER
 from utils.backend import PROMPTS_DIR
+from utils.backend import HARVESTED_SYNTAX_DUMP_PATH
 from utils.backend import load_textfile_as_string
 from utils.backend import get_shared_subfolder_name
 from utils.backend import dump_to_json
@@ -48,7 +49,7 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List
 
     if warning_messages:
         LOGGER.info(warning_messages)
-    dump_to_json(harvested_syntax, "chat-info/harvested_syntax.json")
+    dump_to_json(harvested_syntax, HARVESTED_SYNTAX_DUMP_PATH)
 
     return harvested_syntax, warning_messages
 

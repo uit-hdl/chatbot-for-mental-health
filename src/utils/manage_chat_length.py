@@ -3,7 +3,7 @@ from utils.general import silent_print
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
 from utils.backend import dump_to_json
-from utils.backend import TRUNCATED_MESSAGE_PATH
+from utils.backend import TRUNCATION_INFO_DUMP_PATH
 
 
 def truncate_if_too_long(conversation):
@@ -16,7 +16,7 @@ def truncate_if_too_long(conversation):
         del conversation[1]
         silent_print("Truncating conversation")
     if removed_messages:
-        dump_to_json(removed_messages, TRUNCATED_MESSAGE_PATH)
+        dump_to_json(removed_messages, TRUNCATION_INFO_DUMP_PATH)
     LOGGER.info(f"Tokens in chat: {count_tokens_in_chat(conversation)}")
     
     return conversation

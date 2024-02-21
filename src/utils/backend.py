@@ -6,7 +6,7 @@ import pathlib
 import yaml
 from typing import Tuple
 
-
+# Directory paths
 ROOT_DIR = pathlib.Path(__file__).parents[2]
 API_DIR = os.path.join(pathlib.Path(__file__).parents[3], "api-keys")
 CONVERSATIONS_DIR = os.path.join(ROOT_DIR, "conversations")
@@ -20,16 +20,20 @@ LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-info")
 
+# Configuration file paths
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
 API_KEY_PATH = os.path.join(API_DIR, "insomnia_bot_azure.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
-LOGFILE_PATH = os.path.join(CHAT_INFO_DIR, "chat.log")
-TRUNCATED_MESSAGE_PATH = os.path.join(CHAT_INFO_DIR, "truncated_message.json")
-OVERSEER_CONVERSATION_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
+
+# File-dump paths
+LOGFILE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "chat.log")
+TRUNCATION_INFO_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "truncated_message.json")
+OVERSEER_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
+HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "harvested_syntax.json")
 
 logging.basicConfig(
-    filename=LOGFILE_PATH,
+    filename=LOGFILE_DUMP_PATH,
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s (from %(module)s.%(funcName)s) \n%(message)s\n",
     filemode="w",
@@ -226,7 +230,9 @@ def get_relative_path_of_prompt_file(prompt_file_name: str) -> str:
         return matches[0]
 
 
-def get_source_content_and_path(prompt_file_name: str, source_name: str) -> Tuple[str, str]:
+def get_source_content_and_path(
+    prompt_file_name: str, source_name: str
+) -> Tuple[str, str]:
     """Finds the content and path of a source. The filename of the prompt is used to find the
     subfolder that the source is expected to be located in."""
     subfolder = get_shared_subfolder_name(prompt_file_name)
