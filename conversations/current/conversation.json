@@ -4,11 +4,11 @@
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! My purpose is to share information about schizophrenia from a manual. I'm here to answer your questions, so please tell me, what would you like to know today? Remember, I'm here to help, and feel free to let me know how I can make the information easier for you to understand.",
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information about Schizophrenia. How can I assist you today? Let me know how you prefer to receive information.",
         "role": "assistant"
     },
     {
-        "content": "will i get beter?",
+        "content": "will i get better?",
         "role": "user"
     },
     {
@@ -20,7 +20,7 @@
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"will_i_get_better\"]):\u00a4 \u00a4:display_image(statistics_on_who_gets_better.png):\u00a4 Recovery from schizophrenia varies between individuals. Some people do experience substantial improvement:\n\n- 1 in 5 people may recover completely within 5 years.\n- 3 in 5 people will improve, but might still experience symptoms from time to time.\n- 1 in 5 people might continue to have more persistent symptoms.\n\nIt's important to remember that recovery is possible with the right treatment and support. Don't lose hope, as many manage their symptoms and lead fulfilling lives. Would you like to know more about treatment and support options?",
+        "content": "\u00a4:cite([\"will_i_get_better\"]):\u00a4 (1.1) It's important to know that recovery is possible with schizophrenia. For instance, 1 in 5 people will recover completely within 5 years, and 3 in 5 people will see an improvement but might still have symptoms from time to time. Unfortunately, 1 in 5 people will continue to have more persistent symptoms. Recovery involves managing symptoms, building a support system, and working towards personal goals, which can be achieved through medication and therapy. \u00a4:display_image(statistics_on_who_gets_better.png):\u00a4",
         "role": "assistant"
     }
 ]

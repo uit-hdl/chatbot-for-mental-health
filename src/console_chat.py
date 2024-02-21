@@ -4,7 +4,6 @@ import json
 
 from utils.general import silent_print
 from utils.general import offer_to_store_conversation
-from utils.backend import API_KEY
 from utils.backend import PROMPTS
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
@@ -31,7 +30,6 @@ from utils.console_chat_display import display_images
 from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
 from utils.console_chat_display import RESET_COLOR
 from utils.manage_chat_length import truncate_if_too_long
-
 
 # Initiate global variables
 BREAK_CONVERSATION = False

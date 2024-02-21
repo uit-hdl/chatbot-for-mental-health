@@ -118,8 +118,8 @@ def dump_to_json(dump_dict, file_path):
 
 def dump_current_conversation_to_json(conversation, filename="conversation"):
     """Dumps the conversation to the conversation directory as a json file."""
-    file_path = f"{CONVERSATIONS_CURRENT_DIR}/{filename}.json"
-    dump_to_json(conversation, file_path)
+    dump_to_json(conversation, f"{CONVERSATIONS_CURRENT_DIR}/{filename}.json")
+    dump_to_json(conversation, f"{CHAT_INFO_DIR}/{filename}.json")
 
 
 def dump_conversation(conversation: list, label: str = "conversation"):
