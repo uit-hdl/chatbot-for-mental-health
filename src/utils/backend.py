@@ -185,7 +185,7 @@ def get_shared_subfolder_name(prompt_file_name: str):
     located in 'media/images/ex_bots/ex_bot_A/', then the assistant-specific path is
     'ex_bots/ex_bot_A/'. Following this convention makes it easier to write prompts, since only the
     file name needs to be specified."""
-    prompt_path = get_relative_path_of_prompts_file(prompt_file_name)
+    prompt_path = get_relative_path_of_prompt_file(prompt_file_name)
 
     # Get the directory name from the file path
     directory = os.path.dirname(prompt_path)
@@ -199,7 +199,7 @@ def get_shared_subfolder_name(prompt_file_name: str):
         return None  # Return None if there is no subfolder
 
 
-def get_relative_path_of_prompts_file(prompt_file_name: str) -> str:
+def get_relative_path_of_prompt_file(prompt_file_name: str) -> str:
     """Identifies the prompts in the prompts directory for all, and finds the relative path for the
     file name provided. Note that prompts should have unique names for this to work well.
     """
