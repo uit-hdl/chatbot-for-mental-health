@@ -74,6 +74,8 @@ such as `stigma` or `app_support`.
 - SPECIALIST ASSISTANTS
   - `sleep_assistant`:
     - For indepth treatment of sleep in relation to schizophrenia
+  - `mental_health`:
+    - Specializes in Schizophrenia and mental health
   - `app_support`:
     - specializes in the app that accompanies the manual
     - about the chatbot and how to use it

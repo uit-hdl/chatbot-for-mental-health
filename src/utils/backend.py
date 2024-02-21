@@ -4,7 +4,7 @@ import logging
 import os
 import pathlib
 import yaml
-import datetime
+from typing import Tuple
 
 
 ROOT_DIR = pathlib.Path(__file__).parents[2]
@@ -31,7 +31,8 @@ OVERSEER_CONVERSATION_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
 logging.basicConfig(
     filename=LOGFILE_PATH,
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(module)s - %(funcName)s \n%(message)s",
+    format="%(asctime)s - %(levelname)s (from %(module)s.%(funcName)s) \n%(message)s\n",
+    filemode="w",
 )
 LOGGER = logging.getLogger(__name__)
 
@@ -223,7 +224,7 @@ def get_relative_path_of_prompts_file(prompt_file_name: str) -> str:
         return matches[0]
 
 
-def get_source_content_and_path(prompt_file_name: str, source_name: str) -> (str, str):
+def get_source_content_and_path(prompt_file_name: str, source_name: str) -> Tuple[str, str]:
     """Finds the content and path of a source. The filename of the prompt is used to find the
     subfolder that the source is expected to be located in."""
     subfolder = get_shared_subfolder_name(prompt_file_name)

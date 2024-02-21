@@ -46,7 +46,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     """Running this function starts a conversation with a tutorial bot that
     helps explain how a web-app (https://app.consensussleepdiary.com) functions.
     The web app is a free online app for collecting sleep data."""
-    LOGGER.info(f"\n*** Starting new console chat ***\n")
+
     if chat_filepath:
         conversation = continue_previous_conversation(chat_filepath, chatbot_id)
     else:
@@ -167,7 +167,6 @@ def generate_valid_response(conversation, chatbot_id):
         ) = generate_bot_response_and_check_quality(conversation, chatbot_id)
         LOGGER.info("Ran out of attempts to pass quality check.")
 
-
     return conversation, harvested_syntax
 
 
@@ -223,7 +222,9 @@ def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):
     """Assistant can iteratively request sources untill it is satisfied. Sources are inserted into
     the conversation by system."""
     counter = 0
-    while harvested_syntax["knowledge_extensions"] and counter < SETTINGS["max_requests"]:
+    while (
+        harvested_syntax["knowledge_extensions"] and counter < SETTINGS["max_requests"]
+    ):
         conversation = insert_knowledge(
             conversation, harvested_syntax["knowledge_extensions"]
         )
@@ -239,21 +240,23 @@ def insert_knowledge(conversation, knowledge_extensions: list[str]):
     """Checks for request to insert knowledge, and inserts knowledge into the conversation.
     First checks if there sources are already in the chat."""
     inserted_sources = extract_sources_inserted_by_system(conversation)
-    
+
     for source in knowledge_extensions:
         source_name = source["name"]
         if source["content"] is not None:
             # Check if source is in chat already
             if source["name"] in inserted_sources:
-                message = f"The source {source['name']} is already available in the chat!"
+                message = (
+                    f"The source {source['name']} is already available in the chat!"
+                )
                 LOGGER.info(message)
             else:
                 # Put source content in system message
-                message = f"source {source_name}: {source['content']}"  
+                message = f"source {source_name}: {source['content']}"
                 LOGGER.info("Source %s inserted in conversation.", source["name"])
                 if SETTINGS["print_knowledge_requests"]:
-                    silent_print(f"Source {source_name} inserted in conversation.")     
-        
+                    silent_print(f"Source {source_name} inserted in conversation.")
+
         conversation.append({"role": "system", "content": message})
 
     return conversation
