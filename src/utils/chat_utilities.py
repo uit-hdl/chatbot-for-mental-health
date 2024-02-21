@@ -33,7 +33,7 @@ def check_length_of_chatbot_response(conversation):
     return warning_message, status
 
 
-def generate_raw_bot_response(conversation, config: dict):
+def generate_and_add_raw_bot_response(conversation, config: dict):
     """Takes the conversation log, and updates it with the response of the
     chatbot as a function of the chat history. Does not interpret bot response."""
     response = openai.ChatCompletion.create(

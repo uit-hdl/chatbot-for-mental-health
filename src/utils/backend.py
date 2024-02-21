@@ -26,7 +26,7 @@ SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 LOGFILE_PATH = os.path.join(CHAT_INFO_DIR, "chat.log")
 TRUNCATED_MESSAGE_PATH = os.path.join(CHAT_INFO_DIR, "truncated_message.json")
-OVERSEER_CONVERSATION_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.md")
+OVERSEER_CONVERSATION_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
 
 logging.basicConfig(
     filename=LOGFILE_PATH,
@@ -122,55 +122,18 @@ def get_full_path(path_relative):
     return os.path.join(ROOT_DIR, path_relative)
 
 
-def dump_to_json(file, file_path):
+def dump_to_json(dump_dict, file_path):
     """Save thr `dump_dict` to the json file under the path given in relation to
     the root directory."""
     full_path = get_full_path_and_create_dir(file_path)
     with open(full_path, mode="w", encoding="utf-8") as json_file:
-        json.dump(file, json_file, sort_keys=True, indent=4)
+        json.dump(dump_dict, json_file, sort_keys=True, indent=4)
 
 
 def dump_current_conversation_to_json(conversation, filename="conversation"):
     """Dumps the conversation to the conversation directory as a json file."""
     file_path = f"{CONVERSATIONS_CURRENT_DIR}/{filename}.json"
     dump_to_json(conversation, file_path)
-
-
-def dump_conversation_to_markdown_file(conversation: list, filepath: str, color_code=True):
-    """Dumps a conversation to a Markdown file with color-coded roles."""
-    full_path = get_full_path_and_create_dir(filepath)
-
-    with open(full_path, "w") as file:
-        for i, message in enumerate(conversation):
-            role = message["role"]
-            content = message["content"]
-            if color_code:
-                colored_role, content = color_code_role_and_content(role, content, i)
-            else:
-                colored_role = role
-
-            if i == 1:
-                header = "\n\n# Conversation \n\n"
-                formatted_message = f"{header}{colored_role}: {content}  \n\n"
-            else:
-                formatted_message = f"\n{colored_role}: {content}  \n\n"
-
-            file.write(formatted_message)
-
-
-def color_code_role_and_content(role: str, content: str, message_index: int):
-    """Color codes the role and content of the message."""
-    if role == "assistant":
-        colored_role = '**<font color="#44cc44">assistant</font>**'
-    elif role == "user":
-        colored_role = '**<font color="#3399ff">user</font>**'
-    elif role == "system":
-        if message_index > 0:
-            content = f'<font color="#999999">{content}</font>'
-        colored_role = '**<font color="#999999">system</font>**'
-    else:
-        colored_role = role
-    return colored_role, content
 
 
 def dump_conversation(conversation: list, label: str = "conversation"):
@@ -181,7 +144,6 @@ def dump_conversation(conversation: list, label: str = "conversation"):
     if conversation[-1]["content"] == "break":
         conversation = conversation[:-1]
     dump_to_json(conversation, json_file_path)
-    dump_conversation_to_markdown_file(conversation, txt_file_path)
     LOGGER.info(f"Conversation stored in {json_file_path} and {txt_file_path}")
 
 

@@ -20,7 +20,7 @@ from utils.chat_utilities import append_system_messages
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import initiate_prompt_engineered_ai_agent
-from utils.chat_utilities import generate_raw_bot_response
+from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.chat_utilities import check_length_of_chatbot_response
 from utils.overseer import overseer_check_of_source_fidelity
 from utils.console_chat_display import display_last_response
@@ -100,7 +100,7 @@ def initiate_new_conversation(chatbot_id: str, system_message=None):
         PROMPTS[chatbot_id], system_message
     )
     LOGGER.info("Starting new conversation with %s.", chatbot_id)
-    conversation = generate_raw_bot_response(conversation, CONFIG)
+    conversation = generate_and_add_raw_bot_response(conversation, CONFIG)
     return conversation
 
 
@@ -177,7 +177,7 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
     actually exists. If they do not exist, then system messages are added to the chat to inform the
     bot of its errors, and quality_check is set to "failed" so to inform that the bot
     should generate a new response."""
-    conversation = generate_raw_bot_response(conversation, CONFIG)
+    conversation = generate_and_add_raw_bot_response(conversation, CONFIG)
     conversation = correct_erroneous_show_image_command(conversation)
     (
         harvested_syntax,

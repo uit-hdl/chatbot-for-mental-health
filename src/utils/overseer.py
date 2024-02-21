@@ -2,7 +2,7 @@
 by the chatbot and provides feedback on adherence to things like source materials."""
 
 from utils.backend import get_source_content_and_path
-from utils.backend import dump_conversation_to_markdown_file
+from utils.backend import dump_to_json
 from utils.backend import convert_json_string_to_dict
 from utils.backend import OVERSEER_CONVERSATION_PATH
 from utils.backend import PROMPTS
@@ -10,7 +10,7 @@ from utils.backend import CONFIG
 from utils.chat_utilities import initiate_prompt_engineered_ai_agent
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import grab_last_response
-from utils.chat_utilities import generate_raw_bot_response
+from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.process_syntax import extract_command_names_and_arguments
 from utils.general import silent_print
 
@@ -35,8 +35,8 @@ def overseer_check_of_source_fidelity(
         overseer = initiate_prompt_engineered_ai_agent(
             PROMPTS["overseer"], system_message
         )
-        overseer = generate_raw_bot_response(overseer, CONFIG)
-        dump_conversation_to_markdown_file(overseer, OVERSEER_CONVERSATION_PATH)
+        overseer = generate_and_add_raw_bot_response(overseer, CONFIG)
+        dump_to_json(overseer, OVERSEER_CONVERSATION_PATH)
         overseer_evaluation = grab_last_response(overseer)
         _, command_arguments = extract_command_names_and_arguments(overseer_evaluation)
 
@@ -84,7 +84,7 @@ def intent_classification_bot(user_message) -> str:
         system_message="{'user_message': '%s'}" % user_message,
     )
     confirmation_bot_response = grab_last_response(
-        generate_raw_bot_response(confirmation_chat, CONFIG)
+        generate_and_add_raw_bot_response(confirmation_chat, CONFIG)
     )
     _, command_arguments = extract_command_names_and_arguments(
         confirmation_bot_response
