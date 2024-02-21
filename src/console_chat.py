@@ -10,7 +10,7 @@ from utils.backend import PROMPTS
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
 from utils.backend import CONFIG
-from utils.backend import dump_current_conversation
+from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
@@ -71,7 +71,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         conversation = overseer_check_of_source_fidelity(
             conversation, harvested_syntax, chatbot_id
         )
-        dump_current_conversation(conversation)
+        dump_current_conversation_to_json(conversation)
 
         if harvested_syntax["referral"]:
             if harvested_syntax["referral"]["file_exists"]:
@@ -116,7 +116,7 @@ def get_user_input(conversation) -> list:
             n_rewind = int(user_message[-1])
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
             reprint_whole_conversation_without_syntax(conversation)
-            dump_current_conversation(conversation)
+            dump_current_conversation_to_json(conversation)
         else:
             if user_message == "break":
                 BREAK_CONVERSATION = True

@@ -2,7 +2,7 @@
 by the chatbot and provides feedback on adherence to things like source materials."""
 
 from utils.backend import get_source_content_and_path
-from utils.backend import dump_conversation_to_colorcoded_md_file
+from utils.backend import dump_conversation_to_markdown_file
 from utils.backend import convert_json_string_to_dict
 from utils.backend import OVERSEER_CONVERSATION_PATH
 from utils.backend import PROMPTS
@@ -36,7 +36,7 @@ def overseer_check_of_source_fidelity(
             PROMPTS["overseer"], system_message
         )
         overseer = generate_raw_bot_response(overseer, CONFIG)
-        dump_conversation_to_colorcoded_md_file(overseer, OVERSEER_CONVERSATION_PATH)
+        dump_conversation_to_markdown_file(overseer, OVERSEER_CONVERSATION_PATH)
         overseer_evaluation = grab_last_response(overseer)
         _, command_arguments = extract_command_names_and_arguments(overseer_evaluation)
 

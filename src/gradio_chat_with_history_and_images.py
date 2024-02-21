@@ -9,7 +9,7 @@ from console_chat import remove_inactive_sources
 from console_chat import generate_processed_bot_response
 from console_chat import grab_last_assistant_response
 from console_chat import overseer_check_of_source_fidelity
-from console_chat import dump_current_conversation
+from console_chat import dump_current_conversation_to_json
 from console_chat import direct_to_new_assistant
 from console_chat import truncate_if_too_long
 from utils.general import remove_syntax_from_message
@@ -48,7 +48,7 @@ def respond(user_message, surface_chat):
     for image_url in image_url_list:
         surface_chat.append((None, (image_url,)))
 
-    dump_current_conversation(DEEP_CHAT)
+    dump_current_conversation_to_json(DEEP_CHAT)
 
     if harvested_syntax["referral"]:
         if harvested_syntax["referral"]["file_exists"]:

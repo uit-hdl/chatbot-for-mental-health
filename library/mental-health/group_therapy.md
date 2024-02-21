@@ -1,4 +1,4 @@
-* Group therapy describes any psychotherapy in a social setting.
+- Group therapy describes any psychotherapy in a social setting.
 Although group therapy does not necessarily mean talking in a group of
 people with schizophrenia, it can have a number of advantages over
 other psychotherapies. You may feel more at ease sharing your thoughts

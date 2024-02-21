@@ -2,7 +2,7 @@
 their condition is under control. Others decide to adjust their work
 commitments to suit their condition. This can include changing to a
 less stressful role, reducing their number of working hours or taking
-up a job share. 
+up a job share.
 
 * Some employers are more flexible than others in their attitudes
 towards allowing people to change their work contracts; however,

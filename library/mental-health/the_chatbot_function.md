@@ -1,6 +1,6 @@
 - Chatbots have been developed to make it easier to use the app.
 - They can help you with:
-  - understanding Scizophrenia
+  - understanding Schizophrenia
   - understanding the things you can do and change in the app
   - change settings
   - understand the exercises
@@ -15,4 +15,3 @@
 - While the chatbots can refer you to relevant information on some topics, they
   are NOT intended to act as or substitute therapists! Rather, they provide a
   more interactive way of accessing general mental health information.
-

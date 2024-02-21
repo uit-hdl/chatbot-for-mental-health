@@ -21,7 +21,7 @@ road map for treatment.
 
 
 # Sleep Drive/Homeostatic (Process S)
-(show: figure1.png)
+[show `figure1.png`]
 One important force that regulates our sleep is the homeostatic process, or the
 sleep drive. One component of our sleep drive is how much sleep we need. There
 is a common belief that a specific amount of sleep is necessary for everyone.
@@ -38,7 +38,7 @@ is a common belief that a specific amount of sleep is necessary for everyone.
     * During this treatment, we will work together to figure out your ideal
       amount of sleep.
 
-(show: figure2.png)
+[show `figure2.png`]
 
 Another component of sleep drive is how long we have been awake. 
 * The longer you have been without sleep, the more your body starts to need it.
@@ -53,7 +53,7 @@ Another component of sleep drive is how long we have been awake.
 *Before we move on, do you have any questions?*
 
 # Sleep Cycles/Circadian (Process C)
-(show: figure3.png)
+[show `figure3.png`]
 
 Sleep is also partially controlled by your circadian rhythm.
 * Humans are programmed to be awake during the day and to sleep at night.
@@ -70,7 +70,7 @@ Sleep is also partially controlled by your circadian rhythm.
 *Before we move on, do you have any questions?*
 
 # Process S and Process C Work Together
-(show: figure4.png)
+[show `figure4.png`]
 
 This figure shows how the sleep drive and circadian processes work together to regulate a normal sleeper’s day and night.
 * Both the sleep drive and wakefulness build up over the day, but at night the
@@ -81,7 +81,7 @@ This figure shows how the sleep drive and circadian processes work together to r
 *Before we move on, do you have any questions?*
 
 # Sleep Stages
-(show: figure5.png)
+[show `figure5.png`]
 Across the night, your sleep follows a pattern of cycles.
 
 * During the first stages of sleep, our sleep slowly gets deeper and more restful.

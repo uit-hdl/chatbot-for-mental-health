@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0d9d72a9-67a4-49eb-8768-e505d74d856e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../conversations/current/conversation.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../conversations/current/conversation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../media/images/mental-health/scizophrenia_early_signs.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../media/images/mental-health/scizophrenia_genes_environment_interactions.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_support.md" beforeDir="false" afterPath="$PROJECT_DIR$/app_support.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mental_health.md" beforeDir="false" afterPath="$PROJECT_DIR$/mental_health.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/overseer.md" beforeDir="false" afterPath="$PROJECT_DIR$/overseer.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="2cfPEwEL6rv5vHG3wum7CCoGlYv" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "factorize__referral",
+    "last_opened_file_path": "/home/per/UIt/chatbots/chatGPT4/insomnia-assistant"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-5a2391486177-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13763.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0d9d72a9-67a4-49eb-8768-e505d74d856e" name="Changes" comment="" />
+      <created>1708499551857</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1708499551857</updated>
+    </task>
+    <servers />
+  </component>
+</project>

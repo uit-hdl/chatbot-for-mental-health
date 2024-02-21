@@ -130,38 +130,13 @@ def dump_to_json(file, file_path):
         json.dump(file, json_file, sort_keys=True, indent=4)
 
 
-def dump_current_conversation(conversation, filename="conversation"):
+def dump_current_conversation_to_json(conversation, filename="conversation"):
     """Dumps the conversation to the conversation directory as a json file."""
     file_path = f"{CONVERSATIONS_CURRENT_DIR}/{filename}.json"
     dump_to_json(conversation, file_path)
 
 
-def dump_conversation_with_timestamp(conversation, label="conversation"):
-    """Dumps the chatbot conversation in conversations/ with the date of the
-    conversation in the name. The name can be given a more descriptive name
-    through the 'label' argument."""
-    # Get the current date and time
-    current_datetime = datetime.datetime.now()
-    formatted_datetime = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
-    filename = f"{label}_{formatted_datetime}.txt"
-    dump_conversation_to_textfile(filename, conversation)
-    print(f"Conversation stored in {filename}")
-
-
-def dump_conversation_to_textfile(filename, conversation):
-    """Dumps the conversation to a textfile in conversations/formatted/filename."""
-    path_relative = f"{CONVERSATIONS_DIR}/formatted/{filename}"
-    full_path = get_full_path_and_create_dir(path_relative)
-    # Remove the initial prompt
-    conversation = conversation[1:]
-    with open(full_path, "w") as file:
-        for message in conversation:
-            role = message["role"]
-            content = message["content"]
-            file.write(f"{role.capitalize()}: {content}\n\n")
-
-
-def dump_conversation_to_colorcoded_md_file(conversation: list, filepath: str):
+def dump_conversation_to_markdown_file(conversation: list, filepath: str, color_code=True):
     """Dumps a conversation to a Markdown file with color-coded roles."""
     full_path = get_full_path_and_create_dir(filepath)
 
@@ -169,25 +144,33 @@ def dump_conversation_to_colorcoded_md_file(conversation: list, filepath: str):
         for i, message in enumerate(conversation):
             role = message["role"]
             content = message["content"]
-
-            if role == "assistant":
-                colored_role = '**<font color="#44cc44">assistant</font>**'
-            elif role == "user":
-                colored_role = '**<font color="#3399ff">user</font>**'
-            elif role == "system":
-                if i > 0:
-                    content = f'<font color="#999999">{content}</font>'
-                colored_role = '**<font color="#999999">system</font>**'
+            if color_code:
+                colored_role, content = color_code_role_and_content(role, content, i)
             else:
-                colored_role = role  # For any other roles
+                colored_role = role
 
             if i == 1:
-                header = "\n\n\n\n# Conversation \n\n\n\n"
-                formatted_message = f"{header}{colored_role}: {content}  \n\n\n\n"
+                header = "\n\n# Conversation \n\n"
+                formatted_message = f"{header}{colored_role}: {content}  \n\n"
             else:
-                formatted_message = f"\n{colored_role}: {content}  \n\n\n\n"
+                formatted_message = f"\n{colored_role}: {content}  \n\n"
 
             file.write(formatted_message)
+
+
+def color_code_role_and_content(role: str, content: str, message_index: int):
+    """Color codes the role and content of the message."""
+    if role == "assistant":
+        colored_role = '**<font color="#44cc44">assistant</font>**'
+    elif role == "user":
+        colored_role = '**<font color="#3399ff">user</font>**'
+    elif role == "system":
+        if message_index > 0:
+            content = f'<font color="#999999">{content}</font>'
+        colored_role = '**<font color="#999999">system</font>**'
+    else:
+        colored_role = role
+    return colored_role, content
 
 
 def dump_conversation(conversation: list, label: str = "conversation"):
@@ -198,7 +181,7 @@ def dump_conversation(conversation: list, label: str = "conversation"):
     if conversation[-1]["content"] == "break":
         conversation = conversation[:-1]
     dump_to_json(conversation, json_file_path)
-    dump_conversation_to_colorcoded_md_file(conversation, txt_file_path)
+    dump_conversation_to_markdown_file(conversation, txt_file_path)
     LOGGER.info(f"Conversation stored in {json_file_path} and {txt_file_path}")
 
 

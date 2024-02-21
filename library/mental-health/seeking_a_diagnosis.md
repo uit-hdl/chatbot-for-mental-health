@@ -20,7 +20,7 @@ decreased motivation and asocial behaviour may be mistaken for normal
 changes that take place during adolescence or linked to drug abuse. As
 the following figure (see description below) shows, however, these
 symptoms may be early warning signs of schizophrenia (`show:
-scizophrenia_early_signs.png`).
+schizophrenia_early_signs.png`).
 
 * Description of image referenced above
   1. Changes in mood
