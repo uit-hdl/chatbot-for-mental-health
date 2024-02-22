@@ -128,8 +128,8 @@ def display_image(image_path: str):
 
 def play_videos(videos: dict):
     """If extracted code contains command to display image, displays image. The
-    syntax used to display an image is ¤:play_video{<file>}:¤ (replace with `display_video` for
-    video)."""
+    syntax used to display an image is ¤:play_video{<file>}:¤ (replace with
+    `display_video` for video)."""
     for video in videos:
         if file_exists(video["path"]):
             play_video(video["path"])

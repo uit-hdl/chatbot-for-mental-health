@@ -60,8 +60,8 @@ def extract_source_name(message: str):
 
 
 def get_inactivity_times_for_sources(conversation, cited_sources):
-    """For each source, calculates the number of responses since they were last referenced by
-    system."""
+    """For each source, calculates the number of responses since they were last referenced
+    by system."""
     inactivity_times = [
         count_time_since_last_citation(conversation, source) for source in cited_sources
     ]
@@ -70,8 +70,8 @@ def get_inactivity_times_for_sources(conversation, cited_sources):
 
 
 def count_time_since_last_citation(conversation, source_name) -> list[int]:
-    """Counts the number of responses since the source was last cited by the assistant. If cited
-    in the last assistant response, inactivity_time == 0."""
+    """Counts the number of responses since the source was last cited by the assistant. If
+    cited in the last assistant response, inactivity_time == 0."""
     assistant_messages = [
         message["content"]
         for message in conversation
@@ -97,8 +97,8 @@ def get_inactive_sources(cited_sources, inactivity_times):
 def remove_inactive_sources_from_system_messages(
     conversation, inactive_sources: list[str]
 ) -> list:
-    """Iterates over system messages, identifies the ones that contain information that is not being
-    actively used (inactive source), and removes that information."""
+    """Iterates over system messages, identifies the ones that contain information that is
+    not being actively used (inactive source), and removes that information."""
     for message_index, message in enumerate(conversation):
         if message_index == 0:
             continue

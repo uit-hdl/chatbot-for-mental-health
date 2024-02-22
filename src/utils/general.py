@@ -44,8 +44,8 @@ def remove_syntax_from_message(message_content: str):
 
 
 def message_is_intended_for_user(message: str) -> bool:
-    """Used to check if a message contains text intended to be read by the user, or if it contains
-    only syntax to be interpreted by the backend."""
+    """Used to check if a message contains text intended to be read by the user, or if it
+    contains only syntax to be interpreted by the backend."""
     message = remove_superflous_linebreaks(message)
     message = message.replace(" ", "")
     if message[:2] == "¤:" and message[-2:] == ":¤":
@@ -56,8 +56,8 @@ def message_is_intended_for_user(message: str) -> bool:
 
 def remove_quotes_and_backticks(input_str) -> str:
     """Removes quotation marks, `"` or `'`, from a string. Used for standardization
-    in cases where bot is not always consistent, such as play_video("video_name") instead of
-    play_video(video_name)."""
+    in cases where bot is not always consistent, such as play_video("video_name") instead
+    of play_video(video_name)."""
     pattern = r"[\'\"]"  # Pattern that recognizes single and double quotes
     result_str = re.sub(pattern, "", input_str)  # Remove single and double quotes
     result_str = result_str.replace("`", "")  # Remove backticks
@@ -77,19 +77,20 @@ def offer_to_store_conversation(conversation):
         print("Conversation not stored")
 
 
-# ## Dealing with linebreak characters ##
+# -- Dealing with linebreak characters --
 
 
 def remove_superflous_linebreaks(message):
-    """Removes all superflous linebreak characters that may arise after removing commands."""
+    """Removes all superflous linebreak characters that may arise after removing
+    commands."""
     message_cleaned = remove_trailing_newlines(message)
     message_cleaned = remove_superflous_linebreaks_between_paragraphs(message_cleaned)
     return message_cleaned
 
 
 def remove_trailing_newlines(text):
-    """Removes trailing newline characters (may emerge after stripping away commands from bot
-    messages)."""
+    """Removes trailing newline characters (may emerge after stripping away commands from
+    bot messages)."""
     while text[-1] == " " or text[-1] == "\n":
         if text[-1] == " ":
             text = text.rstrip(" ")
@@ -99,8 +100,8 @@ def remove_trailing_newlines(text):
 
 
 def remove_superflous_linebreaks_between_paragraphs(text: str):
-    """Replaces consecutive line breaks with just two line breaks (may emerge after stripping away
-    commands from bot messages)."""
+    """Replaces consecutive line breaks with just two line breaks (may emerge after
+    ""stripping away commands from bot messages)."""
     cleaned_text = re.sub(r"\n{3,}", "\n\n", text)
     return cleaned_text
 

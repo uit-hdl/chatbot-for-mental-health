@@ -27,8 +27,8 @@ def calculate_cost_of_response(conversation):
 
 def count_tokens_in_chat(conversation) -> int:
     """Counts the number of tokens in a conversation. Uses token encoder
-    https://github.com/openai/tiktoken/blob/main/tiktoken/model.py. Input argument can be either a
-    list or a dictionary (for instance the last response in the conversation).
+    https://github.com/openai/tiktoken/blob/main/tiktoken/model.py. Input argument can be
+    either a list or a dictionary (for instance the last response in the conversation).
     """
     if isinstance(conversation, dict):
         # Ensure list format

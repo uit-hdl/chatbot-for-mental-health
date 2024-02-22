@@ -20,7 +20,7 @@ from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.chat_utilities import check_length_of_chatbot_response
-from utils.overseer import overseer_check_of_source_fidelity
+from src.utils.overseers import overseer_check_of_source_fidelity
 from utils.console_chat_display import display_last_response
 from utils.console_chat_display import display_last_assistant_response
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
@@ -37,8 +37,8 @@ BREAK_CONVERSATION = False
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     """Running this function starts a conversation with a tutorial bot that
-    helps explain how a web-app (https://app.consensussleepdiary.com) functions.
-    The web app is a free online app for collecting sleep data."""
+    helps explain how a web-app (https://app.consensussleepdiary.com) functions. The web
+    app is a free online app for collecting sleep data."""
 
     if chat_filepath:
         conversation = continue_previous_conversation(chat_filepath, chatbot_id)
@@ -119,9 +119,10 @@ def get_user_input(conversation) -> list:
 
 
 def generate_processed_bot_response(conversation, chatbot_id) -> list:
-    """Generates and interprets a message from the assistant. The response is generated iteratively
-    since the bot may first have to request sources and then react to those sources, and also the
-    message has to pass quality checks (primarily checking existance of requested files).
+    """Generates and interprets a message from the assistant. The response is generated
+    iteratively since the bot may first have to request sources and then react to those
+    sources, and also the message has to pass quality checks (primarily checking existance
+    of requested files).
     """
     (
         conversation,
@@ -135,8 +136,8 @@ def generate_processed_bot_response(conversation, chatbot_id) -> list:
 
 
 def generate_valid_response(conversation, chatbot_id):
-    """Generates responses iteratively untill the response passes quality check based criteria such
-    as whether or not the requested files exist."""
+    """Generates responses iteratively untill the response passes quality check based
+    criteria such as whether or not the requested files exist."""
     for attempt in range(SETTINGS["n_attempts_at_producing_valid_response"]):
         (
             conversation,
@@ -164,11 +165,11 @@ def generate_valid_response(conversation, chatbot_id):
 
 
 def generate_bot_response_and_check_quality(conversation, chatbot_id):
-    """Generates a bot message, corrects common bot errors where they can be easily corrected,
-    extracts commands from the raw message, and checks if the files requested by the commands
-    actually exists. If they do not exist, then system messages are added to the chat to inform the
-    bot of its errors, and quality_check is set to "failed" so to inform that the bot
-    should generate a new response."""
+    """Generates a bot message, corrects common bot errors where they can be easily
+    corrected, extracts commands from the raw message, and checks if the files requested
+    by the commands actually exists. If they do not exist, then system messages are added
+    to the chat to inform the bot of its errors, and quality_check is set to "failed" so
+    to inform that the bot should generate a new response."""
     conversation = generate_and_add_raw_bot_response(conversation, CONFIG)
     conversation = correct_erroneous_show_image_command(conversation)
     (
@@ -194,9 +195,10 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
 
 
 def correct_erroneous_show_image_command(conversation) -> list:
-    """Sometimes the bot uses (show: image_name.png), which is really just a reference to the
-    command ¤:display_image(image_name):¤ that is used as a shorthand in the prompt. If such an
-    error is identified, converts it to a proper syntax, and appends a system warning.
+    """Sometimes the bot uses (show: image_name.png), which is really just a reference to
+    the command ¤:display_image(image_name):¤ that is used as a shorthand in the prompt.
+    If such an error is identified, converts it to a proper syntax, and appends a system
+    warning.
     """
     message = grab_last_assistant_response(conversation)
     pattern = r"[`'\"]show:\s*([^`'\"]+\.png)[`'\"]"
@@ -212,8 +214,8 @@ def correct_erroneous_show_image_command(conversation) -> list:
 
 
 def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):
-    """Assistant can iteratively request sources untill it is satisfied. Sources are inserted into
-    the conversation by system."""
+    """Assistant can iteratively request sources untill it is satisfied. Sources are
+    inserted into the conversation by system."""
     counter = 0
     while (
         harvested_syntax["knowledge_extensions"] and counter < SETTINGS["max_requests"]
@@ -230,8 +232,8 @@ def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):
 
 
 def insert_knowledge(conversation, knowledge_extensions: list[str]):
-    """Checks for request to insert knowledge, and inserts knowledge into the conversation.
-    First checks if there sources are already in the chat."""
+    """Checks for request to insert knowledge, and inserts knowledge into the
+    conversation. First checks if there sources are already in the chat."""
     inserted_sources = extract_sources_inserted_by_system(conversation)
 
     for source in knowledge_extensions:

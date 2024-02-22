@@ -64,8 +64,8 @@ def generate_and_add_raw_bot_response(conversation, config: dict):
 def initiate_conversation_with_prompt(
     prompt: str, system_message: str = None
 ) -> list[str]:
-    """Creates an chatbot assistent by starting a conversation in the openAI list format with the
-    the initial prompt as the first message."""
+    """Creates an chatbot assistent by starting a conversation in the openAI list format
+    with the the initial prompt as the first message."""
     conversation = [{"role": "system", "content": prompt}]
     if system_message:
         conversation.append({"role": "system", "content": system_message})
@@ -89,14 +89,15 @@ def identify_assistant_responses(conversation) -> list[int]:
 
 
 def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> list:
-    """Resets the conversation back to bot-response number = n_current - n_rewind. If n_rewind == 1
-    then conversation resets to the second to last bot-response, allowing you to investigate the
-    bots behaviour given the chat up to that point. Useful for testing how likely the bot is to
-    reproduce an error (such as forgetting an instruction) or a desired response, since you don't
-    have to restart the conversation from scratch. Works by Identifing and deleting messages between
-    the current message and the bot message you are resetting to, but does not nessecarily reset the
-    overall conversation to the state it was in at the time that message was produced (for instance,
-    the prompt might have been altered)."""
+    """Resets the conversation back to bot-response number = n_current - n_rewind. If
+    n_rewind == 1 then conversation resets to the second to last bot-response, allowing
+    you to investigate the bots behaviour given the chat up to that point. Useful for
+    testing how likely the bot is to reproduce an error (such as forgetting an
+    instruction) or a desired response, since you don't have to restart the conversation
+    from scratch. Works by Identifing and deleting messages between the current message
+    and the bot message you are resetting to, but does not nessecarily reset the overall
+    conversation to the state it was in at the time that message was produced (for
+    instance, the prompt might have been altered)."""
     assistant_indices = identify_responses_intended_for_user(conversation)
     n_rewind = min([n_rewind, len(assistant_indices) - 1])
     index_reset = assistant_indices[-(n_rewind + 1)]
@@ -104,8 +105,8 @@ def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> l
 
 
 def identify_responses_intended_for_user(conversation) -> list[int]:
-    """Finds assistant responses (list of indeces) that are contain human readable text, and not
-    just commands for the backend."""
+    """Finds assistant responses (list of indeces) that are contain human readable text,
+    and not just commands for the backend."""
     responses_with_text = [
         i
         for (i, message) in enumerate(conversation)
@@ -119,8 +120,8 @@ def identify_responses_intended_for_user(conversation) -> list[int]:
 
 
 def append_system_messages(conversation, system_messages: list[str]) -> list:
-    """Appends each message in a list of system messages to the conversation under the role of
-    system."""
+    """Appends each message in a list of system messages to the conversation under the
+    role of system."""
     for message in system_messages:
         conversation.append({"role": "system", "content": message})
     return conversation
@@ -128,8 +129,8 @@ def append_system_messages(conversation, system_messages: list[str]) -> list:
 
 def delete_last_bot_response(conversation) -> list:
     """Identifies which responses are from the assistant, and deletes the last
-    response from the conversation. Used when the bot response has broken some
-    rule, and we want it to create a new response."""
+    response from the conversation. Used when the bot response has broken some rule, and
+    we want it to create a new response."""
     assistant_indices = identify_assistant_responses(conversation)
     del conversation[assistant_indices[-1]]
     return conversation

@@ -57,8 +57,8 @@ def convert_json_string_to_dict(json_data: str) -> dict:
 
 
 def get_file_names_in_directory(directory_path):
-    """Retrieve the names of all files (without extensions) within the specified directory and its
-    subdirectories."""
+    """Retrieve the names of all files (without extensions) within the specified directory
+    and its subdirectories."""
     file_names = []
     full_directory_path = get_full_path(directory_path)
     for _, _, files in os.walk(full_directory_path):
@@ -155,8 +155,8 @@ def file_exists(file_path):
 
 
 def get_source_content_and_path(chatbot_id: str, source_name: str) -> Tuple[str, str]:
-    """Finds the content and path of a source. The filename of the prompt is used to find the
-    subfolder that the source is expected to be located in."""
+    """Finds the content and path of a source. The filename of the prompt is used to find
+    the subfolder that the source is expected to be located in."""
     source_path = get_path_to_source(source_name, chatbot_id)
     if source_path:
         content = load_textfile_as_string(source_path)
@@ -178,13 +178,13 @@ def get_path_to_source(source_name: str, chatbot_id: str):
 
 
 def get_subfolder_of_assistant(prompt_file_name: str):
-    """Convention -> all directories that contain files associated with an assistant must consist of
-    the following two components: the file-specific directory (such as media/images) and an
-    assistant-specific path relative to the file-specific directory. This function takes the name of
-    the assistant and inferrs the assistant-specific relative path. For example, if images are
-    located in 'media/images/ex_bots/ex_bot_A/', then the assistant-specific path is
-    'ex_bots/ex_bot_A/'. Following this convention makes it easier to write prompts, since only the
-    file name needs to be specified."""
+    """Convention -> all directories that contain files associated with an assistant must
+    consist of the following two components: the file-specific directory (such as
+    media/images) and an assistant-specific path relative to the file-specific directory.
+    This function takes the name of the assistant and inferrs the assistant-specific
+    relative path. For example, if images are located in 'media/images/ex_bots/ex_bot_A/',
+    then the assistant-specific path is 'ex_bots/ex_bot_A/'. Following this convention
+    makes it easier to write prompts, since only the file name needs to be specified."""
     prompt_path = get_relative_path_of_prompt_file(prompt_file_name)
 
     # Get the directory name from the file path
@@ -200,8 +200,9 @@ def get_subfolder_of_assistant(prompt_file_name: str):
 
 
 def get_relative_path_of_prompt_file(prompt_file_name: str) -> str:
-    """Identifies the prompts in the prompts directory for all, and finds the relative path for the
-    file name provided. Note that prompts should have unique names for this to work well.
+    """Identifies the prompts in the prompts directory for all, and finds the relative
+    path for the file name provided. Note that prompts should have unique names for this
+    to work well.
     """
     full_path = PROMPTS_DIR
     prompt_file_name = add_extension(prompt_file_name, ".md")
@@ -225,7 +226,8 @@ def get_relative_path_of_prompt_file(prompt_file_name: str) -> str:
 
 
 def get_file_paths_in_directory(directory_path):
-    """Get the paths of all files within the specified directory and its subdirectories."""
+    """Get the paths of all files within the specified directory and its
+    subdirectories."""
     file_names = []
     full_directory_path = get_full_path(directory_path)
     for root, _, files in os.walk(full_directory_path):

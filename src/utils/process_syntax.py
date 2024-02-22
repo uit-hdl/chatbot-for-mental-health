@@ -34,10 +34,10 @@ from utils.backend import remove_extension
 
 def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List[str]]:
     """Scans the response for symbols ¤: and :¤ and extracts the name of the
-    commands and their arguments. Returns a dictionary with keys being the command types, with each
-    type containing the information collected for that type. Commands are 'referral',
-    'request_knowledge', 'display_image', 'play_video', and 'show_sources'. Dumps the resulting
-    dictionary to chat-info/harvested_syntax.json."""
+    commands and their arguments. Returns a dictionary with keys being the command types,
+    with each type containing the information collected for that type. Commands are
+    'referral', 'request_knowledge', 'display_image', 'play_video', and 'show_sources'.
+    Dumps the resulting dictionary to chat-info/harvested_syntax.json."""
     available_files = get_available_files(chatbot_id)
 
     chatbot_response = grab_last_assistant_response(conversation)
@@ -80,7 +80,8 @@ def get_available_files(chatbot_id: str) -> dict:
 
 def extract_command_names_and_arguments(chatbot_response: str) -> Tuple[List, List]:
     """Takes a response, identifies substrings of the form ¤:command_name(argument):¤, and
-    extracts command names and command arguments, which are returned as two synchronized lists.
+    extracts command names and command arguments, which are returned as two synchronized
+    lists.
     """
     command_strings = get_commands(chatbot_response)
     commands = []
@@ -103,7 +104,8 @@ def get_commands(chatbot_response: str) -> list[str]:
 
 
 def extract_command_argument(command_string: str) -> str:
-    """Extract command argument from strings. E.g. 'play_video(video_name)' -> 'play_video'."""
+    """Extract command argument from strings. E.g. 'play_video(video_name)' ->
+    'play_video'."""
     arg = re.search(r"\((.*?)\)", command_string)
     if arg:
         return arg.group(1)
@@ -112,8 +114,8 @@ def extract_command_argument(command_string: str) -> str:
 def process_and_organize_commands_and_arguments(
     commands: list, arguments: list, available_files: dict
 ):
-    """Processes the list of commands and associated arguments, and organizes this information in a
-    dictionary."""
+    """Processes the list of commands and associated arguments, and organizes this
+    information in a dictionary."""
     harvested_syntax = {}
     harvested_syntax["knowledge_extensions"], harvested_syntax["referral"] = (
         get_knowledge_requests(commands, arguments, available_files)
@@ -173,7 +175,8 @@ def get_knowledge_requests(
 
 
 def get_assistant_citations(commands: list, arguments: list) -> list[str]:
-    """Get citations for sources in the bot response. Example output ["source_a", "source_b"]."""
+    """Get citations for sources in the bot response. Example output ["source_a",
+    "source_b"]."""
     citations = []
     for command, argument in zip(commands, arguments):
         if command == "cite":
@@ -188,9 +191,9 @@ def get_assistant_citations(commands: list, arguments: list) -> list[str]:
 
 
 def get_image_requests(commands, arguments, available_files) -> list[dict]:
-    """Finds file paths, file name, and checks if requested files exists. Returns list with
-    dictionary for each requested video, containing the name of the video, status for its existance,
-    and file path.
+    """Finds file paths, file name, and checks if requested files exists. Returns list
+    with dictionary for each requested video, containing the name of the video, status for
+    its existance, and file path.
     """
     images = []
     for command, argument in zip(commands, arguments):
@@ -211,9 +214,9 @@ def get_image_requests(commands, arguments, available_files) -> list[dict]:
 
 
 def get_video_requests(commands, arguments, available_files) -> list[dict]:
-    """(similar to get_image_requests) Finds file paths, file name, and checks if requested files
-    exists. Returns list with dictionary for each requested video, indicating the name of the video,
-    status for its existance, and file path."""
+    """(similar to get_image_requests) Finds file paths, file name, and checks if
+    requested files exists. Returns list with dictionary for each requested video,
+    indicating the name of the video, status for its existance, and file path."""
     videos = []
     for command, argument in zip(commands, arguments):
         if command == "play_video":
@@ -233,8 +236,9 @@ def get_video_requests(commands, arguments, available_files) -> list[dict]:
 
 
 def generate_warning_messages(harvested_syntax) -> list[str]:
-    """Checks whether the requested files exists. For each non-existant files that has been
-    requested, it creates a corresponding warning message (to be inserted into chat by `system`).
+    """Checks whether the requested files exists. For each non-existant files that has
+    been requested, it creates a corresponding warning message (to be inserted into chat
+    by `system`).
     """
     warning_messages = []
 

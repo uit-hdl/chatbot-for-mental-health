@@ -7,8 +7,9 @@ from utils.backend import TRUNCATION_INFO_DUMP_PATH
 
 
 def truncate_if_too_long(conversation):
-    """Truncates the conversation if it exceeds the maximum allowed length. Deletes oldest messages
-    first. In the future, we may want to replace this with a summary bot using GPT 3.5."""
+    """Truncates the conversation if it exceeds the maximum allowed length. Deletes
+    oldest messages first. In the future, we may want to replace this with a summary bot
+    using GPT 3.5."""
     # Delete the first/oldest message in chat that is not the initial prompt
     removed_messages = []
     while exceeding_max_tokens(conversation) and len(conversation) > 1:
