@@ -18,8 +18,8 @@ used to treat schizophrenia may not be suitable for use during
 pregnancy. Therefore, you should discuss your options with your doctor
 before trying to conceive a child.
 
-(Note: `S` are for those with scizophrenia, while `F` is intended
-intended for family members) 
+(Note: `S` are for those with schizophrenia, while `F` is intended
+intended for family members)
 * Learn more about schizophrenia
   - S: Explain it to your friends and family
   - F: Try to be understanding of your family member’s behaviour

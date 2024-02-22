@@ -20,7 +20,7 @@ from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.chat_utilities import check_length_of_chatbot_response
-from src.utils.overseers import overseer_check_of_source_fidelity
+from utils.overseers import overseer_check_of_source_fidelity
 from utils.console_chat_display import display_last_response
 from utils.console_chat_display import display_last_assistant_response
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
