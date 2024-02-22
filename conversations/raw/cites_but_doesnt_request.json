@@ -16,11 +16,99 @@
         "role": "assistant"
     },
     {
-        "content": "source secret_chamber: You have found the hidden chamber! You are very special!\n[show `red_or_blue_pill.png` | a very secret image that only the cleverest may see!]\n",
+        "content": "Inactive source removed due to not being actively cited.",
         "role": "system"
     },
     {
         "content": "\u00a4:cite([\"secret_chamber\"]):\u00a4 You've discovered a special place \u2013 the hidden chamber! You are indeed very special. Here's something just for you. \u00a4:display_image(red_or_blue_pill.png):\u00a4 Would you like to continue exploring this topic or is there something else on your mind?",
         "role": "assistant"
+    },
+    {
+        "content": "will i ever get better?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:request_knowledge(will_i_get_better):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "Inactive source removed due to not being actively cited.",
+        "role": "system"
+    },
+    {
+        "content": "\u00a4:cite([\"will_i_get_better\"]):\u00a4 (1.1) It's a common belief that people with schizophrenia cannot get better, but that's not accurate. In fact, with the right treatment, symptoms can improve, and some individuals do recover completely. Recovery involves managing symptoms, creating support systems, and pursuing personal goals. \n\n\u00a4:display_image(statistics_on_who_gets_better.png):\u00a4\n\n(1.2) As for chances of recovery, statistics show that 1 in 5 people with schizophrenia may recover completely within 5 years. Meanwhile, 3 in 5 people may see improvement and may occasionally experience symptoms. However, 1 in 5 people may continue to experience more troublesome symptoms. It's important to have an effective treatment plan that can include medication and therapy to manage the condition. Would you like more information on treatment options?",
+        "role": "assistant"
+    },
+    {
+        "content": "Your response was 179 tokens long; keep it simple!",
+        "role": "system"
+    },
+    {
+        "content": "What does recovery mean?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"will_i_get_better\"]):\u00a4 Recovery refers to the process where a person learns to manage schizophrenia symptoms, builds strong support systems, and works toward personal life goals. This doesn't always mean being symptom-free. Instead, it's about living a fulfilling, hopeful, and contributing life, despite any challenges. Would you like more details on managing symptoms or support systems?",
+        "role": "assistant"
+    },
+    {
+        "content": "Are there people that can never get better?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"will_i_get_better\"]):\u00a4 (1.3) There are indeed cases where individuals continue to experience more persistent and troublesome symptoms despite treatment. However, 'getting better' can mean different things for different people; some may not recover completely but can still lead meaningful lives with proper management and support. It's important to have hope and to work closely with healthcare providers to find the most effective management strategies. Would you like to discuss ways to manage symptoms even when they persist?",
+        "role": "assistant"
+    },
+    {
+        "content": "What is meant by a symptom?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"seeking_a_diagnosis\"]):\u00a4 A symptom is a sign or indication of something that is not right in the body or mind. In the case of schizophrenia, symptoms can include:\n\n- Hallucinations: Hearing, seeing, or feeling things that are not there.\n- Delusions: Strong beliefs that are not based in reality.\n- Disorganized thinking: Trouble organizing thoughts or connecting them logically.\n- Reduced social engagement and emotional expression.\n\nThese are a few examples of symptoms that can affect someone with schizophrenia. Would information on specific symptoms or how they are diagnosed be helpful to you?",
+        "role": "assistant"
+    },
+    {
+        "content": "are they different for different people?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"seeking_a_diagnosis\"]):\u00a4 Yes, symptoms can vary greatly between individuals with schizophrenia. Some people may experience more cognitive symptoms, like trouble focusing or remembering, while others might deal more with hallucinations or delusions. The intensity and combination of symptoms can also change over time. Understanding personal symptoms is a key step in managing the condition effectively. Would you like to know more about the variety of symptoms or how they are treated?",
+        "role": "assistant"
+    },
+    {
+        "content": "How can I know what my symptoms are?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"seeking_a_diagnosis\"]):\u00a4 Recognizing your own symptoms involves:\n\n- Self-reflection: Noticing changes in your thoughts, feelings, and behaviors.\n- Feedback: Listening to observations from friends and family.\n- Professional help: A psychiatrist or psychologist can provide assessments and diagnoses.\n\n(1.2) Common signs include difficulty concentrating, withdrawing from others, unusual thoughts, or seeing/hearing things others do not. It is important to seek professional help for a proper assessment. Would you like guidance on how to seek a diagnosis or connect with a mental health professional?",
+        "role": "assistant"
+    },
+    {
+        "content": "Combine manual's info more precisely.",
+        "role": "system"
+    },
+    {
+        "content": "can you say more about self-reflection?what do you mean exactly?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"seeking_a_diagnosis\"]):\u00a4 (1.3) Sure, self-reflection for identifying symptoms means taking time to consider your own thoughts, feelings, and behaviors:\n\n- Noticing if your thoughts feel more scattered or unusual than before.\n- Being aware if you're hearing or seeing things that others can't.\n- Observing any shifts in your mood or emotions that seem different.\n\nIt's about being mindful of changes that don't feel normal to you. Journaling can be a helpful tool for this. Would you like tips on how to start a journal for tracking your experiences?",
+        "role": "assistant"
+    },
+    {
+        "content": "Journaling not specified in source",
+        "role": "system"
+    },
+    {
+        "content": "yes I would",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 While journaling is not detailed in the sources I have, keeping a journal can involve:\n\n- Writing daily entries about your feelings, thoughts, and experiences.\n- Noting any new or intensifying symptoms.\n- Tracking patterns or triggers that might affect your symptoms.\n\nRemember to share your journal with a healthcare professional as it can aid in your diagnosis and treatment. Shall we explore diagnostic processes or perhaps another topic?",
+        "role": "assistant"
+    },
+    {
+        "content": "Avoid suggesting specific actions.",
+        "role": "system"
     }
 ]

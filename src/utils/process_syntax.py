@@ -8,6 +8,7 @@ main output (from process_syntax_of_bot_response) is
 
 2. a list of system warning messages that are produced whenever an error is detected, such as when
    the bot requests a non-existant file."""
+
 import re
 import os
 import ast
@@ -18,6 +19,8 @@ from typing import Tuple
 
 from utils.chat_utilities import grab_last_assistant_response
 from utils.general import remove_quotes_and_backticks
+from utils.general import list_intersection
+from utils.general import list_subtraction
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
 from utils.backend import LIBRARY_DIR
@@ -45,35 +48,34 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List
     harvested_syntax = process_and_organize_commands_and_arguments(
         commands, arguments, available_files
     )
-    warning_messages = generate_warning_messages(harvested_syntax)
 
-    if warning_messages:
-        LOGGER.info(warning_messages)
     dump_to_json(harvested_syntax, HARVESTED_SYNTAX_DUMP_PATH)
 
-    return harvested_syntax, warning_messages
+    return harvested_syntax
 
 
 def get_available_files(chatbot_id: str) -> dict:
     """Finds and organizes all files (names and paths) associated with the chatbot-ID."""
     subfolder = get_subfolder_of_assistant(chatbot_id)
 
-    available_files = {"sources": {
-        "name": get_file_names_in_directory(os.path.join(LIBRARY_DIR, subfolder)),
-        "path": get_file_paths_in_directory(os.path.join(LIBRARY_DIR, subfolder)),
-    },
-    "assistants": {
-        "name": get_file_names_in_directory(os.path.join(PROMPTS_DIR, subfolder)),
-        "path": get_file_paths_in_directory(os.path.join(PROMPTS_DIR, subfolder)),
-    },
-    "images": {
-        "name": get_file_names_in_directory(os.path.join(IMAGES_DIR, subfolder)),
-        "path": get_file_paths_in_directory(os.path.join(IMAGES_DIR, subfolder)),
-    },
-    "videos": {
-        "name": get_file_names_in_directory(os.path.join(VIDEOS_DIR, subfolder)),
-        "path": get_file_paths_in_directory(os.path.join(VIDEOS_DIR, subfolder)),
-    }}
+    available_files = {
+        "sources": {
+            "name": get_file_names_in_directory(os.path.join(LIBRARY_DIR, subfolder)),
+            "path": get_file_paths_in_directory(os.path.join(LIBRARY_DIR, subfolder)),
+        },
+        "assistants": {
+            "name": get_file_names_in_directory(os.path.join(PROMPTS_DIR, subfolder)),
+            "path": get_file_paths_in_directory(os.path.join(PROMPTS_DIR, subfolder)),
+        },
+        "images": {
+            "name": get_file_names_in_directory(os.path.join(IMAGES_DIR, subfolder)),
+            "path": get_file_paths_in_directory(os.path.join(IMAGES_DIR, subfolder)),
+        },
+        "videos": {
+            "name": get_file_names_in_directory(os.path.join(VIDEOS_DIR, subfolder)),
+            "path": get_file_paths_in_directory(os.path.join(VIDEOS_DIR, subfolder)),
+        },
+    }
 
     return available_files
 
@@ -120,16 +122,20 @@ def process_and_organize_commands_and_arguments(
     harvested_syntax["knowledge_extensions"], harvested_syntax["referral"] = (
         get_knowledge_requests(commands, arguments, available_files)
     )
-    harvested_syntax["sources"] = get_assistant_citations(commands, arguments)
-    harvested_syntax["images"] = get_image_requests(commands, arguments, available_files)
-    harvested_syntax["videos"] = get_video_requests(commands, arguments, available_files)
+    harvested_syntax["citations"] = get_assistant_citations(commands, arguments)
+    harvested_syntax["images"] = get_image_requests(
+        commands, arguments, available_files
+    )
+    harvested_syntax["videos"] = get_video_requests(
+        commands, arguments, available_files
+    )
     return harvested_syntax
 
 
 def get_knowledge_requests(
     commands: list, arguments: list, available_files: dict
 ) -> List[Dict]:
-    """Checks commands for requests to build knowledge or refer to new assistant. 
+    """Checks commands for requests to build knowledge or refer to new assistant.
     If these commands are found, gets the associated information."""
     knowledge_extensions = []
     referral = []
@@ -145,7 +151,7 @@ def get_knowledge_requests(
                         "name": name,
                         "content": None,
                         "type": "referral",
-                        "file_exists": True
+                        "file_exists": True,
                     }
                 elif name in available_files["sources"]["name"]:
                     # Knowledge insertion requested
@@ -174,12 +180,16 @@ def get_knowledge_requests(
     return knowledge_extensions, referral
 
 
-def get_assistant_citations(commands: list, arguments: list) -> list[str]:
+def get_assistant_citations(
+    commands: list,
+    arguments: list,
+) -> list[str]:
     """Get citations for sources in the bot response. Example output ["source_a",
     "source_b"]."""
     citations = []
     for command, argument in zip(commands, arguments):
         if command == "cite":
+            citations = argument
             if argument is None:
                 LOGGER.info("Empty citation argument.")
             else:
@@ -187,6 +197,7 @@ def get_assistant_citations(commands: list, arguments: list) -> list[str]:
                     citations = ast.literal_eval(argument)
                 except (SyntaxError, ValueError):
                     LOGGER.info("Could not evaluate as literal: %s", argument)
+
     return citations
 
 
@@ -235,37 +246,9 @@ def get_video_requests(commands, arguments, available_files) -> list[dict]:
     return videos
 
 
-def generate_warning_messages(harvested_syntax) -> list[str]:
-    """Checks whether the requested files exists. For each non-existant files that has
-    been requested, it creates a corresponding warning message (to be inserted into chat
-    by `system`).
-    """
-    warning_messages = []
-
-    for insertion in harvested_syntax["knowledge_extensions"]:
-        if insertion["file_exists"] == False:
-            warning_messages.append(
-                f"`{insertion['name']}` does not exist! Request only sources and assistants I have referenced."
-            )
-
-    for image in harvested_syntax["images"]:
-        if image["file_exists"] == False:
-            warning_messages.append(
-                f"Image `{image['name']}` does not exist! Request only images I have referenced."
-            )
-
-    for video in harvested_syntax["videos"]:
-        if video["file_exists"] == False:
-            warning_messages.append(
-                f"Video `{video['name']}` does not exist! Request only videos I have referenced."
-            )
-
-    return warning_messages
-
-
 def standardize_name(name: str):
-    """Standardized the filename that has been extracted from 
-    ¤:command(name_of_file):¤ by removing extra strings and adding extension if desired"""
+    """Standardized the filename that has been extracted from
+    ¤:command(name_of_file):¤ by removing extra strings and backticks."""
     name_standardized = remove_quotes_and_backticks(name)
     name_standardized = remove_extension(name)
     return name_standardized

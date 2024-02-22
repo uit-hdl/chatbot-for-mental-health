@@ -154,6 +154,12 @@ def file_exists(file_path):
     return os.path.isfile(get_full_path(file_path))
 
 
+def get_sources_available_to_chatbot(chatbot_id: str) -> list[str]:
+    """Gets a list of sources that the specified chatbot can request."""
+    chatbot_subfolder = get_subfolder_of_assistant(chatbot_id)
+    return get_file_names_in_directory(os.path.join(LIBRARY_DIR, chatbot_subfolder))
+
+
 def get_source_content_and_path(chatbot_id: str, source_name: str) -> Tuple[str, str]:
     """Finds the content and path of a source. The filename of the prompt is used to find
     the subfolder that the source is expected to be located in."""

@@ -11,4 +11,7 @@ dollars_per_1k_input_token: 0.03
 dollars_per_1k_output_token: 0.06
 kr_to_dollar_ratio: 0.096  # rate of kr to dollars
 max_tokens_per_message: 250  # Limit in prompt + margin
+max_tokens_hard_upper_limit: 270  # This is an argument in ChatCompletion.create() used to
+# estimate token consumption rate and truncate messages. Set abit higher to avoid truncation due to
+# differences in how N-tokens is counted
 warning_limit_tokens_per_message: 150

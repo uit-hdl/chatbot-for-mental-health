@@ -33,6 +33,11 @@ def list_intersection(list_1, list_2) -> list:
     return list(set(list_1).intersection(set(list_2)))
 
 
+def list_subtraction(list_1, list_2) -> list:
+    """Removes the elements in list 2 that are not in list 1."""
+    return list(set(list_1).difference(set(list_2)))
+
+
 def remove_syntax_from_message(message_content: str):
     """Removes code syntax which is intended for backend purposes only."""
     message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message_content, flags=re.DOTALL)

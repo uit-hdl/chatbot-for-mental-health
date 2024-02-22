@@ -8,7 +8,7 @@ from console_chat import initiate_conversation_with_prompt
 from console_chat import remove_inactive_sources
 from console_chat import generate_processed_bot_response
 from console_chat import grab_last_assistant_response
-from console_chat import overseer_check_of_source_fidelity
+from console_chat import overseer_evaluates_source_fidelity
 from console_chat import dump_current_conversation_to_json
 from console_chat import direct_to_new_assistant
 from console_chat import truncate_if_too_long
@@ -37,7 +37,7 @@ def respond(user_message, surface_chat):
     DEEP_CHAT.append({"role": "user", "content": user_message})
     DEEP_CHAT, harvested_syntax = generate_processed_bot_response(DEEP_CHAT, chatbot_id)
     raw_response = grab_last_assistant_response(DEEP_CHAT)
-    DEEP_CHAT = overseer_check_of_source_fidelity(
+    DEEP_CHAT = overseer_evaluates_source_fidelity(
         DEEP_CHAT, harvested_syntax, chatbot_id
     )
     surface_response = remove_syntax_from_message(raw_response)

@@ -1,6 +1,6 @@
-"""Function for working with the conversation list object and chatbot. 
-conversation is a list of dictionaries, each of which have keys 'role' and 'content' (the message)
-such as identifying responses of a specified role."""
+"""Functions for making it convenient to interact with the conversation list object and
+chatbot. conversation is a list of dictionaries, each of which have keys 'role' and
+'content' (the message) such as identifying responses of a specified role."""
 
 import openai
 
@@ -18,29 +18,6 @@ openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
 openai.api_base = CONFIG["api_base"]
 openai.api_version = CONFIG["api_version"]
-
-
-def check_length_of_chatbot_response(conversation):
-    """Appends system warning to chat if message is long."""
-    bot_response = grab_last_assistant_response(conversation)
-    response_length = count_tokens_in_message(bot_response, MODEL_ID)
-    warning_message = []
-    status = "OK"
-    if response_length >= SETTINGS["max_tokens_per_message"]:
-        silent_print("Response exceeds lenght...")
-        warning_message = {
-            "role": "system",
-            "content": "Your response was too long, try again!",
-        }
-        status = "REDO"
-    if response_length > SETTINGS["warning_limit_tokens_per_message"]:
-        silent_print(f"Response has length {response_length} tokens...")
-        warning_message = {
-            "role": "system",
-            "content": f"Your response was {response_length} tokens long; keep it simple!",
-        }
-        status = "WARNING"
-    return warning_message, status
 
 
 def generate_and_add_raw_bot_response(conversation, config: dict):
@@ -83,9 +60,23 @@ def grab_last_assistant_response(conversation: list) -> str:
     return conversation[index_assistant_messages[-1]]["content"]
 
 
+def grab_last_user_message(conversation: list) -> str:
+    """Grab the latest message from user."""
+    index_user_messages = identify_user_messages(conversation)
+    if index_user_messages:
+        return conversation[index_user_messages[-1]]["content"]
+    else:
+        return None
+
+
 def identify_assistant_responses(conversation) -> list[int]:
     """Gets the index/indices for `assistant` responses."""
     return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
+
+
+def identify_user_messages(conversation) -> list[int]:
+    """Gets the index/indices for `assistant` responses."""
+    return [i for i, d in enumerate(conversation) if d.get("role") == "user"]
 
 
 def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> list:

@@ -1,6 +1,5 @@
 import sys
 import re
-import json
 
 from utils.general import silent_print
 from utils.general import offer_to_store_conversation
@@ -14,13 +13,13 @@ from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
 from utils.managing_sources import extract_sources_inserted_by_system
 from utils.chat_utilities import rewind_chat_by_n_assistant_responses
-from utils.chat_utilities import append_system_messages
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
-from utils.chat_utilities import check_length_of_chatbot_response
-from utils.overseers import overseer_check_of_source_fidelity
+from utils.filters import perform_quality_check
+from utils.overseers import overseer_evaluates_source_fidelity
+from utils.overseers import overseer_evaluates_non_factual_messages
 from utils.console_chat_display import display_last_response
 from utils.console_chat_display import display_last_assistant_response
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
@@ -61,8 +60,11 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         display_images(harvested_syntax["images"])
         play_videos(harvested_syntax["videos"])
 
-        conversation = overseer_check_of_source_fidelity(
+        conversation = overseer_evaluates_source_fidelity(
             conversation, harvested_syntax, chatbot_id
+        )
+        conversation = overseer_evaluates_non_factual_messages(
+            conversation, harvested_syntax
         )
         dump_current_conversation_to_json(conversation)
 
@@ -142,18 +144,18 @@ def generate_valid_response(conversation, chatbot_id):
         (
             conversation,
             harvested_syntax,
-            quality_check,
+            flag,
         ) = generate_bot_response_and_check_quality(conversation, chatbot_id)
 
-        if quality_check == "failed":
+        if flag == "NOT ACCEPTED":
             conversation = delete_last_bot_response(conversation)
             silent_print(
                 "Bot failed quality check, regenerating response (check log for details)."
             )
-        elif quality_check == "passed":
+        elif flag == "ACCEPTED":
             break
 
-    if quality_check == "failed":
+    if flag == "NOT ACCEPTED":
         (
             conversation,
             harvested_syntax,
@@ -172,30 +174,15 @@ def generate_bot_response_and_check_quality(conversation, chatbot_id):
     to inform that the bot should generate a new response."""
     conversation = generate_and_add_raw_bot_response(conversation, CONFIG)
     conversation = correct_erroneous_show_image_command(conversation)
-    (
-        harvested_syntax,
-        failure_messages,
-    ) = process_syntax_of_bot_response(conversation, chatbot_id)
-    length_warning, length_status = check_length_of_chatbot_response(conversation)
+    harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
 
-    if length_status == "REDO":
-        failure_messages += length_warning
-    if length_status == "WARNING":
-        conversation.append(length_warning)
+    flag = perform_quality_check(conversation, harvested_syntax, chatbot_id)
 
-    if failure_messages:
-        conversation = append_system_messages(conversation, failure_messages)
-        LOGGER.info(failure_messages)
-        LOGGER.info("Harvested syntax: %s", json.dumps(harvested_syntax, indent=2))
-        quality_check = "failed"
-    else:
-        quality_check = "passed"
-
-    return conversation, harvested_syntax, quality_check
+    return conversation, harvested_syntax, flag
 
 
 def correct_erroneous_show_image_command(conversation) -> list:
-    """Sometimes the bot uses (show: image_name.png), which is really just a reference to
+    """Sometimes the bot uses `show: image_name.png`, which is really just a reference to
     the command ¤:display_image(image_name):¤ that is used as a shorthand in the prompt.
     If such an error is identified, converts it to a proper syntax, and appends a system
     warning.

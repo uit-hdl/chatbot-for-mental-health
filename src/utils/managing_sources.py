@@ -41,7 +41,7 @@ def extract_sources_inserted_by_system(conversation):
         if message["role"] == "system"
     ]
     sources = [
-        extract_source_name(message)
+        extract_source_name_from_system_message(message)
         for message in system_messages
         if message.startswith("source")
     ]
@@ -50,7 +50,7 @@ def extract_sources_inserted_by_system(conversation):
     return sources
 
 
-def extract_source_name(message: str):
+def extract_source_name_from_system_message(message: str):
     """Takes a message/response and scans for the name of the source being used,
     if there are any."""
     pattern = r"source (\w+):"
@@ -103,7 +103,7 @@ def remove_inactive_sources_from_system_messages(
         if message_index == 0:
             continue
         if message["role"] == "system":
-            source_name = extract_source_name(message["content"])
+            source_name = extract_source_name_from_system_message(message["content"])
             if source_name in inactive_sources:
                 conversation[message_index][
                     "content"

@@ -4,14 +4,6 @@
         "role": "system"
     },
     {
-        "content": "Inactive source removed due to not being actively cited.",
-        "role": "system"
-    },
-    {
-        "content": "\u00a4:cite([\"will_i_get_better\"]):\u00a4 Many people see improvement over time. (1.1) About 1 in 5 may recover fully in 5 years. Around 3 in 5 get better but might still have symptoms sometimes. About 1 in 5 may continue to find symptoms troublesome. Recovery often means managing symptoms and having support. \u00a4:display_image(statistics_on_who_gets_better.png):\u00a4 Would you like to know more about treatment and support?",
-        "role": "assistant"
-    },
-    {
         "content": "Citations ['will_i_get_better'] are not valid!",
         "role": "system"
     },
