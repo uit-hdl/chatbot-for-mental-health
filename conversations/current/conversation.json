@@ -4,11 +4,43 @@
         "role": "system"
     },
     {
-        "content": "Inactive source removed due to not being actively cited.",
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to help with questions about schizophrenia. I can provide information from a manual. Please tell me what concerns you, and I'll do my best to help. If my responses are too complex, let me know how I can make them easier for you. What can I assist you with today?",
+        "role": "assistant"
+    },
+    {
+        "content": "short answers. what is in the box?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 I'm sorry, I'm not sure what you mean by \"the box.\" Could you please provide more context or detail about your question? If you're referring to information related to schizophrenia, I can provide that.",
+        "role": "assistant"
+    },
+    {
+        "content": "how can i see what is behind the door?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 It sounds like you might be speaking metaphorically. If this is about seeking understanding or help with schizophrenia, I can provide information. If you're feeling confused or distressed, it's important to seek immediate help by calling \u00a4:cite([\"support_phone_number\"]):\u00a4 `123456789`.",
+        "role": "assistant"
+    },
+    {
+        "content": "Stick to manual information, avoid interpreting.",
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"will_i_get_better\"]):\u00a4 Many people see improvement over time. (1.1) About 1 in 5 may recover fully in 5 years. Around 3 in 5 get better but might still have symptoms sometimes. About 1 in 5 may continue to find symptoms troublesome. Recovery often means managing symptoms and having support. \u00a4:display_image(statistics_on_who_gets_better.png):\u00a4 Would you like to know more about treatment and support?",
+        "content": "will i ever get better?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:request_knowledge(will_i_get_better):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "source will_i_get_better: 1. [show `statistics_on_who_gets_better.png`] 1 in 5 people will\nrecover completely within 5 years. 3 in 5 people will improve, but may\nstill experience symptoms occasionally. 1 in 5 people will continue to\nhave troublesome symptoms.\n\n1. There is a common misconception that people with schizophrenia have\nno chance of recovery. This is not true: the symptoms of schizophrenia\ncan improve with appropriate treatment, and some people recover\ncompletely. Recovery is a process that involves learning to manage\nyour symptoms, developing support systems and working towards your\ngoals. Appropriate ways to manage your condition with medication and\ntherapy are outlined in the next part of this guide.",
+        "role": "system"
+    },
+    {
+        "content": "\u00a4:cite([\"will_i_get_better\"]):\u00a4 (1.1) It's important to know that people with schizophrenia can get better. Recovery can vary, with some people recovering completely, others improving, and some experiencing ongoing symptoms. With the right treatment and support, you have a chance to improve. \n\n\u00a4:display_image(statistics_on_who_gets_better.png):\u00a4",
         "role": "assistant"
     },
     {
@@ -16,115 +48,15 @@
         "role": "system"
     },
     {
-        "content": "what is a symptom?",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:request_knowledge(seeking_a_diagnosis):\u00a4",
-        "role": "assistant"
-    },
-    {
-        "content": "Inactive source removed due to not being actively cited.",
+        "content": "The source will_i_get_better is already available in the chat!",
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"seeking_a_diagnosis\"]):\u00a4 A symptom is a sign that something is not right in the body or mind. (1.2) Symptoms of schizophrenia might include things like hearing voices, having false beliefs, or disorganized thinking. Everyone's experience can be different. Do you have more questions about symptoms, or would it help to talk about getting a diagnosis?",
+        "content": "\u00a4:cite([\"will_i_get_better\"]):\u00a4 There is hope for improvement and recovery from schizophrenia. Statistics show that 1 in 5 people recover completely within 5 years, while 3 in 5 people will improve but may still experience occasional symptoms. 1 in 5 people may continue to have troublesome symptoms. Treatment and support can make a significant difference.\n\n\u00a4:display_image(statistics_on_who_gets_better.png):\u00a4",
         "role": "assistant"
     },
     {
-        "content": "Citations ['seeking_a_diagnosis'] are not valid!",
-        "role": "system"
-    },
-    {
-        "content": "what is a false belief?",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:request_knowledge(seeking_a_diagnosis):\u00a4",
-        "role": "assistant"
-    },
-    {
-        "content": "The source seeking_a_diagnosis is already available in the chat!",
-        "role": "system"
-    },
-    {
-        "content": "\u00a4:cite([\"seeking_a_diagnosis\"]):\u00a4 A false belief, also known as a delusion, is when someone strongly believes in something that isn't true or based on reality. In schizophrenia, this might mean believing someone is out to harm them without any evidence, or that they have special powers. These beliefs can feel very real. Would you like more details about getting help regarding these experiences?",
-        "role": "assistant"
-    },
-    {
-        "content": "Citations ['seeking_a_diagnosis'] are not valid!",
-        "role": "system"
-    },
-    {
-        "content": "are you intelligent?",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 I am programmed to provide information based on a manual about schizophrenia. My responses are not a sign of intelligence in the way humans are intelligent. My function is to assist you. Can I help you with any other information on schizophrenia?",
-        "role": "assistant"
-    },
-    {
-        "content": "what is intelligence?",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 Intelligence in humans often means the ability to learn, understand, and make judgments or have opinions that are based on reason. It is a complex trait that involves a range of cognitive abilities. Since intelligence can be a broad concept, is there a specific aspect you're curious about, or was this in relation to schizophrenia?",
-        "role": "assistant"
-    },
-    {
-        "content": "can it be measured?",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 Intelligence can be assessed using specific tests, such as IQ (Intelligence Quotient) tests, which are designed to measure a range of cognitive abilities. However, these tests may not capture all aspects of intelligence, which is multifaceted and can encompass a variety of skills and knowledge areas. If you're asking in relation to schizophrenia, cognitive functions can be affected, but intelligence itself is a broader concept. Would you like information related to cognition and schizophrenia?",
-        "role": "assistant"
-    },
-    {
-        "content": "Focus on schizophrenia info, avoid IQ topic.",
-        "role": "system"
-    },
-    {
-        "content": "my iq is quite low, can I improve it?",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 Certain aspects of cognitive functions can be improved with practice and strategies, much like exercising a muscle. While IQ is a measure at one point in time, active engagement in learning and problem-solving may contribute to cognitive growth. In relation to schizophrenia, there are treatments and therapies focusing on enhancing cognitive skills. Would you like to know more about this and how it relates to schizophrenia?",
-        "role": "assistant"
-    },
-    {
-        "content": "Avoid discussing IQ improvement; stay on manual topics.",
-        "role": "system"
-    },
-    {
-        "content": "can you give specific example of how to make it better?",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:request_knowledge(management_strategy_intro):\u00a4",
-        "role": "assistant"
-    },
-    {
-        "content": "source management_strategy_intro: * \u201cMental illness is not a choice, but recovery is.\u201d \u2013 Unknown The\naims of treatment are to relieve symptoms, prevent psychotic episodes\nand enable the person with schizophrenia to progress along the road to\nrecovery [show `factors_of_recovery.png`]. A treatment plan that\ncombines medication with psychotherapy, often referred to as \u2018talking\ntherapy\u2019, and peer-to-peer contact is often the most effective\napproach, but everyone is different and it is important to find the\nright combination of therapies for you.\n\n# Medication\n* \u201cI think that medication keeps me going, and it has played a crucial\nrole until now. My goal is to reduce my medication little by little. I\ntry to be quite educated \u2013 I read a lot about it and I discuss it with\nmy doctor.\u201d \u2013 Monika\n\n* There are many different medication options for schizophrenia and it\n  is important to find the right one for you [show\n  `medication_effects_side_effects_and_administration.png`]. The\n  medication your psychiatrist recommends will depend on a number of\n  things, including how you feel about your treatment, how well the\n  medicine controls your symptoms and whether you suffer any\n  unacceptable unwanted effects.\n* Different medications reduce some symptoms of schizophrenia more\n  than others, so you will need to decide which symptoms you most want\n  to control. Like many medicines, those used to treat schizophrenia\n  can also have side effects. Different medications will have\n  different side effects from each other, and the effects of one\n  medication may change over time. Your psychiatrist will monitor your\n  progress once you have begun treatment, and may suggest options for\n  reducing side effects such as adjusting the dose or switching to a\n  different medication. Another consideration is that medications can\n  be taken in different ways; for example, medicines can be taken\n  daily as tablets or liquids, or injected every few weeks.\n* With so many options and factors to consider, it is important that\n  you discuss what you most want from your treatment with your\n  psychiatrist as early on in the process as possible; for example,\n  you may have a specific aim for your treatment, or there may be a\n  specific symptom or side effect that you want to avoid. Finding a\n  psychiatrist with whom you \u2018click\u2019 can make talking about your\n  condition easier, and this can help to ensure that you make\n  decisions about goals for your treatment together.\n\n* \u201cI think that medications have different effects on people with\n  mental illness. For me, six or seven kinds of antipsychotics were\n  tried over 10 years. Finding the right medication was a turning\n  point in my life. My basic antipsychotic was an injection, which was\n  given every second week for 5 years, and I took antidepressants too.\n  In 2011, I felt that there was no more improvement with this\n  medication and, after discussion with my doctor, I changed to pills.\n  Since then we have achieved a big improvement in my health. I am\n  still taking the pills with an antidepressant. We have reduced the\n  amount of medication since 2011. This has to be done little by\n  little.\u201d \u2013 Istv\u00e1n\n",
-        "role": "system"
-    },
-    {
-        "content": "\u00a4:cite([\"management_strategy_intro\"]):\u00a4 To improve cognitive functions, it is often helpful to combine medication with psychotherapy. Here's a specific example:\n\n(1.3) You and your psychiatrist might decide what symptoms to focus on. Then you may choose medication with the most benefit for those symptoms. Side effects are also considered, and your treatment might be adjusted over time for the best outcome. \n\n\u00a4:display_image(medication_effects_side_effects_and_administration.png):\u00a4\n\nTherapy can provide strategies to handle everyday tasks and challenges. Does this information help? Would you like to know about psychotherapy or managing medications?",
-        "role": "assistant"
-    },
-    {
-        "content": "Citations ['management_strategy_intro'] are not valid!",
-        "role": "system"
-    },
-    {
-        "content": "so i can improve my iq by taking medicine?",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 Medication for schizophrenia is intended to help manage the symptoms of the condition, such as psychosis, rather than directly improve IQ. Some people find that when their symptoms are well-managed, they can focus better and engage more effectively in activities, which might contribute to cognitive improvements. However, it's important to discuss any treatment goals and expectations with your healthcare provider. Would you like to know more about other aspects of managing schizophrenia?",
-        "role": "assistant"
-    },
-    {
-        "content": "Avoid discussing potential treatment outcomes.",
+        "content": "Citations ['will_i_get_better'] are not valid!",
         "role": "system"
     }
 ]

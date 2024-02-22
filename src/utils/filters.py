@@ -116,3 +116,22 @@ def citation_check(harvested_syntax: dict, chatbot_id: str) -> list:
             warning_messages = [f"All your messages must start with a citation!"]
 
     return warning_messages
+
+
+def correct_erroneous_show_image_command(conversation) -> list:
+    """Sometimes the bot uses `show: image_name.png`, which is really just a reference to
+    the command ¤:display_image(image_name):¤ that is used as a shorthand in the prompt.
+    If such an error is identified, converts it to a proper syntax, and appends a system
+    warning.
+    """
+    message = grab_last_assistant_response(conversation)
+    pattern = r"[`'\"]show:\s*([^`'\"]+\.png)[`'\"]"
+    matches = re.findall(pattern, message, flags=re.IGNORECASE)
+
+    if matches:
+        corrected_message = re.sub(pattern, r"¤:display_image(\1):¤", message)
+        system_message = "Warning: expressions of the form (show: image.png) have been corrected to ¤:display_image(image.png):¤"
+        conversation[-1]["content"] = corrected_message
+        conversation.append({"role": "system", "content": system_message})
+
+    return conversation

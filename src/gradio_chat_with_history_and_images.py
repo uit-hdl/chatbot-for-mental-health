@@ -6,7 +6,7 @@ import time
 from console_chat import PROMPTS
 from console_chat import initiate_conversation_with_prompt
 from console_chat import remove_inactive_sources
-from console_chat import generate_processed_bot_response
+from console_chat import respond_to_user
 from console_chat import grab_last_assistant_response
 from console_chat import overseer_evaluates_source_fidelity
 from console_chat import dump_current_conversation_to_json
@@ -35,7 +35,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
 def respond(user_message, surface_chat):
     global DEEP_CHAT
     DEEP_CHAT.append({"role": "user", "content": user_message})
-    DEEP_CHAT, harvested_syntax = generate_processed_bot_response(DEEP_CHAT, chatbot_id)
+    DEEP_CHAT, harvested_syntax = respond_to_user(DEEP_CHAT, chatbot_id)
     raw_response = grab_last_assistant_response(DEEP_CHAT)
     DEEP_CHAT = overseer_evaluates_source_fidelity(
         DEEP_CHAT, harvested_syntax, chatbot_id

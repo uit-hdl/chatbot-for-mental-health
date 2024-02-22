@@ -72,10 +72,10 @@ such as `stigma` or `app_support`.
     - what schizophrenia is and is not
   - `stigma`:
     - misconceptions
-    - helps to understand and handle misconceptions
+    - helps to understand and handle misconceptions and the turmoil they produce
     - understanding the illness
     - effect on patient and family
-    - About the name of the illness and why it matters
+    - History of the name of the illness
   - `who_gets_schizophrenia`:
     - prevalence
     - examples of famous people

@@ -4,22 +4,18 @@ import re
 from utils.general import silent_print
 from utils.general import offer_to_store_conversation
 from utils.backend import PROMPTS
-from utils.backend import SETTINGS
+
 from utils.backend import LOGGER
 from utils.backend import CONFIG
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
-from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import remove_inactive_sources
-from utils.managing_sources import extract_sources_inserted_by_system
 from utils.chat_utilities import rewind_chat_by_n_assistant_responses
-from utils.chat_utilities import delete_last_bot_response
-from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
-from utils.filters import perform_quality_check
 from utils.overseers import overseer_evaluates_source_fidelity
 from utils.overseers import overseer_evaluates_non_factual_messages
+from utils.create_chatbot_response import respond_to_user
 from utils.console_chat_display import display_last_response
 from utils.console_chat_display import display_last_assistant_response
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
@@ -52,7 +48,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             offer_to_store_conversation(conversation)
             break
 
-        conversation, harvested_syntax = generate_processed_bot_response(
+        conversation, harvested_syntax = respond_to_user(
             conversation, chatbot_id
         )
 
@@ -117,130 +113,6 @@ def get_user_input(conversation) -> list:
                 BREAK_CONVERSATION = True
             break
     conversation.append({"role": "user", "content": user_message})
-    return conversation
-
-
-def generate_processed_bot_response(conversation, chatbot_id) -> list:
-    """Generates and interprets a message from the assistant. The response is generated
-    iteratively since the bot may first have to request sources and then react to those
-    sources, and also the message has to pass quality checks (primarily checking existance
-    of requested files).
-    """
-    (
-        conversation,
-        harvested_syntax,
-    ) = generate_valid_response(conversation, chatbot_id)
-
-    conversation, harvested_syntax = collect_sources_until_satisfied(
-        conversation, harvested_syntax, chatbot_id
-    )
-    return conversation, harvested_syntax
-
-
-def generate_valid_response(conversation, chatbot_id):
-    """Generates responses iteratively untill the response passes quality check based
-    criteria such as whether or not the requested files exist."""
-    for attempt in range(SETTINGS["n_attempts_at_producing_valid_response"]):
-        (
-            conversation,
-            harvested_syntax,
-            flag,
-        ) = generate_bot_response_and_check_quality(conversation, chatbot_id)
-
-        if flag == "NOT ACCEPTED":
-            conversation = delete_last_bot_response(conversation)
-            silent_print(
-                "Bot failed quality check, regenerating response (check log for details)."
-            )
-        elif flag == "ACCEPTED":
-            break
-
-    if flag == "NOT ACCEPTED":
-        (
-            conversation,
-            harvested_syntax,
-            _,
-        ) = generate_bot_response_and_check_quality(conversation, chatbot_id)
-        LOGGER.info("Ran out of attempts to pass quality check.")
-
-    return conversation, harvested_syntax
-
-
-def generate_bot_response_and_check_quality(conversation, chatbot_id):
-    """Generates a bot message, corrects common bot errors where they can be easily
-    corrected, extracts commands from the raw message, and checks if the files requested
-    by the commands actually exists. If they do not exist, then system messages are added
-    to the chat to inform the bot of its errors, and quality_check is set to "failed" so
-    to inform that the bot should generate a new response."""
-    conversation = generate_and_add_raw_bot_response(conversation, CONFIG)
-    conversation = correct_erroneous_show_image_command(conversation)
-    harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
-
-    flag = perform_quality_check(conversation, harvested_syntax, chatbot_id)
-
-    return conversation, harvested_syntax, flag
-
-
-def correct_erroneous_show_image_command(conversation) -> list:
-    """Sometimes the bot uses `show: image_name.png`, which is really just a reference to
-    the command ¤:display_image(image_name):¤ that is used as a shorthand in the prompt.
-    If such an error is identified, converts it to a proper syntax, and appends a system
-    warning.
-    """
-    message = grab_last_assistant_response(conversation)
-    pattern = r"[`'\"]show:\s*([^`'\"]+\.png)[`'\"]"
-    matches = re.findall(pattern, message, flags=re.IGNORECASE)
-
-    if matches:
-        corrected_message = re.sub(pattern, r"¤:display_image(\1):¤", message)
-        system_message = "Warning: expressions of the form (show: image.png) have been corrected to ¤:display_image(image.png):¤"
-        conversation[-1]["content"] = corrected_message
-        conversation.append({"role": "system", "content": system_message})
-
-    return conversation
-
-
-def collect_sources_until_satisfied(conversation, harvested_syntax, chatbot_id):
-    """Assistant can iteratively request sources untill it is satisfied. Sources are
-    inserted into the conversation by system."""
-    counter = 0
-    while (
-        harvested_syntax["knowledge_extensions"] and counter < SETTINGS["max_requests"]
-    ):
-        conversation = insert_knowledge(
-            conversation, harvested_syntax["knowledge_extensions"]
-        )
-        (
-            conversation,
-            harvested_syntax,
-        ) = generate_valid_response(conversation, chatbot_id)
-        counter += 1
-    return conversation, harvested_syntax
-
-
-def insert_knowledge(conversation, knowledge_extensions: list[str]):
-    """Checks for request to insert knowledge, and inserts knowledge into the
-    conversation. First checks if there sources are already in the chat."""
-    inserted_sources = extract_sources_inserted_by_system(conversation)
-
-    for source in knowledge_extensions:
-        source_name = source["name"]
-        if source["content"] is not None:
-            # Check if source is in chat already
-            if source["name"] in inserted_sources:
-                message = (
-                    f"The source {source['name']} is already available in the chat!"
-                )
-                LOGGER.info(message)
-            else:
-                # Put source content in system message
-                message = f"source {source_name}: {source['content']}"
-                LOGGER.info("Source %s inserted in conversation.", source["name"])
-                if SETTINGS["print_knowledge_requests"]:
-                    silent_print(f"Source {source_name} inserted in conversation.")
-
-        conversation.append({"role": "system", "content": message})
-
     return conversation
 
 
