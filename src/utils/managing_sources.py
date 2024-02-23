@@ -1,5 +1,6 @@
 """Functions responsible for keeping down the length of the conversation by 
 removing sources that are not being actively cited/used."""
+
 import numpy as np
 import re
 
@@ -12,7 +13,7 @@ def remove_inactive_sources(conversation) -> list:
     """Scans the conversation for sources that have not been used recently
     (inactive sources) and removes them from the conversation (updates system messages).
     """
-    inserted_sources = extract_sources_inserted_by_system(conversation)
+    inserted_sources = get_currently_inserted_sources(conversation)
 
     if inserted_sources:
         inactivity_times = get_inactivity_times_for_sources(
@@ -31,7 +32,7 @@ def remove_inactive_sources(conversation) -> list:
     return conversation
 
 
-def extract_sources_inserted_by_system(conversation):
+def get_currently_inserted_sources(conversation):
     """Extracts name of sources cited and inserted into the chat by system in the
     form of system messages."""
     # Find system messages

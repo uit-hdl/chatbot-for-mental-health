@@ -23,10 +23,11 @@ from utils.general import silent_print
 
 # Citations that do not reference a source but serves to classify the bots response
 CLASSIFICATION_CITATIONS = [
-    "init_prompt",
+    "initial_prompt",
     "sources_dont_contain_answer",
     "no_advice_or_claims",
     "support_phone_number",
+    "the_architect",
 ]
 OVERSEER_SOURCE_FIDELITY = "overseer_source_fidelity"
 OVERSEER_MISC = "overseer_misc"
@@ -110,7 +111,10 @@ def update_conversation_based_on_overseer_evaluation(
 
 def overseer_response_is_valid(overseer_dict: dict):
     """Basic check of the dictionary extracted from the overseer response."""
-    if "evaluation" in overseer_dict.keys() and "message_to_bot" in overseer_dict.keys():
+    if (
+        "evaluation" in overseer_dict.keys()
+        and "message_to_bot" in overseer_dict.keys()
+    ):
         return True
     else:
         return False

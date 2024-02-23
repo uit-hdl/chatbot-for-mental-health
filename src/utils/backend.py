@@ -1,10 +1,11 @@
 import yaml
 import json
-import logging
 import os
 import pathlib
 import yaml
 from typing import Tuple
+
+from utils.logging import setup_logging
 
 # Directory paths
 ROOT_DIR = pathlib.Path(__file__).parents[2]
@@ -28,17 +29,16 @@ URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
 # File-dump paths
 LOGFILE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "chat.log")
+LOGFILE_REJECTED_RESPONSES_DUMP_PATH = os.path.join(
+    CHAT_INFO_DIR, "rejected_responses.log"
+)
 TRUNCATION_INFO_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "truncated_message.json")
 OVERSEER_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
 HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "harvested_syntax.json")
 
-logging.basicConfig(
-    filename=LOGFILE_DUMP_PATH,
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s (from %(module)s.%(funcName)s) \n%(message)s\n",
-    filemode="w",
+LOGGER, LOGGER_REJECTED_RESPONSES = setup_logging(
+    LOGFILE_DUMP_PATH, LOGFILE_REJECTED_RESPONSES_DUMP_PATH
 )
-LOGGER = logging.getLogger(__name__)
 
 
 def convert_json_string_to_dict(json_data: str) -> dict:

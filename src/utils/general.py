@@ -96,6 +96,8 @@ def remove_superflous_linebreaks(message):
 def remove_trailing_newlines(text):
     """Removes trailing newline characters (may emerge after stripping away commands from
     bot messages)."""
+    if len(text) == 1:
+        return ""
     while text[-1] == " " or text[-1] == "\n":
         if text[-1] == " ":
             text = text.rstrip(" ")

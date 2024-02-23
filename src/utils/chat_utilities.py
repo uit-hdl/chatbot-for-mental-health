@@ -6,13 +6,10 @@ import openai
 
 from utils.general import message_is_intended_for_user
 from utils.general import list_intersection
-from utils.consumption_of_tokens import count_tokens_in_message
-from utils.backend import MODEL_ID
 from utils.backend import SETTINGS
 from utils.backend import API_KEY
 from utils.backend import SETTINGS
 from utils.backend import CONFIG
-from utils.general import silent_print
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]

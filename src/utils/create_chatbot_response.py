@@ -2,12 +2,15 @@
 accordingly."""
 
 from utils.process_syntax import process_syntax_of_bot_response
-from utils.managing_sources import extract_sources_inserted_by_system
+from utils.managing_sources import get_currently_inserted_sources
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
+from utils.chat_utilities import grab_last_assistant_response
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
+from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import CONFIG
+from utils.backend import dump_to_json
 from utils.filters import perform_quality_check
 from utils.filters import correct_erroneous_show_image_command
 from utils.general import silent_print
@@ -48,6 +51,7 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
         flag = perform_quality_check(conversation, harvested_syntax, chatbot_id)
 
         if flag == "NOT ACCEPTED":
+            LOGGER_REJECTED_RESPONSES.info(grab_last_assistant_response(conversation))
             conversation = delete_last_bot_response(conversation)
             silent_print("Failed quality check, retrying (check log for details)")
         elif flag == "ACCEPTED":
@@ -79,7 +83,7 @@ def create_tentative_bot_response(conversation, chatbot_id):
 def insert_knowledge(conversation, knowledge_extensions: list[str]):
     """Checks for request to insert knowledge, and inserts knowledge into the
     conversation. First checks if there sources are already in the chat."""
-    inserted_sources = extract_sources_inserted_by_system(conversation)
+    inserted_sources = get_currently_inserted_sources(conversation)
 
     for source in knowledge_extensions:
         source_name = source["name"]
