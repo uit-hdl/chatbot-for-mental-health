@@ -7,6 +7,7 @@ from typing import Tuple
 
 from utils.backend import get_source_content_and_path
 from utils.backend import dump_to_json
+from utils.backend import dump_current_conversation_to_json
 from utils.backend import convert_json_string_to_dict
 from utils.backend import OVERSEER_DUMP_PATH
 from utils.backend import PROMPTS
@@ -28,6 +29,7 @@ CLASSIFICATION_CITATIONS = [
     "no_advice_or_claims",
     "support_phone_number",
     "the_architect",
+    "sources_dont_contain_answer",
 ]
 OVERSEER_SOURCE_FIDELITY = "overseer_source_fidelity"
 OVERSEER_MISC = "overseer_misc"
@@ -56,6 +58,8 @@ def overseer_evaluates_source_fidelity(
         conversation = update_conversation_based_on_overseer_evaluation(
             evaluation_dict, conversation
         )
+
+    dump_current_conversation_to_json(conversation)
 
     return conversation
 
@@ -179,5 +183,7 @@ def overseer_evaluates_non_factual_messages(conversation, harvested_syntax: dict
         conversation = update_conversation_based_on_overseer_evaluation(
             evaluation_dict, conversation
         )
+
+    dump_current_conversation_to_json(conversation)
 
     return conversation

@@ -82,6 +82,7 @@ def continue_previous_conversation(chat_filepath: str, chatbot_id: str) -> list:
     # Replace original prompt with requested prompt
     conversation[0] = {"role": "system", "content": prompt}
     print_whole_conversation_with_backend_info(conversation)
+    dump_current_conversation_to_json(conversation)
     return conversation
 
 
@@ -92,6 +93,7 @@ def initiate_new_conversation(chatbot_id: str, system_message=None):
     )
     LOGGER.info("Starting new conversation with %s.", chatbot_id)
     conversation = generate_and_add_raw_bot_response(conversation, CONFIG)
+    dump_current_conversation_to_json(conversation)
     return conversation
 
 
@@ -113,6 +115,7 @@ def get_user_input(conversation) -> list:
                 BREAK_CONVERSATION = True
             break
     conversation.append({"role": "user", "content": user_message})
+    dump_current_conversation_to_json(conversation)
     return conversation
 
 

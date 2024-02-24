@@ -14,6 +14,7 @@ from utils.general import list_subtraction
 from utils.backend import MODEL_ID
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
+from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import get_sources_available_to_chatbot
 
 
@@ -32,10 +33,6 @@ def perform_quality_check(conversation, harvested_syntax: dict, chatbot_id: str)
 
     if FLAG == "NOT ACCEPTED":
         LOGGER.info(warnings)
-        LOGGER.info(
-            "Harvested syntax from failed message: %s",
-            json.dumps(harvested_syntax, indent=2),
-        )
 
     return FLAG
 

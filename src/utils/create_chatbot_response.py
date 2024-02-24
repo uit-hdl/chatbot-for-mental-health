@@ -10,7 +10,7 @@ from utils.backend import SETTINGS
 from utils.backend import LOGGER
 from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import CONFIG
-from utils.backend import dump_to_json
+from utils.backend import dump_current_conversation_to_json
 from utils.filters import perform_quality_check
 from utils.filters import correct_erroneous_show_image_command
 from utils.general import silent_print
@@ -36,6 +36,8 @@ def respond_to_user(conversation, chatbot_id: str) -> list:
             harvested_syntax,
         ) = generate_valid_chatbot_output(conversation, chatbot_id)
         counter += 1
+
+    dump_current_conversation_to_json(conversation)
 
     return conversation, harvested_syntax
 
