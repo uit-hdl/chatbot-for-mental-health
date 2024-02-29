@@ -23,7 +23,7 @@ from utils.general import list_subtraction
 from utils.general import silent_print
 
 # Citations that do not reference a source but serves to classify the bots response
-CLASSIFICATION_CITATIONS = [
+MESSAGE_CLASSIFICATIONS = [
     "initial_prompt",
     "sources_dont_contain_answer",
     "no_advice_or_claims",
@@ -45,7 +45,7 @@ def overseer_evaluates_source_fidelity(
     chatbot_message = grab_last_assistant_response(conversation)
     # Remove citatons that do not reference a source (only label the response)
     source_citations = list_subtraction(
-        harvested_syntax["citations"], CLASSIFICATION_CITATIONS
+        harvested_syntax["citations"], MESSAGE_CLASSIFICATIONS
     )
     if source_citations:
         overseer_input = generate_source_fidelity_overseer_input(
@@ -163,10 +163,10 @@ def overseer_evaluates_non_factual_messages(conversation, harvested_syntax: dict
     classification_citations = [
         source
         for source in harvested_syntax["citations"]
-        if source in CLASSIFICATION_CITATIONS
+        if source in MESSAGE_CLASSIFICATIONS
     ]
     classification_citations = list_intersection(
-        CLASSIFICATION_CITATIONS, harvested_syntax["citations"]
+        MESSAGE_CLASSIFICATIONS, harvested_syntax["citations"]
     )
 
     if classification_citations:

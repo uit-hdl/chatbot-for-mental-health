@@ -2,6 +2,7 @@ import logging
 
 LOGFILE_DUMP_PATH = "chat.log"
 DISCARDED_RESPONSES_LOGFILE = "discarded_responses.log"
+HARVESTED_SYNTAX = "discarded_responses.log"
 
 
 def setup_logging(logfile_dump_path, rejected_responses_dump_path):

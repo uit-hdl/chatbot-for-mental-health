@@ -3,13 +3,16 @@ chatbot. conversation is a list of dictionaries, each of which have keys 'role' 
 'content' (the message) such as identifying responses of a specified role."""
 
 import openai
+import backoff
 
+import copy
 from utils.general import message_is_intended_for_user
 from utils.general import list_intersection
 from utils.backend import SETTINGS
 from utils.backend import API_KEY
 from utils.backend import SETTINGS
 from utils.backend import CONFIG
+from utils.consumption_of_tokens import update_chats_total_consumption
 
 openai.api_key = API_KEY
 openai.api_type = CONFIG["api_type"]
@@ -17,9 +20,11 @@ openai.api_base = CONFIG["api_base"]
 openai.api_version = CONFIG["api_version"]
 
 
-def generate_and_add_raw_bot_response(conversation, config: dict):
+@backoff.on_exception(backoff.expo, openai.error.RateLimitError)
+def generate_and_add_raw_bot_response(conversation, config: dict, calc_tokens=True):
     """Takes the conversation log, and updates it with the response of the
     chatbot as a function of the chat history. Does not interpret bot response."""
+    conversation = copy.deepcopy(conversation)
     response = openai.ChatCompletion.create(
         model=config["model_id"],
         messages=conversation,
@@ -32,6 +37,8 @@ def generate_and_add_raw_bot_response(conversation, config: dict):
             "content": response.choices[0].message.content.strip(),
         }
     )
+    if calc_tokens:
+        update_chats_total_consumption(conversation)
     return conversation
 
 

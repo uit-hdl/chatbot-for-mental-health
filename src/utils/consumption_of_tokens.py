@@ -1,39 +1,47 @@
 """Functions (non-essential) used to calculate various metrics related to use of tokens. """
+
 import tiktoken
 
 from utils.backend import SETTINGS
 from utils.backend import MODEL_ID
+from utils.backend import TOKEN_USAGE_DUMP_PATH
+from utils.backend import load_json_from_path
+from utils.backend import dump_to_json
+
+
+def reset_chat_consumption():
+    """Resets the ackumulator file responsible for traking the resource consumption
+    (tokens and cost in kr) of a chat. This function is run at the start of a new
+    conversation."""
+    dump_to_json(
+        {"token_usage_total": 0, "chat_cost_kr_total": 0}, TOKEN_USAGE_DUMP_PATH
+    )
+
+
+def update_chats_total_consumption(conversation):
+    """Loads and updates the json file that tracks the cumulative cost of the
+    current chat in terms of tokens and money (NOK)."""
+    total_token_usage = load_json_from_path(TOKEN_USAGE_DUMP_PATH)
+    total_token_usage["token_usage_total"] += count_tokens_used_to_create_last_response(
+        conversation
+    )
+    total_token_usage[
+        "chat_cost_kr_total"
+    ] += calculate_cost_of_response(conversation)
+    dump_to_json(total_token_usage, TOKEN_USAGE_DUMP_PATH)
 
 
 def count_tokens_used_to_create_last_response(conversation) -> int:
     """Counts the number of tokens used to generate the last message in the conversation."""
     tokens_in = count_tokens_in_chat(conversation[:-1])
-    tokens_out = count_tokens_in_chat(conversation[-1])
+    tokens_out = count_tokens_in_chat(conversation[-1:])
     return tokens_in + tokens_out
 
 
-def calculate_cost_of_response(conversation):
-    """Calculates the cost of generating the last repsonse (which is assumed to be from
-    assistant)."""
-    tokens_in = count_tokens_in_chat(conversation[:-1])
-    tokens_out = count_tokens_in_chat(conversation[-1])
-    dollars_tokens_in = tokens_in * SETTINGS["dollars_per_1k_input_token"] / 1000
-    dollars_tokens_out = tokens_out * SETTINGS["dollars_per_1k_output_token"] / 1000
-    kroners_total = (dollars_tokens_in + dollars_tokens_out) * SETTINGS[
-        "kr_to_dollar_ratio"
-    ]
-    return kroners_total
-
-
-def count_tokens_in_chat(conversation) -> int:
-    """Counts the number of tokens in a conversation. Uses token encoder
-    https://github.com/openai/tiktoken/blob/main/tiktoken/model.py. Input argument can be
-    either a list or a dictionary (for instance the last response in the conversation).
+def count_tokens_in_chat(conversation: list) -> int:
+    """Counts the number of tokens in a conversation using token encoder
+    https://github.com/openai/tiktoken/blob/main/tiktoken/model.py.
     """
-    if isinstance(conversation, dict):
-        # Ensure list format
-        conversation = [conversation]
-    encoding = tiktoken.encoding_for_model(MODEL_ID)
     num_tokens = 0
     for message in conversation:
         # "user: assistant:" corresponds to 4 tokens
@@ -47,3 +55,17 @@ def count_tokens_in_message(message: str, model_id):
     """Counts the number of tokens in a single message."""
     encoding = tiktoken.encoding_for_model(model_id)
     return len(encoding.encode(message))
+
+
+def calculate_cost_of_response(conversation):
+    """Calculates the cost of generating the last repsonse (which is assumed to be from
+    assistant)."""
+    tokens_in = count_tokens_in_chat(conversation[:-1])
+    tokens_out = count_tokens_in_chat(conversation[-1:])
+    # Calculate cost in Dollars
+    dollars_tokens_in = tokens_in * SETTINGS["dollars_per_1k_input_token"] / 1000
+    dollars_tokens_out = tokens_out * SETTINGS["dollars_per_1k_output_token"] / 1000
+    dollars_total = dollars_tokens_in + dollars_tokens_out
+    # Convert to NOK
+    kroners_total = dollars_total * SETTINGS["nok_per_dollar"]
+    return kroners_total

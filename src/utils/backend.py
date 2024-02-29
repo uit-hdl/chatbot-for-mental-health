@@ -35,6 +35,7 @@ LOGFILE_REJECTED_RESPONSES_DUMP_PATH = os.path.join(
 TRUNCATION_INFO_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "truncated_message.json")
 OVERSEER_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
 HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "harvested_syntax.json")
+TOKEN_USAGE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "token-usage/chat_consumption.json")
 
 LOGGER, LOGGER_REJECTED_RESPONSES = setup_logging(
     LOGFILE_DUMP_PATH, LOGFILE_REJECTED_RESPONSES_DUMP_PATH

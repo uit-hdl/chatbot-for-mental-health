@@ -25,9 +25,11 @@ from utils.console_chat_display import display_images
 from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
 from utils.console_chat_display import RESET_COLOR
 from utils.manage_chat_length import truncate_if_too_long
+from utils.consumption_of_tokens import reset_chat_consumption
 
 # Initiate global variables
 BREAK_CONVERSATION = False
+reset_chat_consumption()
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):

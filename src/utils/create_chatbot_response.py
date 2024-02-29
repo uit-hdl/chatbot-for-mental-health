@@ -11,7 +11,7 @@ from utils.backend import LOGGER
 from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import CONFIG
 from utils.backend import dump_current_conversation_to_json
-from utils.filters import perform_quality_check
+from utils.filters import perform_quality_check_and_give_feedback
 from utils.filters import correct_erroneous_show_image_command
 from utils.general import silent_print
 
@@ -35,9 +35,9 @@ def respond_to_user(conversation, chatbot_id: str) -> list:
             conversation,
             harvested_syntax,
         ) = generate_valid_chatbot_output(conversation, chatbot_id)
+        knowledge_requests = harvested_syntax["knowledge_extensions"]
         counter += 1
-
-    dump_current_conversation_to_json(conversation)
+        dump_current_conversation_to_json(conversation)
 
     return conversation, harvested_syntax
 
@@ -50,12 +50,14 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id
         )
-        flag = perform_quality_check(conversation, harvested_syntax, chatbot_id)
+        conversation, flag = perform_quality_check_and_give_feedback(
+            conversation, harvested_syntax, chatbot_id
+        )
 
         if flag == "NOT ACCEPTED":
-            LOGGER_REJECTED_RESPONSES.info(grab_last_assistant_response(conversation))
+            log_failure(conversation, harvested_syntax)
             conversation = delete_last_bot_response(conversation)
-            silent_print("Failed quality check, retrying (check log for details)")
+            silent_print("Failed quality check (check log for details)")
         elif flag == "ACCEPTED":
             break
 
@@ -64,7 +66,9 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id
         )
-        flag = perform_quality_check(conversation, harvested_syntax, chatbot_id)
+        conversation, flag = perform_quality_check_and_give_feedback(
+            conversation, harvested_syntax, chatbot_id
+        )
         LOGGER.info("Ran out of attempts to pass quality check.")
 
     return conversation, harvested_syntax
@@ -106,3 +110,10 @@ def insert_knowledge(conversation, knowledge_extensions: list[str]):
         conversation.append({"role": "system", "content": message})
 
     return conversation
+
+
+def log_failure(conversation, harvested_syntax):
+    """Dumps logging information about the failed attempt to
+    chat-info/rejected_messages.py."""
+    message = f"{grab_last_assistant_response(conversation)}\nHARVESTED SYNTAX:\n {harvested_syntax}"
+    LOGGER_REJECTED_RESPONSES.info(message)
