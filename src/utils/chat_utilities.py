@@ -21,14 +21,19 @@ openai.api_version = CONFIG["api_version"]
 
 
 @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
-def generate_and_add_raw_bot_response(conversation, config: dict, calc_tokens=True):
+def generate_and_add_raw_bot_response(
+    conversation,
+    model_id=CONFIG["model_id"],
+    deployment_name=CONFIG["deployment_name"],
+    calc_tokens=True,
+):
     """Takes the conversation log, and updates it with the response of the
     chatbot as a function of the chat history. Does not interpret bot response."""
     conversation = copy.deepcopy(conversation)
     response = openai.ChatCompletion.create(
-        model=config["model_id"],
+        model=model_id,
         messages=conversation,
-        engine=config["deployment_name"],
+        engine=deployment_name,
         max_tokens=SETTINGS["max_tokens_per_message"],
     )
     conversation.append(
@@ -117,6 +122,8 @@ def identify_responses_intended_for_user(conversation) -> list[int]:
 def append_system_messages(conversation, system_messages: list[str]) -> list:
     """Appends each message in a list of system messages to the conversation under the
     role of system."""
+    if isinstance(system_messages, str):
+        system_messages = [system_messages]
     for message in system_messages:
         conversation.append({"role": "system", "content": message})
     return conversation

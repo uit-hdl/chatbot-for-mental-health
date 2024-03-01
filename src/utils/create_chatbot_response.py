@@ -9,7 +9,6 @@ from utils.chat_utilities import grab_last_assistant_response
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
 from utils.backend import LOGGER_REJECTED_RESPONSES
-from utils.backend import CONFIG
 from utils.backend import dump_current_conversation_to_json
 from utils.filters import perform_quality_check_and_give_feedback
 from utils.filters import correct_erroneous_show_image_command
@@ -17,9 +16,9 @@ from utils.general import silent_print
 
 
 def respond_to_user(conversation, chatbot_id: str) -> list:
-    """Generates and appends a response to the user, as well as Assistant can iteratively request sources untill it is satisfied. Sources are
-    inserted into the conversation by system."""
-
+    """Generates and appends a response to the conversation. Assistant can iteratively
+    request sources untill it is satisfied. Requested sources are inserted into the
+    conversation by system."""
     # Generate initial valid response
     (
         conversation,
@@ -80,7 +79,7 @@ def create_tentative_bot_response(conversation, chatbot_id):
     by the commands actually exists. If they do not exist, then system messages are added
     to the chat to inform the bot of its errors, and quality_check is set to "failed" so
     to inform that the bot should generate a new response."""
-    conversation = generate_and_add_raw_bot_response(conversation, CONFIG)
+    conversation = generate_and_add_raw_bot_response(conversation)
     conversation = correct_erroneous_show_image_command(conversation)
     harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
     return conversation, harvested_syntax

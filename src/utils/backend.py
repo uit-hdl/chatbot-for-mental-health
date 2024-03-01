@@ -5,7 +5,7 @@ import pathlib
 import yaml
 from typing import Tuple
 
-from utils.logging import setup_logging
+from utils.logging import setup_logger
 
 # Directory paths
 ROOT_DIR = pathlib.Path(__file__).parents[2]
@@ -37,9 +37,8 @@ OVERSEER_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
 HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "harvested_syntax.json")
 TOKEN_USAGE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "token-usage/chat_consumption.json")
 
-LOGGER, LOGGER_REJECTED_RESPONSES = setup_logging(
-    LOGFILE_DUMP_PATH, LOGFILE_REJECTED_RESPONSES_DUMP_PATH
-)
+LOGGER = setup_logger(LOGFILE_DUMP_PATH)
+LOGGER_REJECTED_RESPONSES = setup_logger(LOGFILE_REJECTED_RESPONSES_DUMP_PATH)
 
 
 def convert_json_string_to_dict(json_data: str) -> dict:

@@ -1,10 +1,8 @@
 import sys
-import re
 
 from utils.general import silent_print
 from utils.general import offer_to_store_conversation
 from utils.backend import PROMPTS
-
 from utils.backend import LOGGER
 from utils.backend import CONFIG
 from utils.backend import dump_current_conversation_to_json
@@ -50,20 +48,11 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             offer_to_store_conversation(conversation)
             break
 
-        conversation, harvested_syntax = respond_to_user(
-            conversation, chatbot_id
-        )
+        conversation, harvested_syntax = respond_to_user(conversation, chatbot_id)
 
         display_last_assistant_response(conversation)
         display_images(harvested_syntax["images"])
         play_videos(harvested_syntax["videos"])
-
-        conversation = overseer_evaluates_source_fidelity(
-            conversation, harvested_syntax, chatbot_id
-        )
-        conversation = overseer_evaluates_non_factual_messages(
-            conversation, harvested_syntax
-        )
         dump_current_conversation_to_json(conversation)
 
         if harvested_syntax["referral"]:
@@ -88,13 +77,20 @@ def continue_previous_conversation(chat_filepath: str, chatbot_id: str) -> list:
     return conversation
 
 
-def initiate_new_conversation(chatbot_id: str, system_message=None):
+def initiate_new_conversation(
+    chatbot_id: str,
+    system_message=None,
+    model_id=CONFIG["model_id"],
+    deployment_name=CONFIG["deployment_name"],
+):
     """Initiates a conversation with the chat bot."""
     conversation = initiate_conversation_with_prompt(
         PROMPTS[chatbot_id], system_message
     )
     LOGGER.info("Starting new conversation with %s.", chatbot_id)
-    conversation = generate_and_add_raw_bot_response(conversation, CONFIG)
+    conversation = generate_and_add_raw_bot_response(
+        conversation, model_id, deployment_name
+    )
     dump_current_conversation_to_json(conversation)
     return conversation
 

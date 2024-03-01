@@ -4,7 +4,71 @@
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information on schizophrenia. Please ask me any questions you have and let me know how to tailor my responses to your needs.",
+        "content": "How can I change these misconceptions? How can I make people understand?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"stigma\"]):\u00a4 (1.2) Changing these misconceptions starts with education. Informing others about what schizophrenia really is can help break down these barriers. \n\n(1.4) In some countries, changing the name of the illness itself has been suggested to reduce associated stigma. \n\nWould you like to learn more about how to educate those around you, or how to handle misconceptions in your personal relationships?",
+        "role": "assistant"
+    },
+    {
+        "content": "Yes, tell me more about how to educate those around me",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:request_knowledge(psychoeducation):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "source psychoeducation: * Psychoeducation is based on the idea that the more you and your\nfamily and caregivers know about your condition, the better you will\nbe able to manage it together. It involves a trained therapist\ndelivering a clearly defined programme that has been designed to\neducate participants about mental illness. A course of psychoeducation\nmay include a series of sessions over months or years, and can be\naimed specifically at caregivers and family members, at people with\nschizophrenia, or a combination of both.\n* Because the therapy involves taking in a lot of information, going\nto sessions when your condition is most stable is likely to be most\neffective. Many people find that they benefit not only from the\ninformation they receive during psychoeducation but also from the\nlearning process itself. Psychoeducation should be used in combination\nwith psychotherapy and medication, and can help you develop coping\nstrategies that use your own knowledge of your illness. Furthermore,\nit can be a great help to family members and caregivers, as a better\nunderstanding of the condition can help them to recognize and meet the\nneeds of the person with schizophrenia.",
+        "role": "system"
+    },
+    {
+        "content": "\u00a4:cite([\"psychoeducation\"]):\u00a4 (1.1) Psychoeducation involves educating yourself, your family, and caregivers about schizophrenia. A trained therapist provides a defined program to help everyone better manage the condition together.\n\n(1.2) It's best to attend sessions when you're feeling most stable, as you'll be able to absorb and retain more information. \n\n(1.3) This education can help you and others develop coping strategies and understanding, which can change misconceptions. \n\nWould you like steps on starting psychoeducation or tips on how to convey what you learn to others?",
+        "role": "assistant"
+    },
+    {
+        "content": "Can you talk about this in more detail",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"psychoeducation\"]):\u00a4 (1.1) Psychoeducation programs, usually led by a trained therapist, provide a structured educational approach about mental illness, and particularly about schizophrenia. The goal is to empower you with knowledge about your condition.\n\n(1.2) These programs are designed for both individuals with schizophrenia and their caregivers or family members. By participating, everyone involved gains a deeper understanding of the illness, which can foster empathy and support within your personal network. \n\n(1.3) Psychoeducation is most effective when you're in a stable phase, as you can more easily learn and apply the information. It's not a standalone treatment but should complement other interventions like psychotherapy and medication.\n\nWould you like more information on how to find and join a psychoeducation program?",
+        "role": "assistant"
+    },
+    {
+        "content": "Your response was 160 tokens long; try to be more concise",
+        "role": "system"
+    },
+    {
+        "content": "Can you explain in simpler words, this is too technical for me",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"psychoeducation\"]):\u00a4 (1.1) Psychoeducation is like a class where you learn about your condition. It's helpful for you and the people around you. \n\n(1.2) It's good to do when you're feeling okay. You'll learn how to handle your illness better. \n\nWould this information be helpful for you, or is there something else you would like to know?",
+        "role": "assistant"
+    },
+    {
+        "content": "what should I do right now to get better? what is the starting point?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:request_knowledge(management_strategy_intro):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "source management_strategy_intro: * \u201cMental illness is not a choice, but recovery is.\u201d \u2013 Unknown The\naims of treatment are to relieve symptoms, prevent psychotic episodes\nand enable the person with schizophrenia to progress along the road to\nrecovery [show `factors_of_recovery.png`]. A treatment plan that\ncombines medication with psychotherapy, often referred to as \u2018talking\ntherapy\u2019, and peer-to-peer contact is often the most effective\napproach, but everyone is different and it is important to find the\nright combination of therapies for you.\n\n# Medication\n* \u201cI think that medication keeps me going, and it has played a crucial\nrole until now. My goal is to reduce my medication little by little. I\ntry to be quite educated \u2013 I read a lot about it and I discuss it with\nmy doctor.\u201d \u2013 Monika\n\n* There are many different medication options for schizophrenia and it\n  is important to find the right one for you [show\n  `medication_effects_side_effects_and_administration.png`]. The\n  medication your psychiatrist recommends will depend on a number of\n  things, including how you feel about your treatment, how well the\n  medicine controls your symptoms and whether you suffer any\n  unacceptable unwanted effects.\n* Different medications reduce some symptoms of schizophrenia more\n  than others, so you will need to decide which symptoms you most want\n  to control. Like many medicines, those used to treat schizophrenia\n  can also have side effects. Different medications will have\n  different side effects from each other, and the effects of one\n  medication may change over time. Your psychiatrist will monitor your\n  progress once you have begun treatment, and may suggest options for\n  reducing side effects such as adjusting the dose or switching to a\n  different medication. Another consideration is that medications can\n  be taken in different ways; for example, medicines can be taken\n  daily as tablets or liquids, or injected every few weeks.\n* With so many options and factors to consider, it is important that\n  you discuss what you most want from your treatment with your\n  psychiatrist as early on in the process as possible; for example,\n  you may have a specific aim for your treatment, or there may be a\n  specific symptom or side effect that you want to avoid. Finding a\n  psychiatrist with whom you \u2018click\u2019 can make talking about your\n  condition easier, and this can help to ensure that you make\n  decisions about goals for your treatment together.\n\n* \u201cI think that medications have different effects on people with\n  mental illness. For me, six or seven kinds of antipsychotics were\n  tried over 10 years. Finding the right medication was a turning\n  point in my life. My basic antipsychotic was an injection, which was\n  given every second week for 5 years, and I took antidepressants too.\n  In 2011, I felt that there was no more improvement with this\n  medication and, after discussion with my doctor, I changed to pills.\n  Since then we have achieved a big improvement in my health. I am\n  still taking the pills with an antidepressant. We have reduced the\n  amount of medication since 2011. This has to be done little by\n  little.\u201d \u2013 Istv\u00e1n\n",
+        "role": "system"
+    },
+    {
+        "content": "\u00a4:cite([\"management_strategy_intro\"]):\u00a4 \u00a4:display_image(factors_of_recovery.png):\u00a4 The first step is creating a treatment plan. Recovery often includes medication and talking therapy. \n\n(1.1) Treatment aims to reduce symptoms and help you feel better. Everyone's plan is different, so it's about finding what works for you.\n\nWould you like to learn more about medications, or would you prefer to talk about therapy options?",
+        "role": "assistant"
+    },
+    {
+        "content": "Your information is too generic",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"management_strategy_intro\"]):\u00a4 I apologize if the information was too general. Let's get more specific. \n\n(2.2) To start improving, talk with a doctor to find the right medication and dosage for your symptoms. Discuss openly what's most important for you in treatment.\n\n(2.1) Medication is important to control symptoms and should be tailored to your needs. \n\n(2.3) Also, consider what kind of talking therapy might be a good fit for you. \n\nHow can I assist you further? Would you prefer to focus on medication or therapy discussion?",
         "role": "assistant"
     }
 ]

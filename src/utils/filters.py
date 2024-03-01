@@ -8,13 +8,12 @@ from utils.chat_utilities import append_system_messages
 from utils.managing_sources import get_currently_inserted_sources
 from utils.consumption_of_tokens import count_tokens_in_message
 from utils.overseers import MESSAGE_CLASSIFICATIONS
+from utils.overseers import evaluate_with_overseers
 from utils.general import silent_print
-from utils.general import list_intersection
-from utils.general import list_subtraction
 from utils.backend import MODEL_ID
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
-from utils.backend import LOGGER_REJECTED_RESPONSES
+from utils.backend import dump_current_conversation_to_json
 from utils.backend import get_sources_available_to_chatbot
 
 
@@ -25,16 +24,34 @@ def perform_quality_check_and_give_feedback(
     conversation, harvested_syntax: dict, chatbot_id: str
 ) -> str:
     """Performs a quality check for the bot response based on the extracted
-    information."""
+    information. Warnings are produced for undesired behaviours which get appended to the
+    conversation so that the chatbot can learn from its mistakes. Certain errors will
+    result in the bot having to regenerate its response."""
     global FLAG
+    # -- HARD CODED FILTERS --
     warnings_file_existance = check_if_requested_files_exist(harvested_syntax)
     warnings_citations = citation_check(harvested_syntax, chatbot_id, conversation)
     warnings_length = check_length_of_chatbot_response(conversation)
     warnings = warnings_file_existance + warnings_citations + warnings_length
+
     conversation = append_system_messages(conversation, warnings)
 
     if FLAG == "NOT ACCEPTED":
         LOGGER.info(warnings)
+        return conversation, FLAG
+
+    # -- OVERSEER FILTER --
+    overseer_evaluation, warning_overseer = evaluate_with_overseers(
+        conversation, harvested_syntax, chatbot_id
+    )
+    conversation = append_system_messages(conversation, warning_overseer)
+
+    if overseer_evaluation == "NOT ACCEPTED":
+        LOGGER.info(warnings)
+        silent_print(warnings)
+        FLAG = "NOT ACCEPTED"
+
+    dump_current_conversation_to_json(conversation)
 
     return conversation, FLAG
 

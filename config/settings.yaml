@@ -11,7 +11,7 @@ dollars_per_1k_input_token: 0.03
 dollars_per_1k_output_token: 0.06
 nok_per_dollar: 10.6  # rate: NOK per Dollar
 max_tokens_per_message: 250  # Limit in prompt + margin
-max_tokens_hard_upper_limit: 5000  # This is an argument in ChatCompletion.create() used to
+max_tokens_hard_upper_limit: 270  # This is an argument in ChatCompletion.create() used to
 # estimate token consumption rate and truncate messages. Set abit higher to avoid truncation due to
 # differences in how N-tokens is counted
 warning_limit_tokens_per_message: 150
