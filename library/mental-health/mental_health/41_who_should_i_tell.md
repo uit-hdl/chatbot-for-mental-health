@@ -1,4 +1,4 @@
-1. Who you decide to tell about your illness is completely up to you.
+Who you decide to tell about your illness is completely up to you.
 Perhaps a useful comparison is to the situation of having a physical
 illness – if you had a physical illness that significantly affected
 your life, who would you tell? The answer to this question may give
@@ -9,5 +9,3 @@ and those you work closely with. It may not be necessary to tell
 people who you do not have strong bonds with. Ultimately, everyone’s
 situation is different, and only you will know what is best for your
 own situation.
-
-[]

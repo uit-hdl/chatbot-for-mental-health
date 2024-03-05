@@ -39,7 +39,7 @@ def respond_to_user(conversation, chatbot_id: str) -> list:
         dump_current_conversation_to_json(conversation)
 
     return conversation, harvested_syntax
-
+ 
 
 def generate_valid_chatbot_output(conversation, chatbot_id):
     """Attempts to generate a response untill the response passes quality check based on
@@ -54,7 +54,6 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
         )
 
         if flag == "NOT ACCEPTED":
-            log_failure(conversation, harvested_syntax)
             conversation = delete_last_bot_response(conversation)
             silent_print("Failed quality check (check log for details)")
         elif flag == "ACCEPTED":
@@ -106,13 +105,6 @@ def insert_knowledge(conversation, knowledge_extensions: list[str]):
                 if SETTINGS["print_knowledge_requests"]:
                     silent_print(f"Source {source_name} inserted in conversation.")
 
-        conversation.append({"role": "system", "content": message})
+            conversation.append({"role": "system", "content": message})
 
     return conversation
-
-
-def log_failure(conversation, harvested_syntax):
-    """Dumps logging information about the failed attempt to
-    chat-info/rejected_messages.py."""
-    message = f"{grab_last_assistant_response(conversation)}\nHARVESTED SYNTAX:\n {harvested_syntax}"
-    LOGGER_REJECTED_RESPONSES.info(message)

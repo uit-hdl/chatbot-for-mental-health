@@ -1,4 +1,4 @@
-- There may be some special situations when it might be necessary to
+* There may be some special situations when it might be necessary to
   stop taking your medication; for example, during pregnancy or while
   breastfeeding. In these cases, the benefits to you of the medication
   will be assessed against its risks to the baby. You may be advised to

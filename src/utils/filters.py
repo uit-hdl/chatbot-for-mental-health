@@ -1,7 +1,6 @@
 """Functions responsible for checking the quality of the chatbots response."""
 
 import re
-import json
 
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import append_system_messages
@@ -12,6 +11,7 @@ from utils.overseers import evaluate_with_overseers
 from utils.general import silent_print
 from utils.backend import MODEL_ID
 from utils.backend import SETTINGS
+from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import LOGGER
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import get_sources_available_to_chatbot
@@ -25,35 +25,53 @@ def perform_quality_check_and_give_feedback(
 ) -> str:
     """Performs a quality check for the bot response based on the extracted
     information. Warnings are produced for undesired behaviours which get appended to the
-    conversation so that the chatbot can learn from its mistakes. Certain errors will
-    result in the bot having to regenerate its response."""
+    conversation so that the chatbot can learn from its mistakes. Certain errors (those
+    that get critical warnings) will result in the bot having to regenerate its
+    response."""
     global FLAG
-    # -- HARD CODED FILTERS --
-    warnings_file_existance = check_if_requested_files_exist(harvested_syntax)
-    warnings_citations = citation_check(harvested_syntax, chatbot_id, conversation)
-    warnings_length = check_length_of_chatbot_response(conversation)
-    warnings = warnings_file_existance + warnings_citations + warnings_length
+    flag = "ACCEPTED"
 
-    conversation = append_system_messages(conversation, warnings)
+    # -- HARD CODED FILTER --
+    if SETTINGS["enable_hard_coded_filter"]:
+        existance_critical_warnings = check_if_requested_files_exist(harvested_syntax)
+        citation_warnings, citation_critical_warnings = citation_check(
+            harvested_syntax, chatbot_id, conversation
+        )
+        length_warnings, lengths_warnings_critical = check_length_of_chatbot_response(
+            conversation
+        )
+        # Collect warnings
+        soft_warnings = citation_warnings + length_warnings
+        critical_warnings = (
+            existance_critical_warnings
+            + citation_critical_warnings
+            + lengths_warnings_critical
+        )
+        all_warnings = critical_warnings + soft_warnings
 
-    if FLAG == "NOT ACCEPTED":
-        LOGGER.info(warnings)
-        return conversation, FLAG
+        conversation = append_system_messages(conversation, all_warnings)
+
+        if critical_warnings:
+            flag = "NOT ACCEPTED"
+            LOGGER.info(all_warnings)
+            log_failure(conversation, harvested_syntax, critical_warnings)
 
     # -- OVERSEER FILTER --
-    overseer_evaluation, warning_overseer = evaluate_with_overseers(
-        conversation, harvested_syntax, chatbot_id
-    )
-    conversation = append_system_messages(conversation, warning_overseer)
+    if SETTINGS["enable_overseer_filter"] and not critical_warnings:
+        overseer_evaluation, warning_overseer = evaluate_with_overseers(
+            conversation, harvested_syntax, chatbot_id
+        )
+        conversation = append_system_messages(conversation, warning_overseer)
 
-    if overseer_evaluation == "NOT ACCEPTED":
-        LOGGER.info(warnings)
-        silent_print(warnings)
-        FLAG = "NOT ACCEPTED"
+        if overseer_evaluation == "NOT ACCEPTED":
+            flag = "NOT ACCEPTED"
+            LOGGER.info(all_warnings)
+            log_failure(conversation, harvested_syntax, warning_overseer)
+            silent_print(all_warnings)
 
-    dump_current_conversation_to_json(conversation)
+        dump_current_conversation_to_json(conversation)
 
-    return conversation, FLAG
+    return conversation, flag
 
 
 def check_if_requested_files_exist(harvested_syntax) -> list:
@@ -61,89 +79,91 @@ def check_if_requested_files_exist(harvested_syntax) -> list:
     been requested, it creates a corresponding warning message (to be inserted into chat
     by `system`).
     """
-    global FLAG
-    failure_messages = []
+    critical_warnings = []
 
     for request in harvested_syntax["knowledge_extensions"]:
         if request["file_exists"] == False:
-            failure_messages.append(
+            critical_warnings.append(
                 f"`{request['name']}` does not exist! Request only sources and assistants I have referenced."
             )
-            FLAG = "NOT ACCEPTED"
 
     for image in harvested_syntax["images"]:
         if image["file_exists"] == False:
-            failure_messages.append(
+            critical_warnings.append(
                 f"Image `{image['name']}` does not exist! Request only images I have referenced."
             )
-            FLAG = "NOT ACCEPTED"
 
     for video in harvested_syntax["videos"]:
         if video["file_exists"] == False:
-            failure_messages.append(
+            critical_warnings.append(
                 f"Video `{video['name']}` does not exist! Request only videos I have referenced."
             )
-            FLAG = "NOT ACCEPTED"
 
-    return failure_messages
+    return critical_warnings
 
 
 def check_length_of_chatbot_response(conversation) -> list:
     """Appends system warning to chat if message is too long."""
-    global FLAG
     bot_response = grab_last_assistant_response(conversation)
     response_length = count_tokens_in_message(bot_response, MODEL_ID)
 
-    warning_messages = []
+    warnings = []
+    critical_warnings = []
 
     if response_length >= SETTINGS["max_tokens_per_message"]:
         silent_print("Response exceeds length...")
-        warning_messages = ["Your response was too long, try again!"]
-        FLAG = "NOT ACCEPTED"
+        critical_warnings = ["Your response was too long; try again!"]
 
-    if response_length > SETTINGS["warning_limit_tokens_per_message"]:
+    elif response_length > SETTINGS["soft_limit_2_tokens_per_message"]:
         silent_print(f"Response has length {response_length} tokens...")
-        warning_messages = [
-            f"Your response was {response_length} tokens long; try to be more concise"
+        warnings = [
+            f"You almost reached the maximum message length. Limit the information per message to not overwhelm the user."
         ]
 
-    return warning_messages
+    elif response_length > SETTINGS["soft_limit_1_tokens_per_message"]:
+        silent_print(f"Response has length {response_length} tokens...")
+        warnings = [
+            f"Response length: {response_length} tokens. Recall, cover at most 2 paragraphs per response when walking through information."
+        ]
+
+    return warnings, critical_warnings
 
 
-def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list) -> list:
+def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):
     """Compares validity of chatbot citations. Checks for the following errors:
 
     1. The bot is citing sources outside of the valid/existing citations
     2. The bot response contains no citation at all
     3. The bot is citing sources that exist, but are not in the conversation
+
+    errors are categorized as warnings and failures, where `failure` means tha the bot
+    will have to create a new response.
     """
-    global FLAG
     if len(harvested_syntax["knowledge_extensions"]) > 0:
-        return []
+        return [], []
 
     bot_citations = harvested_syntax["citations"]
     available_sources = get_sources_available_to_chatbot(chatbot_id)
     inserted_citations = get_currently_inserted_sources(conversation)
 
-    warning_messages = []
+    warnings = []
+    critical_warnings = []
 
     if not bot_citations:
-        FLAG = "NOT ACCEPTED"
-        warning_messages.append(f"All your messages MUST start with a citation!")
+        critical_warnings.append(f"All your messages MUST start with a citation!")
 
     for citation in bot_citations:
 
         if citation in available_sources:
             if citation not in inserted_citations:
-                warning_messages.append(
+                warnings.append(
                     f"Warning: you cited a source ({citation}) that has not been inserted in the chat."
                 )
         else:
             if citation not in MESSAGE_CLASSIFICATIONS:
-                FLAG = "NOT ACCEPTED"
-                warning_messages.append(f"({citation}) is not a valid citation!")
+                critical_warnings.append(f"({citation}) is not a valid citation!")
 
-    return warning_messages
+    return warnings, critical_warnings
 
 
 def correct_erroneous_show_image_command(conversation) -> list:
@@ -163,3 +183,13 @@ def correct_erroneous_show_image_command(conversation) -> list:
         conversation.append({"role": "system", "content": system_message})
 
     return conversation
+
+
+def log_failure(conversation, harvested_syntax, critical_warnings: list[str]):
+    """Dumps logging information about the failed attempt to
+    chat-info/rejected_messages.py."""
+    message = f"""
+    REJECTED RESPONSE:\n{grab_last_assistant_response(conversation)}\n
+    HARVESTED SYNTAX:\n {harvested_syntax}\n
+    REASONS FOR REJECTION:\n{critical_warnings}"""
+    LOGGER_REJECTED_RESPONSES.info(message)

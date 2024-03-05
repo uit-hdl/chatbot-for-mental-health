@@ -1,11 +1,11 @@
-* It can be difficult to maintain a social life if you have
+It can be difficult to maintain a social life if you - have
 schizophrenia. As mentioned earlier in this guide, schizophrenia can
 lead to symptoms including being less able to socialize and a lack of
 emotion, so you may lose touch with people you were friends with. As
 you start to recover, however, you may find yourself wanting to go out
 and socialize more.
 
-* Support groups can be a good way to meet and socialize with other
+Support groups can be a good way to meet and socialize with other
 people with schizophrenia, but it is important not to surround
 yourself completely with others who have the condition. Meeting and
 socializing with people without the illness can help you to see a
