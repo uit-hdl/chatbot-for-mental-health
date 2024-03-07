@@ -7,12 +7,12 @@ from console_chat import PROMPTS
 from console_chat import initiate_conversation_with_prompt
 from console_chat import remove_inactive_sources
 from console_chat import respond_to_user
-from console_chat import grab_last_assistant_response
 from console_chat import overseer_evaluates_source_fidelity
 from console_chat import dump_current_conversation_to_json
 from console_chat import direct_to_new_assistant
 from console_chat import truncate_if_too_long
 from utils.general import remove_syntax_from_message
+from utils.chat_utilities import grab_last_assistant_response
 
 DEEP_CHAT = []
 
@@ -37,9 +37,6 @@ def respond(user_message, surface_chat):
     DEEP_CHAT.append({"role": "user", "content": user_message})
     DEEP_CHAT, harvested_syntax = respond_to_user(DEEP_CHAT, chatbot_id)
     raw_response = grab_last_assistant_response(DEEP_CHAT)
-    DEEP_CHAT = overseer_evaluates_source_fidelity(
-        DEEP_CHAT, harvested_syntax, chatbot_id
-    )
     surface_response = remove_syntax_from_message(raw_response)
 
     surface_chat.append((user_message, surface_response))
@@ -52,7 +49,8 @@ def respond(user_message, surface_chat):
 
     if harvested_syntax["referral"]:
         if harvested_syntax["referral"]["file_exists"]:
-            DEEP_CHAT = direct_to_new_assistant(harvested_syntax["referral"])
+            assistant_name = harvested_syntax["referral"]["name"]
+            DEEP_CHAT = direct_to_new_assistant(assistant_name)
             surface_response = grab_last_assistant_response(DEEP_CHAT)
             surface_chat.append((None, surface_response))
 

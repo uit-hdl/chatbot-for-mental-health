@@ -32,7 +32,8 @@ LOGFILE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "chat.log")
 LOGFILE_REJECTED_RESPONSES_DUMP_PATH = os.path.join(
     CHAT_INFO_DIR, "rejected_responses.log"
 )
-TRUNCATION_INFO_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "truncated_message.json")
+TRUNCATION_INFO_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "truncated_messages.json")
+TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "conversation_full.json")
 OVERSEER_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
 HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "harvested_syntax.json")
 TOKEN_USAGE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "token-usage/chat_consumption.json")
@@ -131,6 +132,13 @@ def dump_conversation(conversation: list, label: str = "conversation"):
         conversation = conversation[:-1]
     dump_to_json(conversation, json_file_path)
     LOGGER.info(f"Conversation stored in {json_file_path} and {txt_file_path}")
+
+
+def update_field_value_in_json(file_path, field: str, new_value):
+    """Updates the value of the specified field."""
+    dictionary = load_json_from_path(file_path)
+    dictionary[field] = new_value
+    dump_to_json(dictionary, file_path)
 
 
 def add_extension(path, extension):

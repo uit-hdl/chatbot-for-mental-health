@@ -5,6 +5,8 @@ from utils.general import offer_to_store_conversation
 from utils.backend import PROMPTS
 from utils.backend import LOGGER
 from utils.backend import CONFIG
+from utils.backend import TRANSCRIPT_DUMP_PATH
+from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.managing_sources import remove_inactive_sources
@@ -25,7 +27,7 @@ from utils.consumption_of_tokens import reset_chat_consumption
 
 # Initiate global variables
 BREAK_CONVERSATION = False
-reset_chat_consumption()
+reset_chat_consumption()  # Handles cost and token consumption for current chat
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
@@ -89,6 +91,7 @@ def initiate_new_conversation(
         conversation, model_id, deployment_name
     )
     dump_current_conversation_to_json(conversation)
+    dump_to_json(conversation, TRANSCRIPT_DUMP_PATH)
     return conversation
 
 

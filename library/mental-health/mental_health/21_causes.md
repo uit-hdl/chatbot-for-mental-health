@@ -35,3 +35,5 @@ A key feature of schizophrenia is that different combinations of
 symptoms are seen both between individuals and within an individual
 over time – whether this has anything to do with an individual’s genes
 and/or environment is still unclear.
+
+[IF WALKING USER THROUGH MATERIAL: PRESENT AT MOST 2 PARAGRAPHS PER MESSAGE]

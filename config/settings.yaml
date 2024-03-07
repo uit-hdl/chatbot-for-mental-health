@@ -19,5 +19,5 @@ soft_limit_2_tokens_per_message: 200  # More severe warning
 hard_limit_tokens_per_message: 250  # Bot must redo message if this limit is exceeded
 warning_limit_tokens_per_message: 150
 # --- OVERSEER BOTS ---
-enable_overseer_filter: False
+enable_overseer_filter: True
 enable_hard_coded_filter: True

@@ -38,6 +38,11 @@ def list_subtraction(list_1, list_2) -> list:
     return list(set(list_1).difference(set(list_2)))
 
 
+def add_list_with_no_duplicates(list_a, list_b):
+    """Adds elements of list_b to list_a, but removes duplicates."""
+    return list(set(list_a) | set(list_b))
+
+
 def remove_syntax_from_message(message_content: str):
     """Removes code syntax which is intended for backend purposes only."""
     message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message_content, flags=re.DOTALL)
