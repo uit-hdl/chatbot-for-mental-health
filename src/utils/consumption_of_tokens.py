@@ -10,9 +10,8 @@ from utils.backend import dump_to_json
 
 
 def reset_chat_consumption():
-    """Resets the ackumulator file responsible for traking the resource consumption
-    (tokens and cost in kr) of a chat. This function is run at the start of a new
-    conversation."""
+    """Resets chat_consumption.json which tracks the resource consumption (tokens and cost
+    in kr) of a chat. This function is executed at the start of each new conversation."""
     dump_to_json(
         {"token_usage_total": 0, "chat_cost_kr_total": 0}, TOKEN_USAGE_DUMP_PATH
     )
@@ -20,7 +19,7 @@ def reset_chat_consumption():
 
 def update_chats_total_consumption(conversation):
     """Loads and updates the json file that tracks the cumulative cost of the
-    current chat in terms of tokens and money (NOK)."""
+    current chat in terms of tokens and cost in NOK."""
     total_token_usage = load_json_from_path(TOKEN_USAGE_DUMP_PATH)
     total_token_usage["token_usage_total"] += count_tokens_used_to_create_last_response(
         conversation
