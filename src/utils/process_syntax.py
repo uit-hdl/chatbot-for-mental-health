@@ -19,8 +19,6 @@ from typing import Tuple
 
 from utils.chat_utilities import grab_last_assistant_response
 from utils.general import remove_quotes_and_backticks
-from utils.general import list_intersection
-from utils.general import list_subtraction
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
 from utils.backend import LIBRARY_DIR
@@ -37,10 +35,11 @@ from utils.backend import remove_extension
 
 def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List[str]]:
     """Scans the response for symbols ¤: and :¤ and extracts the name of the
-    commands and their arguments. Returns a dictionary with keys being the command types,
-    with each type containing the information collected for that type. Commands are
-    'referral', 'request_knowledge', 'display_image', 'play_video', and 'show_sources'.
-    Dumps the resulting dictionary to chat-info/harvested_syntax.json."""
+    commands and their arguments in two separate lists `commands` and `arguments`. Returns
+    a dictionary with keys being the command types, with each type containing the
+    information collected for that command type. Commands are 'referral',
+    'request_knowledge', 'display_image', 'play_video', and 'show_sources'. Dumps the
+    resulting dictionary to chat-info/harvested_syntax.json."""
     available_files = get_available_files(chatbot_id)
 
     chatbot_response = grab_last_assistant_response(conversation)
@@ -250,5 +249,5 @@ def standardize_name(name: str):
     """Standardized the filename that has been extracted from
     ¤:command(name_of_file):¤ by removing extra strings and backticks."""
     name_standardized = remove_quotes_and_backticks(name)
-    name_standardized = remove_extension(name)
+    name_standardized = remove_extension(name_standardized)
     return name_standardized

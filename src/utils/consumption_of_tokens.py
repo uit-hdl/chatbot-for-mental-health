@@ -11,23 +11,24 @@ from utils.backend import dump_to_json
 
 def reset_chat_consumption():
     """Resets chat_consumption.json which tracks the resource consumption (tokens and cost
-    in kr) of a chat. This function is executed at the start of each new conversation."""
+    in kr) of a chat. This function is executed at the start of each new conversation.
+    """
     dump_to_json(
         {"token_usage_total": 0, "chat_cost_kr_total": 0}, TOKEN_USAGE_DUMP_PATH
     )
 
 
-def update_chats_total_consumption(conversation):
+def update_chats_total_consumption(conversation, model_id):
     """Loads and updates the json file that tracks the cumulative cost of the
     current chat in terms of tokens and cost in NOK."""
-    total_token_usage = load_json_from_path(TOKEN_USAGE_DUMP_PATH)
-    total_token_usage["token_usage_total"] += count_tokens_used_to_create_last_response(
+    chat_consumption = load_json_from_path(TOKEN_USAGE_DUMP_PATH)
+    chat_consumption["token_usage_total"] += count_tokens_used_to_create_last_response(
         conversation
     )
-    total_token_usage[
-        "chat_cost_kr_total"
-    ] += calculate_cost_of_response(conversation)
-    dump_to_json(total_token_usage, TOKEN_USAGE_DUMP_PATH)
+    chat_consumption["chat_cost_kr_total"] += calculate_cost_of_response(
+        conversation, model_id
+    )
+    dump_to_json(chat_consumption, TOKEN_USAGE_DUMP_PATH)
 
 
 def count_tokens_used_to_create_last_response(conversation) -> int:
@@ -56,14 +57,16 @@ def count_tokens_in_message(message: str, model_id):
     return len(encoding.encode(message))
 
 
-def calculate_cost_of_response(conversation):
+def calculate_cost_of_response(conversation, model_id):
     """Calculates the cost of generating the last repsonse (which is assumed to be from
     assistant)."""
     tokens_in = count_tokens_in_chat(conversation[:-1])
     tokens_out = count_tokens_in_chat(conversation[-1:])
+    cost_per_1k_input_tokens = SETTINGS["dollars_per_1k_token"][model_id]["input"]
+    cost_per_1k_output_tokens = SETTINGS["dollars_per_1k_token"][model_id]["output"]
     # Calculate cost in Dollars
-    dollars_tokens_in = tokens_in * SETTINGS["dollars_per_1k_input_token"] / 1000
-    dollars_tokens_out = tokens_out * SETTINGS["dollars_per_1k_output_token"] / 1000
+    dollars_tokens_in = tokens_in * cost_per_1k_input_tokens / 1000
+    dollars_tokens_out = tokens_out * cost_per_1k_output_tokens / 1000
     dollars_total = dollars_tokens_in + dollars_tokens_out
     # Convert to NOK
     kroners_total = dollars_total * SETTINGS["nok_per_dollar"]

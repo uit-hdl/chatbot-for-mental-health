@@ -19,7 +19,7 @@ def truncate_if_too_long(conversation):
     if removed_messages:
         dump_to_json(removed_messages, TRUNCATION_INFO_DUMP_PATH)
 
-    update_transcript(conversation_trimmed)
+    update_chat_transcript(conversation_trimmed)
     update_field_value_in_json(
         file_path=TOKEN_USAGE_DUMP_PATH,
         field="current_chat_token_count",
@@ -47,7 +47,7 @@ def exceeding_max_tokens(conversation):
     return count_tokens_in_chat(conversation) > SETTINGS["max_tokens_before_truncation"]
 
 
-def update_transcript(conversation_current):
+def update_chat_transcript(conversation_current):
     """Ensures that the complete chat history can be viewed in a file even after messages
     get deleted."""
     all_removed_messages = load_json_from_path(TRUNCATION_INFO_DUMP_PATH)

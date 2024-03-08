@@ -43,7 +43,7 @@ def generate_and_add_raw_bot_response(
         }
     )
     if calc_tokens:
-        update_chats_total_consumption(conversation)
+        update_chats_total_consumption(conversation, model_id)
     return conversation
 
 

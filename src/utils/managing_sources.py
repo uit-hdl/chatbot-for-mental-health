@@ -1,5 +1,5 @@
-"""Functions responsible for keeping down the length of the conversation by 
-removing sources that are not being actively cited/used."""
+"""Functions responsible for managing sources that have been inserted into the
+conversation and removing inactive sources that are not being actively cited."""
 
 import numpy as np
 import re

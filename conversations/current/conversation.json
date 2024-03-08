@@ -8,43 +8,135 @@
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"21_causes\"]):\u00a4 Schizophrenia is a complex condition with no single known cause. It's not anyone's fault, and various factors may contribute to the risk of developing it.\n\n#### Genes and environment:\n- Genetics play a role; having a parent with schizophrenia increases the risk.\n- However, identical twins have only a 50% chance of both having schizophrenia if one does, so genes aren't the whole story.\n- Environmental factors can also contribute, like urban upbringing, certain drug use, and stress.\n- Research suggests genes and environment may interact, but it's still unclear how this affects who develops schizophrenia.\n\nWould you like to see a visual that illustrates the interactions between genes and the environment in relation to schizophrenia? Or is there something specific within this topic you'd like to know more about?",
-        "role": "assistant"
-    },
-    {
-        "content": "Response length: 167 tokens. Recall, cover at most 2 paragraphs per response when walking through information.",
+        "content": "Your response was too long; try again!",
         "role": "system"
     },
     {
-        "content": "Can you show me an illustratoin?",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:cite([\"21_causes\"]):\u00a4\u00a4:display_image(schizophrenia_genes_environment_interactions.png):\u00a4 Here's the illustration that shows the relationship between genes, the environment, and the risk of developing schizophrenia. Take a look and let me know if you have any questions or if there's more you would like to learn.",
+        "content": "\u00a4:cite([\"21_causes\"]):\u00a4 It's not your fault that you have schizophrenia. No one is to blame for this condition. The exact reasons why some people develop schizophrenia and some don't are not entirely known. There are some factors believed to increase the risk of developing it, including genetics and environmental aspects. \n\nWould you like to know more about the role of genetics and environment?",
         "role": "assistant"
     },
     {
-        "content": "How can I manage my symptoms?",
+        "content": "yes please",
         "role": "user"
     },
     {
-        "content": "\u00a4:request_knowledge(51_management_strategy_intro):\u00a4",
+        "content": "\u00a4:cite([\"21_causes\"]):\u00a4 (1.1) Schizophrenia can run in families, so if someone in your family has it, your own risk may be increased. If one of your parents has the condition, your risk goes up compared to the general population, but it's still not certain you'll develop it.\n\n(1.2) Identical twins have the same genetics, yet if one twin has schizophrenia, the other twin only has a 50% chance of developing it. This tells us that genes are not the only factor. \n\nWould you like to continue discussing how environmental factors also play a role?",
         "role": "assistant"
     },
     {
-        "content": "source 51_management_strategy_intro: * \u201cMental illness is not a choice, but recovery is.\u201d \u2013 Unknown\n\nThe aims of treatment are to relieve symptoms, prevent psychotic\nepisodes and enable the person with schizophrenia to progress along\nthe road to recovery [show `factors_of_recovery.png`]. A treatment\nplan that combines medication with psychotherapy, often referred to as\n\u2018talking therapy\u2019, and peer-to-peer contact is often the most\neffective approach, but everyone is different and it is important to\nfind the right combination of therapies for you.\n",
+        "content": "What are the other factors?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"21_causes\"]):\u00a4 (1.3) There are several environmental factors that may increase the likelihood of developing schizophrenia. These include:\n\n- Growing up in a city center\n- Abusing substances like cannabis and amphetamines\n- Experiencing significant stress or stressful life events\n\nFurthermore, it's thought that a person's environment may interact with their genes in complex ways that affect their risk of developing schizophrenia, but more research is needed to fully understand these interactions. \n\nWould you like to see an illustration that shows the relationship between genes, environment, and schizophrenia?",
+        "role": "assistant"
+    },
+    {
+        "content": "yes",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"21_causes\"]):\u00a4 \u00a4:display_image(schizophrenia_genes_environment_interactions.png):\u00a4 This image visually represents how genes and environmental factors might interact to influence the development of schizophrenia. Remember, it's the combination and interaction of these elements that contribute to the illness, and the exact mechanisms are a subject of ongoing research. If you have more questions or need further clarification, feel free to ask.",
+        "role": "assistant"
+    },
+    {
+        "content": "Can you recommend a topic?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 I cannot recommend topics, but if you are interested in learning more about schizophrenia, we could discuss a variety of subjects such as understanding the diagnosis, symptoms, management strategies, or how it affects daily life. \n\nWould you like to explore any of these areas or perhaps something else related to schizophrenia? Please let me know your preference.",
+        "role": "assistant"
+    },
+    {
+        "content": "What should I be doing on a day to day basis to get better?",
+        "role": "user"
+    },
+    {
+        "content": "`\"51_management_strategy_intro\"` does not exist! Request only sources and assistants I have referenced.",
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"51_management_strategy_intro\"]):\u00a4\u00a4:display_image(factors_of_recovery.png):\u00a4 The primary goals of treatment for schizophrenia are to alleviate symptoms, prevent psychotic episodes, and facilitate recovery. An effective treatment plan often includes a combination of medication, psychotherapy (sometimes known as 'talking therapy'), and peer-to-peer interaction. It's essential to tailor this combination to suit your individual needs.\n\nDo you want more information on medication options, psychotherapy, or other forms of support? Or is there a specific aspect of symptom management you're concerned about?",
+        "content": "\u00a4:request_knowledge(\"51_management_strategy_intro\"):\u00a4",
         "role": "assistant"
     },
     {
-        "content": "This is .... no ... maybe. the roads will never stop",
-        "role": "user"
+        "content": "`\"51_management_strategy_intro\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"support_phone_number\"]):\u00a4 It sounds like you might be going through a particularly difficult time right now. I want to make sure you get the support you need. Please call this number for immediate support `123456789`. They are available to talk to you and help you find your way through this challenging period.",
+        "content": "`\"42_will_i_get_better\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "\u00a4:request_knowledge(\"51_management_strategy_intro\"):\u00a4",
         "role": "assistant"
+    },
+    {
+        "content": "`\"51_management_strategy_intro\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"31_symptoms\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"52_medication\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"53_psychotherapy\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"54_psychoeducation\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"55_support_groups\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"56_reluctance_to_seek_help\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"71_health_and_lifestyle_intro\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"72_diet_exercise_sleep_alcohol\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"73_hygiene_and_sex\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"81_living_with_schizophrenia_intro\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"82_stress\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"83_illegal_drugs\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "`\"84_depression_and_suicidality\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
+    },
+    {
+        "content": "Response length: 187 tokens. Recall, cover at most 2 paragraphs per response when walking through information.",
+        "role": "system"
+    },
+    {
+        "content": "\u00a4:request_knowledge(\"71_health_and_lifestyle_intro\"):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "`\"71_health_and_lifestyle_intro\"` does not exist! Request only sources and assistants I have referenced.",
+        "role": "system"
     }
 ]
