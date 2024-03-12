@@ -20,7 +20,7 @@ openai.api_base = CONFIG["api_base"]
 openai.api_version = CONFIG["api_version"]
 
 
-@backoff.on_exception(backoff.expo, openai.error.RateLimitError)
+# @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
 def generate_and_add_raw_bot_response(
     conversation,
     model_id=CONFIG["model_id"],
@@ -45,6 +45,30 @@ def generate_and_add_raw_bot_response(
     if calc_tokens:
         update_chats_total_consumption(conversation, model_id)
     return conversation
+
+
+def get_response_to_single_message_input(
+    prompt: str,
+    model_id="gpt-3.5-turbo-instruct",
+    deployment_name=CONFIG["deployment_name_single_response"],
+    temperature=None,
+    return_everything=False,
+):
+    """Provides a chat completion to a single message input. More suitable to use than
+    ChatCompletion when only a single response is desired, rather than a conversation.
+    Note: GPT-3.5-turbot-instruct is fine tuned for this task."""
+    response = openai.Completion.create(
+        model=model_id,
+        prompt=prompt,
+        engine=deployment_name,
+        max_tokens=SETTINGS["max_tokens_single_response_bots"],
+        temperature=temperature
+    )
+    if return_everything:
+        return response
+    else:
+        return_string = response.choices[0]["text"]
+        return return_string.replace("\n", "").replace(" .", ".").strip()
 
 
 def initiate_conversation_with_prompt(

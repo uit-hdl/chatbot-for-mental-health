@@ -6,7 +6,8 @@ n_attempts_at_producing_valid_response: 1
 max_requests: 2
 # Printing
 print_knowledge_requests: True
-# Pricing info for each model
+
+# --- Pricing info for each model ---
 dollars_per_1k_token:
   "gpt-4":
     "input": 0.03
@@ -14,16 +15,27 @@ dollars_per_1k_token:
   "gpt-3.5-turbo":
     "input": 0.0005
     "output": 0.0015
+  "gpt-3.5-turbo-1106":
+    "input": 0.0005
+    "output": 0.0015
+  "gpt-3.5-turbo-instruct":
+    "input": 0.0015
+    "output": 0.002
 dollars_per_1k_output_token: 0.06
 nok_per_dollar: 10.6  # rate: NOK per Dollar
-max_tokens_per_message: 250  # Limit in prompt + margin
+
+# --- TOKEN LIMITS AND BOUNDARIES ---
+max_tokens_per_message: 270  # Limit in prompt + margin
 max_tokens_hard_upper_limit: 270  # This is an argument in ChatCompletion.create() used to
+max_tokens_single_response_bots: 70  # Max tokens for bots used to produce only a single response
 # estimate token consumption rate and truncate messages. Set abit higher to avoid truncation due to
 # differences in how N-tokens is counted
 soft_limit_1_tokens_per_message: 150  # Mild warning
 soft_limit_2_tokens_per_message: 200  # More severe warning
-hard_limit_tokens_per_message: 250  # Bot must redo message if this limit is exceeded
+hard_limit_tokens_per_message: 270  # Bot must redo message if this limit is exceeded
 warning_limit_tokens_per_message: 150
+
 # --- OVERSEER BOTS ---
+# Set to false to turn of filters that check the contents of generated messages
 enable_overseer_filter: True
 enable_hard_coded_filter: True
