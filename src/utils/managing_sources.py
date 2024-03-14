@@ -14,7 +14,7 @@ def remove_inactive_sources(conversation) -> list:
     """Scans the conversation for sources that have not been used recently
     (inactive sources) and removes them from the conversation (updates system messages).
     """
-    inserted_sources = get_currently_inserted_sources(conversation)
+    inserted_sources = get_names_of_currently_inserted_sources(conversation)
 
     if inserted_sources:
         inactivity_times = get_inactivity_times_for_sources(
@@ -33,23 +33,28 @@ def remove_inactive_sources(conversation) -> list:
     return conversation
 
 
-def get_currently_inserted_sources(conversation):
+def get_names_of_currently_inserted_sources(conversation):
     """Extracts name of sources cited and inserted into the chat by system in the
     form of system messages."""
-    # Find system messages
-    system_messages = [
-        message["content"]
-        for message in conversation[1:]
-        if message["role"] == "system"
+    source_indices = get_index_of_currently_inserted_sources(conversation)
+    inserted_sources = [conversation[index] for index in source_indices]
+    source_names = [
+        extract_source_name_from_system_message(message["content"])
+        for message in inserted_sources
     ]
-    sources = [
-        extract_source_name_from_system_message(message)
-        for message in system_messages
-        if message.startswith("source")
+    source_names = remove_nones(source_names)
+    source_names = list(set(source_names))  # Remove repetitions
+    return source_names
+
+
+def get_index_of_currently_inserted_sources(conversation) -> list[int]:
+    """Gets the location of the sources that have been insrted in the chat."""
+    source_indices = [
+        index
+        for index, msg in enumerate(conversation)
+        if msg["role"] == "system" and msg["content"].startswith("source")
     ]
-    sources = remove_nones(sources)
-    sources = list(set(sources))  # Remove repetitions
-    return sources
+    return source_indices
 
 
 def extract_source_name_from_system_message(message: str):
@@ -123,7 +128,7 @@ def insert_requested_knowledge(conversation, knowledge_requests: list[dict]):
     """Goes through a list of knowledge requests (dictionaries with `name` and `content`)
     and inserts the source content into the chat if they are not already in the chat.
     First checks if there sources are already in the chat."""
-    inserted_sources = get_currently_inserted_sources(conversation)
+    inserted_sources = get_names_of_currently_inserted_sources(conversation)
 
     for knowledge_request in knowledge_requests:
         source_name = knowledge_request["name"]

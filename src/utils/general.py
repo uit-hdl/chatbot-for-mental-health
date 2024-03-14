@@ -34,7 +34,7 @@ def list_intersection(list_1, list_2) -> list:
 
 
 def list_subtraction(list_1, list_2) -> list:
-    """Removes the elements in list 2 that are not in list 1."""
+    """Returns "list_1 - list_2" (removes the elements of list 2 from list 1)."""
     return list(set(list_1).difference(set(list_2)))
 
 

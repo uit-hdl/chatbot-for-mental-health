@@ -32,7 +32,7 @@ LOGFILE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "chat.log")
 LOGFILE_REJECTED_RESPONSES_DUMP_PATH = os.path.join(
     CHAT_INFO_DIR, "rejected_responses.log"
 )
-TRUNCATION_INFO_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "truncated_messages.json")
+DELETED_MESSAGES_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "truncated_messages.json")
 TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "conversation_full.json")
 OVERSEER_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
 HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "harvested_syntax.json")
@@ -114,7 +114,7 @@ def dump_to_json(dump_dict, file_path):
     the root directory."""
     full_path = get_full_path_and_create_dir(file_path)
     with open(full_path, mode="w", encoding="utf-8") as json_file:
-        json.dump(dump_dict, json_file, sort_keys=True, indent=4)
+        json.dump(dump_dict, json_file, sort_keys=False, indent=4)
 
 
 def dump_current_conversation_to_json(conversation, filename="conversation"):
@@ -139,6 +139,25 @@ def update_field_value_in_json(file_path, field: str, new_value):
     dictionary = load_json_from_path(file_path)
     dictionary[field] = new_value
     dump_to_json(dictionary, file_path)
+
+
+def add_element_to_existing_json_file(dump_object, file_path):
+    """Adds the object to the specified json file."""
+    if file_exists(file_path):
+        json_list = load_json_from_path(file_path)
+        if isinstance(dump_object, list):
+            json_list += dump_object
+        else:
+            json_list.append(dump_object)
+        dump_to_json(json_list, file_path)
+    else:
+        print(f"File {file_path} does not exist!")
+
+
+def reset_json_file(file_path):
+    """Resets json file to an empty list"""
+    if file_exists(file_path):
+        dump_to_json([], file_path)
 
 
 def add_extension(path, extension):
@@ -267,6 +286,18 @@ def collect_prompts_in_dictionary(directory_path):
         file_name_without_extension = os.path.splitext(os.path.basename(file_path))[0]
         all_files[file_name_without_extension] = load_textfile_as_string(file_path)
     return all_files
+
+
+def reset_files_that_track_cumulative_variables():
+    """Resets files that track cumulative variables: chat_consumption.json and
+    truncated_messages.json, which tracks the resource consumption (tokens and cost in kr)
+    of a chat and removed messages respectively. This function is executed at the start of
+    each new conversation.
+    """
+    dump_to_json(
+        {"token_usage_total": 0, "chat_cost_kr_total": 0}, TOKEN_USAGE_DUMP_PATH
+    )
+    reset_json_file(DELETED_MESSAGES_DUMP_PATH)
 
 
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)

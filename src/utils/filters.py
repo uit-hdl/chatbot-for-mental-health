@@ -4,7 +4,7 @@ import re
 
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import append_system_messages
-from utils.managing_sources import get_currently_inserted_sources
+from utils.managing_sources import get_names_of_currently_inserted_sources
 from utils.consumption_of_tokens import count_tokens_in_message
 from utils.overseers import MESSAGE_CLASSIFICATIONS
 from utils.overseers import evaluate_with_overseers
@@ -143,7 +143,7 @@ def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):
 
     bot_citations = harvested_syntax["citations"]
     available_sources = get_sources_available_to_chatbot(chatbot_id)
-    inserted_citations = get_currently_inserted_sources(conversation)
+    inserted_citations = get_names_of_currently_inserted_sources(conversation)
 
     soft_warnings = []
     hard_warnings = []

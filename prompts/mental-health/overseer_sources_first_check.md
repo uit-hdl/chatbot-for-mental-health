@@ -17,7 +17,7 @@ Here are the evaluations that you can give to the chatbot message:
    supports it)
 2. "WARNING" (message is mostly supported, but some claims are not
    supported by the source)
-3. "NOT ACCEPTED" (X makes claims not supported by the source, and
+3. "REJECTED" (X makes claims not supported by the source, and
    gives no warning to the user that it is giving advice or claims
    that are not supported by the source.)
 
@@ -50,11 +50,11 @@ source("... A consistent sleep routine can improve sleep...")
 
 ## Example 3
 
-chatbot_message("To challenge someones false perceptions, you should
+chatbot_message("To challenge someone's false perceptions, you should
 inform them of their misconception, and educate them.")
 
 source("... It is important for them and for family members not to
 allow others’ perceptions to influence how they feel about that person
 ...")
 
-¤:provide_feedback({"evaluation": "NOT ACCEPTED"}):¤
+¤:provide_feedback({"evaluation": "REJECTED"}):¤

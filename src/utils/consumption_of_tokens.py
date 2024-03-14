@@ -10,15 +10,6 @@ from utils.backend import load_json_from_path
 from utils.backend import dump_to_json
 
 
-def reset_chat_consumption():
-    """Resets chat_consumption.json which tracks the resource consumption (tokens and cost
-    in kr) of a chat. This function is executed at the start of each new conversation.
-    """
-    dump_to_json(
-        {"token_usage_total": 0, "chat_cost_kr_total": 0}, TOKEN_USAGE_DUMP_PATH
-    )
-
-
 def update_chats_total_consumption(conversation, model_id):
     """Loads and updates the json file that tracks the cumulative cost of the
     current chat in terms of tokens and cost in NOK."""

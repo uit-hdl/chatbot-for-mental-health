@@ -1,13 +1,14 @@
-"""Functions that are related to processing of commands made by the bot, i.e. substrings of the form
-'¤:command_name(argument):¤'. Extracts substrings that contain command syntax, separates the name of
-the command from the argument of the command, and collects information in a managable format. The
-main output (from process_syntax_of_bot_response) is 
+"""Functions that are related to processing of commands made by the bot, i.e. substrings
+of the form '¤:command_name(argument):¤'. Extracts substrings that contain command syntax,
+separates the name of the command from the argument of the command, and collects
+information in a managable format. The main output (from process_syntax_of_bot_response)
+is 
 
-1. Dictionary 'harvested_syntax' wich collects the information on which commands are called, which
-   files are requested, and the availability status of these files.
+1. Dictionary 'harvested_syntax' wich collects the information on which commands are
+   called, which files are requested, and the availability status of these files.
 
-2. a list of system warning messages that are produced whenever an error is detected, such as when
-   the bot requests a non-existant file."""
+2. a list of system warning messages that are produced whenever an error is detected, such
+   as when the bot requests a non-existant file."""
 
 import re
 import os

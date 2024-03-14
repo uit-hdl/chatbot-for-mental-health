@@ -9,6 +9,7 @@ from utils.backend import TRANSCRIPT_DUMP_PATH
 from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
+from utils.backend import reset_files_that_track_cumulative_variables
 from utils.managing_sources import remove_inactive_sources
 from utils.chat_utilities import rewind_chat_by_n_assistant_responses
 from utils.chat_utilities import initiate_conversation_with_prompt
@@ -23,11 +24,11 @@ from utils.console_chat_display import display_images
 from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
 from utils.console_chat_display import RESET_COLOR
 from utils.manage_chat_length import truncate_if_too_long
-from utils.consumption_of_tokens import reset_chat_consumption
+
 
 # Initiate global variables
 BREAK_CONVERSATION = False
-reset_chat_consumption()  # Handles cost and token consumption for current chat
+reset_files_that_track_cumulative_variables()
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):

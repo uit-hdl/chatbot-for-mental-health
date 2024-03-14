@@ -1,6 +1,6 @@
 word_wrap: 80  # N.o. characters before line gets wrapped.
 plot_duration: 10000  # The duration of time for which the figures are shown (uggly solution...)
-max_tokens_before_truncation: 4000  # Determines maximum length before chat gets truncated
+max_tokens_before_truncation: 4500  # Determines maximum length before chat gets truncated
 inactivity_threshold: 2  # Remove source from conversation if it has not been cited in the last ... messages
 n_attempts_at_producing_valid_response: 1
 max_requests: 2

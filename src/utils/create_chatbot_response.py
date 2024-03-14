@@ -2,7 +2,6 @@
 accordingly. Relies on modules `filtes` and `overseers`."""
 
 from utils.process_syntax import process_syntax_of_bot_response
-from utils.managing_sources import get_currently_inserted_sources
 from utils.managing_sources import insert_requested_knowledge
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
