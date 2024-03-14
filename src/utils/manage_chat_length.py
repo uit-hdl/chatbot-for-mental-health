@@ -1,3 +1,5 @@
+"""Functions responsible for keeping the length of the chat below a specified limit."""
+
 from utils.consumption_of_tokens import count_tokens_in_chat
 from utils.general import silent_print
 from utils.backend import dump_to_json

@@ -38,11 +38,6 @@ def list_subtraction(list_1, list_2) -> list:
     return list(set(list_1).difference(set(list_2)))
 
 
-def add_list_with_no_duplicates(list_a, list_b):
-    """Adds elements of list_b to list_a, but removes duplicates."""
-    return list(set(list_a) | set(list_b))
-
-
 def remove_syntax_from_message(message_content: str):
     """Removes code syntax which is intended for backend purposes only."""
     message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message_content, flags=re.DOTALL)
@@ -116,12 +111,3 @@ def remove_superflous_linebreaks_between_paragraphs(text: str):
     ""stripping away commands from bot messages)."""
     cleaned_text = re.sub(r"\n{3,}", "\n\n", text)
     return cleaned_text
-
-
-def find_substrings_enclosed_by_curly_brackets(input_string) -> list[str]:
-    """Finds all substrings enclosed between `{` and `}`"""
-    # Define a regular expression pattern to find substrings between { and }
-    pattern = r"\{([^}]+)\}"
-    enclosed_substrings = re.findall(pattern, input_string)
-    enclosed_substrings = ["{" + string + "}" for string in enclosed_substrings]
-    return "{" + enclosed_substrings + "}"

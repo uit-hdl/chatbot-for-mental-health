@@ -1,4 +1,5 @@
-"""Functions (non-essential) used to calculate various metrics related to use of tokens. """
+"""Functions (non-essential) used to calculate various metrics related to use of tokens.
+Dumps information in chat-info/token-usage/chat_consumption.json."""
 
 import tiktoken
 

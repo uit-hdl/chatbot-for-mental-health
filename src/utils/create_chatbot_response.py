@@ -1,14 +1,12 @@
 """Functions responsible for generating a valid chatbot response and updating the chat
-accordingly."""
+accordingly. Relies on modules `filtes` and `overseers`."""
 
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import get_currently_inserted_sources
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
-from utils.chat_utilities import grab_last_assistant_response
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
-from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import dump_current_conversation_to_json
 from utils.filters import perform_quality_check_and_give_feedback
 from utils.filters import correct_erroneous_show_image_command

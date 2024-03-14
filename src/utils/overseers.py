@@ -78,7 +78,7 @@ def overseer_evaluates_source_fidelity(
             get_source_content_and_path(chatbot_id, name)[0]
             for name in source_citations
         ]
-        preliminary_opinion = preliminary_check_using_lightweight_chatbot(
+        preliminary_opinion = preliminary_source_check_using_lightweight_chatbot(
             sources, chatbot_message
         )
 
@@ -107,14 +107,15 @@ def overseer_evaluates_source_fidelity(
     return overseer_evaluation, warning_message
 
 
-def preliminary_check_using_lightweight_chatbot(
+def preliminary_source_check_using_lightweight_chatbot(
     sources: list[str],
     chatbot_message: str,
     prompt=PROMPTS["overseer_sources_first_check"],
 ):
     """Uses GPT-3.5-turbo-instruct to generate a preliminary quality check on source
-    adherence. Used to save resources. If flagged at this stage, message gets passed to
-    more computationally expensive model for confirmation."""
+    adherence. This evaluation is decent at catching deviations from source materials, but
+    sometimes flags messages that are perfectly fine. If flagged, a more computationally
+    expensive model is called to double check the evaluation."""
     source = sources[0]
     prompt_adjusted = (
         f"""{prompt}\n\nchatbot_message("{chatbot_message}")\n\nsource("{source}")"""

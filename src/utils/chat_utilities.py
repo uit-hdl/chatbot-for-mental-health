@@ -1,4 +1,4 @@
-"""Functions for making it convenient to interact with the conversation list object and
+"""Functions for making it convenient to manipulating the conversation list object and
 chatbot. conversation is a list of dictionaries, each of which have keys 'role' and
 'content' (the message) such as identifying responses of a specified role."""
 
@@ -55,15 +55,15 @@ def get_response_to_single_message_input(
     temperature=None,
     return_everything=False,
 ):
-    """Provides a chat completion to a single message input. More suitable to use than
-    ChatCompletion when only a single response is desired, rather than a conversation.
-    Note: GPT-3.5-turbot-instruct is fine tuned for this task."""
+    """Provides a chat completion to a single message input. `Completion` is optimized
+    for cases where only a single response is desired, rather than a conversation. Note:
+    GPT-3.5-turbot-instruct is fine tuned for this task."""
     response = openai.Completion.create(
         model=model_id,
         prompt=prompt,
         engine=deployment_name,
         max_tokens=max_tokens,
-        temperature=temperature
+        temperature=temperature,
     )
     if return_everything:
         return response
@@ -75,8 +75,8 @@ def get_response_to_single_message_input(
 def initiate_conversation_with_prompt(
     prompt: str, system_message: str = None
 ) -> list[str]:
-    """Creates an chatbot assistent by starting a conversation in the openAI list format
-    with the the initial prompt as the first message."""
+    """Initiates a conversation in the openAI list format with the the initial prompt as
+    the first message."""
     conversation = [{"role": "system", "content": prompt}]
     if system_message:
         conversation.append({"role": "system", "content": system_message})
@@ -84,28 +84,28 @@ def initiate_conversation_with_prompt(
 
 
 def grab_last_response(conversation: list) -> str:
-    """Grab the last response. Convenience function for better code-readability."""
+    """Grab content of the last chat message. Convenience function."""
     return conversation[-1]["content"]
 
 
 def grab_last_assistant_response(conversation: list) -> str:
-    """Grab the latest assistant response."""
+    """Grab the latest assistant response string."""
     index_assistant_messages = identify_assistant_responses(conversation)
     return conversation[index_assistant_messages[-1]]["content"]
-
-
-def grab_last_user_message(conversation: list) -> str:
-    """Grab the latest message from user."""
-    index_user_messages = identify_user_messages(conversation)
-    if index_user_messages:
-        return conversation[index_user_messages[-1]]["content"]
-    else:
-        return None
 
 
 def identify_assistant_responses(conversation) -> list[int]:
     """Gets the index/indices for `assistant` responses."""
     return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
+
+
+def grab_last_user_message(conversation: list) -> str:
+    """Grab the latest message string from user."""
+    index_user_messages = identify_user_messages(conversation)
+    if index_user_messages:
+        return conversation[index_user_messages[-1]]["content"]
+    else:
+        return None
 
 
 def identify_user_messages(conversation) -> list[int]:
@@ -123,25 +123,27 @@ def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> l
     and the bot message you are resetting to, but does not nessecarily reset the overall
     conversation to the state it was in at the time that message was produced (for
     instance, the prompt might have been altered)."""
-    assistant_indices = identify_responses_intended_for_user(conversation)
+    assistant_indices = index_of_assistant_responses_intended_for_user(conversation)
     n_rewind = min([n_rewind, len(assistant_indices) - 1])
     index_reset = assistant_indices[-(n_rewind + 1)]
     return conversation[: index_reset + 1]
 
 
-def identify_responses_intended_for_user(conversation) -> list[int]:
-    """Finds assistant responses (list of indeces) that are contain human readable text,
-    and not just commands for the backend."""
-    responses_with_text = [
+def index_of_assistant_responses_intended_for_user(conversation) -> list[int]:
+    """Finds indices assistant messages that are contain human readable
+    text (not just commands for the backend)."""
+    responses_with_readable_text = [
         i
         for (i, message) in enumerate(conversation)
         if message_is_intended_for_user(message["content"])
     ]
     assistant_messages = identify_assistant_responses(conversation)
-    responses_intended_for_user = sorted(
-        list_intersection(assistant_messages, responses_with_text)
+    idx_responses_intended_for_user = list_intersection(
+        assistant_messages, responses_with_readable_text
     )
-    return responses_intended_for_user
+    idx_responses_intended_for_user = sorted(idx_responses_intended_for_user)
+
+    return idx_responses_intended_for_user
 
 
 def append_system_messages(conversation, system_messages: list[str]) -> list:

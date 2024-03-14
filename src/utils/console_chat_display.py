@@ -1,5 +1,6 @@
-"""Functions involved only in the process of presenting the assistant output in the console and
-making it look nice to humans."""
+"""Functions involved only in the process of presenting the assistant output in the
+console and making it look nice to humans."""
+
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from moviepy.editor import VideoFileClip
