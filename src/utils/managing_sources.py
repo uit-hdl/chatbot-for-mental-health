@@ -7,6 +7,7 @@ import re
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
 from utils.general import message_is_intended_for_user
+from utils.general import silent_print
 
 
 def remove_inactive_sources(conversation) -> list:
@@ -116,3 +117,31 @@ def remove_inactive_sources_from_system_messages(
 def remove_nones(array: list):
     """Remove elements of list of type `None`"""
     return [x for x in array if x is not None]
+
+
+def insert_requested_knowledge(conversation, knowledge_requests: list[dict]):
+    """Goes through a list of knowledge requests (dictionaries with `name` and `content`)
+    and inserts the source content into the chat if they are not already in the chat.
+    First checks if there sources are already in the chat."""
+    inserted_sources = get_currently_inserted_sources(conversation)
+
+    for knowledge_request in knowledge_requests:
+        source_name = knowledge_request["name"]
+        source_content = knowledge_request["content"]
+        if source_content:
+            # Non-empty source content means that the source exists
+            # Check if requested source is in chat already
+            if source_name in inserted_sources:
+                message = f"The requested source {source_name} is already available in the chat!"
+                LOGGER.info(message)
+            else:
+                # Put source content in system message
+                message = f"source {source_name}: {source_content}"
+                LOGGER.info("Source %s inserted in conversation.", source_name)
+                if SETTINGS["print_knowledge_requests"]:
+                    silent_print(f"Source {source_name} inserted in conversation.")
+
+            # Insert system message into conversation
+            conversation.append({"role": "system", "content": message})
+
+    return conversation

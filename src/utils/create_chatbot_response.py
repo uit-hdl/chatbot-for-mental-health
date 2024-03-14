@@ -3,6 +3,7 @@ accordingly. Relies on modules `filtes` and `overseers`."""
 
 from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import get_currently_inserted_sources
+from utils.managing_sources import insert_requested_knowledge
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.backend import SETTINGS
@@ -27,7 +28,7 @@ def respond_to_user(conversation, chatbot_id: str) -> list:
     counter = 0
     # Iteratively create responses untill the output is NOT a request for sources
     while knowledge_requests and counter < SETTINGS["max_requests"]:
-        conversation = insert_knowledge(conversation, knowledge_requests)
+        conversation = insert_requested_knowledge(conversation, knowledge_requests)
         (
             conversation,
             harvested_syntax,
@@ -37,7 +38,7 @@ def respond_to_user(conversation, chatbot_id: str) -> list:
         dump_current_conversation_to_json(conversation)
 
     return conversation, harvested_syntax
- 
+
 
 def generate_valid_chatbot_output(conversation, chatbot_id):
     """Attempts to generate a response untill the response passes quality check based on
@@ -80,29 +81,3 @@ def create_tentative_bot_response(conversation, chatbot_id):
     conversation = correct_erroneous_show_image_command(conversation)
     harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
     return conversation, harvested_syntax
-
-
-def insert_knowledge(conversation, knowledge_extensions: list[str]):
-    """Checks for request to insert knowledge, and inserts knowledge into the
-    conversation. First checks if there sources are already in the chat."""
-    inserted_sources = get_currently_inserted_sources(conversation)
-
-    for source in knowledge_extensions:
-        source_name = source["name"]
-        if source["content"] is not None:
-            # Check if source is in chat already
-            if source["name"] in inserted_sources:
-                message = (
-                    f"The source {source['name']} is already available in the chat!"
-                )
-                LOGGER.info(message)
-            else:
-                # Put source content in system message
-                message = f"source {source_name}: {source['content']}"
-                LOGGER.info("Source %s inserted in conversation.", source["name"])
-                if SETTINGS["print_knowledge_requests"]:
-                    silent_print(f"Source {source_name} inserted in conversation.")
-
-            conversation.append({"role": "system", "content": message})
-
-    return conversation

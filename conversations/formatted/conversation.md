@@ -318,85 +318,54 @@ NEVER type `assistant:` in your responses.
 
 # Conversation 
 
-system: Response length: 181 tokens. Recall, cover at most 2 paragraphs per response when walking through information.  
+system: You cited a source (72_diet_exercise_sleep_alcohol) that has not been inserted in the chat! Ensure the source is in the chat BEFORE you cite it.  
 
 
-system: Avoid dietary specifics. Refer to health professionals.  
-
-
-user: So saturated fats are bad right?  
-
-
-assistant: ¤:cite(["no_advice_or_claims"]):¤ The source doesn't provide specifics on saturated fats. Generally, it is recommended to limit saturated fat intake because consuming too much may be linked to heart disease. However, the full relationship between saturated fats and health is complex and can depend on other factors in your diet.
-
-For personalized recommendations, especially considering you may have schizophrenia, it is important to consult with a health care provider. Would you like to know more details about managing general health and lifestyle with schizophrenia?  
-
-
-system: No dietary advice; redirect to health professional.  
-
-
-user: Can alcohol sometimes be good? for instance to help me sleep  
+user: Yes, more details  
 
 
 assistant: ¤:request_knowledge(72_diet_exercise_sleep_alcohol):¤  
 
 
-system: source 72_diet_exercise_sleep_alcohol: [show `72_exercise_diet_alcohol_influence.png` | illustrates effect of
-lifestyle-factors]
-
-# Diet
-
-Some treatments for schizophrenia can increase the risk of weight gain and
-obesity. Sticking to a healthy diet is a good way to minimize this risk. Your
-doctor will monitor your weight and, if weight gain becomes a problem, it may be
-worth discussing different medication options.
-
-# Alcohol
-
-Drinking to excess should be avoided, not only to improve your general health
-but also because there is a strong association between schizophrenia and
-alcoholism, which means that the risk of becoming addicted to alcohol is greater
-if you have schizophrenia. Therefore, it is a good idea to moderate your
-drinking as much as possible.
-
-# Physical exercise
-
-There are several reasons to incorporate a physical exercise regimen into your
-lifestyle. First, getting a good amount of exercise will help you to control
-your weight in combination with a healthy diet. Secondly, exercise can put you
-in a better frame of mind, as hormones released during exercise are associated
-with improved mood. Exercise can also improve the way you sleep.
-
-# Sleep
-
-People with schizophrenia tend to have disrupted sleep patterns: you may find
-yourself sleeping more or less than most people, or at different times of the
-day. This can lead to excessive tiredness, known as fatigue. A change in sleep
-patterns can be the first sign of a psychotic episode, and therefore can be
-taken as a warning sign. Maintaining a regular routine can help you to get your
-sleep patterns back to normal. This can include having a bedtime routine, going
-to bed at the same time and waking up at the same time. Relaxation techniques,
-such as meditation, can help to reduce stress; this is important because stress
-can stop you sleeping peacefully. Caffeine should be avoided, especially in the
-evening, as it can disrupt your sleep.
-[`sleep_assistant` provides in-depth info on sleep if user is interested]
-  
+system: Inactive source removed due to not being actively cited.  
 
 
-assistant: ¤:cite(["72_diet_exercise_sleep_alcohol"]):¤ While a small amount of alcohol might seem to help some people relax, it is generally not recommended as an aid for sleep, especially for individuals with schizophrenia. Excessive drinking should be avoided because it can increase the risk of alcoholism, which is higher among individuals with schizophrenia. Drinking in moderation is very important.
+assistant: ¤:cite(["72_diet_exercise_sleep_alcohol"]):¤ Here are some guidelines to improve your physical shape, specifically in the context of schizophrenia:
 
-To promote better sleep, there are healthier strategies you can adopt such as establishing a regular sleep routine, using relaxation techniques, and avoiding caffeine especially later in the day. Maintaining a regular bedtime and wake time, and including relaxation techniques like meditation can be beneficial. ¤:display_image(72_exercise_diet_alcohol_influence.png):¤
+(1.1) Diet: It's important to have a healthy diet, especially because some treatments for schizophrenia can lead to weight gain. Your doctor should monitor your weight, and if necessary, you might discuss alternative medications.
 
-If you'd like more detailed advice on sleep, I could refer you to a specialist assistant to help with sleep issues. Would you be interested in that?  
+(1.2) Alcohol: Excessive drinking should be avoided. People with schizophrenia have a higher risk of developing alcoholism, so moderation is key to maintaining both general and mental health.
+
+(1.3) Physical Exercise: Regular exercise helps control weight alongside a healthy diet and has mood-boosting effects due to hormone release. It's also beneficial for sleep.
+
+(1.4) Sleep: Disrupted sleep patterns are common in schizophrenia. Maintaining a regular routine and using relaxation techniques like meditation can help. Limit caffeine, particularly in the evening, to avoid sleep disturbances. ¤:display_image(72_exercise_diet_alcohol_influence.png):¤
+
+If you need more detailed information on managing sleep, I can refer you to a specialized assistant. Would you like that?  
 
 
-system: Response length: 179 tokens. Recall, cover at most 2 paragraphs per response when walking through information.  
+system: You almost reached the maximum message length. Limit the information per message to not overwhelm the user.  
 
 
-user: So meditation will improve the quality of my sleep?  
+user: What is a healthy diet?  
 
 
-assistant: ¤:cite(["72_diet_exercise_sleep_alcohol"]):¤ Yes, meditation is a relaxation technique that can help reduce stress, which in turn may improve the quality of your sleep. It is part of cultivating a calming bedtime routine, and consistently practicing meditation can help you get your sleep patterns back to more regular cycles. 
+system: The source does not detail specific diet recommendations.  
 
-If you'd like to learn more about effective sleep habits or have any other questions about living with schizophrenia, feel free to ask. Would you be interested in further information on relaxation techniques?  
+
+assistant: ¤:cite(["sources_dont_contain_answer"]):¤ The manual does not provide specific diet recommendations, so it's best to consult with a healthcare provider or a nutritionist for personalized advice. Generally, a healthy diet consists of a balance of fruits, vegetables, whole grains, lean proteins, and healthy fats while limiting processed foods, excess sugar, and saturated fats. Would you like to explore more about how diet relates to schizophrenia, or is there something else you're curious about?  
+
+
+system: Avoid general dietary advice; redirect to professionals.  
+
+
+user: Should I avoid cholesterol in my food?  
+
+
+assistant: ¤:cite(["sources_dont_contain_answer"]):¤ The source does not provide specific advice on cholesterol intake in the context of schizophrenia, so you should consult a healthcare provider to get personalized recommendations on dietary cholesterol and how it may affect your condition. They would have the most up-to-date and relevant information for your individual health needs. Is there anything else I can assist you with?  
+
+
+user: But what do you think if you had to guess?  
+
+
+assistant: ¤:cite(["sources_dont_contain_answer"]):¤ I'm sorry, but I am not able to provide guesses or personal opinions, especially on matters related to health and nutrition. My role is to provide information based on the manual I refer to, and it's very important to consult with a healthcare professional for advice tailored to your specific circumstances. If you have any other questions related to schizophrenia, I can certainly look up the relevant information for you. Can I help with anything else?  
 

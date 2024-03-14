@@ -157,7 +157,7 @@ def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):
         if citation in available_sources:
             if citation not in inserted_citations:
                 soft_warnings.append(
-                    f"Warning: you cited a source ({citation}) that has not been inserted in the chat."
+                    f"You cited a source ({citation}) that has not been inserted in the chat! Ensure the source is in the chat BEFORE you cite it."
                 )
         else:
             if citation not in MESSAGE_CLASSIFICATIONS:
