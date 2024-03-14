@@ -4,39 +4,39 @@
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information on schizophrenia from a trusted manual. If you have any questions or need clarity on certain aspects of schizophrenia, feel free to ask. Please let me know how you'd like the information to be presented\u2014for example, more slowly or with simpler terms. How can I assist you today?",
-        "role": "assistant"
-    },
-    {
-        "content": "hi",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hi there! If you have any questions about schizophrenia or related topics, I'm here to help. What would you like to know?",
-        "role": "assistant"
-    },
-    {
-        "content": "hi",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Is there something specific you would like to know about schizophrenia? You can ask about symptoms, treatment, or anything else on your mind. Please feel free to share what's on your mind.",
-        "role": "assistant"
-    },
-    {
-        "content": "what can you tell me aout stigma?",
-        "role": "user"
-    },
-    {
-        "content": "\u00a4:request_knowledge(13_stigma):\u00a4",
-        "role": "assistant"
-    },
-    {
-        "content": "source 13_stigma: Stigma can refer to the negative perceptions and attitudes surrounding\ncertain health conditions or diseases. There is a lot of\nmisconceptions surrounding schizophrenia, which can affect both those\nwith the condition and those who care for them. Many people believe\nthat a person with schizophrenia will switch frequently between normal\nand bizarre behaviour, as if they have multiple personalities. This\npromotes a perception that people with schizophrenia are unpredictable\nand should be feared.\n\nThey may internalize these misconceptions (self-stigmization). It is\nimportant for them and for family members not to allow others\u2019\nperceptions to influence how they feel about that person. It is\nimportant that they view their illness as something they have, and not\nsomething that identifies them.\n\nThe name \u2018schizophrenia\u2019 is derived from the Greek verb skhizein, \u2018to\nsplit\u2019, and phren, denoting \u2018soul, spirit or mind\u2019, and originally\ndescribed a group of \u2018schizophrenias\u2019. Although the current language\nsuggests a single, uniform condition, there is great variety in the\nseverity of illness and types of symptoms experienced by people with\nschizophrenia.\n\nThere have been many suggestions for alternative names that better\ndescribe the diversity of symptoms apparent in people with\nschizophrenia. Indeed, a new term, \u2018Togo Shitcho Sho\u2019 or \u2018integration\ndisorder\u2019, was adopted in Japan in 2002. Patient groups in the\nNetherlands are also taking steps towards realizing a name change in\ntheir country. The Dutch patient society, Anoiksis, has suggested a\nnew name and new concept for schizophrenia, with the aim of reducing\nthe stigma associated with the condition.\n\n[Example of healthy way to think about Schizophrenia] \u201cI have\nschizophrenia. I am not schizophrenia. I am not my mental illness. My\nillness is a part of me.\u201d \u2013 Jonathan Harnisch, An Alibiography\n\n[source `61_personal_relationships` and `41_who_should_i_tell`\ndiscusses who to confide in about Schizophrenia and how to talk to\nthem]\n",
+        "content": "Response length: 170 tokens. Recall, cover at most 2 paragraphs per response when walking through information.",
         "role": "system"
     },
     {
-        "content": "\u00a4:cite([\"13_stigma\"]):\u00a4 Stigma around schizophrenia arises from negative perceptions and misconceptions that can affect individuals with the condition and their caregivers. Commonly, people mistakenly believe schizophrenia involves multiple personalities and that individuals with the condition are unpredictable and should be feared. This isn't true\u2014schizophrenia doesn't mean having multiple personalities, and those with the condition have diverse experiences and symptoms.\n\nIt's crucial for people with schizophrenia and their families not to let others' views shape how they feel about themselves or their loved one. The illness is a part of their life but does not define their identity. The name \"schizophrenia\" comes from Greek roots meaning \"to split\" and \"mind,\" but efforts have been made in some countries, like Japan and the Netherlands, to change the name to reduce the associated stigma.\n\nHere's an example of how to healthily think about schizophrenia: \"I have schizophrenia. I am not schizophrenia. I am not my mental illness. My illness is a part of me.\" \u2013 Jonathan Harnisch, An Alibiography\n\nIf you'd like more information on personal relationships and discussing your condition with others, I can provide details on who to confide in and how to approach these conversations. Would you be interested in that?",
+        "content": "what is a trigger?",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:request_knowledge(81_living_with_schizophrenia_intro):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "source 81_living_with_schizophrenia_intro: \u201cI want a good relationship with my wife, with my children, with my\nfamily and with my colleagues at work. I don\u2019t want to have another\npsychotic episode, but, if it happens, I know I can manage and people\naround me know how to deal with it.\u201d \u2013 Ronan\n\nAs you begin to recover from your illness, it is likely that you will\nwant to start regaining control of your life. This can include\nlearning how to avoid triggering a relapse, and developing coping\nstrategies for when times get tough.\n\n# Warning signs of a relapse\n\n- Moodiness, aggression or depression\n- Excessive crying or laughing\n- Hallucinations or talking to oneself\n- Changes in activity or sleep patterns\n- Changes in behaviour\n- Being asocial\n- Making meaningless statements\n- Strange postures or prolonged staring\n- Changes in appearance or poor personal hygiene\n\nThere are several things that are thought to increase a person\u2019s\nchances of relapsing into the acute phase of schizophrenia, such as\nhigh stress levels, stressful life events and the use of illegal\ndrugs.\n",
+        "role": "system"
+    },
+    {
+        "content": "\u00a4:cite([\"81_living_with_schizophrenia_intro\"]):\u00a4 A trigger in the context of schizophrenia is a factor or event that increases the likelihood of a relapse into more acute symptoms, like a return of hallucinations, delusions, or significant mood disruptions. Common triggers can include high levels of stress, encountering stressful life situations, and using illegal drugs. \n\nBeing aware of potential triggers is an important part of managing schizophrenia because it can help you avoid situations or factors that might worsen your symptoms. It's also beneficial to learn and develop coping strategies for deal\n\nDealing with difficult times. Would you like to delve deeper into identifying your personal triggers or learning techniques to manage them?",
+        "role": "assistant"
+    },
+    {
+        "content": "Yes",
+        "role": "user"
+    },
+    {
+        "content": "\u00a4:request_knowledge(82_stress):\u00a4",
+        "role": "assistant"
+    },
+    {
+        "content": "source 82_stress: # Avoiding stress\n\nStress is a common trigger for schizophrenia and, unfortunately, it is\nextremely difficult to avoid stress completely because having\nschizophrenia can be extremely stressful in itself. Nevertheless, it\nis possible to manage your stress levels and to reduce the impact that\nstress has on your life.\n\n[show `82_how_to_avoid_stress.png` | illustrates points below]\n\n- Learn which situations you find stressful and avoid them\n- Talk to someone \u2013 a problem shared is a problem halved\n- Avoid alcohol, caffeine and illicit drugs, as these can cause\n  anxiety\n- Learn some relaxation techniques\n- Simplify your life - just do one thing at a time\n- Stick to a schedule for each day\n- Exercise - this can prevent as well as relieve stress\n- Withdraw gradually from situations you find stressful\n\n[`relaxation` assistant provides in-depth info if user is interested]\n",
+        "role": "system"
+    },
+    {
+        "content": "\u00a4:cite([\"82_stress\"]):\u00a4 Managing stress is key to avoiding triggers for schizophrenia. While stress is hard to completely avoid, especially when living with schizophrenia, there are ways to manage and reduce its impact:\n\n(1.1) Identify which situations are stressful for you and try to avoid them.\n(1.2) Sharing your problems with someone can significantly reduce your stress.\n(1.3) Avoid substances like alcohol, caffeine, and illicit drugs that can increase anxiety.\n(1.4) Learning relaxation techniques can be very helpful.\n(1.5) Simplify your life by focusing on one task at a time and sticking to a daily schedule.\n(1.6) Regular exercise is not only a preventive measure but can also relieve existing stress.\n(1.7) If you find yourself in a stressful situation, try to withdraw from it gradually rather than abruptly.\n\nWould you like to see an illustration that explains these points further, or do you have any specific questions about these techniques? Additionally, if you want more in-depth information on relaxation techniques, I can refer you to a specialist in relaxation.\n\u00a4:display_image(82_how_to_avoid_stress.png):\u00a4",
         "role": "assistant"
     },
     {
@@ -44,15 +44,7 @@
         "role": "system"
     },
     {
-        "content": "Should I join a movement to change the way that the illness is viewed?",
+        "content": "break",
         "role": "user"
-    },
-    {
-        "content": "\u00a4:cite([\"13_stigma\"]):\u00a4 Participating in movements to change perceptions of schizophrenia can be a positive step. It offers an opportunity for you to help reduce stigma and educate others about the true nature of the condition, encouraging a more understanding and compassionate view.\n\nRemember, it's vital to engage in advocacy work that aligns with your comfort level and personal boundaries. If you prefer to take a more private approach to manage your illness, that's perfectly okay too. There is no one-size-fits-all answer, and your personal well-being should always come first.\n\nWould you like guidance on how to engage in such movements or advice on personal advocacy? I can provide more information if you're interested.",
-        "role": "assistant"
-    },
-    {
-        "content": "Suggest action without clear backing from the cited source. Include a disclaimer next time.",
-        "role": "system"
     }
 ]

@@ -20,7 +20,7 @@ openai.api_base = CONFIG["api_base"]
 openai.api_version = CONFIG["api_version"]
 
 
-# @backoff.on_exception(backoff.expo, openai.error.RateLimitError)
+@backoff.on_exception(backoff.expo, openai.error.RateLimitError)
 def generate_and_add_raw_bot_response(
     conversation,
     model_id=CONFIG["model_id"],
@@ -51,6 +51,7 @@ def get_response_to_single_message_input(
     prompt: str,
     model_id="gpt-3.5-turbo-instruct",
     deployment_name=CONFIG["deployment_name_single_response"],
+    max_tokens=SETTINGS["max_tokens_single_response_bots"],
     temperature=None,
     return_everything=False,
 ):
@@ -61,7 +62,7 @@ def get_response_to_single_message_input(
         model=model_id,
         prompt=prompt,
         engine=deployment_name,
-        max_tokens=SETTINGS["max_tokens_single_response_bots"],
+        max_tokens=max_tokens,
         temperature=temperature
     )
     if return_everything:
