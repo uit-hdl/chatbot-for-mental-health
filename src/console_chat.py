@@ -5,14 +5,15 @@ from utils.general import offer_to_store_conversation
 from utils.backend import PROMPTS
 from utils.backend import LOGGER
 from utils.backend import CONFIG
+from utils.backend import TRANSCRIPT_DUMP_PATH
+from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
+from utils.backend import reset_files_that_track_cumulative_variables
 from utils.managing_sources import remove_inactive_sources
 from utils.chat_utilities import rewind_chat_by_n_assistant_responses
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
-from utils.overseers import overseer_evaluates_source_fidelity
-from utils.overseers import overseer_evaluates_non_factual_messages
 from utils.create_chatbot_response import respond_to_user
 from utils.console_chat_display import display_last_response
 from utils.console_chat_display import display_last_assistant_response
@@ -23,17 +24,16 @@ from utils.console_chat_display import display_images
 from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
 from utils.console_chat_display import RESET_COLOR
 from utils.manage_chat_length import truncate_if_too_long
-from utils.consumption_of_tokens import reset_chat_consumption
+
 
 # Initiate global variables
 BREAK_CONVERSATION = False
-reset_chat_consumption()
+reset_files_that_track_cumulative_variables()
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
-    """Running this function starts a conversation with a tutorial bot that
-    helps explain how a web-app (https://app.consensussleepdiary.com) functions. The web
-    app is a free online app for collecting sleep data."""
+    """Have a chat with a chatbot assistant in the console. The chatbot id is the name of
+    the file (no extension) that contains the prompt of the chatbot."""
 
     if chat_filepath:
         conversation = continue_previous_conversation(chat_filepath, chatbot_id)
@@ -92,6 +92,7 @@ def initiate_new_conversation(
         conversation, model_id, deployment_name
     )
     dump_current_conversation_to_json(conversation)
+    dump_to_json(conversation, TRANSCRIPT_DUMP_PATH)
     return conversation
 
 

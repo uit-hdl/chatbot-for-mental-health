@@ -17,9 +17,6 @@ from utils.backend import dump_current_conversation_to_json
 from utils.backend import get_sources_available_to_chatbot
 
 
-FLAG = "ACCEPTED"
-
-
 def perform_quality_check_and_give_feedback(
     conversation, harvested_syntax: dict, chatbot_id: str
 ) -> str:
@@ -28,7 +25,6 @@ def perform_quality_check_and_give_feedback(
     conversation so that the chatbot can learn from its mistakes. Certain errors (those
     that get hard warnings) will result in the bot having to regenerate its
     response."""
-    global FLAG
     flag = "ACCEPTED"
 
     # -- HARD CODED FILTER --
