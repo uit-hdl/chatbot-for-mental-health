@@ -1,13 +1,11 @@
 import gradio as gr
 import sys
-import time
 
 
 from console_chat import PROMPTS
 from console_chat import initiate_conversation_with_prompt
 from console_chat import remove_inactive_sources
 from console_chat import respond_to_user
-from console_chat import overseer_evaluates_source_fidelity
 from console_chat import dump_current_conversation_to_json
 from console_chat import direct_to_new_assistant
 from console_chat import truncate_if_too_long
