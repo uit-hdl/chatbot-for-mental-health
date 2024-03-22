@@ -128,7 +128,7 @@ def direct_to_new_assistant(assistant_name: str) -> list:
 
 
 if __name__ == "__main__":
-    chatbot_id = "referral"
+    chatbot_id = "mental_health"
     chat_filepath = None
 
     if len(sys.argv) > 1:

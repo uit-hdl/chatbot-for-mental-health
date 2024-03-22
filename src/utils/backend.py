@@ -33,6 +33,7 @@ LOGFILE_REJECTED_RESPONSES_DUMP_PATH = os.path.join(
 DELETED_MESSAGES_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "truncated_messages.json")
 TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "conversation_full.json")
 OVERSEER_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
+SWIFT_JUDGEMENT_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "swift_judgement.md")
 HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "harvested_syntax.json")
 TOKEN_USAGE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "token-usage/chat_consumption.json")
 
@@ -113,6 +114,15 @@ def dump_to_json(dump_dict, file_path):
     full_path = get_full_path_and_create_dir(file_path)
     with open(full_path, mode="w", encoding="utf-8") as json_file:
         json.dump(dump_dict, json_file, sort_keys=False, indent=4)
+
+
+def dump_chat_to_markdown(conversation: list[dict], file_path):
+    """Dumps a chat to a textfile (.md or .txt) file for better readability."""
+    full_path = get_full_path_and_create_dir(file_path)
+    with open(full_path, "w") as file:
+        for message in conversation:
+            formatted_message = f"\n{message['role']}: {message['content']}\n\n"
+            file.write(formatted_message)
 
 
 def dump_current_conversation_to_json(conversation, filename="conversation"):

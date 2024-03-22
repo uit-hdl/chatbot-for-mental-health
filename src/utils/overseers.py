@@ -7,9 +7,11 @@ from typing import Tuple
 
 from utils.backend import get_source_content_and_path
 from utils.backend import dump_to_json
+from utils.backend import dump_chat_to_markdown
 from utils.backend import convert_json_string_to_dict
 from utils.backend import get_sources_available_to_chatbot
 from utils.backend import OVERSEER_DUMP_PATH
+from utils.backend import SWIFT_JUDGEMENT_DUMP_PATH
 from utils.backend import PROMPTS
 from utils.backend import CONFIG
 from utils.chat_utilities import initiate_conversation_with_prompt
@@ -24,7 +26,8 @@ from utils.general import list_subtraction
 from utils.general import remove_syntax_from_message
 from utils.general import silent_print
 
-# Citations that do not reference a source but serves to classify the bots response
+# Classifications are dummy-citations that do not reference a source but serves to
+# classify the bots response.
 MESSAGE_CLASSIFICATIONS = [
     "initial_prompt",
     "sources_dont_contain_answer",
@@ -78,7 +81,7 @@ def overseer_evaluates_source_fidelity(
             get_source_content_and_path(chatbot_id, name)[0]
             for name in source_citations
         ]
-        preliminary_opinion = preliminary_source_check_using_lightweight_chatbot(
+        preliminary_opinion = swift_judgement_of_source_fidelity(
             sources, chatbot_message
         )
 
@@ -107,10 +110,10 @@ def overseer_evaluates_source_fidelity(
     return overseer_evaluation, warning_message
 
 
-def preliminary_source_check_using_lightweight_chatbot(
+def swift_judgement_of_source_fidelity(
     sources: list[str],
     chatbot_message: str,
-    prompt=PROMPTS["overseer_sources_first_check"],
+    prompt=PROMPTS["swift_judge_source_fidelity"],
 ):
     """Uses GPT-3.5-turbo-instruct to generate a preliminary quality check on source
     adherence. This evaluation is decent at catching deviations from source materials, but
@@ -121,6 +124,7 @@ def preliminary_source_check_using_lightweight_chatbot(
         f"""{prompt}\n\nchatbot_message("{chatbot_message}")\n\nsource("{source}")"""
     )
     evaluation = get_response_to_single_message_input(prompt_adjusted)
+    dump_swift_judgement_to_markdown(prompt_adjusted, evaluation)
     silent_print(f"turbo-instruct says {evaluation}")
     if "ACCEPTED" in evaluation:
         return "ACCEPTED"
@@ -189,36 +193,7 @@ def overseer_response_is_valid(overseer_dict: dict):
     return False
 
 
-# -- CONFIRMATION BOT --
-def intent_classification_bot(user_message) -> str:
-    """Checks if the user is answering yes or no."""
-    confirmation_chat = initiate_conversation_with_prompt(
-        PROMPTS["confirmation_bot"],
-        system_message="{'user_message': '%s'}" % user_message,
-    )
-    confirmation_bot_response = grab_last_response(
-        generate_and_add_raw_bot_response(confirmation_chat, CONFIG)
-    )
-    _, command_arguments = extract_command_names_and_arguments(
-        confirmation_bot_response
-    )
-    intent_classification = interpret_bot_command_argument(command_arguments)
-    return intent_classification
-
-
-def interpret_bot_command_argument(command_arguments: list[str]):
-    """Determines based on the command argument of the bot if it has
-    concluded "YES" or "NO"."""
-    if command_arguments:
-        if command_arguments[0] == "YES":
-            return "YES"
-        else:
-            return "NO"
-    else:
-        return "NO"
-
-
-# -- OVERSEER OF NON-FACTUAL MESSAGES --
+# -- OVERSEER OF MISCELLANEOUS/NON-FACTUAL MESSAGES --
 def overseer_evaluates_non_factual_messages(
     conversation, citations: list, model_id: str
 ):
@@ -232,22 +207,56 @@ def overseer_evaluates_non_factual_messages(
     ]
     classification_citations = list_intersection(MESSAGE_CLASSIFICATIONS, citations)
 
+    overseer_evaluation = "ACCEPTED"
+    warning_message = []
+
     if classification_citations:
         user_message = grab_last_user_message(conversation)
         chatbot_response = grab_last_assistant_response(conversation)
-        system_message_to_overseer = f"""
-        user message: '{user_message}'
-        bot response: '{chatbot_response}'\n
-        """
-        evaluation_dict = generate_overseer_response(
-            system_message_to_overseer, overseer_id=OVERSEER_MISC, model_id=model_id
+        swift_judgement = preliminary_check_of_non_factual_message(
+            user_message, chatbot_response
         )
-        silent_print(f"{OVERSEER_MISC} evaluation:")
-        overseer_evaluation, warning_message = extract_overseer_evaluation_and_feedback(
-            evaluation_dict
-        )
-    else:
-        overseer_evaluation = "ACCEPTED"
-        warning_message = []
+        if swift_judgement != "ACCEPTED":
+            system_message_to_overseer = f"""
+            user message: '{user_message}'
+            bot response: '{chatbot_response}'\n
+            """
+            evaluation_dict = generate_overseer_response(
+                system_message_to_overseer, overseer_id=OVERSEER_MISC, model_id=model_id
+            )
+            silent_print(f"{OVERSEER_MISC} evaluation:")
+            overseer_evaluation, warning_message = (
+                extract_overseer_evaluation_and_feedback(evaluation_dict)
+            )
 
     return overseer_evaluation, warning_message
+
+
+def preliminary_check_of_non_factual_message(
+    user_message: str,
+    chatbot_message: str,
+    prompt=PROMPTS["swift_judge_misc"],
+):
+    """Uses GPT-3.5-turbo-instruct to screen for behaviours that violates the chatbots
+    role limitations."""
+    prompt_adjusted = f"""{prompt}\nuser_message("{user_message}")\n\nchatbot_message("{chatbot_message}")"""
+    evaluation = get_response_to_single_message_input(prompt_adjusted)
+    dump_swift_judgement_to_markdown(prompt_adjusted, evaluation)
+    silent_print(f"turbo-instruct (non-factual) says {evaluation}")
+    if "ACCEPTED" in evaluation:
+        return "ACCEPTED"
+    else:
+        return "WARNING"
+
+
+def dump_swift_judgement_to_markdown(prompt_adjusted, evaluation):
+    """Dumps the prompt and evaluation of the swift judgement overseer to a markdown
+    file in chat-info/swift_judgement.md."""
+    [{"input": prompt_adjusted, "content": evaluation}]
+    dump_chat_to_markdown(
+        [
+            {"role": "input", "content": prompt_adjusted},
+            {"role": "evaluation", "content": evaluation},
+        ],
+        SWIFT_JUDGEMENT_DUMP_PATH,
+    )
