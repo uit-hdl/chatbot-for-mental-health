@@ -9,7 +9,6 @@ from utils.logging import setup_logger
 
 # Directory paths
 ROOT_DIR = pathlib.Path(__file__).parents[2]
-API_DIR = os.path.join(pathlib.Path(__file__).parents[3], "api-keys")
 CONVERSATIONS_DIR = os.path.join(ROOT_DIR, "conversations")
 CONVERSATIONS_CURRENT_DIR = os.path.join(ROOT_DIR, "conversations/current")
 CONVERSATIONS_RAW_DIR = os.path.join(CONVERSATIONS_DIR, "raw")
@@ -23,7 +22,6 @@ CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-info")
 
 # Configuration file paths
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
-API_KEY_PATH = os.path.join(API_DIR, "insomnia_bot_azure.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
@@ -304,6 +302,6 @@ PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)
 
 CONFIG = load_yaml_file(CONFIG_PATH)
 SETTINGS = load_yaml_file(SETTINGS_PATH)
-API_KEY = load_yaml_file(API_KEY_PATH)["key"]
+API_KEY = os.environ["AZURE_API_KEY"]
 
 MODEL_ID = CONFIG["model_id"]

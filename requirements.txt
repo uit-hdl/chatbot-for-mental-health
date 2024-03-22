@@ -1,9 +1,15 @@
+backoff==2.2.1
+colorlog==6.8.0
+gradio==4.22.0
 matplotlib==3.7.1
 moviepy==1.0.3
 numpy==1.24.3
 openai==0.27.6
 openai==0.27.8
-opencv_python==4.8.1.78
+pandas==2.0.1
+pandas==2.0.2
+path.py==12.5.0
 PyYAML==6.0
 PyYAML==6.0.1
+Requests==2.31.0
 tiktoken==0.4.0
