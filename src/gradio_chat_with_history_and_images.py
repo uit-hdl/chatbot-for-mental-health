@@ -21,6 +21,10 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
         PROMPTS[chatbot_id],
     )
 
+    def respond(user_message, surface_chat):
+        """Submit expects a function handle that takes only two arguments."""
+        return create_response(user_message, surface_chat, chatbot_id)
+
     with gr.Blocks() as demo:
         chatbot = gr.Chatbot(label="Your input")
         msg = gr.Textbox()
@@ -30,7 +34,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     demo.launch(share=True, server_port=server_port)
 
 
-def respond(user_message, surface_chat):
+def create_response(user_message, surface_chat, chatbot_id):
     global DEEP_CHAT
     DEEP_CHAT.append({"role": "user", "content": user_message})
     DEEP_CHAT, harvested_syntax = respond_to_user(DEEP_CHAT, chatbot_id)
