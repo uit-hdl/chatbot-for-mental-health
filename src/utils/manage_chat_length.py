@@ -1,5 +1,6 @@
 """Functions responsible for keeping the length of the chat below a specified limit."""
 import os
+import os
 
 from utils.consumption_of_tokens import count_tokens_in_chat
 from utils.general import silent_print
@@ -78,6 +79,7 @@ def update_chat_transcript(conversation_current):
         full_conversation = all_removed_messages + conversation_current[1:]
     else:
         full_conversation = []
+
     full_conversation += conversation_current[1:]
     dump_to_json(full_conversation, TRANSCRIPT_DUMP_PATH)
 
