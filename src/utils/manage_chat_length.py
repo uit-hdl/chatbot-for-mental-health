@@ -1,4 +1,5 @@
 """Functions responsible for keeping the length of the chat below a specified limit."""
+import os
 
 from utils.consumption_of_tokens import count_tokens_in_chat
 from utils.general import silent_print
@@ -72,8 +73,11 @@ def exceeding_max_tokens(conversation):
 def update_chat_transcript(conversation_current):
     """Ensures that the complete chat history (without truncation to stay within length
     limits) can be viewed in `chat-info/conversation_full.json`."""
-    all_removed_messages = load_json_from_path(DELETED_MESSAGES_DUMP_PATH)
-    full_conversation = all_removed_messages + conversation_current[1:]
+    if os.path.exists(DELETED_MESSAGES_DUMP_PATH):
+        all_removed_messages = load_json_from_path(DELETED_MESSAGES_DUMP_PATH)
+        full_conversation = all_removed_messages + conversation_current[1:]
+
+    full_conversation += conversation_current[1:]
     dump_to_json(full_conversation, TRANSCRIPT_DUMP_PATH)
 
 
