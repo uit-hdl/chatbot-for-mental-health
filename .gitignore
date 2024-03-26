@@ -161,5 +161,6 @@ cython_debug/
 
 src/test/
 conversations/png/
+conversations/current/*
 chat-info/*
 .vscode/
