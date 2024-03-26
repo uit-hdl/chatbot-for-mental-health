@@ -38,6 +38,8 @@ MESSAGE_CLASSIFICATIONS = [
 ]
 OVERSEER_SOURCE_FIDELITY = "overseer_source_fidelity"
 OVERSEER_MISC = "overseer_misc"
+SWIFT_JUDGE_SOURCE_FIDELITY = "swift_judge_source_fidelity"
+SWIFT_JUDGE_MISC = "swift_judge_misc"
 
 
 def evaluate_with_overseers(
@@ -113,7 +115,7 @@ def overseer_evaluates_source_fidelity(
 def swift_judgement_of_source_fidelity(
     sources: list[str],
     chatbot_message: str,
-    prompt=PROMPTS["swift_judge_source_fidelity"],
+    prompt=PROMPTS[SWIFT_JUDGE_SOURCE_FIDELITY],
 ):
     """Uses GPT-3.5-turbo-instruct to generate a preliminary quality check on source
     adherence. This evaluation is decent at catching deviations from source materials, but
@@ -213,7 +215,7 @@ def overseer_evaluates_non_factual_messages(
     if classification_citations:
         user_message = grab_last_user_message(conversation)
         chatbot_response = grab_last_assistant_response(conversation)
-        swift_judgement = preliminary_check_of_non_factual_message(
+        swift_judgement = preliminary_check_of_misc_message(
             user_message, chatbot_response
         )
         if swift_judgement != "ACCEPTED":
@@ -232,10 +234,10 @@ def overseer_evaluates_non_factual_messages(
     return overseer_evaluation, warning_message
 
 
-def preliminary_check_of_non_factual_message(
+def preliminary_check_of_misc_message(
     user_message: str,
     chatbot_message: str,
-    prompt=PROMPTS["swift_judge_misc"],
+    prompt=PROMPTS[SWIFT_JUDGE_MISC],
 ):
     """Uses GPT-3.5-turbo-instruct to screen for behaviours that violates the chatbots
     role limitations."""

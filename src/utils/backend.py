@@ -20,7 +20,7 @@ LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-info")
 
-# Configuration file paths
+# Configuration-file paths
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
@@ -37,6 +37,7 @@ SWIFT_JUDGEMENT_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "swift_judgement.md")
 HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "harvested_syntax.json")
 TOKEN_USAGE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "token-usage/chat_consumption.json")
 
+# Loggers
 LOGGER = setup_logger(LOGFILE_DUMP_PATH)
 LOGGER_REJECTED_RESPONSES = setup_logger(LOGFILE_REJECTED_RESPONSES_DUMP_PATH)
 
