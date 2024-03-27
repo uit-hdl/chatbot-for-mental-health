@@ -152,15 +152,20 @@ def update_field_value_in_json(file_path, field: str, new_value):
 
 def add_element_to_existing_json_file(dump_object, file_path):
     """Adds the object to the specified json file."""
+    # Load or initiate JSON file
     if file_exists(file_path):
         json_list = load_json_from_path(file_path)
-        if isinstance(dump_object, list):
-            json_list += dump_object
-        else:
-            json_list.append(dump_object)
-        dump_to_json(json_list, file_path)
     else:
-        print(f"File {file_path} does not exist!")
+        # File does not exist: initiate empty JSON file
+        dump_to_json([], file_path)
+        json_list = []
+
+    # Update JSON file
+    if isinstance(dump_object, list):
+        json_list += dump_object
+    else:
+        json_list.append(dump_object)
+    dump_to_json(json_list, file_path)
 
 
 def reset_json_file(file_path):
