@@ -3,7 +3,9 @@ chatbot. conversation is a list of dictionaries, each of which have keys 'role' 
 'content' (the message) such as identifying responses of a specified role."""
 
 import openai
-import backoff
+from openai.error import RateLimitError
+import re
+import time
 
 import copy
 from utils.general import message_is_intended_for_user
@@ -20,7 +22,6 @@ openai.api_base = CONFIG["api_base"]
 openai.api_version = CONFIG["api_version"]
 
 
-@backoff.on_exception(backoff.expo, openai.error.RateLimitError)
 def generate_and_add_raw_bot_response(
     conversation,
     model_id=CONFIG["model_id"],
@@ -30,12 +31,21 @@ def generate_and_add_raw_bot_response(
     """Takes the conversation log, and updates it with the response of the
     chatbot as a function of the chat history. Does not interpret bot response."""
     conversation = copy.deepcopy(conversation)
-    response = openai.ChatCompletion.create(
-        model=model_id,
-        messages=conversation,
-        engine=deployment_name,
-        max_tokens=SETTINGS["max_tokens_per_message"],
-    )
+
+    while True:
+        try:
+            response = openai.ChatCompletion.create(
+                model=model_id,
+                messages=conversation,
+                engine=deployment_name,
+                max_tokens=SETTINGS["max_tokens_per_message"],
+            )
+            break
+        except RateLimitError as e:
+            wait_time = extract_wait_time(e)
+            print(f"Rate limit exceeded. Retrying in {wait_time} seconds...")
+            time.sleep(wait_time)
+
     conversation.append(
         {
             "role": response.choices[0].message.role,
@@ -163,3 +173,15 @@ def delete_last_bot_response(conversation) -> list:
     assistant_indices = identify_assistant_responses(conversation)
     del conversation[assistant_indices[-1]]
     return conversation
+
+
+def extract_wait_time(error):
+    """Extracts the wait time from RateLimitError message."""
+    error_message = str(error)
+    match = re.search(r"Retry after (\d+) seconds", error_message)
+    if match:
+        wait_time = int(match.group(1))
+        return wait_time
+    else:
+        # Default wait time if unable to extract from error message
+        return 20

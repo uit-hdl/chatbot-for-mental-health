@@ -76,7 +76,9 @@ def create_tentative_bot_response(conversation, chatbot_id):
     by the commands actually exists. If they do not exist, then system messages are added
     to the chat to inform the bot of its errors, and quality_check is set to "failed" so
     to inform that the bot should generate a new response."""
+    silent_print(f"Generating raw bot response ...")
     conversation = generate_and_add_raw_bot_response(conversation)
+    silent_print(f"Raw bot response generated")
     conversation = correct_erroneous_show_image_command(conversation)
     harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
     return conversation, harvested_syntax

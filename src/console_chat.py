@@ -113,6 +113,7 @@ def get_user_input(conversation) -> list:
             if user_message == "break":
                 BREAK_CONVERSATION = True
             break
+
     conversation.append({"role": "user", "content": user_message})
     dump_current_conversation_to_json(conversation)
     return conversation
