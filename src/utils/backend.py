@@ -7,6 +7,13 @@ from typing import Tuple
 
 from utils.logging import setup_logger
 
+# Collect and rename deployments
+DEPLOYMENTS = {
+    "gpt-4": "test-chatbot",
+    "gpt-35-turbo": "gpt-35-turbo-test",
+    "gpt-35-turbo-instruct": "gpt-35-instruct-overseers",
+}
+
 # Directory paths
 ROOT_DIR = pathlib.Path(__file__).parents[2]
 CONVERSATIONS_DIR = os.path.join(ROOT_DIR, "conversations")
@@ -23,6 +30,9 @@ CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-info")
 # Configuration-file paths
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
+DEPLOYMENTS_PATH = os.path.join(
+    ROOT_DIR, "config/agent_to_deployment_map.yaml"
+)
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
 # File-dump paths
@@ -315,6 +325,7 @@ def reset_files_that_track_cumulative_variables():
 
 
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)
+DEPLOYMENTS = load_yaml_file(DEPLOYMENTS_PATH)
 
 CONFIG = load_yaml_file(CONFIG_PATH)
 SETTINGS = load_yaml_file(SETTINGS_PATH)

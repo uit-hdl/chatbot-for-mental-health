@@ -5,11 +5,9 @@ import re
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import append_system_messages
 from utils.managing_sources import get_names_of_currently_inserted_sources
-from utils.consumption_of_tokens import count_tokens_in_message
 from utils.overseers import MESSAGE_CLASSIFICATIONS
 from utils.overseers import evaluate_with_overseers
 from utils.general import silent_print
-from utils.backend import MODEL_ID
 from utils.backend import SETTINGS
 from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import LOGGER
@@ -33,14 +31,9 @@ def perform_quality_check_and_give_feedback(
         citation_soft_warnings, citation_hard_warnings = citation_check(
             harvested_syntax, chatbot_id, conversation
         )
-        length_soft_warnings, length_hard_warnings = check_length_of_chatbot_response(
-            conversation
-        )
         # Collect warnings
-        soft_warnings = citation_soft_warnings + length_soft_warnings
-        hard_warnings = (
-            existance_hard_warnings + citation_hard_warnings + length_hard_warnings
-        )
+        soft_warnings = citation_soft_warnings
+        hard_warnings = existance_hard_warnings + citation_hard_warnings
         all_warnings = hard_warnings + soft_warnings
 
         conversation = append_system_messages(conversation, all_warnings)
@@ -94,33 +87,6 @@ def check_if_requested_files_exist(harvested_syntax) -> list:
             )
 
     return hard_warnings
-
-
-def check_length_of_chatbot_response(conversation) -> list:
-    """Appends system warning to chat if message is too long."""
-    bot_response = grab_last_assistant_response(conversation)
-    response_length = count_tokens_in_message(bot_response, MODEL_ID)
-
-    soft_warnings = []
-    hard_warnings = []
-
-    if response_length >= SETTINGS["max_tokens_per_message"]:
-        silent_print("Response exceeds length...")
-        hard_warnings = ["Your response was too long; try again!"]
-
-    elif response_length > SETTINGS["soft_limit_2_tokens_per_message"]:
-        silent_print(f"Response has length {response_length} tokens...")
-        soft_warnings = [
-            f"You almost reached the maximum message length. Limit the information per message to not overwhelm the user."
-        ]
-
-    elif response_length > SETTINGS["soft_limit_1_tokens_per_message"]:
-        silent_print(f"Response has length {response_length} tokens...")
-        soft_warnings = [
-            f"Response length: {response_length} tokens. Recall, cover at most 2 paragraphs per response when walking through information."
-        ]
-
-    return soft_warnings, hard_warnings
 
 
 def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):

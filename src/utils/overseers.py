@@ -13,7 +13,9 @@ from utils.backend import get_sources_available_to_chatbot
 from utils.backend import OVERSEER_DUMP_PATH
 from utils.backend import SWIFT_JUDGEMENT_DUMP_PATH
 from utils.backend import PROMPTS
+from utils.backend import DEPLOYMENTS
 from utils.backend import CONFIG
+from utils.backend import SETTINGS
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import grab_last_user_message
@@ -21,6 +23,8 @@ from utils.chat_utilities import grab_last_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.chat_utilities import get_response_to_single_message_input
 from utils.process_syntax import extract_command_names_and_arguments
+from utils.process_syntax import get_commands
+from utils.process_syntax import insert_commands
 from utils.general import list_intersection
 from utils.general import list_subtraction
 from utils.general import remove_syntax_from_message
@@ -36,10 +40,17 @@ MESSAGE_CLASSIFICATIONS = [
     "the_architect",
     "sources_dont_contain_answer",
 ]
-OVERSEER_SOURCE_FIDELITY = "overseer_source_fidelity"
-OVERSEER_MISC = "overseer_misc"
-SWIFT_JUDGE_SOURCE_FIDELITY = "swift_judge_source_fidelity"
-SWIFT_JUDGE_MISC = "swift_judge_misc"
+# These are names of the various prompts.
+OVERSEER_SOURCE_FIDELITY = "overseer_source_fidelity"  # Checks factual content
+OVERSEER_MISC = "overseer_misc"  # Checks non-factual content
+SWIFT_JUDGE_SOURCE_FIDELITY = (
+    "swift_judge_source_fidelity"  # Swift version of OVERSEER_SOURCE_FIDELITY
+)
+SWIFT_JUDGE_MISC = "swift_judge_misc"  # Swift version of OVERSEER_MISC
+MESSAGE_LENGTH_CUTTER = (
+    "message_length_cutter"  # Responsible for summarizing messages that are too long
+)
+MAX_TOKENS_PER_MESSAGE = SETTINGS["max_tokens_before_summarization"]
 
 
 def evaluate_with_overseers(
@@ -262,3 +273,41 @@ def dump_swift_judgement_to_markdown(prompt_adjusted, evaluation):
         ],
         SWIFT_JUDGEMENT_DUMP_PATH,
     )
+
+
+def trim_message_length(
+    conversation,
+    prompt=PROMPTS[MESSAGE_LENGTH_CUTTER],
+    deployment_name=DEPLOYMENTS[MESSAGE_LENGTH_CUTTER],
+    max_tokens_per_message=SETTINGS["max_tokens_before_summarization"],
+) -> list:
+    """Chatbot responsible for summarizing messages that are too long. Returns the conversation
+    with a trimmed version of the last assistant message."""
+    chatbot_message = grab_last_assistant_response(conversation)
+    commands = get_commands(chatbot_message)
+    # Insert variables into prompt
+    prompt = prompt.format(
+        max_tokens=max_tokens_per_message, chatbot_message=chatbot_message
+    )
+    shortened_message = generate_single_response_to_prompt(
+        prompt,
+        deployment_name=deployment_name,
+    )
+    # Re-insert commands
+    shortened_message = insert_commands(commands, shortened_message)
+    # Replace with original message with shortened message
+    conversation[-1]["content"] = shortened_message
+    return conversation
+
+
+def generate_single_response_to_prompt(prompt, deployment_name):
+    """Used when a single response to a single prompt is all that is wanted, not a conversation.
+    Used in conjunction with GPT-3.5 or 4. GPT-3.5-turbo instruct uses a different setup, and has
+    its own function."""
+    # Create conversation object with just one message (the prompt)
+    conversation = initiate_conversation_with_prompt(prompt)
+    # Get response
+    conversation = generate_and_add_raw_bot_response(
+        conversation, deployment_name=deployment_name
+    )
+    return conversation[-1]["content"]

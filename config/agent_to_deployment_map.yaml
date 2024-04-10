@@ -1,0 +1,14 @@
+# Shows which deployment each assistant uses
+# GPT-4
+"app_support": "test-chatbot"
+"mental_health": "test-chatbot"
+"overseer_misc": "test-chatbot"
+"overseer_source_fidelity": "test-chatbot"
+"relaxation": "test-chatbot"
+"sleep_assistant": "test-chatbot"
+"sleep_diary_support": "test-chatbot"
+# GPT-3.5 turbo
+"message_length_cutter": "gpt-35-turbo-test"
+# GPT-3.5 turbo instruct
+"swift_judge_misc": "gpt-35-instruct-overseers"
+"swift_judge_source_fidelity": "gpt-35-instruct-overseers"

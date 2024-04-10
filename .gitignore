@@ -164,3 +164,4 @@ conversations/png/
 conversations/current/*
 chat-info/*
 .vscode/
+private

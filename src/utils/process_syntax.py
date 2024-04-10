@@ -83,7 +83,7 @@ def get_available_files(chatbot_id: str) -> dict:
 def extract_command_names_and_arguments(chatbot_response: str) -> Tuple[List, List]:
     """Takes a response, identifies substrings of the form ¤:command_name(argument):¤, and
     extracts command names and command arguments, which are returned as two synchronized
-    lists.
+    lists: commands and arguments.
     """
     command_strings = get_commands(chatbot_response)
     commands = []
@@ -252,3 +252,9 @@ def standardize_name(name: str):
     name_standardized = remove_quotes_and_backticks(name)
     name_standardized = remove_extension(name_standardized)
     return name_standardized
+
+
+def insert_commands(commands_list: list[str], message: str):
+    """Inserts a list of commands into the start of the message, enclosing them with :¤ and :¤."""
+    inserted_commands = " ".join([f"¤:{s}:¤" for s in commands_list])
+    return f"{inserted_commands} {message}"

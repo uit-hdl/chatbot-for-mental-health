@@ -5,12 +5,16 @@ from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import insert_requested_knowledge
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
+from utils.chat_utilities import grab_last_assistant_response
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
+from utils.backend import MODEL_ID
 from utils.backend import dump_current_conversation_to_json
 from utils.filters import perform_quality_check_and_give_feedback
 from utils.filters import correct_erroneous_show_image_command
 from utils.general import silent_print
+from utils.consumption_of_tokens import count_tokens_in_message
+from utils.overseers import trim_message_length
 
 
 def respond_to_user(conversation, chatbot_id: str) -> list:
@@ -47,6 +51,7 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id
         )
+        conversation = check_length_of_chatbot_response(conversation)
         conversation, flag = perform_quality_check_and_give_feedback(
             conversation, harvested_syntax, chatbot_id
         )
@@ -62,6 +67,7 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id
         )
+        conversation = check_length_of_chatbot_response(conversation)
         conversation, flag = perform_quality_check_and_give_feedback(
             conversation, harvested_syntax, chatbot_id
         )
@@ -82,3 +88,28 @@ def create_tentative_bot_response(conversation, chatbot_id):
     conversation = correct_erroneous_show_image_command(conversation)
     harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
     return conversation, harvested_syntax
+
+
+def check_length_of_chatbot_response(conversation) -> list:
+    """Appends system warning to chat if message is too long."""
+    bot_response = grab_last_assistant_response(conversation)
+    response_length = count_tokens_in_message(bot_response, MODEL_ID)
+
+    warning = None
+
+    if response_length >= SETTINGS["max_tokens_before_summarization"]:
+        silent_print("Response exceeds max length, shortening message with GPT-3.5...")
+        conversation = trim_message_length(conversation)
+        warning = "Your response was shortened as it exceeded the maximum allowed length."
+    elif response_length > SETTINGS["limit_2_tokens_per_message"]:
+        silent_print(f"Response has length {response_length} tokens...")
+        warning = f"You almost reached the maximum message length. Limit the information per message to not overwhelm the user."
+
+    elif response_length > SETTINGS["limit_1_tokens_per_message"]:
+        silent_print(f"Response has length {response_length} tokens...")
+        warning = f"Response length: {response_length} tokens. Recall, cover at most 2 paragraphs per response when walking through information."
+
+    if warning:
+        conversation.append({"role": "system", "content": warning})
+
+    return conversation
