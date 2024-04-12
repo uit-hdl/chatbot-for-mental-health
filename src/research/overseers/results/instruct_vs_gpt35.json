@@ -1,0 +1,690 @@
+{
+    "results_turboInstruct": {
+        "diet_saturatedFats": {
+            "times": [
+                0.7778944969177246,
+                0.3882021903991699,
+                0.2181696891784668,
+                0.28965306282043457,
+                0.30570316314697266
+            ],
+            "outcomes": [
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "exercise_impOn_weight_mood_sleep": {
+            "times": [
+                0.30672478675842285,
+                0.3901863098144531,
+                0.35205745697021484,
+                0.30287814140319824,
+                0.3269059658050537
+            ],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "alcohol_addictionRisk": {
+            "times": [
+                0.4097130298614502,
+                0.40511274337768555,
+                0.4030876159667969,
+                0.4589569568634033,
+                0.6292574405670166
+            ],
+            "outcomes": [
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        },
+        "exercies_frameOfMind_sleep": {
+            "times": [
+                0.3327138423919678,
+                0.4064748287200928,
+                0.38996005058288574,
+                0.4060697555541992,
+                0.40338778495788574
+            ],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        },
+        "exercies_frameOfMind_sleep_rephrased": {
+            "times": [
+                0.3072376251220703,
+                0.3034529685974121,
+                0.30568623542785645,
+                0.3580629825592041,
+                0.2763664722442627
+            ],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "exercies_impOn_weight": {
+            "times": [
+                0.2769780158996582,
+                0.23033404350280762,
+                0.33278346061706543,
+                0.38510942459106445,
+                0.22654271125793457
+            ],
+            "outcomes": [
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'NOT ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "exercies_impOn_weight_rephrased": {
+            "times": [
+                0.2094402313232422,
+                0.20477581024169922,
+                0.4044075012207031,
+                0.314617395401001,
+                0.3005976676940918
+            ],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "raising_awareness": {
+            "times": [
+                0.19864749908447266,
+                0.40468478202819824,
+                0.40834546089172363,
+                0.24950098991394043,
+                0.4070570468902588
+            ],
+            "outcomes": [
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        },
+        "starting_a_movement": {
+            "times": [
+                0.3306102752685547,
+                0.3879587650299072,
+                0.3017740249633789,
+                0.40567994117736816,
+                0.30324292182922363
+            ],
+            "outcomes": [
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        }
+    },
+    "results_gpt35": {
+        "diet_saturatedFats": {
+            "times": [
+                0.3281261920928955,
+                0.3427295684814453,
+                0.37677860260009766,
+                0.41092872619628906,
+                0.4118843078613281
+            ],
+            "outcomes": [
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "exercise_impOn_weight_mood_sleep": {
+            "times": [
+                0.3267030715942383,
+                0.36299681663513184,
+                0.41420698165893555,
+                0.7475793361663818,
+                0.35881686210632324
+            ],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        },
+        "alcohol_addictionRisk": {
+            "times": [
+                0.3116300106048584,
+                0.31276559829711914,
+                0.8732802867889404,
+                0.41317200660705566,
+                0.3659372329711914
+            ],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:python codeSingleNode(([block(1), \"Excessive alcohol should be avoided due to its association with increased\\nrisk of addiction and general health concerns in schizophrenia\\n\")], 'EXPLICIT_LYING')",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "exercies_frameOfMind_sleep": {
+            "times": [
+                0.4127371311187744,
+                0.6204400062561035,
+                0.734445333480835,
+                0.6190741062164307,
+                0.4100193977355957
+            ],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "In the manual, it is mentioned that exercise can improve sleep, so the chatbot message is supported by the source.\n\n\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "exercies_frameOfMind_sleep_rephrased": {
+            "times": [
+                0.4134056568145752,
+                0.40985703468322754,
+                0.25748276710510254,
+                0.4132108688354492,
+                0.15847015380859375
+            ],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "ACCEPTED"
+            ]
+        },
+        "exercies_impOn_weight": {
+            "times": [
+                0.4108388423919678,
+                0.3886537551879883,
+                0.4017796516418457,
+                0.4140474796295166,
+                0.3554363250732422
+            ],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'NOT ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "exercies_impOn_weight_rephrased": {
+            "times": [
+                0.4378364086151123,
+                0.4107034206390381,
+                0.41459202766418457,
+                0.40402746200561523,
+                0.4154479503631592
+            ],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'NOT ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "raising_awareness": {
+            "times": [
+                0.4146733283996582,
+                0.7174801826477051,
+                0.6164274215698242,
+                0.6744608879089355,
+                0.4110586643218994
+            ],
+            "outcomes": [
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "starting_a_movement": {
+            "times": [
+                0.30106496810913086,
+                0.41579771041870117,
+                0.6179325580596924,
+                0.41390109062194824,
+                0.4105722904205322
+            ],
+            "outcomes": [
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        }
+    }
+}

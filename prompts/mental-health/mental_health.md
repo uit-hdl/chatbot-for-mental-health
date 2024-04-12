@@ -161,6 +161,7 @@ such as `stigma` or `app_support`.
     - workplace rights
   - `63_social_life`:
     - challenges Schizophrenia causes for social life
+    - How to meet and socialize
     - how Psychotherapy can help
     - impact on social life for caregivers
 7. GENERAL HEALTH

@@ -3,6 +3,7 @@ import json
 import os
 import pathlib
 import yaml
+import pickle
 from typing import Tuple
 
 from utils.logging import setup_logger
@@ -30,9 +31,7 @@ CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-info")
 # Configuration-file paths
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
-DEPLOYMENTS_PATH = os.path.join(
-    ROOT_DIR, "config/agent_to_deployment_map.yaml"
-)
+DEPLOYMENTS_PATH = os.path.join(ROOT_DIR, "config/agent_to_deployment_map.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
 # File-dump paths
@@ -104,6 +103,14 @@ def load_json_from_path(file_path: str) -> dict:
     return json_loaded
 
 
+def load_python_variable(path_relative):
+    """Loads a python object stored in the output folder."""
+    full_path = get_full_path(path_relative)
+    with open(full_path, "rb") as file:
+        obj = pickle.load(file)
+    return obj
+
+
 def get_full_path_and_create_dir(file_path):
     """Takes a path relative to the project folder and creates the full path.
     Also creates the specified directory if it does not exist."""
@@ -151,6 +158,15 @@ def dump_conversation(conversation: list, label: str = "conversation"):
         conversation = conversation[:-1]
     dump_to_json(conversation, json_file_path)
     LOGGER.info(f"Conversation stored in {json_file_path} and {txt_file_path}")
+
+
+def dump_python_variable_to_file(variable, path_relative):
+    """Save python object. file_path_relative is file path relative to the
+    output folder."""
+    full_path = get_full_path_and_create_dir(path_relative)
+    with open(full_path, "wb") as file:
+        pickle.dump(variable, file)
+        print(f'Object successfully saved to "{path_relative}"')
 
 
 def update_field_value_in_json(file_path, field: str, new_value):
@@ -213,7 +229,9 @@ def get_sources_available_to_chatbot(chatbot_id: str) -> list[str]:
 
 def get_source_content_and_path(chatbot_id: str, source_name: str) -> Tuple[str, str]:
     """Finds the content and path of a source. The filename of the prompt is used to find
-    the subfolder that the source is expected to be located in."""
+    the subfolder that the source is expected to be located in.
+
+    Returns: content, source_path"""
     source_path = get_path_to_source(source_name, chatbot_id)
     if source_path:
         content = load_textfile_as_string(source_path)

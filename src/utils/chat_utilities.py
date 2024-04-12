@@ -27,6 +27,7 @@ def generate_and_add_raw_bot_response(
     model_id=CONFIG["model_id"],
     deployment_name=CONFIG["deployment_name"],
     calc_tokens=True,
+    max_tokens=SETTINGS["max_tokens_per_message"],
     temperature=None,
 ):
     """Takes the conversation log, and updates it with the response of the
@@ -39,8 +40,8 @@ def generate_and_add_raw_bot_response(
                 model=model_id,
                 messages=conversation,
                 engine=deployment_name,
-                max_tokens=SETTINGS["max_tokens_per_message"],
-                temperature=None,
+                max_tokens=max_tokens,
+                temperature=temperature,
             )
             break
         except RateLimitError as e:

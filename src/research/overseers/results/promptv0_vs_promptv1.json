@@ -1,0 +1,576 @@
+{
+    "results_prompt0": {
+        "diet_saturatedFats": {
+            "times": [],
+            "outcomes": [
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        },
+        "exercise_impOn_weight_mood_sleep": {
+            "times": [],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        },
+        "starting_a_movement": {
+            "times": [],
+            "outcomes": [
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'NOT ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'NOT ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        },
+        "alcohol_addictionRisk": {
+            "times": [],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "exercies_frameOfMind_sleep": {
+            "times": [],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        }
+    },
+    "results_prompt1": {
+        "diet_saturatedFats": {
+            "times": [],
+            "outcomes": [
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'NOT ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        },
+        "exercise_impOn_weight_mood_sleep": {
+            "times": [],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "starting_a_movement": {
+            "times": [],
+            "outcomes": [
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    false,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ],
+                [
+                    true,
+                    true
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4"
+            ]
+        },
+        "alcohol_addictionRisk": {
+            "times": [],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        },
+        "exercies_frameOfMind_sleep": {
+            "times": [],
+            "outcomes": [
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ],
+                [
+                    true,
+                    false
+                ],
+                [
+                    false,
+                    false
+                ]
+            ],
+            "responses": [
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'WARNING'}):\u00a4",
+                "\u00a4:provide_feedback({'evaluation': 'ACCEPTED'}):\u00a4"
+            ]
+        }
+    }
+}

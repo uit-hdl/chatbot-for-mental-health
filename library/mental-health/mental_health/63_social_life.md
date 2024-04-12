@@ -1,4 +1,4 @@
-It can be difficult to maintain a social life if you - have
+It can be difficult to maintain a social life if you have
 schizophrenia. As mentioned earlier in this guide, schizophrenia can
 lead to symptoms including being less able to socialize and a lack of
 emotion, so you may lose touch with people you were friends with. As
