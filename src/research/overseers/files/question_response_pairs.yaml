@@ -1,0 +1,29 @@
+stigma_long_answer:
+  source_id: 13_stigma
+  user_question: Why do people seem to avoid me?
+  bot_message: |
+    Stigma surrounding schizophrenia often arises from misconceptions and
+    negative perceptions of the condition. Many people believe that individuals
+    with schizophrenia often exhibit strange behavior or are unpredictable,
+    leading to fear and avoidance.
+
+    It is important to recognize that these misconceptions stem from a lack of
+    understanding about the illness. In reality, schizophrenia is a diverse
+    condition with varying symptoms and severity. People with schizophrenia are
+    unique individuals and should not be defined solely by their illness.
+
+    The term "schizophrenia" itself is derived from Greek and, despite implying
+    a "split mind," does not mean that a person has multiple personalities. By
+    educating oneself and raising awareness about schizophrenia, we can
+    challenge the stigma and alter perceptions of the condition.
+
+    It is essential to remember that others' opinions should not shape one's
+    self- perception. You are not defined by your illness; it is only a part of
+    who you are. If connecting with others is challenging, there are
+    communication strategies and supportive environments available to discuss
+    these difficulties.
+
+    Would you like more information on managing personal relationships or
+    talking to others about your diagnosis?
+  value: WARNING
+  description: This answer contains too much irrelevant information

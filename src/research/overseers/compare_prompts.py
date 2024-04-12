@@ -1,9 +1,9 @@
-"""Here the goal is to determine which prompt is most effective."""
+"""Here the goal is to determine which prompt is most effective at creating
+effective fact-checkers response-overseers."""
 
 # %%
 import path_setup
 
-from utils.console_chat_display import wrap_message
 from utils.chat_utilities import get_response_to_single_message_input
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
@@ -16,7 +16,6 @@ from utils.backend import load_json_from_path
 from functions import print_wrap
 from functions import print_test_names
 import os
-from pprint import pprint
 import pandas as pd
 import time
 
@@ -31,7 +30,14 @@ def load_test_cases():
     return load_yaml_file(test_cases_path)
 
 
+def load_question_response_pairs():
+    """Loads examples with pairs of user questions and chatbot responses."""
+    test_cases_path = os.path.join(CWD, "files/question_response_pairs.yaml")
+    return load_yaml_file(test_cases_path)
+
+
 def load_local_prompt(prompt_name):
+    """Loads prompt from files/prompts/prompt_name"""
     return load_textfile_as_string(
         os.path.join(CWD, f"files/prompt-templates/{prompt_name}.md")
     )
@@ -63,11 +69,15 @@ def insert_variables_into_prompt(source, chatbot_message, prompt_template):
     return prompt_template.format(source=source, chatbot_message=chatbot_message)
 
 
-def get_prompt(test_case_id, prompt_template, print_prompt=False):
-    source = get_source_content_and_path(
+def get_source(source_name):
+    return get_source_content_and_path(
         chatbot_id="mental_health",
-        source_name=test_cases[test_case_id]["source_id"],
+        source_name=source_name,
     )[0]
+
+
+def get_prompt(test_case_id, prompt_template, print_prompt=False):
+    source = get_source(test_cases[test_case_id]["source_id"])
     chatbot_message = test_cases[test_case_id]["bot_message"]
     prompt = insert_variables_into_prompt(source, chatbot_message, prompt_template)
     if print_prompt:
@@ -148,60 +158,89 @@ prompt_template_sentiment_analysis = load_textfile_as_string(
 
 # %% STARTING A SOCIAL MOVEMENT
 prompt_template = load_local_prompt("version2")
-output = get_gpt35_turbo_judge_evaluation(
-    "starting_a_movement", prompt_template, temperature=0.5
+prompt_template_rating = load_local_prompt("version2_rating_only")
+test_case = load_test_cases()["starting_a_movement"]
+source = get_source("13_stigma")
+test_name = "starting_a_movement"
+
+prompt = prompt_template.format(chatbot_message=test_case["bot_message"], source=source)
+prompt_rate = prompt_template_rating.format(
+    chatbot_message=test_case["bot_message"], source=source
+)
+print_wrap(prompt)
+
+output = get_response_to_single_message_input(prompt)
+output_rating_only = get_response_to_single_message_input(prompt_rate)
+
+
+print("** ANSWER ** \n")
+print_wrap(output)
+print("\n** RATING ONLY ** \n")
+print_wrap(output_rating_only)
+
+
+# %% HOW TO TALK TO OTHERS ABOUT STIGMA AND MYTHS
+prompt_template = load_local_prompt("version2")
+test_case = load_test_cases()["how_to_communicate"]
+source = get_source(test_case["source_id"])
+
+prompt = prompt_template.format(
+    chatbot_message=test_case["bot_message"],
+    source=source,
+)
+print_wrap(f"** PROMPT ** \n\n{prompt}\n\n")
+evaluation = get_response_to_single_message_input(
+    prompt=prompt,
+    max_tokens=400,
 )
 
-sentiment_analysis = get_response_to_single_message_input(
-    prompt_template_sentiment_analysis.format(
-        source_fidelity_report=output["evaluation"]
-    )
-)
 print("** ANSWER ** \n")
-print_wrap(output["evaluation"])
-print("\n** SENTIMENT ANALYSIS ** \n")
-print_wrap(sentiment_analysis)
+print_wrap(evaluation)
 
 # %% SATURATED FATS
-prompt_template = load_textfile_as_string(
-    os.path.join(CWD, "files/prompt-templates/version2.md")
-)
-output = get_gpt35_turbo_judge_evaluation(
-    "diet_saturatedFats", prompt_template, temperature=0.5
-)
+prompt_template = load_local_prompt("version2")
 
-sentiment_analysis = get_response_to_single_message_input(
-    prompt_template_sentiment_analysis.format(
-        source_fidelity_report=output["evaluation"]
-    )
-)
+output = get_gpt35_turbo_judge_evaluation("diet_saturatedFats", prompt_template)
+
 print("** ANSWER ** \n")
 print_wrap(output["evaluation"])
 print("\n** SENTIMENT ANALYSIS ** \n")
-print_wrap(sentiment_analysis)
 
 # %% EXERCISE DIRECT QUOTE
-prompt_template = load_textfile_as_string(
-    os.path.join(CWD, "files/prompt-templates/version2.md")
-)
+prompt_template = load_local_prompt("version2")
+
+output = get_gpt35_turbo_judge_evaluation("exercise_quote", prompt_template)
+
+
+print("** ANSWER ** \n")
+print_wrap(output["evaluation"])
+
+# %% EXERCISE EFFECT ON SYMPTOMS
 test_cases = load_test_cases()
+prompt_template = load_local_prompt("version2")
+
 output = get_gpt35_turbo_judge_evaluation(
-    "exercise_quote", prompt_template, temperature=0.5
+    "correct_answer_on_effect_of_pa_on_symptoms", prompt_template
 )
 
 print("** ANSWER ** \n")
 print_wrap(output["evaluation"])
-# %% EXERCISE
-prompt_template = load_textfile_as_string(
-    os.path.join(CWD, "files/prompt-templates/version1.md")
+
+# %% RESPONSE RELEVANCE ANALYSIS
+prompt_template = load_local_prompt("relevance_checker")
+test_case = load_question_response_pairs()["stigma_long_answer"]
+
+prompt = prompt_template.format(
+    chatbot_message=test_case["bot_message"],
+    user_question=test_case["user_question"],
 )
-test_cases = load_test_cases()
-output = get_gpt35_turbo_judge_evaluation(
-    "exercise_quote", prompt_template, temperature=0.5
+print_wrap(f"** PROMPT ** \n\n{prompt}\n\n")
+evaluation = get_response_to_single_message_input(
+    prompt=prompt,
 )
 
 print("** ANSWER ** \n")
-print_wrap(output["evaluation"])
+print_wrap(evaluation)
 
 # %% COMPARE GPT-3.5-Turbo to GPT-3.5-Turbo instruct
 results_prompt0 = {

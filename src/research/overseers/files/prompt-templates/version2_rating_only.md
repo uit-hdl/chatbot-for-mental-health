@@ -6,10 +6,12 @@ It claims that its message is directly based on the chapter from a therapists
 manual about Schizophrenia for mental health patients. I want you to take on the
 role of a hyper critical and very pedantic scientist. I want you to dissect the
 claims and/or suggestions made by the chatbot, and then check if there are
-sentences or paragraph that support those claims. Write a VERY consice report of
-(< 100 words) and end with a numerical rating from 1 to 5 of its source
-fidelity, on the format `rating/5`. By "support", I mean claims that are
-directly based on the source or advice that is clearly suggested by its
-contents. Here is the chapter I've been referring to:
+sentences or paragraph that support those claims. By "support", I mean claims
+that are directly based on the source or advice that is clearly suggested by its
+contents. Respond ONLY with a numerical rating from 1 to 5 of its source on the
+format `rating/5`. I REPEAT, your answer shall contain ONLY a rating, NOTHING
+ELSE! Here is the chapter I've been referring to:
 
 "{source}"
+
+YOUR RATING IS:
