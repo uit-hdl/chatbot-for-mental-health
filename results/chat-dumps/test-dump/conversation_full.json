@@ -1,0 +1,106 @@
+[
+    {
+        "role": "assistant",
+        "content": "Hi friend!"
+    },
+    {
+        "role": "user",
+        "content": "awesome!"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "assistant",
+        "content": "Sorry, cannot comply."
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "user",
+        "content": "Huh?"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "assistant",
+        "content": "Confused too?"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "user",
+        "content": "Sure am"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "assistant",
+        "content": "Nice weather?"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi friend!"
+    },
+    {
+        "role": "user",
+        "content": "awesome!"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "assistant",
+        "content": "Sorry, cannot comply."
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "user",
+        "content": "Huh?"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "assistant",
+        "content": "Confused too?"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "user",
+        "content": "Sure am"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "assistant",
+        "content": "Nice weather?"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    }
+]

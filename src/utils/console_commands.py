@@ -1,4 +1,6 @@
 from utils.backend import dump_conversation
+from utils.backend import dump_copy_of_chat_info_to_results
+from utils.backend import get_command_line_input
 from utils.chat_utilities import index_of_assistant_responses_intended_for_user
 
 
@@ -31,14 +33,14 @@ def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> l
     return conversation[: index_reset + 1]
 
 
-def offer_to_store_conversation(conversation):
-    """Asks the user in the console if he wants to store the conversation, and
-    if so, how to name it."""
-    store_conversation_response = input("Store conversation? (Y/N): ").strip().lower()
-    if store_conversation_response == "y":
-        label = input("File name (hit enter for default): ").strip().lower()
-        if label == "":
-            label = "conversation"
-        dump_conversation(conversation, label)
+def take_snapshot_of_conversation_status():
+    """Dumps all information about the status of the current chat to a
+    directory."""
+    dump_info_response = get_command_line_input("Dump chat information (y/n)?")
+    if dump_info_response == "y":
+        dump_name = get_command_line_input("Name the dump-directory:")
+        if dump_name == "":
+            dump_name = "unnamed-dump"
+        dump_copy_of_chat_info_to_results(dump_name)
     else:
         print("Conversation not stored")

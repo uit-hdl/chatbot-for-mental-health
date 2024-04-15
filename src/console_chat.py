@@ -10,6 +10,7 @@ from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.backend import reset_files_that_track_cumulative_variables
 from utils.console_commands import offer_to_store_conversation
+from utils.console_commands import take_snapshot_of_conversation_status
 from utils.console_commands import rewind_chat_by_n_assistant_responses
 from utils.managing_sources import remove_inactive_sources
 from utils.chat_utilities import initiate_conversation_with_prompt
@@ -109,6 +110,8 @@ def get_user_input(conversation) -> list:
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
             reprint_whole_conversation_without_syntax(conversation)
             dump_current_conversation_to_json(conversation)
+        elif "dump_info" in user_message:
+            take_snapshot_of_conversation_status()
         else:
             if user_message == "break":
                 BREAK_CONVERSATION = True

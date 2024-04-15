@@ -5,6 +5,7 @@ import pathlib
 import yaml
 import pickle
 from typing import Tuple
+import shutil
 
 from utils.logging import setup_logger
 
@@ -27,6 +28,8 @@ VIDEOS_DIR = os.path.join(ROOT_DIR, "media/videos")
 LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-info")
+RESULTS_DIR = os.path.join(ROOT_DIR, "results")
+CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 
 # Configuration-file paths
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
@@ -340,6 +343,51 @@ def reset_files_that_track_cumulative_variables():
         {"token_usage_total": 0, "chat_cost_kr_total": 0}, TOKEN_USAGE_DUMP_PATH
     )
     reset_json_file(DELETED_MESSAGES_DUMP_PATH)
+
+
+def dump_copy_of_chat_info_to_results(dump_name: str):
+    """Dumps information about the chat, including things like the
+    conversation history (both json and markdown format) to
+    /results/chat-dumps."""
+    folder_destination = os.path.join(CHAT_DUMPS_DIR, dump_name)
+    folder_to_copy = CHAT_INFO_DIR
+    copy_folder(folder_to_copy, folder_destination)
+
+
+def copy_folder(folder_to_copy, folder_destination):
+    """Copies a folder to a destination folder."""
+    try:
+        # Check if destination folder exists
+        while os.path.exists(folder_destination):
+            response = (
+                input(
+                    f"""Folder {folder_destination} already exists. Type 'y' to
+                     overwrite, or provide a new name: """
+                )
+                .strip()
+                .lower()
+            )
+            if response == "y":
+                shutil.rmtree(folder_destination)
+                print(f"overwriting ...")
+            else:
+                folder_destination = response
+
+        # Copy contents of source folder to destination folder
+        shutil.copytree(
+            folder_to_copy,
+            folder_destination,
+        )
+
+        print(f"Successfully copied {folder_to_copy} to {folder_destination}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+def get_command_line_input(commandline_prompt):
+    """Used to get input from the command line. Example of command-line question
+    is 'Do you want to save this file (Y/N)?'"""
+    return input(f"{commandline_prompt} ").strip().lower()
 
 
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)
