@@ -10,8 +10,8 @@ from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.backend import reset_files_that_track_cumulative_variables
 from utils.console_commands import offer_to_store_conversation
+from utils.console_commands import rewind_chat_by_n_assistant_responses
 from utils.managing_sources import remove_inactive_sources
-from utils.chat_utilities import rewind_chat_by_n_assistant_responses
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.create_chatbot_response import respond_to_user

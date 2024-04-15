@@ -126,22 +126,6 @@ def identify_user_messages(conversation) -> list[int]:
     return [i for i, d in enumerate(conversation) if d.get("role") == "user"]
 
 
-def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> list:
-    """Resets the conversation back to bot-response number = n_current - n_rewind. If
-    n_rewind == 1 then conversation resets to the second to last bot-response, allowing
-    you to investigate the bots behaviour given the chat up to that point. Useful for
-    testing how likely the bot is to reproduce an error (such as forgetting an
-    instruction) or a desired response, since you don't have to restart the conversation
-    from scratch. Works by Identifing and deleting messages between the current message
-    and the bot message you are resetting to, but does not nessecarily reset the overall
-    conversation to the state it was in at the time that message was produced (for
-    instance, the prompt might have been altered)."""
-    assistant_indices = index_of_assistant_responses_intended_for_user(conversation)
-    n_rewind = min([n_rewind, len(assistant_indices) - 1])
-    index_reset = assistant_indices[-(n_rewind + 1)]
-    return conversation[: index_reset + 1]
-
-
 def index_of_assistant_responses_intended_for_user(conversation) -> list[int]:
     """Finds indices assistant messages that are contain human readable
     text (not just commands for the backend)."""
