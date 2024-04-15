@@ -349,45 +349,52 @@ def dump_copy_of_chat_info_to_results(dump_name: str):
     """Dumps information about the chat, including things like the
     conversation history (both json and markdown format) to
     /results/chat-dumps."""
-    folder_destination = os.path.join(CHAT_DUMPS_DIR, dump_name)
     folder_to_copy = CHAT_INFO_DIR
-    copy_folder(folder_to_copy, folder_destination)
+    folder_destination = os.path.join(CHAT_DUMPS_DIR, dump_name)
+
+    while os.path.exists(folder_destination):
+        print(f"Folder {folder_destination} already exists.")
+        response = get_input_from_command_line(
+            f"Type 'y' to overwrite, or provide a new name:"
+        )
+        if response == "y":
+            shutil.rmtree(folder_destination)
+        else:
+            folder_destination = response
+
+    copy_and_dump_folder(folder_to_copy, folder_destination)
+
+    # Provide brief description of context (why did you take this snapshot?)
+    description = get_input_from_command_line("Description:")
+    write_to_file(
+        file_path=os.path.join(folder_destination, "comments.txt"), content=description
+    )
 
 
-def copy_folder(folder_to_copy, folder_destination):
+def copy_and_dump_folder(folder_to_copy, folder_destination):
     """Copies a folder to a destination folder."""
     try:
-        # Check if destination folder exists
-        while os.path.exists(folder_destination):
-            response = (
-                input(
-                    f"""Folder {folder_destination} already exists. Type 'y' to
-                     overwrite, or provide a new name: """
-                )
-                .strip()
-                .lower()
-            )
-            if response == "y":
-                shutil.rmtree(folder_destination)
-                print(f"overwriting ...")
-            else:
-                folder_destination = response
-
         # Copy contents of source folder to destination folder
         shutil.copytree(
             folder_to_copy,
             folder_destination,
         )
-
         print(f"Successfully copied {folder_to_copy} to {folder_destination}")
     except Exception as e:
         print(f"An error occurred: {e}")
 
 
-def get_command_line_input(commandline_prompt):
+def get_input_from_command_line(commandline_prompt):
     """Used to get input from the command line. Example of command-line question
     is 'Do you want to save this file (Y/N)?'"""
     return input(f"{commandline_prompt} ").strip().lower()
+
+
+def write_to_file(file_path, content):
+    """Write content to specified file path (relative to project root-folder)."""
+    full_path = get_full_path_and_create_dir(file_path)
+    with open(full_path, "w") as file:
+        file.write(content)
 
 
 PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)
