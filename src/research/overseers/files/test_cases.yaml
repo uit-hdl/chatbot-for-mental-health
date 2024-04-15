@@ -26,7 +26,7 @@ exercise_impOn_weight_mood_sleep:
 exercise_quote:
   source_id: 72_diet_exercise_sleep_alcohol
   bot_message: |
-    Yes, getting a fair amount of exercise will help you to control your weight
+    Yes, getting a fair amount of exercise can help you to control your weight
     in combination with a healthy diet.
   value: ACCEPTED
   description: |

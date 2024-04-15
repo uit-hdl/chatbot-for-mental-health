@@ -18,7 +18,7 @@ import numpy as np
 
 # %% Test run
 test_cases = load_test_cases()
-test_name = "starting_a_movement"
+test_name = "alcohol_addictionRisk"
 test_case = test_cases[test_name]
 source = get_source(test_case["source_id"])
 chatbot_message = test_case["bot_message"]
@@ -67,7 +67,8 @@ evaluation: '{summary}'
 At the end of that there should be written rating on a scale of 1-5, such as 'I
 rate the source fidelity to be 3/5' or 'I rate it to be 3 of 5'. Extract that
 rating on the format rating=(rating/5), such as rating=(3/5) or rating=(1/5).
-Return on this EXACT FORMAT, with NO TEXT! Avoid converting to decimal."""
+Return on this EXACT FORMAT, with NO TEXT! Avoid converting to decimal. I
+REPEAT, never, under ANY CIRCUMSTANCES write text, only format `rating=(3/5)`!"""
 
 k = 1
 print_wrap(text_summaries[k])
@@ -85,16 +86,24 @@ ratings_numerical = numerical_summaries
 
 
 # %%
-def get_float_from_string(text):
-    return eval(text[text.find("(") + 1 : text.find(")")])
+def get_float_from_text_rater(text):
+    try:
+        text = remove_quotes_and_backticks(text)
+        return eval(text[text.find("(") + 1 : text.find(")")])
+    except Exception:
+        return np.nan
 
 
-ratings_text_float = [
-    get_float_from_string(remove_quotes_and_backticks(x)) for x in ratings_text
-]
-ratings_numerical_float = [
-    eval(remove_quotes_and_backticks(x[:3])) for x in ratings_numerical
-]
+def get_float_from_numerical_rater(text):
+    try:
+        float_value = eval(remove_quotes_and_backticks(text)[:3])
+        return float_value
+    except Exception:
+        return np.nan
+
+
+ratings_text_float = [get_float_from_text_rater(x) for x in ratings_text]
+ratings_numerical_float = [get_float_from_numerical_rater(x) for x in ratings_numerical]
 
 ratings_text_float = np.array(ratings_text_float)
 ratings_numerical_float = np.array(ratings_numerical_float)

@@ -1,7 +1,6 @@
 import sys
 
 from utils.general import silent_print
-from utils.general import offer_to_store_conversation
 from utils.backend import PROMPTS
 from utils.backend import LOGGER
 from utils.backend import CONFIG
@@ -10,6 +9,7 @@ from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.backend import reset_files_that_track_cumulative_variables
+from utils.console_commands import offer_to_store_conversation
 from utils.managing_sources import remove_inactive_sources
 from utils.chat_utilities import rewind_chat_by_n_assistant_responses
 from utils.chat_utilities import initiate_conversation_with_prompt
