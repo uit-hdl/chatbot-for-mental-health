@@ -1,0 +1,42 @@
+[
+    {
+        "role": "assistant",
+        "content": "Hi friend!"
+    },
+    {
+        "role": "user",
+        "content": "i"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi there!"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi friend!"
+    },
+    {
+        "role": "user",
+        "content": "i"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi there!"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    }
+]

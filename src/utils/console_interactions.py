@@ -1,7 +1,12 @@
+"""Functions concerned with interactivity in the console window during a
+chat. These functions are primarily used in `console_chat.py`."""
+
 from utils.backend import dump_conversation
 from utils.backend import dump_copy_of_chat_info_to_results
 from utils.backend import get_input_from_command_line
 from utils.chat_utilities import index_of_assistant_responses_intended_for_user
+from utils.general import ROLE_TO_ANSI_COLOR_MAP
+from utils.general import RESET_COLOR
 
 
 def offer_to_store_conversation(conversation):
@@ -44,3 +49,9 @@ def take_snapshot_of_conversation_status():
         dump_copy_of_chat_info_to_results(dump_name)
     else:
         print("Conversation not stored")
+
+
+def get_user_message_from_console():
+    """Prompts user to enter input into console window. Uses color coding to
+    make it look nicer."""
+    return input(ROLE_TO_ANSI_COLOR_MAP["user"] + "user" + RESET_COLOR + ": ")

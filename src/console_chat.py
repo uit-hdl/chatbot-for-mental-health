@@ -9,9 +9,10 @@ from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.backend import reset_files_that_track_cumulative_variables
-from utils.console_commands import offer_to_store_conversation
-from utils.console_commands import take_snapshot_of_conversation_status
-from utils.console_commands import rewind_chat_by_n_assistant_responses
+from utils.console_interactions import offer_to_store_conversation
+from utils.console_interactions import take_snapshot_of_conversation_status
+from utils.console_interactions import rewind_chat_by_n_assistant_responses
+from utils.console_interactions import get_user_message_from_console
 from utils.managing_sources import remove_inactive_sources
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
@@ -22,8 +23,6 @@ from utils.console_chat_display import reprint_whole_conversation_without_syntax
 from utils.console_chat_display import play_videos
 from utils.console_chat_display import print_whole_conversation_with_backend_info
 from utils.console_chat_display import display_images
-from utils.console_chat_display import ROLE_TO_ANSI_COLOR_MAP
-from utils.console_chat_display import RESET_COLOR
 from utils.manage_chat_length import truncate_if_too_long
 
 
@@ -102,9 +101,7 @@ def get_user_input(conversation) -> list:
     global BREAK_CONVERSATION
 
     while True:
-        user_message = input(
-            ROLE_TO_ANSI_COLOR_MAP["user"] + "user" + RESET_COLOR + ": "
-        )
+        user_message = get_user_message_from_console()
         if "rewind_by" in user_message:
             n_rewind = int(user_message[-1])
             conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
