@@ -129,6 +129,7 @@ def identify_user_messages(conversation) -> list[int]:
 def index_of_assistant_responses_intended_for_user(conversation) -> list[int]:
     """Finds indices assistant messages that are contain human readable
     text (not just commands for the backend)."""
+    # Get index of a
     responses_with_readable_text = [
         i
         for (i, message) in enumerate(conversation)

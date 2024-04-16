@@ -37,5 +37,5 @@ warning_limit_tokens_per_message: 150
 
 # --- OVERSEER BOTS ---
 # Set to false to turn of filters that check the contents of generated messages
-enable_overseer_filter: True
-enable_hard_coded_filter: True
+enable_overseer_filter: False
+enable_hard_coded_filter: False

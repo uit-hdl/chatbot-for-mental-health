@@ -10,16 +10,14 @@ from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.backend import reset_files_that_track_cumulative_variables
 from utils.console_interactions import offer_to_store_conversation
-from utils.console_interactions import take_snapshot_of_conversation_status
-from utils.console_interactions import rewind_chat_by_n_assistant_responses
 from utils.console_interactions import get_user_message_from_console
+from utils.console_interactions import search_for_console_command
 from utils.managing_sources import remove_inactive_sources
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.create_chatbot_response import respond_to_user
 from utils.console_chat_display import display_last_response
 from utils.console_chat_display import display_last_assistant_response
-from utils.console_chat_display import reprint_whole_conversation_without_syntax
 from utils.console_chat_display import play_videos
 from utils.console_chat_display import print_whole_conversation_with_backend_info
 from utils.console_chat_display import display_images
@@ -100,19 +98,12 @@ def get_user_input(conversation) -> list:
     """Prompts user to input a prompt (the "question") in the command line."""
     global BREAK_CONVERSATION
 
-    while True:
+    role_that_gets_to_speak_next = "user"
+    while role_that_gets_to_speak_next == "user" and BREAK_CONVERSATION == False:
         user_message = get_user_message_from_console()
-        if "rewind_by" in user_message:
-            n_rewind = int(user_message[-1])
-            conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
-            reprint_whole_conversation_without_syntax(conversation)
-            dump_current_conversation_to_json(conversation)
-        elif "dump_info" in user_message:
-            take_snapshot_of_conversation_status()
-        else:
-            if user_message == "break":
-                BREAK_CONVERSATION = True
-            break
+        conversation, role_that_gets_to_speak_next, BREAK_CONVERSATION = (
+            search_for_console_command(user_message, conversation)
+        )
 
     conversation.append({"role": "user", "content": user_message})
     dump_current_conversation_to_json(conversation)

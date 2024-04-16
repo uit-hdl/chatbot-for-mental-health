@@ -9,34 +9,10 @@
     },
     {
         "role": "user",
-        "content": "i                  wANT                    long                        responses            please!!    asdnfijng"
-    },
-    {
-        "role": "system",
-        "content": "All your messages MUST start with a citation!"
+        "content": "Hello"
     },
     {
         "role": "assistant",
-        "content": "Sorry, can\u2019t."
-    },
-    {
-        "role": "system",
-        "content": "All your messages MUST start with a citation!"
-    },
-    {
-        "role": "user",
-        "content": "Why                                         no                                             "
-    },
-    {
-        "role": "system",
-        "content": "All your messages MUST start with a citation!"
-    },
-    {
-        "role": "assistant",
-        "content": "Rules stated."
-    },
-    {
-        "role": "system",
-        "content": "All your messages MUST start with a citation!"
+        "content": "Nice day?"
     }
 ]

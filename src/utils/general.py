@@ -2,8 +2,6 @@
 
 import re
 
-from utils.backend import dump_conversation
-
 RESET_COLOR = "\033[0m"
 COLOR_TO_ANSI_MAP = {
     "grey": "\033[2;30m",
@@ -49,8 +47,8 @@ def remove_syntax_from_message(message_content: str):
 
 
 def message_is_intended_for_user(message: str) -> bool:
-    """Used to check if a message contains text intended to be read by the user, or if it
-    contains only syntax to be interpreted by the backend."""
+    """Checks if message is strictly for backend (starts and ends with code
+    syntax) or intended to be read by user."""
     message = remove_superflous_linebreaks(message)
     message = message.replace(" ", "")
     if message[:2] == "¤:" and message[-2:] == ":¤":
