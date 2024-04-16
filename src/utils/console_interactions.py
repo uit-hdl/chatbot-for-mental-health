@@ -114,6 +114,10 @@ def search_for_console_command(user_message, conversation):
     elif user_message == "break":
         break_conversation = True
 
+    else:
+        # Message is not a command
+        conversation.append({"role": "user", "content": user_message})
+
     return conversation, role_that_gets_to_speak_next, break_conversation
 
 

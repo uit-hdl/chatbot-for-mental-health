@@ -105,8 +105,8 @@ def get_user_input(conversation) -> list:
             search_for_console_command(user_message, conversation)
         )
 
-    conversation.append({"role": "user", "content": user_message})
     dump_current_conversation_to_json(conversation)
+
     return conversation
 
 
