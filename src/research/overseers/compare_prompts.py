@@ -1,5 +1,5 @@
 """Here the goal is to determine which prompt is most effective at creating
-effective fact-checkers response-overseers."""
+effective fact-checkers."""
 
 # %%
 import path_setup

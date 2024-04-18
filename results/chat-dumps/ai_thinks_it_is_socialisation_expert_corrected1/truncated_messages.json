@@ -1,0 +1,10 @@
+[
+    {
+        "role": "system",
+        "content": "Inactive source removed due to not being actively cited."
+    },
+    {
+        "role": "system",
+        "content": "Response length: 151 tokens. Recall, cover at most 2 paragraphs per response when walking through information."
+    }
+]

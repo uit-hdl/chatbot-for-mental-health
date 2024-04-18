@@ -1,5 +1,5 @@
 """Here I want to test which kind of chatbot is more effective at being
-critical: the one that gives a rating or evaluation only, vs the one that
+critical: the one that gives a rating or evaluation only vs the one that
 motivates their decision."""
 
 import path_setup

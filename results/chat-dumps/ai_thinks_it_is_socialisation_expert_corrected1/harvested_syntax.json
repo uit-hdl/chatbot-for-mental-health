@@ -1,7 +1,9 @@
 {
     "knowledge_extensions": [],
     "referral": [],
-    "citations": [],
+    "citations": [
+        "no_advice_or_claims"
+    ],
     "images": [],
     "videos": []
 }

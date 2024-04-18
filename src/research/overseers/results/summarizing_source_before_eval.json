@@ -1,0 +1,15 @@
+[
+    {
+        "mean": 42.5,
+        "lower": 27.180151763153788,
+        "upper": 57.819848236846205
+    },
+    {
+        "mean": 87.5,
+        "lower": 77.25091467495757,
+        "upper": 97.74908532504243
+    },
+    {
+        "description": "Here I tested chatbot\nwhich receives a summary of a source BEFORE evaluating source fidelity. Performs\nbetter at `diet_saturatedFats` test. Does it provide false positives though?"
+    }
+]

@@ -118,10 +118,15 @@ def get_full_path_and_create_dir(file_path):
     """Takes a path relative to the project folder and creates the full path.
     Also creates the specified directory if it does not exist."""
     path = get_full_path(file_path)
+    create_directory(path)
+    return path
+
+
+def create_directory(path):
+    """Creates the specified directory if it does not exist."""
     dirpath = os.path.dirname(path)
     if dirpath != "":
         os.makedirs(dirpath, exist_ok=True)
-    return path
 
 
 def get_full_path(path_relative):
@@ -164,8 +169,8 @@ def dump_conversation(conversation: list, label: str = "conversation"):
 
 
 def dump_python_variable_to_file(variable, path_relative):
-    """Save python object. file_path_relative is file path relative to the
-    output folder."""
+    """Save python object to pickle file. file_path_relative is file path
+    relative to the output folder."""
     full_path = get_full_path_and_create_dir(path_relative)
     with open(full_path, "wb") as file:
         pickle.dump(variable, file)

@@ -5,6 +5,7 @@ from utils.backend import PROMPTS
 from utils.backend import LOGGER
 from utils.backend import CONFIG
 from utils.backend import TRANSCRIPT_DUMP_PATH
+from utils.backend import SETTINGS
 from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
@@ -82,6 +83,8 @@ def initiate_new_conversation(
     deployment_name=CONFIG["deployment_name"],
 ):
     """Initiates a conversation with the chat bot."""
+    silent_print(f"Overseer filters enabled: {SETTINGS['enable_overseer_filter']}")
+    silent_print(f"Overseer filters enabled: {SETTINGS['enable_overseer_filter']}")
     conversation = initiate_conversation_with_prompt(
         PROMPTS[chatbot_id], system_message
     )

@@ -44,8 +44,8 @@ alcohol_addictionRisk:
 exercies_frameOfMind_sleep:
   source_id: 72_diet_exercise_sleep_alcohol
   bot_message: |
-    Exercise can put you in a better frame of mind and can help you sleep
-    better
+    Exercise can indeed put you in a better frame of mind and can help you sleep
+    better.
   value: ACCEPTED
   description: |
     Word for word citation of "Exercise can put you in a better frame of mind

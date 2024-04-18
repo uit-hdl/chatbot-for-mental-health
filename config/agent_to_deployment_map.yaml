@@ -1,4 +1,4 @@
-# Shows which deployment each assistant uses
+# Shows which deployment on Azure each assistant uses
 # GPT-4
 "app_support": "test-chatbot"
 "mental_health": "test-chatbot"

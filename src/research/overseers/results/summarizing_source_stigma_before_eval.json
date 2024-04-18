@@ -1,0 +1,15 @@
+[
+    {
+        "mean": 80.0,
+        "lower": 67.60387157213997,
+        "upper": 92.39612842786005
+    },
+    {
+        "mean": 15.0,
+        "lower": 3.9342420051765097,
+        "upper": 26.065757994823493
+    },
+    {
+        "description": "I tested if the chatbot that receives a summarized version of\nthe source produces false positives. It definately does..."
+    }
+]
