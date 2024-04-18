@@ -1,5 +1,6 @@
-"""Here I test how good GPT-turbo-instuct is at corrctly evaluating if the f cs
-csc aggragate chatbots message is true to their cited source"""
+"""Here I test how good GPT-turbo-instuct fact checker is for two different
+bots/prompts: bot that returns summary of why it rejects vs bot that only
+returns a numerical rating of source fidelity."""
 
 # %%
 import path_setup

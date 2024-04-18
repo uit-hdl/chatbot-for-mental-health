@@ -1,5 +1,6 @@
-"""Here I test the fact-checker used in the main code for running the
-chatbot."""
+"""Here I test the effect of summarizing a source before inserting it into the
+prompt of the fact-checjer. The conclusion is that it makes the fact-checker
+overall more likely to reject; higher sensitivity at the cost of lower specificity."""
 
 import path_setup
 

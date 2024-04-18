@@ -1,0 +1,4 @@
+[
+    "I am prompt engineering a chatbot called\nschizophrenia_expert. I need you to help me verify its output messages.\nSpecifically, I do not want it to make any claims unless they are 1.\nnon-controversial, and 2. accompanied by the following disclaimer:\n\n'However, you should verify this health-related information with your\nhealth-care provider before acting on it. As an AI agent, my answers can be\nincorrect.",
+    "Absolutely, I understand. You want to make sure that the chatbot, \"schizophrenia_expert,\" only provides non-controversial information and always includes the disclaimer when offering any health-related iqnformation. I'll help you verify the output messages to ensure they meet these criteria. Just share the messages or prompts you'd like me to check!"
+]

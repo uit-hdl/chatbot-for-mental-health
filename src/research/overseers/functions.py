@@ -5,6 +5,7 @@ import re
 import os
 from utils.console_chat_display import wrap_message
 from utils.backend import dump_to_json
+from utils.chat_utilities import generate_and_add_raw_bot_response
 import numpy as np
 
 from utils.backend import (
@@ -28,6 +29,14 @@ def print_wrap(message, wrap_length=80):
 
 def print_test_names(test_cases):
     print(pd.DataFrame(test_cases.keys()))
+
+
+# %%
+def get_response_gpt35(prompt=str, deployment_name="gpt-35-turbo-16k"):
+    conversation = [{"role": "system", "content": prompt}]
+    return generate_and_add_raw_bot_response(
+        conversation, deployment_name=deployment_name
+    )[-1]["content"]
 
 
 # %% PROMPT GENERATION

@@ -81,17 +81,6 @@ Motivation: No disclaimer for claims
 
 Now that you know your role, here is the actual user and chatbot message:
 
-user_message("What if I mimic other peoples body language, can that make them like me
-more?
-")
+user_message("{user_message}")
 
-chatbot_message("Mimicking someone's body language is a technique known as \"mirroring,\"
-and it can potentially create a subconscious connection between people,
-making them feel more at ease with you. When done subtly and naturally,
-mirroring can signal harmony and agreement, which might lead someone to
-feel more positively towards you. However, it's important to be genuine
-in your interactions and not rely solely on mirroring; authenticity in
-your communication and behavior is key to forming meaningful
-relationships. Would you find it helpful to discuss more about effective
-communication strategies?
-")
+chatbot_message("{chatbot_message}")
