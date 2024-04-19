@@ -6,7 +6,7 @@ a source:
 
 Here is the source/chapter being referenced:
 
-"{source}"
+"{source_name}"
 
 Do you agree with its critisisms?
 

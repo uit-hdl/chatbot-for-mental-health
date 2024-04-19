@@ -12,6 +12,6 @@ contents. Respond ONLY with a numerical rating from 1 to 5 of its source on the
 format `rating/5`. I REPEAT, your answer shall contain ONLY a rating, NOTHING
 ELSE! Here is the chapter I've been referring to:
 
-"{source}"
+"{source_name}"
 
 YOUR RATING IS:

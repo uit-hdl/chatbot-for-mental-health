@@ -66,7 +66,7 @@ print_test_names(test_cases)
 
 
 def insert_variables_into_prompt(source, chatbot_message, prompt_template):
-    return prompt_template.format(source=source, chatbot_message=chatbot_message)
+    return prompt_template.format(source_name=source, chatbot_message=chatbot_message)
 
 
 def get_source(source_name):
@@ -77,8 +77,8 @@ def get_source(source_name):
 
 
 def get_prompt(test_case_id, prompt_template, print_prompt=False):
-    source = get_source(test_cases[test_case_id]["source_id"])
-    chatbot_message = test_cases[test_case_id]["bot_message"]
+    source = get_source(test_cases[test_case_id]["source_name"])
+    chatbot_message = test_cases[test_case_id]["chatbot_message"]
     prompt = insert_variables_into_prompt(source, chatbot_message, prompt_template)
     if print_prompt:
         print_wrap(prompt)
@@ -163,9 +163,9 @@ test_case = load_test_cases()["starting_a_movement"]
 source = get_source("13_stigma")
 test_name = "starting_a_movement"
 
-prompt = prompt_template.format(chatbot_message=test_case["bot_message"], source=source)
+prompt = prompt_template.format(chatbot_message=test_case["chatbot_message"], source_name=source)
 prompt_rate = prompt_template_rating.format(
-    chatbot_message=test_case["bot_message"], source=source
+    chatbot_message=test_case["chatbot_message"], source_name=source
 )
 print_wrap(prompt)
 
@@ -182,11 +182,11 @@ print_wrap(output_rating_only)
 # %% HOW TO TALK TO OTHERS ABOUT STIGMA AND MYTHS
 prompt_template = load_local_prompt("version2")
 test_case = load_test_cases()["how_to_communicate"]
-source = get_source(test_case["source_id"])
+source = get_source(test_case["source_name"])
 
 prompt = prompt_template.format(
-    chatbot_message=test_case["bot_message"],
-    source=source,
+    chatbot_message=test_case["chatbot_message"],
+    source_name=source,
 )
 print_wrap(f"** PROMPT ** \n\n{prompt}\n\n")
 evaluation = get_response_to_single_message_input(
@@ -231,7 +231,7 @@ prompt_template = load_local_prompt("relevance_checker")
 test_case = load_question_response_pairs()["stigma_long_answer"]
 
 prompt = prompt_template.format(
-    chatbot_message=test_case["bot_message"],
+    chatbot_message=test_case["chatbot_message"],
     user_question=test_case["user_question"],
 )
 print_wrap(f"** PROMPT ** \n\n{prompt}\n\n")

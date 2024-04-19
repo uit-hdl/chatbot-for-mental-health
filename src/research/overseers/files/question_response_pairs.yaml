@@ -1,7 +1,7 @@
 stigma_long_answer:
-  source_id: 13_stigma
+  source_name: 13_stigma
   user_message: Why do people seem to avoid me?
-  bot_message: |
+  chatbot_message: |
     Stigma surrounding schizophrenia often arises from misconceptions and
     negative perceptions of the condition. Many people believe that individuals
     with schizophrenia often exhibit strange behavior or are unpredictable,
@@ -33,7 +33,7 @@ mirroring_body_language:
   user_message: |
     What if I mimic other peoples body language, can that make them like me
     more?
-  bot_message: |
+  chatbot_message: |
     Mimicking someone's body language is a technique known as \"mirroring,\"
     and it can potentially create a subconscious connection between people,
     making them feel more at ease with you. When done subtly and naturally,
@@ -50,7 +50,7 @@ mirroring_body_language:
 laughing_to_make_ppl_like_me:
   user_message: |
     If they laugh, and I laugh, can that also make them like me more?
-  bot_message: |
+  chatbot_message: |
     Laughing along with someone when they laugh can indeed create a shared
     moment of joy and can help to build rapport. It shows that you're engaged in
     the conversation and that you find enjoyment in the interaction. This shared
@@ -65,7 +65,7 @@ laughing_to_make_ppl_like_me:
 can_intellegence_be_measured:
   user_message: |
     Can intellegence be measured?
-  bot_message: |
+  chatbot_message: |
     Intelligence can be assessed using specific tests, such as IQ (Intelligence
     Quotient) tests, which are designed to measure a range of cognitive
     abilities. However, these tests may not capture all aspects of intelligence,
@@ -81,7 +81,7 @@ can_intellegence_be_measured:
 can_intellegence_be_measured_with_disclaimer:
   user_message: |
     Can intellegence be measured?
-  bot_message: |
+  chatbot_message: |
     My sources do not have an answer to this question unfortunately. To the best
     of my knowledge, intelligence can be assessed using specific tests, such as
     IQ (Intelligence Quotient) tests, which are designed to measure a range of

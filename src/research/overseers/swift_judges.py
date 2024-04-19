@@ -39,15 +39,15 @@ def print_test_names():
 
 
 def insert_variables_into_prompt(source, chatbot_message, prompt_template):
-    return prompt_template.format(source=source, chatbot_message=chatbot_message)
+    return prompt_template.format(source_name=source, chatbot_message=chatbot_message)
 
 
 def get_prompt(test_case_id, prompt_template, print_prompt=False):
     source = get_source_content_and_path(
         chatbot_id="mental_health",
-        source_name=test_cases[test_case_id]["source_id"],
+        source_name=test_cases[test_case_id]["source_name"],
     )[0]
-    chatbot_message = test_cases[test_case_id]["bot_message"]
+    chatbot_message = test_cases[test_case_id]["chatbot_message"]
     prompt = insert_variables_into_prompt(source, chatbot_message, prompt_template)
     if print_prompt:
         print_wrap(prompt)

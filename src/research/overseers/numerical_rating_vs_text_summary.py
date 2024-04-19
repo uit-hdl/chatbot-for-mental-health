@@ -20,18 +20,18 @@ import numpy as np
 test_cases = load_test_cases()
 test_name = "alcohol_addictionRisk"
 test_case = test_cases[test_name]
-source = get_source(test_case["source_id"])
-chatbot_message = test_case["bot_message"]
+source = get_source(test_case["source_name"])
+chatbot_message = test_case["chatbot_message"]
 
 
 # Prepare prompts
 prompt_name_1 = "version2"
 prompt_text_summary = load_local_prompt(prompt_name_1).format(
-    chatbot_message=chatbot_message, source=source
+    chatbot_message=chatbot_message, source_name=source
 )
 prompt_name_2 = "version2_rating_only"
 prompt_numerical_summary = load_local_prompt(prompt_name_2).format(
-    chatbot_message=chatbot_message, source=source
+    chatbot_message=chatbot_message, source_name=source
 )
 
 print_wrap(prompt_text_summary)

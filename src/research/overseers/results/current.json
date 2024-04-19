@@ -1,0 +1,25 @@
+{
+    "experiment_info": {
+        "prompt_name": "swift_judge_misc_disclaimers_only",
+        "test_case_name": "can_intelligence_be_measured_with_disclaimer",
+        "git_commit_hash": "e2e098349b756fb415bc765f3b9c634aecd1352d",
+        "response_generating_function": "f_get_response_gpt35turbo"
+    },
+    "ci_success_rate": {
+        "mean": 1.0,
+        "lower": 1.0,
+        "upper": 1.0
+    },
+    "raw_data": {
+        "response_is_correct": [
+            true,
+            true,
+            true
+        ],
+        "response_raw": [
+            "output({\n  \"evaluation\": \"ACCEPTED\",\n  \"motivation\": \"Claims are non-controversial and disclaimer is provided\"\n})",
+            "output({\n  \"evaluation\": \"ACCEPTED\",\n  \"motivation\": \"Claims are non-controversial and disclaimer is provided\"\n})",
+            "output({\n  \"evaluation\": \"ACCEPTED\",\n  \"motivation\": \"Claims are non-controversial and disclaimer is provided\"\n})"
+        ]
+    }
+}

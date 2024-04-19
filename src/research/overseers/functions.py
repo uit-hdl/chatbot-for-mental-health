@@ -6,7 +6,9 @@ import os
 from utils.console_chat_display import wrap_message
 from utils.backend import dump_to_json
 from utils.chat_utilities import generate_and_add_raw_bot_response
+from utils.chat_utilities import get_response_to_single_message_input
 import numpy as np
+import git
 
 from utils.backend import (
     get_source_content_and_path,
@@ -31,21 +33,94 @@ def print_test_names(test_cases):
     print(pd.DataFrame(test_cases.keys()))
 
 
-# %%
-def get_response_gpt35(prompt=str, deployment_name="gpt-35-turbo-16k"):
+# %% GIT
+def get_hash_of_current_git_commit():
+    repo = git.Repo(search_parent_directories=True)
+    return repo.head.object.hexsha
+
+
+# %% AI RESPONSE GENERATION
+def f_get_response_gpt35turbo(prompt=str, deployment_name="gpt-35-turbo-16k"):
     conversation = [{"role": "system", "content": prompt}]
     return generate_and_add_raw_bot_response(
         conversation, deployment_name=deployment_name
     )[-1]["content"]
 
 
+def get_response_gpt_turbo_instruct(prompt=str):
+    conversation = [{"role": "system", "content": prompt}]
+    return get_response_to_single_message_input(conversation)
+
+
+# %% RUN EXPERIMENT
+def f_correct_response(value: str):
+    if value == "ACCEPTED":
+        return lambda answer: True if "ACCEPTED" in answer else False
+    else:
+        return lambda answer: True if "ACCEPTED" not in answer else False
+
+
+def run_experiment(
+    f_get_response=f_get_response_gpt35turbo,
+    n_exp=10,
+    prompt_name="swift_judge_source_fidelity_v1",
+    test_case_name="starting_a_movement",
+):
+    """Tests the
+
+    model: gpt-35-turbo-16k or gpt-instruct."""
+    # Create prompt
+    prompt = load_local_prompt(prompt_name)
+    test_cases = load_test_cases()
+    test_case = test_cases[test_case_name]
+    prompt_completed = prompt.format(**test_case)
+    dump_prompt_to_markdown(prompt_completed, "files/prompt-completed/prompt_completed.md")
+
+    # Run trials
+    responses = pd.DataFrame(
+        [f_get_response(prompt=prompt_completed) for i in range(n_exp)],
+        columns=["response"],
+    )
+
+    # Analyze information
+    f_correct_answer = f_correct_response(test_case["value"])
+    responses["correct_judgement"] = responses["response"].apply(f_correct_answer)
+    responses = responses[["correct_judgement", "response"]]
+    responses["correct_judgement"].mean()
+    ci = calc_mean_with_confint(responses["correct_judgement"])
+
+    print(f"\n** Results for case {test_case_name} ** ")
+    print(f"prompt: {prompt_name}")
+    print(f"Response function: {f_get_response.__name__}")
+    print(ci)
+
+    results = {
+        "experiment_info": {
+            "prompt_name": prompt_name,
+            "test_case_name": test_case_name,
+            "git_commit_hash": get_hash_of_current_git_commit(),
+            "response_generating_function": f_get_response.__name__,
+        },
+        "ci_success_rate": ci,
+        "raw_data": {
+            "response_is_correct": responses["correct_judgement"].values.tolist(),
+            "response_raw": responses["response"].values.tolist(),
+        },
+    }
+
+    # Dump results
+    dump_to_json_locally(results, f"results/current.json")
+
+    return ci
+
+
 # %% PROMPT GENERATION
 def get_prompt(test_case: dict, prompt_template: str, print_prompt=False):
     source = get_source_content_and_path(
         chatbot_id="mental_health",
-        source_name=test_case["source_id"],
+        source_name=test_case["source_name"],
     )[0]
-    chatbot_message = test_case["bot_message"]
+    chatbot_message = test_case["chatbot_message"]
     prompt = insert_variables_into_prompt(source, chatbot_message, prompt_template)
     if print_prompt:
         print_wrap(prompt)
@@ -54,7 +129,7 @@ def get_prompt(test_case: dict, prompt_template: str, print_prompt=False):
 
 
 def insert_variables_into_prompt(source, chatbot_message, prompt_template):
-    return prompt_template.format(source=source, chatbot_message=chatbot_message)
+    return prompt_template.format(source_name=source, chatbot_message=chatbot_message)
 
 
 def get_source(source_name):
@@ -97,8 +172,8 @@ def load_summarized_source(source_name):
 
 
 def get_prompt(test_case, prompt_template, print_prompt=False):
-    source = get_source(test_case["source_id"])
-    chatbot_message = test_case["bot_message"]
+    source = get_source(test_case["source_name"])
+    chatbot_message = test_case["chatbot_message"]
     prompt = insert_variables_into_prompt(source, chatbot_message, prompt_template)
     if print_prompt:
         print_wrap(prompt)
@@ -147,12 +222,13 @@ def dump_string_locally(dump_object, filepath_relative):
     dump_python_variable_to_file(dump_object, filepath)
 
 
-def dump_to_markdown(string, filepath_relative):
+def dump_prompt_to_markdown(string, filepath_relative):
     """Dumps string to a textfile to .md file. Include extension in path."""
     full_path = os.path.join(CWD, filepath_relative)
     create_directory(full_path)
     with open(full_path, "w") as file:
         file.write(string)
+        print(f"Prompt dumped to {full_path}")
 
 
 def dump_string_locally(string, filepath_relative):

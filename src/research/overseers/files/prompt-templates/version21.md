@@ -5,7 +5,7 @@ information:
 
 And here is the source that the message is supposedly based on:
 
-"{source}"
+"{source_name}"
 
 Finally, here is a critisism of the contents of that message from a sceptic:
 

@@ -12,4 +12,4 @@ fidelity, on the format `rating/5`. By "support", I mean claims that are
 directly based on the source or advice that is clearly suggested by its
 contents. Here is the chapter I've been referring to:
 
-"{source}"
+"{source_name}"

@@ -9,7 +9,7 @@ from functions import load_local_prompt
 from functions import get_source
 from functions import get_prompt_arguments
 from functions import print_wrap
-from functions import dump_to_markdown
+from functions import dump_prompt_to_markdown
 from functions import calc_mean_with_confint
 from functions import load_summarized_source
 from functions import dump_to_json_locally
@@ -26,10 +26,10 @@ test_cases = load_test_cases()
 
 test = test_cases["alcohol_addictionRisk"]
 prompt_completed = prompt.format(
-    chatbot_message=test["bot_message"], source=get_source(test["source_id"])
+    chatbot_message=test["chatbot_message"], source_name=get_source(test["source_name"])
 )
 
-dump_to_markdown(prompt_completed, "files/prompt-completed/prompt_completed.md")
+dump_prompt_to_markdown(prompt_completed, "files/prompt-completed/prompt_completed.md")
 
 get_response_to_single_message_input(prompt=prompt_completed)
 
@@ -38,7 +38,7 @@ get_response_to_single_message_input(prompt=prompt_completed)
 def get_prompt(test_name, prompt_template):
     test = test_cases[test_name]
     return prompt_template.format(
-        chatbot_message=test["bot_message"], source=get_source(test["source_id"])
+        chatbot_message=test["chatbot_message"], source_name=get_source(test["source_name"])
     )
 
 
@@ -54,34 +54,34 @@ def get_evaluation(test_name, prompt):
 # %% SOURCE SUMMARIZER
 
 test_name = "correct_answer_on_effect_of_pa_on_symptoms"
-source_id = test_cases[test_name]["source_id"]
+source_id = test_cases[test_name]["source_name"]
 source = get_source(source_id)
-prompt_completed = load_local_prompt("source_summarizer").format(source=source)
+prompt_completed = load_local_prompt("source_summarizer").format(source_name=source)
 source_summarized = get_response_to_single_message_input(
     prompt=prompt_completed, max_tokens=400
 )
 print_wrap(source_summarized)
 
 if 0 == 1:
-    dump_to_markdown(
+    dump_prompt_to_markdown(
         source_summarized, f"files/sources-summarized/{source_id}.md"
     )
 
 # %% PREPARE EXPERIMENT
 test_case = test_cases[test_name]
-chatbot_message = test_case["bot_message"]
-source = get_source(test_case["source_id"])
-source_summarized = load_summarized_source(test_case["source_id"])
+chatbot_message = test_case["chatbot_message"]
+source = get_source(test_case["source_name"])
+source_summarized = load_summarized_source(test_case["source_name"])
 
 prompt_template_v0 = load_local_prompt("swift_judge_source_fidelity")
 prompt_template_v1 = load_local_prompt("swift_judge_source_fidelity_v1")
 
 # Insert parameters into prompt templates
 prompt_v0 = prompt_template_v0.format(
-    chatbot_message=chatbot_message, source=source
+    chatbot_message=chatbot_message, source_name=source
 )
 prompt_v1 = prompt_template_v1.format(
-    chatbot_message=chatbot_message, source=source_summarized
+    chatbot_message=chatbot_message, source_name=source_summarized
 )
 print_wrap(prompt_v0)
 n_trials = 40
