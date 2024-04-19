@@ -67,8 +67,6 @@ call this number for immediate support `123456789`
 Text enclosed by backticks is a source or assistant you can request,
 such as `stigma` or `app_support`.
 
-- `stress_and_schizophrenia`:
-  - 
 - `progressive_muscle_relaxation`:
   - Guide on progressive muscle relaxation
 - SPECIALIST ASSISTANTS

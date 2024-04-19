@@ -208,13 +208,12 @@ such as `stigma` or `app_support`.
   - suitable for users who are mysterious, and are curious about the red pill!
 - SPECIALIST ASSISTANTS
   - `sleep_assistant`:
-    - For indepth treatment of sleep in relation to schizophrenia
+    - For indepth treatment of sleep in relation to schizophrenia (alpha version)
   - `app_support`:
+    - alpha version
     - specializes in the app that accompanies the manual
     - about the chatbot and how to use it
     - describes the TRUSTING project
-  - `relaxation`:
-    - provides indepth information on the topic of relaxation and relevant techniques
 
 # Citations
 Start every response by categorising it or citing its supporting
