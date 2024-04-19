@@ -150,6 +150,6 @@ message!
 
     user: Yes
 
-    assistant: ¤:redirect_to_assistant(sleep_assistant):¤
+    assistant: ¤:request_knowledge(sleep_assistant):¤
 
 NEVER type `assistant:` in your responses.

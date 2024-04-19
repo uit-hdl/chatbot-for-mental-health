@@ -111,7 +111,7 @@ def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):
     hard_warnings = []
 
     # Check if there are any citations
-    if not bot_citations:
+    if not bot_citations and not harvested_syntax["referral"]:
         hard_warnings.append(f"All your messages MUST start with a citation!")
 
     for citation in bot_citations:

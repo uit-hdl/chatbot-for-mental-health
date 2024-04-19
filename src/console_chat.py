@@ -28,7 +28,9 @@ from utils.manage_chat_length import truncate_if_too_long
 
 # Initiate global variables
 BREAK_CONVERSATION = False
+ASSISTANT_SPEAKS_FIRST = SETTINGS["role_that_speaks_first"] == "assistant"
 reset_files_that_track_cumulative_variables()
+silent_print(f"Overseer filters enabled: {SETTINGS['enable_overseer_filter']}")
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
@@ -38,8 +40,10 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     if chat_filepath:
         conversation = continue_previous_conversation(chat_filepath, chatbot_id)
     else:
-        conversation = initiate_new_conversation(chatbot_id)
-        display_last_response(conversation)
+        conversation = initiate_conversation_object(chatbot_id)
+        if ASSISTANT_SPEAKS_FIRST:
+            conversation = generate_and_add_raw_bot_response(conversation)
+            display_last_response(conversation)
 
     while True:
         conversation = get_user_input(conversation)
@@ -56,19 +60,10 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         dump_current_conversation_to_json(conversation)
 
         if harvested_syntax["referral"]:
-            if harvested_syntax["referral"]["file_exists"]:
-                assistant_name = harvested_syntax["referral"]["name"]
-                if redirect_confirmation_status(conversation) == True:
-                    silent_print("User confirms they want to be redirected.")
-                    conversation = direct_to_new_assistant(assistant_name)
-                else:
-                    conversation.append(
-                        {
-                            "role": "system",
-                            "content": "Ask for confirmation before  redirecting the user to a new assistant!",
-                        }
-                    )
-                display_last_response(conversation)
+            assistant_name = harvested_syntax["referral"]["name"]
+            conversation = direct_to_new_assistant(assistant_name)
+            conversation = generate_and_add_raw_bot_response(conversation)
+            display_last_response(conversation)
 
         conversation = remove_inactive_sources(conversation)
         conversation = truncate_if_too_long(conversation)
@@ -86,21 +81,15 @@ def continue_previous_conversation(chat_filepath: str, chatbot_id: str) -> list:
     return conversation
 
 
-def initiate_new_conversation(
+def initiate_conversation_object(
     chatbot_id: str,
     system_message=None,
-    model_id=CONFIG["model_id"],
-    deployment_name=CONFIG["deployment_name"],
 ):
-    """Initiates a conversation with the chat bot."""
-    silent_print(f"Overseer filters enabled: {SETTINGS['enable_overseer_filter']}")
+    """Initiates a conversation list by identifying the relevant prompt."""
     conversation = initiate_conversation_with_prompt(
         PROMPTS[chatbot_id], system_message
     )
     LOGGER.info("Starting new conversation with %s.", chatbot_id)
-    conversation = generate_and_add_raw_bot_response(
-        conversation, model_id, deployment_name
-    )
     dump_current_conversation_to_json(conversation)
     dump_to_json(conversation, TRANSCRIPT_DUMP_PATH)
     return conversation
@@ -127,7 +116,7 @@ def direct_to_new_assistant(assistant_name: str) -> list:
     redirects to the requested chatbot assistant."""
     LOGGER.info("Transferring to assistant %s", assistant_name)
     silent_print(f"Transferring user to {assistant_name}")
-    new_conversation = initiate_new_conversation(assistant_name)
+    new_conversation = initiate_conversation_object(assistant_name)
     return new_conversation
 
 

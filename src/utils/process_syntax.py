@@ -139,13 +139,15 @@ def get_knowledge_requests(
     If these commands are found, gets the associated information."""
     knowledge_extensions = []
     referral = []
+    names_of_available_assistants = available_files["assistants"]["name"]
+    names_of_available_sources = available_files["sources"]["name"]
     if commands:
         for command, name in zip(commands, arguments):
             if command == "request_knowledge":
                 name = standardize_name(name)
                 LOGGER.info(f"Bot requests: {name}")
 
-                if name in available_files["assistants"]["name"]:
+                if name in names_of_available_assistants:
                     # Referral requested
                     referral = {
                         "name": name,
@@ -153,7 +155,7 @@ def get_knowledge_requests(
                         "type": "referral",
                         "file_exists": True,
                     }
-                elif name in available_files["sources"]["name"]:
+                elif name in names_of_available_sources:
                     # Knowledge insertion requested
                     path = available_files["sources"]["path"][
                         available_files["sources"]["name"].index(name)
