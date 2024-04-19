@@ -84,7 +84,6 @@ def initiate_new_conversation(
 ):
     """Initiates a conversation with the chat bot."""
     silent_print(f"Overseer filters enabled: {SETTINGS['enable_overseer_filter']}")
-    silent_print(f"Overseer filters enabled: {SETTINGS['enable_overseer_filter']}")
     conversation = initiate_conversation_with_prompt(
         PROMPTS[chatbot_id], system_message
     )
