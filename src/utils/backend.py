@@ -28,6 +28,7 @@ VIDEOS_DIR = os.path.join(ROOT_DIR, "media/videos")
 LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-info")
+OVERSEER_INTERACTIONS_DIR = os.path.join(CHAT_INFO_DIR, "overseer-interactions")
 RESULTS_DIR = os.path.join(ROOT_DIR, "results")
 CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 
@@ -149,6 +150,19 @@ def dump_chat_to_markdown(conversation: list[dict], file_path):
         for message in conversation:
             formatted_message = f"\n{message['role']}: {message['content']}\n\n"
             file.write(formatted_message)
+
+
+def dump_overseer_interactions(prompt, output, dump_path):
+    """Use to dump prompt and response into a single formatted .md (markdown)
+    file. Makes it easier to debug overseer/single-output agents when they are
+    behaving strangely."""
+    dump_chat_to_markdown(
+        [
+            {"role": "input", "content": prompt},
+            {"role": "output", "content": output},
+        ],
+        dump_path,
+    )
 
 
 def dump_current_conversation_to_json(conversation, filename="conversation"):

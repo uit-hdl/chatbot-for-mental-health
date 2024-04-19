@@ -4,12 +4,15 @@ bots are assumed to generate a message on the form `¤:provide_feedback(<data on
 format>):¤`"""
 
 from typing import Tuple
+import os
 
 from utils.backend import get_source_content_and_path
 from utils.backend import dump_to_json
 from utils.backend import dump_chat_to_markdown
 from utils.backend import convert_json_string_to_dict
 from utils.backend import get_sources_available_to_chatbot
+from utils.backend import dump_overseer_interactions
+from utils.backend import OVERSEER_INTERACTIONS_DIR
 from utils.backend import OVERSEER_DUMP_PATH
 from utils.backend import SWIFT_JUDGEMENT_DUMP_PATH
 from utils.backend import PROMPTS
@@ -300,10 +303,37 @@ def trim_message_length(
     return conversation
 
 
-def generate_single_response_to_prompt(prompt, deployment_name):
-    """Used when a single response to a single prompt is all that is wanted, not a conversation.
-    Used in conjunction with GPT-3.5 or 4. GPT-3.5-turbo instruct uses a different setup, and has
-    its own function."""
+def redirect_confirmation_status(
+    conversation,
+    deployment_name=DEPLOYMENTS["referral_consent_checker"],
+) -> bool:
+    """AI agent checks the last two messages preceeding the redirect command
+    (assumes that the last message is a request for a referral) to see if the
+    user has confirmed that they want to be redirected."""
+    # Grab the last two messages before the referral request (initial prompt excluded)
+    chat_last2 = conversation[1:-1][-2:]
+    # Extract and put into formatted string
+    last_2_messages = "\n\n".join(
+        [f"{message['role']}: {message['content']}" for message in chat_last2]
+    )
+    # Insert into prompt
+    prompt_completed = PROMPTS["referral_consent_checker"].format(
+        last_2_messages=last_2_messages
+    )
+    # Generate response
+    response = generate_single_response_to_prompt(prompt_completed, deployment_name)
+    dump_path = os.path.join(OVERSEER_INTERACTIONS_DIR, "referral_consent_checker.md")
+    dump_overseer_interactions(prompt_completed, response, dump_path)
+    if "True" in response:
+        return True
+    else:
+        False
+
+
+def generate_single_response_to_prompt(prompt, deployment_name=""):
+    """Used when a single response to a single prompt is all that is wanted, not
+    a conversation. Uses GPT-3.5 or 4. GPT-3.5-turbo instruct uses a different
+    setup, and has its own function."""
     # Create conversation object with just one message (the prompt)
     conversation = initiate_conversation_with_prompt(prompt)
     # Get response

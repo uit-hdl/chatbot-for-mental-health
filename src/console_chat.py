@@ -1,6 +1,7 @@
 import sys
 
 from utils.general import silent_print
+from utils.overseers import redirect_confirmation_status
 from utils.backend import PROMPTS
 from utils.backend import LOGGER
 from utils.backend import CONFIG
@@ -57,7 +58,16 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         if harvested_syntax["referral"]:
             if harvested_syntax["referral"]["file_exists"]:
                 assistant_name = harvested_syntax["referral"]["name"]
-                conversation = direct_to_new_assistant(assistant_name)
+                if redirect_confirmation_status(conversation) == True:
+                    silent_print("User confirms they want to be redirected.")
+                    conversation = direct_to_new_assistant(assistant_name)
+                else:
+                    conversation.append(
+                        {
+                            "role": "system",
+                            "content": "Ask for confirmation before  redirecting the user to a new assistant!",
+                        }
+                    )
                 display_last_response(conversation)
 
         conversation = remove_inactive_sources(conversation)
