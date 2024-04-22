@@ -24,7 +24,6 @@ from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import grab_last_user_message
 from utils.chat_utilities import grab_last_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
-from utils.chat_utilities import generate_single_response_using_gpt35_turbo_instruct
 from utils.chat_utilities import generate_single_response_to_prompt
 from utils.process_syntax import extract_command_names_and_arguments
 from utils.process_syntax import get_commands
@@ -151,11 +150,9 @@ def swift_judgement_of_source_fidelity(
     sometimes flags messages that are perfectly fine. If flagged, a more computationally
     expensive model is called to double check the evaluation."""
     source = sources[0]
-    prompt_adjusted = (
-        f"""{prompt}\n\nchatbot_message("{chatbot_message}")\n\nsource("{source}")"""
-    )
-    evaluation = generate_single_response_to_prompt(prompt_adjusted)
-    dump_swift_judgement_to_markdown(prompt_adjusted, evaluation)
+    prompt_completed = prompt.format(chatbot_message=chatbot_message, source=source)
+    evaluation = generate_single_response_to_prompt(prompt_completed)
+    dump_swift_judgement_to_markdown(prompt_completed, evaluation)
     silent_print(f"turbo-instruct says {evaluation}")
     if "ACCEPTED" in evaluation:
         return "ACCEPTED"
@@ -270,9 +267,11 @@ def preliminary_check_of_misc_message(
 ):
     """Uses GPT-3.5-turbo-instruct to screen for behaviours that violates the chatbots
     role limitations."""
-    prompt_adjusted = f"""{prompt}\nuser_message("{user_message}")\n\nchatbot_message("{chatbot_message}")"""
-    evaluation = generate_single_response_to_prompt(prompt_adjusted)
-    dump_swift_judgement_to_markdown(prompt_adjusted, evaluation)
+    prompt_completed = prompt.format(
+        user_message=user_message, chatbot_message=chatbot_message
+    )
+    evaluation = generate_single_response_to_prompt(prompt_completed)
+    dump_swift_judgement_to_markdown(prompt_completed, evaluation)
     silent_print(f"turbo-instruct (non-factual) says {evaluation}")
     if "ACCEPTED" in evaluation:
         return "ACCEPTED"
