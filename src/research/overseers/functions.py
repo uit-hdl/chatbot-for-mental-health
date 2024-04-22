@@ -73,6 +73,8 @@ def run_experiment(
     prompt = load_local_prompt(prompt_name)
     test_cases = load_test_cases()
     test_case = test_cases[test_case_name]
+    if "source_name" in test_case.keys():
+        test_case["source"] = get_source(test_case["source_name"])
     prompt_completed = prompt.format(**test_case)
     dump_prompt_to_markdown(prompt_completed, "files/prompt-completed/prompt_completed.md")
 

@@ -91,7 +91,8 @@ def create_tentative_bot_response(conversation, chatbot_id):
 
 
 def check_length_of_chatbot_response(conversation) -> list:
-    """Appends system warning to chat if message is too long."""
+    """Appends system warning to chat if message is too long. Very long messages
+    get summarized."""
     bot_response = grab_last_assistant_response(conversation)
     response_length = count_tokens_in_message(bot_response, MODEL_ID)
 

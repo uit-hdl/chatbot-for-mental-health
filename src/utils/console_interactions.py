@@ -43,7 +43,7 @@ def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> l
     highest_index_to_keep = assistant_indices[-(n_rewind_capped + 1)]
     # Ensure we dont remove any system warnings linked to the AI message
     counter = 0
-    while conversation[highest_index_to_keep + 1 + counter]["content"] == "system":
+    while conversation[highest_index_to_keep + 1 + counter]["role"] == "system":
         counter += 1
     highest_index_to_keep += counter
 
@@ -64,6 +64,8 @@ def rewind_chat_by_n_user_messages(n_rewind: int, conversation: list) -> list:
     user_indices = [
         i for i, message in enumerate(conversation) if message["role"] == "user"
     ]
+    print(user_indices)
+    
     # Ensure that you dont go further back then there are user messages
     n_rewind_capped = min([n_rewind, len(user_indices) - 1])
     highest_index_to_keep = user_indices[-n_rewind_capped]

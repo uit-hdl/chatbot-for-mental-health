@@ -31,7 +31,8 @@ def generate_and_add_raw_bot_response(
     temperature=None,
 ):
     """Takes the conversation log, and updates it with the response of the
-    chatbot as a function of the chat history. Does not interpret bot response."""
+    chatbot as a function of the chat history. Does not interpret bot
+    response."""
     conversation = copy.deepcopy(conversation)
 
     while True:
@@ -68,9 +69,9 @@ def generate_single_response_using_gpt35_turbo_instruct(
     temperature=None,
     return_everything=False,
 ):
-    """Provides a chat completion to a single message input. `Completion` is optimized
-    for cases where only a single response is desired, rather than a conversation. Note:
-    GPT-3.5-turbot-instruct is fine tuned for this task."""
+    """Provides a chat completion to a single message input. `Completion` is
+    optimized for cases where only a single response is desired, rather than a
+    conversation. Note: GPT-3.5-turbot-instruct is fine tuned for this task."""
     response = openai.Completion.create(
         model=model_id,
         prompt=prompt,
@@ -85,7 +86,9 @@ def generate_single_response_using_gpt35_turbo_instruct(
         return return_string.replace("\n", "").replace(" .", ".").strip()
 
 
-def generate_single_response_to_prompt(prompt, deployment_name=""):
+def generate_single_response_to_prompt(
+    prompt, deployment_name=CONFIG["deployment_name"]
+):
     """Used when a single response to a single prompt is all that is wanted, not
     a conversation. Uses GPT-3.5 or 4. GPT-3.5-turbo instruct uses a different
     setup, and has its own function."""
@@ -101,8 +104,8 @@ def generate_single_response_to_prompt(prompt, deployment_name=""):
 def initiate_conversation_with_prompt(
     prompt: str, system_message: str = None
 ) -> list[str]:
-    """Initiates a conversation in the openAI list format with the the initial prompt as
-    the first message."""
+    """Initiates a conversation in the openAI list format with the the initial
+    prompt as the first message."""
     conversation = [{"role": "system", "content": prompt}]
     if system_message:
         conversation.append({"role": "system", "content": system_message})
@@ -158,8 +161,8 @@ def index_of_assistant_responses_intended_for_user(conversation) -> list[int]:
 
 
 def append_system_messages(conversation, system_messages: list[str]) -> list:
-    """Appends each message in a list of system messages to the conversation under the
-    role of system."""
+    """Appends each message in a list of system messages to the conversation
+    under the role of system."""
     if isinstance(system_messages, str):
         system_messages = [system_messages]
     for message in system_messages:
@@ -169,8 +172,8 @@ def append_system_messages(conversation, system_messages: list[str]) -> list:
 
 def delete_last_bot_response(conversation) -> list:
     """Identifies which responses are from the assistant, and deletes the last
-    response from the conversation. Used when the bot response has broken some rule, and
-    we want it to create a new response."""
+    response from the conversation. Used when the bot response has broken some
+    rule, and we want it to create a new response."""
     assistant_indices = identify_assistant_responses(conversation)
     del conversation[assistant_indices[-1]]
     return conversation

@@ -77,4 +77,4 @@ Now, here comes the actual content for you to evaluate:
 
 chatbot_message("{chatbot_message}")
 
-source("{source_name}")
+source("{source}")

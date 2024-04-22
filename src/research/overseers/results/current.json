@@ -1,25 +1,39 @@
 {
     "experiment_info": {
-        "prompt_name": "swift_judge_misc_disclaimers_only",
-        "test_case_name": "can_intelligence_be_measured_with_disclaimer",
-        "git_commit_hash": "e2e098349b756fb415bc765f3b9c634aecd1352d",
+        "prompt_name": "swift_judge_source_fidelity",
+        "test_case_name": "how_to_start_conversation_about_ignorance",
+        "git_commit_hash": "64ecb4551bee7a382c5d395e7c25aaf875eaf189",
         "response_generating_function": "f_get_response_gpt35turbo"
     },
     "ci_success_rate": {
-        "mean": 1.0,
-        "lower": 1.0,
-        "upper": 1.0
+        "mean": 0.6,
+        "lower": 0.29635810565733856,
+        "upper": 0.9036418943426614
     },
     "raw_data": {
         "response_is_correct": [
+            false,
             true,
             true,
-            true
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            false
         ],
         "response_raw": [
-            "output({\n  \"evaluation\": \"ACCEPTED\",\n  \"motivation\": \"Claims are non-controversial and disclaimer is provided\"\n})",
-            "output({\n  \"evaluation\": \"ACCEPTED\",\n  \"motivation\": \"Claims are non-controversial and disclaimer is provided\"\n})",
-            "output({\n  \"evaluation\": \"ACCEPTED\",\n  \"motivation\": \"Claims are non-controversial and disclaimer is provided\"\n})"
+            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"WARNING\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
+            "\u00af\\_(\u30c4)_/\u00af",
+            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4"
         ]
     }
 }
