@@ -155,6 +155,14 @@ def dump_chat_to_markdown(conversation: list[dict], file_path):
             file.write(formatted_message)
 
 
+def dump_file(variable, file_path):
+    """Dumps the variable to the specified location (relative to project
+    root)."""
+    full_path = get_full_path_and_create_dir(file_path)
+    with open(full_path, "w") as file:
+        file.write(variable)
+
+
 def dump_overseer_interactions(prompt, output, dump_path):
     """Use to dump prompt and response into a single formatted .md (markdown)
     file. Makes it easier to debug overseer/single-output agents when they are
