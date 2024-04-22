@@ -1,7 +1,7 @@
 import sys
 
 from utils.general import silent_print
-from utils.overseers import redirect_confirmation_status
+from utils.overseers import user_confirms_they_want_redirect
 from utils.backend import PROMPTS
 from utils.backend import LOGGER
 from utils.backend import CONFIG

@@ -60,7 +60,7 @@ def generate_and_add_raw_bot_response(
     return conversation
 
 
-def get_response_to_single_message_input(
+def generate_single_response_using_gpt35_turbo_instruct(
     prompt: str,
     model_id="gpt-3.5-turbo-instruct",
     deployment_name=CONFIG["deployment_name_single_response"],
@@ -83,6 +83,19 @@ def get_response_to_single_message_input(
     else:
         return_string = response.choices[0]["text"]
         return return_string.replace("\n", "").replace(" .", ".").strip()
+
+
+def generate_single_response_to_prompt(prompt, deployment_name=""):
+    """Used when a single response to a single prompt is all that is wanted, not
+    a conversation. Uses GPT-3.5 or 4. GPT-3.5-turbo instruct uses a different
+    setup, and has its own function."""
+    # Create conversation object with just one message (the prompt)
+    conversation = initiate_conversation_with_prompt(prompt)
+    # Get response
+    conversation = generate_and_add_raw_bot_response(
+        conversation, deployment_name=deployment_name
+    )
+    return conversation[-1]["content"]
 
 
 def initiate_conversation_with_prompt(

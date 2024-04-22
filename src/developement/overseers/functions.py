@@ -6,7 +6,7 @@ import os
 from utils.console_chat_display import wrap_message
 from utils.backend import dump_to_json
 from utils.chat_utilities import generate_and_add_raw_bot_response
-from utils.chat_utilities import get_response_to_single_message_input
+from utils.chat_utilities import generate_single_response_using_gpt35_turbo_instruct
 import numpy as np
 import git
 
@@ -49,7 +49,7 @@ def f_get_response_gpt35turbo(prompt=str, deployment_name="gpt-35-turbo-16k"):
 
 def get_response_gpt_turbo_instruct(prompt=str):
     conversation = [{"role": "system", "content": prompt}]
-    return get_response_to_single_message_input(conversation)
+    return generate_single_response_using_gpt35_turbo_instruct(conversation)
 
 
 # %% RUN EXPERIMENT

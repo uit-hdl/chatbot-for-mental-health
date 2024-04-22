@@ -44,8 +44,8 @@ def respond_to_user(conversation, chatbot_id: str) -> list:
 
 
 def generate_valid_chatbot_output(conversation, chatbot_id):
-    """Attempts to generate a response untill the response passes quality check based on
-    criteria such as whether or not the requested files exist."""
+    """Attempts to generate a response untill the response passes quality check
+    based on criteria such as whether or not the requested files exist."""
 
     for attempt in range(SETTINGS["n_attempts_at_producing_valid_response"]):
         conversation, harvested_syntax = create_tentative_bot_response(
@@ -100,10 +100,10 @@ def check_length_of_chatbot_response(conversation) -> list:
     if response_length >= SETTINGS["max_tokens_before_summarization"]:
         silent_print("Response exceeds max length, shortening message with GPT-3.5...")
         conversation = trim_message_length(conversation)
-        warning = "Your response was shortened as it exceeded the maximum allowed length."
+        warning = "Your response was shortened as it exceeded the maximum allowed length; keep messages short."
     elif response_length > SETTINGS["limit_2_tokens_per_message"]:
         silent_print(f"Response has length {response_length} tokens...")
-        warning = f"You almost reached the maximum message length. Limit the information per message to not overwhelm the user."
+        warning = f"You almost reached the maximum message length. Limit information per message to not overwhelm the user."
 
     elif response_length > SETTINGS["limit_1_tokens_per_message"]:
         silent_print(f"Response has length {response_length} tokens...")

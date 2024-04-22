@@ -13,7 +13,7 @@ from functions import dump_prompt_to_markdown
 from functions import calc_mean_with_confint
 from functions import load_summarized_source
 from functions import dump_to_json_locally
-from utils.chat_utilities import get_response_to_single_message_input
+from utils.chat_utilities import generate_single_response_using_gpt35_turbo_instruct
 
 import numpy as np
 import pandas as pd
@@ -31,7 +31,7 @@ prompt_completed = prompt.format(
 
 dump_prompt_to_markdown(prompt_completed, "files/prompt-completed/prompt_completed.md")
 
-get_response_to_single_message_input(prompt=prompt_completed)
+generate_single_response_using_gpt35_turbo_instruct(prompt=prompt_completed)
 
 
 # %% STATISTICS
@@ -44,7 +44,7 @@ def get_prompt(test_name, prompt_template):
 
 def get_evaluation(test_name, prompt):
     ground_truth = test_cases[test_name]["value"]
-    response = get_response_to_single_message_input(prompt=prompt)
+    response = generate_single_response_using_gpt35_turbo_instruct(prompt=prompt)
     if "ACCEPTED" in response:
         return "ACCEPTED", ground_truth, response
     else:
@@ -57,7 +57,7 @@ test_name = "correct_answer_on_effect_of_pa_on_symptoms"
 source_id = test_cases[test_name]["source_name"]
 source = get_source(source_id)
 prompt_completed = load_local_prompt("source_summarizer").format(source_name=source)
-source_summarized = get_response_to_single_message_input(
+source_summarized = generate_single_response_using_gpt35_turbo_instruct(
     prompt=prompt_completed, max_tokens=400
 )
 print_wrap(source_summarized)

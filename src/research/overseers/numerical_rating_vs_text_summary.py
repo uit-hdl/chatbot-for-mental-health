@@ -10,7 +10,7 @@ from functions import load_test_cases, load_local_prompt
 from functions import get_source
 from functions import calc_mean_with_confint
 from functions import CWD
-from utils.chat_utilities import get_response_to_single_message_input
+from utils.chat_utilities import generate_single_response_using_gpt35_turbo_instruct
 from utils.general import remove_quotes_and_backticks
 from utils.backend import dump_to_json
 import numpy as np
@@ -36,8 +36,8 @@ prompt_numerical_summary = load_local_prompt(prompt_name_2).format(
 
 print_wrap(prompt_text_summary)
 
-text_summary = get_response_to_single_message_input(prompt_text_summary, max_tokens=200)
-numerical_summary = get_response_to_single_message_input(
+text_summary = generate_single_response_using_gpt35_turbo_instruct(prompt_text_summary, max_tokens=200)
+numerical_summary = generate_single_response_using_gpt35_turbo_instruct(
     prompt_numerical_summary, max_tokens=200
 )
 
@@ -54,10 +54,10 @@ max_tokens = 200
 for i in range(40):
     print(i)
     text_summaries.append(
-        get_response_to_single_message_input(prompt_text_summary, max_tokens=max_tokens)
+        generate_single_response_using_gpt35_turbo_instruct(prompt_text_summary, max_tokens=max_tokens)
     )
     numerical_summaries.append(
-        get_response_to_single_message_input(prompt_numerical_summary, max_tokens=200)
+        generate_single_response_using_gpt35_turbo_instruct(prompt_numerical_summary, max_tokens=200)
     )
 
 # %%
@@ -72,13 +72,13 @@ REPEAT, never, under ANY CIRCUMSTANCES write text, only format `rating=(3/5)`!""
 
 k = 1
 print_wrap(text_summaries[k])
-get_response_to_single_message_input(
+generate_single_response_using_gpt35_turbo_instruct(
     prompt_get_rating.format(summary=text_summaries[k])
 )
 
 
 def extract_rating_with_bot(text):
-    return get_response_to_single_message_input(prompt_get_rating.format(summary=text))
+    return generate_single_response_using_gpt35_turbo_instruct(prompt_get_rating.format(summary=text))
 
 
 ratings_text = [extract_rating_with_bot(text) for text in text_summaries]

@@ -11,7 +11,7 @@ from functions import dump_prompt_to_markdown
 from functions import calc_mean_with_confint
 from functions import dump_to_json_locally
 from functions import f_get_response
-from utils.chat_utilities import get_response_to_single_message_input
+from utils.chat_utilities import generate_single_response_using_gpt35_turbo_instruct
 
 import numpy as np
 import pandas as pd
@@ -98,7 +98,7 @@ def run_experiment(
 
 # %%
 run_experiment(
-    get_response=get_response_to_single_message_input,
+    get_response=generate_single_response_using_gpt35_turbo_instruct,
     n_exp=2,
     prompt_name="swift_judge_source_fidelity_v1",
     test_case_name="starting_a_movement",
@@ -161,7 +161,7 @@ print(average_success_rate)
 CIs_instruct = {}
 n_exp = 20
 prompt_name = "swift_judge_source_fidelity"
-model = get_response_to_single_message_input
+model = generate_single_response_using_gpt35_turbo_instruct
 # SHOULD ACCEPT
 CIs_instruct["causes_of_schizo"] = run_experiment(
     get_response=model,
@@ -338,7 +338,7 @@ print(f"On bad messages {average_success_rate_bad_messages:.3}")
 CIs_gpt35_16k = {}
 n_exp = 20
 prompt_name = "swift_judge_source_fidelity_v1"
-model = get_response_to_single_message_input
+model = generate_single_response_using_gpt35_turbo_instruct
 # SHOULD ACCEPT
 CIs_gpt35_16k["causes_of_schizo"] = run_experiment(
     get_response=model,

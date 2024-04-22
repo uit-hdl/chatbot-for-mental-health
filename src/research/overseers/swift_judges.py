@@ -6,7 +6,7 @@ returns a numerical rating of source fidelity."""
 import path_setup
 
 from utils.console_chat_display import wrap_message
-from utils.chat_utilities import get_response_to_single_message_input
+from utils.chat_utilities import generate_single_response_using_gpt35_turbo_instruct
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.backend import load_yaml_file
@@ -61,7 +61,7 @@ def get_swift_judge_evaluation(test_case_id, prompt_template, temperature=0.5):
     prompt = get_prompt(test_case_id=test_case_id, prompt_template=prompt_template)
     value = test_cases[test_case_id]["value"]
     return {
-        "evaluation": get_response_to_single_message_input(
+        "evaluation": generate_single_response_using_gpt35_turbo_instruct(
             prompt, temperature=temperature
         ),
         "true_value": value,

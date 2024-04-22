@@ -11,7 +11,7 @@ from functions import calc_mean_with_confint
 from functions import dump_to_json_locally
 from functions import f_get_response
 from functions import run_experiment
-from utils.chat_utilities import get_response_to_single_message_input
+from utils.chat_utilities import generate_single_response_using_gpt35_turbo_instruct
 
 import numpy as np
 import pandas as pd
@@ -99,7 +99,7 @@ def run_experiment(
 
 
 run_experiment(
-    get_response=get_response_to_single_message_input,
+    get_response=generate_single_response_using_gpt35_turbo_instruct,
     n_exp=10,
     prompt_name="swift_judge_misc_disclaimers_only",
     test_case_name="can_intellegence_be_measured_with_disclaimer",
@@ -115,7 +115,7 @@ run_experiment(
 )
 
 run_experiment(
-    get_response=get_response_to_single_message_input,
+    get_response=generate_single_response_using_gpt35_turbo_instruct,
     n_exp=10,
     prompt_name="swift_judge_misc",
     test_case_name="mirroring_body_language",
@@ -141,7 +141,7 @@ prompt_completed = prompt.format(
 
 dump_prompt_to_markdown(prompt_completed, "files/prompt-completed/prompt_completed.md")
 
-response = get_response_to_single_message_input(prompt=prompt_completed)
+response = generate_single_response_using_gpt35_turbo_instruct(prompt=prompt_completed)
 response = f_get_response(prompt_completed)
 print_wrap(response)
 
@@ -179,7 +179,7 @@ prompt_completed = prompt.format(
 
 dump_prompt_to_markdown(prompt_completed, "files/prompt-completed/prompt_completed.md")
 
-response = get_response_to_single_message_input(prompt=prompt_completed)
+response = generate_single_response_using_gpt35_turbo_instruct(prompt=prompt_completed)
 response_ti = f_get_response(prompt_completed)
 print_wrap(response)
 
