@@ -1,39 +1,45 @@
 {
     "experiment_info": {
-        "prompt_name": "swift_judge_source_fidelity",
-        "test_case_name": "how_to_start_conversation_about_ignorance",
-        "git_commit_hash": "64ecb4551bee7a382c5d395e7c25aaf875eaf189",
+        "prompt_name": "swift_judge_source_fidelity_v3",
+        "prompt_variables": {
+            "source_name": "13_stigma",
+            "chatbot_message": "Effectively talking to people to change their minds about schizophrenia\ninvolves a compassionate and educational approach:\n\n1. Listen carefully to understand their perspective before responding.\n2. Respond with facts and personal experiences to gently correct any\nmisconceptions.\n3. Share stories of people with schizophrenia who lead successful,\nfulfilling lives to challenge negative stereotypes.\n4. Encourage an open dialogue rather than a confrontation, as this can lead\nto better understanding and empathy.\n\nAs for intervening in conversations, it can be effective if done\nrespectfully. If you hear someone spreading myths about schizophrenia, you\ncan interject with correct information, provided you're comfortable and it\nfeels safe to do so.\n\nRemember, you have the right to decide when and how to engage in these\ndiscussions. Would you like tips on communication strategies or information\non joining support groups that can help you with these efforts?\n",
+            "value": "WARNING",
+            "description": "Talks about how to communicate to others about what schizophrenia, which the source does not give any advice on.\n",
+            "source": "Stigma can refer to the negative perceptions and attitudes surrounding\ncertain health conditions or diseases. There is a lot of\nmisconceptions surrounding schizophrenia, which can affect both those\nwith the condition and those who care for them. Many people believe\nthat a person with schizophrenia will switch frequently between normal\nand bizarre behaviour, as if they have multiple personalities. This\npromotes a perception that people with schizophrenia are unpredictable\nand should be feared.\n\nThey may internalize these misconceptions (self-stigmization). It is\nimportant for them and for family members not to allow others\u2019\nperceptions to influence how they feel about that person. It is\nimportant that they view their illness as something they have, and not\nsomething that identifies them.\n\nThe name \u2018schizophrenia\u2019 is derived from the Greek verb skhizein, \u2018to\nsplit\u2019, and phren, denoting \u2018soul, spirit or mind\u2019, and originally\ndescribed a group of \u2018schizophrenias\u2019. Although the current language\nsuggests a single, uniform condition, there is great variety in the\nseverity of illness and types of symptoms experienced by people with\nschizophrenia.\n\nThere have been many suggestions for alternative names that better\ndescribe the diversity of symptoms apparent in people with\nschizophrenia. Indeed, a new term, \u2018Togo Shitcho Sho\u2019 or \u2018integration\ndisorder\u2019, was adopted in Japan in 2002. Patient groups in the\nNetherlands are also taking steps towards realizing a name change in\ntheir country. The Dutch patient society, Anoiksis, has suggested a\nnew name and new concept for schizophrenia, with the aim of reducing\nthe stigma associated with the condition.\n\n[Example of healthy way to think about Schizophrenia] \u201cI have\nschizophrenia. I am not schizophrenia. I am not my mental illness. My\nillness is a part of me.\u201d \u2013 Jonathan Harnisch, An Alibiography\n\n[source `61_personal_relationships` and `41_who_should_i_tell`\ndiscusses who to confide in about Schizophrenia and how to talk to\nthem]\n"
+        },
+        "git_commit_hash": "6e8c98ac6bb2d7f64e2cbb1cf7ac073444655066",
         "response_generating_function": "f_get_response_gpt35turbo"
     },
     "ci_success_rate": {
-        "mean": 0.6,
-        "lower": 0.29635810565733856,
-        "upper": 0.9036418943426614
+        "mean": 0.9,
+        "lower": 0.7140580735820994,
+        "upper": 1.0859419264179007
     },
     "raw_data": {
         "response_is_correct": [
-            false,
+            true,
+            true,
+            true,
+            true,
             true,
             true,
             true,
             true,
             false,
-            true,
-            false,
-            true,
-            false
+            true
         ],
         "response_raw": [
-            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"WARNING\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"WARNING\"}):\u00a4",
             "\u00a4:provide_feedback({\"evaluation\": \"WARNING\"}):\u00a4",
             "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\"}):\u00a4",
             "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\"}):\u00a4",
             "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\"}):\u00a4",
-            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
             "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\"}):\u00a4",
             "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
-            "\u00af\\_(\u30c4)_/\u00af",
-            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4"
+            "\u00a4:provide_feedback({\"evaluation\": \"WARNING\"}):\u00a4"
         ]
     }
 }

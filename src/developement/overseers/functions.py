@@ -75,17 +75,79 @@ def complete_prompt_and_get_response(
 
 
 def f_correct_response(value: str):
+    """Maps response"""
     if value == "ACCEPTED":
         return lambda answer: True if "ACCEPTED" in answer else False
     else:
         return lambda answer: True if "ACCEPTED" not in answer else False
 
 
-def run_experiment(
+def run_experiment_for_test_case(
     f_get_response=f_get_response_gpt35turbo,
+    f_correct_response=f_correct_response,
     n_exp=10,
     prompt_template_path_relative="source_fidelity/v1",
     test_case_name="starting_a_movement",
+):
+    """Tests the
+
+    model: gpt-35-turbo-16k or gpt-instruct."""
+
+    # Create prompt
+    prompt = load_local_prompt(prompt_template_path_relative)
+    test_cases = load_test_cases()
+    test_case = test_cases[test_case_name]
+    if "source_name" in test_case.keys():
+        test_case["source"] = get_source(test_case["source_name"])
+    prompt_completed = prompt.format(**test_case)
+    dump_prompt_to_markdown(
+        prompt_completed, "files/prompt-completed/prompt_completed.md"
+    )
+
+    # Run trials
+    responses = pd.DataFrame(
+        [f_get_response(prompt=prompt_completed) for i in range(n_exp)],
+        columns=["response"],
+    )
+
+    # Analyze information
+    f_correct_answer = f_correct_response(test_case["value"])
+    responses["correct_judgement"] = responses["response"].apply(f_correct_answer)
+    responses = responses[["correct_judgement", "response"]]
+    responses["correct_judgement"].mean()
+    ci = calc_mean_with_confint(responses["correct_judgement"])
+
+    print(f"\n** Results for case {test_case_name} ** ")
+    print(f"prompt: {prompt_template_path_relative}")
+    print(f"Response function: {f_get_response.__name__}")
+    print(ci)
+
+    results = {
+        "experiment_info": {
+            "prompt_name": prompt_template_path_relative,
+            "test_case_name": test_case_name,
+            "git_commit_hash": get_hash_of_current_git_commit(),
+            "response_generating_function": f_get_response.__name__,
+        },
+        "ci_success_rate": ci,
+        "raw_data": {
+            "response_is_correct": responses["correct_judgement"].values.tolist(),
+            "response_raw": responses["response"].values.tolist(),
+        },
+    }
+
+    # Dump results
+    dump_to_json_locally(results, f"results/current.json")
+
+    return ci
+
+
+def run_experiment_general(
+    prompt_arguments_dict,
+    prompt_template_path_relative="source_fidelity",
+    f_get_response=f_get_response_gpt35turbo,
+    f_correct_response=lambda answer: True if "ACCEPTED" in answer else False,
+    n_exp=10,
 ):
     """Tests the
 

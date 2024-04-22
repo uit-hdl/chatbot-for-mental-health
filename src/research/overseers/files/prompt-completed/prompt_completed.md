@@ -61,28 +61,25 @@ allow others’ perceptions to influence how they feel about that person
 
 # Actual content to evaluate
 
-chatbot_message("Great! Here are some tips for starting a considerate
-conversation about schizophrenia and its stigma:
+chatbot_message("Effectively talking to people to change their minds about schizophrenia
+involves a compassionate and educational approach:
 
-1. **Find Common Ground**: Agree on the importance of understanding mental
-health. For example, you can say, "We all agree that accurate information about
-health issues is essential, right?"
+1. Listen carefully to understand their perspective before responding.
+2. Respond with facts and personal experiences to gently correct any
+misconceptions.
+3. Share stories of people with schizophrenia who lead successful,
+fulfilling lives to challenge negative stereotypes.
+4. Encourage an open dialogue rather than a confrontation, as this can lead
+to better understanding and empathy.
 
-2. **Use 'I' Statements**: Share your feelings instead of making accusatory
-statements. For instance, you can say, "I feel concerned when I hear
-misconceptions about schizophrenia because it can make life harder for those
-affected."
+As for intervening in conversations, it can be effective if done
+respectfully. If you hear someone spreading myths about schizophrenia, you
+can interject with correct information, provided you're comfortable and it
+feels safe to do so.
 
-3. **Encourage Questions**: Invite others to ask questions by showing your
-willingness to discuss the topic. You can say, "If you're interested, I can
-share what I've learned about schizophrenia."
-
-4. **Provide Resources**: Offer articles, websites, or other reliable sources of
-information so they can learn more independently.
-
-By approaching the conversation with empathy and understanding, you create a
-safe space for learning and discussion. Would you like more guidance on handling
-these situations, or is there something else I can help you with?
+Remember, you have the right to decide when and how to engage in these
+discussions. Would you like tips on communication strategies or information
+on joining support groups that can help you with these efforts?
 ")
 
 source("Stigma can refer to the negative perceptions and attitudes surrounding
@@ -124,3 +121,5 @@ illness is a part of me.” – Jonathan Harnisch, An Alibiography
 discusses who to confide in about Schizophrenia and how to talk to
 them]
 ")
+
+What do you think? Was the chatbots message based on the source?

@@ -10,7 +10,7 @@ from functions import dump_prompt_to_markdown
 from functions import calc_mean_with_confint
 from functions import dump_to_json_locally
 from functions import f_get_response
-from functions import run_experiment
+from functions import run_experiment_for_test_case
 from utils.chat_utilities import generate_single_response_using_gpt35_turbo_instruct
 
 import numpy as np
@@ -56,7 +56,7 @@ dump_to_json_locally(ci, f"results/{prompt_name}/{test_case_name}.json")
 
 # %%
 
-def run_experiment(
+def run_experiment_for_test_case(
     get_response=f_get_response,
     n_exp=10,
     prompt_name="swift_judge_misc_disclaimers_only",
@@ -98,7 +98,7 @@ def run_experiment(
     dump_to_json_locally(ci, f"results/{prompt_name}/{test_case_name}.json")
 
 
-run_experiment(
+run_experiment_for_test_case(
     get_response=generate_single_response_using_gpt35_turbo_instruct,
     n_exp=10,
     prompt_name="swift_judge_misc_disclaimers_only",
@@ -106,7 +106,7 @@ run_experiment(
     should_reject=False,
 )
 
-run_experiment(
+run_experiment_for_test_case(
     get_response=f_get_response,
     n_exp=10,
     prompt_name="swift_judge_misc_disclaimers_only",
@@ -114,7 +114,7 @@ run_experiment(
     should_reject=True,
 )
 
-run_experiment(
+run_experiment_for_test_case(
     get_response=generate_single_response_using_gpt35_turbo_instruct,
     n_exp=10,
     prompt_name="swift_judge_misc",

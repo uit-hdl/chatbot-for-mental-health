@@ -4,7 +4,7 @@
 import path_setup
 
 from functions import print_wrap
-from functions import run_experiment
+from functions import run_experiment_for_test_case
 from functions import load_local_prompt
 from functions import load_test_cases
 from functions import f_get_response_gpt35turbo
