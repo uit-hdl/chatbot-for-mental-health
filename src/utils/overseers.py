@@ -177,8 +177,11 @@ def generate_overseer_response(
     system_message_to_overseer: str,
     overseer_id: str,
     model_id: str = CONFIG["model_id"],
-) -> Tuple[str, str]:
+) -> dict:
     """Generates the response of the overseer."""
+    generate_single_response_to_prompt(
+        prompt=PROMPTS[overseer_id],
+    )
     backend_conversation = initiate_conversation_with_prompt(
         PROMPTS[overseer_id], system_message_to_overseer
     )
@@ -249,6 +252,7 @@ def overseer_evaluates_non_factual_messages(
             user message: '{user_message}'
             bot response: '{chatbot_response}'\n
             """
+
             evaluation_dict = generate_overseer_response(
                 system_message_to_overseer, overseer_id=OVERSEER_MISC, model_id=model_id
             )

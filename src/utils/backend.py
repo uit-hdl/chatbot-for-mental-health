@@ -1,3 +1,6 @@
+"""Backend functions concerned with loading and dumpind data, and configuring
+file and directory paths."""
+
 import yaml
 import json
 import os
@@ -27,7 +30,7 @@ IMAGES_DIR = os.path.join(ROOT_DIR, "media/images")
 VIDEOS_DIR = os.path.join(ROOT_DIR, "media/videos")
 LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
-CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-info")
+CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-dashboard")
 OVERSEER_INTERACTIONS_DIR = os.path.join(CHAT_INFO_DIR, "overseer-interactions")
 RESULTS_DIR = os.path.join(ROOT_DIR, "results")
 CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
