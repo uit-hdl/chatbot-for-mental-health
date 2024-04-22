@@ -154,7 +154,7 @@ def swift_judgement_of_source_fidelity(
     prompt_adjusted = (
         f"""{prompt}\n\nchatbot_message("{chatbot_message}")\n\nsource("{source}")"""
     )
-    evaluation = generate_single_response_using_gpt35_turbo_instruct(prompt_adjusted)
+    evaluation = generate_single_response_to_prompt(prompt_adjusted)
     dump_swift_judgement_to_markdown(prompt_adjusted, evaluation)
     silent_print(f"turbo-instruct says {evaluation}")
     if "ACCEPTED" in evaluation:
@@ -271,7 +271,7 @@ def preliminary_check_of_misc_message(
     """Uses GPT-3.5-turbo-instruct to screen for behaviours that violates the chatbots
     role limitations."""
     prompt_adjusted = f"""{prompt}\nuser_message("{user_message}")\n\nchatbot_message("{chatbot_message}")"""
-    evaluation = generate_single_response_using_gpt35_turbo_instruct(prompt_adjusted)
+    evaluation = generate_single_response_to_prompt(prompt_adjusted)
     dump_swift_judgement_to_markdown(prompt_adjusted, evaluation)
     silent_print(f"turbo-instruct (non-factual) says {evaluation}")
     if "ACCEPTED" in evaluation:
