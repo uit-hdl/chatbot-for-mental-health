@@ -56,13 +56,13 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
             conversation, harvested_syntax, chatbot_id
         )
 
-        if flag == "NOT ACCEPTED":
+        if flag == "REJECTED":
             conversation = delete_last_bot_response(conversation)
             silent_print("Failed quality check (check log for details)")
         elif flag == "ACCEPTED":
             break
 
-    if flag == "NOT ACCEPTED":
+    if flag == "REJECTED":
         # Has used up max number of attempts; keep the next one regardless of outcome
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id

@@ -123,9 +123,6 @@ def overseer_evaluates_source_fidelity(
         evaluation_dict = generate_overseer_response(
             prompt=prompt_completed,
         )
-        silent_print(
-            f"{OVERSEER_SOURCE_FIDELITY} evaluation of {source_citations}: {evaluation_dict}"
-        )
         overseer_evaluation, warning_message = extract_overseer_evaluation_and_feedback(
             evaluation_dict
         )
@@ -203,8 +200,8 @@ def extract_overseer_evaluation_and_feedback(
     overseer_evaluation = "ACCEPTED"
     warning_message = []
     if evaluation_dict and overseer_response_is_valid(evaluation_dict):
-        silent_print(evaluation_dict)
         if evaluation_dict["evaluation"] != "ACCEPTED":
+            silent_print(evaluation_dict)
             warning_message = evaluation_dict["message_to_bot"]
             overseer_evaluation = evaluation_dict["evaluation"]
     return overseer_evaluation, warning_message
@@ -237,6 +234,7 @@ def overseer_evaluates_misc_messages(conversation, citations: list):
     if misc_citations:
         user_message = grab_last_user_message(conversation)
         chatbot_message = grab_last_assistant_response(conversation)
+        chatbot_message = remove_syntax_from_message(chatbot_message)
         swift_judgement = preliminary_check_of_misc_message(
             user_message, chatbot_message
         )
@@ -267,7 +265,7 @@ def preliminary_check_of_misc_message(
         prompt_completed, deployment_name="gpt-35-turbo-16k"
     )
     dump_swift_judgement_to_markdown(prompt_completed, evaluation)
-    silent_print(f"turbo-instruct (non-factual) says {evaluation}")
+    silent_print(f"GPT-3.5-Turbo says {evaluation}")
     if "ACCEPTED" in evaluation:
         return "ACCEPTED"
     else:

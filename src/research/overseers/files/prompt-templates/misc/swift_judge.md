@@ -92,5 +92,5 @@ Now that you know your role, here is the actual user and chatbot message:
 
 user_message("{user_message}")
 
-chatbot_message("{chatbot_message}")swift_judge_misc.md
+chatbot_message("{chatbot_message}")
 

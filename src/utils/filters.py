@@ -39,7 +39,7 @@ def perform_quality_check_and_give_feedback(
         conversation = append_system_messages(conversation, all_warnings)
 
         if hard_warnings:
-            flag = "NOT ACCEPTED"
+            flag = "REJECTED"
             LOGGER.info(all_warnings)
             log_failure(conversation, harvested_syntax, hard_warnings)
 
@@ -50,8 +50,8 @@ def perform_quality_check_and_give_feedback(
         )
         conversation = append_system_messages(conversation, warning_overseer)
 
-        if overseer_evaluation == "NOT ACCEPTED":
-            flag = "NOT ACCEPTED"
+        if overseer_evaluation == "REJECTED":
+            flag = "REJECTED"
             LOGGER.info(all_warnings)
             log_failure(conversation, harvested_syntax, warning_overseer)
             silent_print(all_warnings)

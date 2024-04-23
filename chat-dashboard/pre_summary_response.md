@@ -1,15 +1,7 @@
-¤:cite(["53_psychotherapy"]):¤ The right psychotherapy for you depends on your individual needs, preferences, and specific situation. Below are some common types of psychotherapy that may be considered for someone with schizophrenia:
+¤:cite(["63_social_life"]):¤ Moving to a new city and meeting people can be anxiety-provoking, especially when managing schizophrenia. Remember that it's common to feel less able to socialize or experience a lack of emotion due to schizophrenia, but as you start to recover, your desire to socialize may increase.
 
-- **Cognitive Behavioral Therapy (CBT):** Aims to change unhealthy thought and behavior patterns by identifying goals and practicing tasks between sessions.
-- **Group Therapy:** Involves therapy in a social setting, which can be comforting when sharing thoughts with others who have faced similar experiences.
-- **Family-Focused Therapy:** Helps the whole family communicate better and build a supportive environment.
+Finding support groups may be beneficial, as they provide a platform to meet others with similar experiences. However, it's also important to interact with people who do not have the illness, as this can offer a broader perspective and help you step outside of the world of schizophrenia.
 
-Before choosing a type of therapy, consider the following questions to ask your potential therapist:
+Psychotherapy can be a helpful tool to regain confidence and overcome social barriers. For caregivers, sharing responsibilities can free up time to socialize.
 
-- What type of therapy do you offer?
-- Do you have experience with schizophrenia?
-- How long do sessions last and how often are they held?
-- What results can I expect and when?
-- What are the costs involved?
-
-It's crucial to find a therapist you trust and feel comfortable with to ensure the best possible outcome. Always discuss any new therapy approaches with your healthcare team before starting them.
+I recommend you take gradual steps when meeting new people, and maybe start with low-pressure situations. Take care of your own needs, and remember that it's okay to ask for support if you need it. Would you like to know more about psychotherapy or support groups?

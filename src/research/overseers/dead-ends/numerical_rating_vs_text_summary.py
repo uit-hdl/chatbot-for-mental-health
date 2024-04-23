@@ -1,6 +1,9 @@
 """Here I want to test which kind of chatbot is more effective at being
 critical: the one that gives a rating or evaluation only vs the one that
-motivates their decision."""
+motivates their decision.
+
+Overall conclusion is that the chatbots that respond with text-summaries tend to
+reject more often, but sensitivity is increased at the cost of specificity."""
 
 import path_setup
 

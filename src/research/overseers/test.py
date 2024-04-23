@@ -42,8 +42,10 @@ test_case = test_cases[test_case_name]
 test_case["source"] = get_source(test_case["source_name"])
 prompt_completed = prompt.format(**test_cases[test_case_name])
 
+
 def f_response(prompt):
     return f_get_response_gpt35turbo(prompt, "test-chatbot")
+
 
 results = run_experiment_general(
     prompt_variables=test_case,
@@ -52,3 +54,4 @@ results = run_experiment_general(
     n_exp=10,
     f_correct_response=lambda answer: True if "ACCEPTED" not in answer else False,
 )
+

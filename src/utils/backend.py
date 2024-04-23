@@ -267,8 +267,8 @@ def get_sources_available_to_chatbot(chatbot_id: str) -> list[str]:
 
 
 def get_source_content_and_path(chatbot_id: str, source_name: str) -> Tuple[str, str]:
-    """Finds the content and path of a source. The filename of the prompt is used to find
-    the subfolder that the source is expected to be located in.
+    """Finds the content and path of a source. The filename of the prompt is
+    used to find the subfolder that the source is expected to be located in.
 
     Returns: content, source_path"""
     source_path = get_path_to_source(source_name, chatbot_id)
@@ -292,13 +292,14 @@ def get_path_to_source(source_name: str, chatbot_id: str):
 
 
 def get_subfolder_of_assistant(prompt_file_name: str):
-    """Convention -> all directories that contain files associated with an assistant must
-    consist of the following two components: the file-specific directory (such as
-    media/images) and an assistant-specific path relative to the file-specific directory.
-    This function takes the name of the assistant and inferrs the assistant-specific
-    relative path. For example, if images are located in 'media/images/ex_bots/ex_bot_A/',
-    then the assistant-specific path is 'ex_bots/ex_bot_A/'. Following this convention
-    makes it easier to write prompts, since only the file name needs to be specified."""
+    """Convention -> all directories that contain files associated with an
+    assistant must consist of the following two components: the file-specific
+    directory (such as media/images) and an assistant-specific path relative to
+    the file-specific directory. This function takes the name of the assistant
+    and inferrs the assistant-specific relative path. For example, if images are
+    located in 'media/images/ex_bots/ex_bot_A/', then the assistant-specific
+    path is 'ex_bots/ex_bot_A/'. Following this convention makes it easier to
+    write prompts, since only the file name needs to be specified."""
     prompt_path = get_relative_path_of_prompt_file(prompt_file_name)
 
     # Get the directory name from the file path
@@ -314,9 +315,9 @@ def get_subfolder_of_assistant(prompt_file_name: str):
 
 
 def get_relative_path_of_prompt_file(prompt_file_name: str) -> str:
-    """Identifies the prompts in the prompts directory for all, and finds the relative
-    path for the file name provided. Note that prompts should have unique names for this
-    to work well.
+    """Identifies the prompts in the prompts directory for all, and finds the
+    relative path for the file name provided. Note that prompts should have
+    unique names for this to work well.
     """
     full_path = PROMPTS_DIR
     prompt_file_name = add_extension(prompt_file_name, ".md")
@@ -371,9 +372,9 @@ def collect_prompts_in_dictionary(directory_path):
 
 def reset_files_that_track_cumulative_variables():
     """Resets files that track cumulative variables: chat_consumption.json and
-    truncated_messages.json, which tracks the resource consumption (tokens and cost in kr)
-    of a chat and removed messages respectively. This function is executed at the start of
-    each new conversation.
+    truncated_messages.json, which tracks the resource consumption (tokens and
+    cost in kr) of a chat and removed messages respectively. This function is
+    executed at the start of each new conversation.
     """
     dump_to_json(
         {"token_usage_total": 0, "chat_cost_kr_total": 0}, TOKEN_USAGE_DUMP_PATH
@@ -427,7 +428,8 @@ def get_input_from_command_line(commandline_prompt):
 
 
 def write_to_file(file_path, content):
-    """Write content to specified file path (relative to project root-folder)."""
+    """Write content to specified file path (relative to project
+    root-folder)."""
     full_path = get_full_path_and_create_dir(file_path)
     with open(full_path, "w") as file:
         file.write(content)

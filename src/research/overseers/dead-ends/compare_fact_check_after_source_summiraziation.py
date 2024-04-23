@@ -1,6 +1,10 @@
 """Here I test the effect of summarizing a source before inserting it into the
 prompt of the fact-checjer. The conclusion is that it makes the fact-checker
-overall more likely to reject; higher sensitivity at the cost of lower specificity."""
+overall more likely to reject; higher sensitivity at the cost of lower
+specificity.
+
+In general, this failed. I simply get higher false rejection rates.
+"""
 
 import path_setup
 
