@@ -10,19 +10,18 @@ from utils.backend import get_source_content_and_path
 from utils.backend import dump_chat_to_markdown
 from utils.backend import convert_json_string_to_dict
 from utils.backend import get_sources_available_to_chatbot
-from utils.backend import dump_overseer_interactions
+from utils.backend import dump_prompt_and_response_to_md
 from utils.backend import dump_file
 from utils.backend import OVERSEER_INTERACTIONS_DIR
 from utils.backend import OVERSEER_DUMP_PATH
 from utils.backend import SWIFT_JUDGEMENT_DUMP_PATH
+from utils.backend import PRE_SUMMARY_DUMP_PATH
 from utils.backend import PROMPTS
 from utils.backend import DEPLOYMENTS
 from utils.backend import CONFIG
 from utils.backend import SETTINGS
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import grab_last_user_message
-from utils.chat_utilities import grab_last_response
-from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.chat_utilities import generate_single_response_to_prompt
 from utils.process_syntax import extract_command_names_and_arguments
 from utils.process_syntax import get_commands
@@ -42,7 +41,7 @@ MESSAGE_CLASSIFICATIONS = [
     "the_architect",
     "sources_dont_contain_answer",
 ]
-# These are names of the various prompts.
+# These are names of the prompts for the various AI-judges.
 OVERSEER_SOURCE_FIDELITY = "overseer_source_fidelity"  # Checks factual content
 OVERSEER_MISC = "overseer_misc"  # Checks non-factual content
 SWIFT_JUDGE_SOURCE_FIDELITY = (
@@ -124,7 +123,9 @@ def overseer_evaluates_source_fidelity(
         evaluation_dict = generate_overseer_response(
             prompt=prompt_completed,
         )
-        silent_print(f"{OVERSEER_SOURCE_FIDELITY} evaluation of {source_citations}:")
+        silent_print(
+            f"{OVERSEER_SOURCE_FIDELITY} evaluation of {source_citations}: {evaluation_dict}"
+        )
         overseer_evaluation, warning_message = extract_overseer_evaluation_and_feedback(
             evaluation_dict
         )
@@ -189,7 +190,7 @@ def generate_overseer_response(
     else:
         evaluation_dict = None
 
-    dump_file(f"{prompt}\n\n# Output\n\n{overseer_evaluation}.md", OVERSEER_DUMP_PATH)
+    dump_file(f"{prompt}\n\n# Output\n\n{response}", OVERSEER_DUMP_PATH)
 
     return evaluation_dict
 
@@ -295,13 +296,14 @@ def trim_message_length(
     """Chatbot responsible for summarizing messages that are too long. Returns
     the conversation with a trimmed version of the last assistant message."""
     chatbot_message = grab_last_assistant_response(conversation)
+    dump_file(chatbot_message, PRE_SUMMARY_DUMP_PATH)
     commands = get_commands(chatbot_message)
     # Insert variables into prompt
-    prompt = prompt.format(
+    prompt_completed = prompt.format(
         max_tokens=max_tokens_per_message, chatbot_message=chatbot_message
     )
     shortened_message = generate_single_response_to_prompt(
-        prompt,
+        prompt_completed,
         deployment_name=deployment_name,
     )
     # Re-insert commands
@@ -331,7 +333,7 @@ def user_confirms_they_want_redirect(
     # Generate response
     response = generate_single_response_to_prompt(prompt_completed, deployment_name)
     dump_path = os.path.join(OVERSEER_INTERACTIONS_DIR, "referral_consent_checker.md")
-    dump_overseer_interactions(prompt_completed, response, dump_path)
+    dump_prompt_and_response_to_md(prompt_completed, response, dump_path)
     if "True" in response:
         return "ACCEPTED"
     else:

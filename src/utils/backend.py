@@ -30,8 +30,8 @@ IMAGES_DIR = os.path.join(ROOT_DIR, "media/images")
 VIDEOS_DIR = os.path.join(ROOT_DIR, "media/videos")
 LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
-CHAT_INFO_DIR = os.path.join(ROOT_DIR, "chat-dashboard")
-OVERSEER_INTERACTIONS_DIR = os.path.join(CHAT_INFO_DIR, "overseer-interactions")
+CHAT_DASHBOARD_DIR = os.path.join(ROOT_DIR, "chat-dashboard")
+OVERSEER_INTERACTIONS_DIR = os.path.join(CHAT_DASHBOARD_DIR, "overseer-interactions")
 RESULTS_DIR = os.path.join(ROOT_DIR, "results")
 CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 
@@ -42,16 +42,23 @@ DEPLOYMENTS_PATH = os.path.join(ROOT_DIR, "config/agent_to_deployment_map.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
 # File-dump paths
-LOGFILE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "chat.log")
+LOGFILE_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "chat.log")
 LOGFILE_REJECTED_RESPONSES_DUMP_PATH = os.path.join(
-    CHAT_INFO_DIR, "rejected_responses.log"
+    CHAT_DASHBOARD_DIR, "rejected_responses.log"
 )
-DELETED_MESSAGES_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "truncated_messages.json")
-TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "conversation_full.json")
-OVERSEER_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "overseer_chat.json")
-SWIFT_JUDGEMENT_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "swift_judgement.md")
-HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "harvested_syntax.json")
-TOKEN_USAGE_DUMP_PATH = os.path.join(CHAT_INFO_DIR, "token-usage/chat_consumption.json")
+DELETED_MESSAGES_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "truncated_messages.json")
+PRE_SUMMARY_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "pre_summary_response.md")
+TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "conversation_full.json")
+OVERSEER_DUMP_PATH = os.path.join(
+    CHAT_DASHBOARD_DIR, "prompts-&-evaluations/overseer.md"
+)
+SWIFT_JUDGEMENT_DUMP_PATH = os.path.join(
+    CHAT_DASHBOARD_DIR, "prompts-&-evaluations/prelim_judgement.md"
+)
+HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "harvested_syntax.json")
+TOKEN_USAGE_DUMP_PATH = os.path.join(
+    CHAT_DASHBOARD_DIR, "token-usage/chat_consumption.json"
+)
 
 # Loggers
 LOGGER = setup_logger(LOGFILE_DUMP_PATH)
@@ -163,23 +170,22 @@ def dump_file(variable, file_path):
         file.write(variable)
 
 
-def dump_overseer_interactions(prompt, output, dump_path):
+def dump_prompt_and_response_to_md(prompt, output, dump_path):
     """Use to dump prompt and response into a single formatted .md (markdown)
     file. Makes it easier to debug overseer/single-output agents when they are
     behaving strangely."""
-    dump_chat_to_markdown(
-        [
-            {"role": "input", "content": prompt},
-            {"role": "output", "content": output},
-        ],
-        dump_path,
+    full_path = get_full_path_and_create_dir(dump_path)
+    
+    dump_file(
+        f"# Prompt\n\n{prompt}\n\n\n\n# Output\n\n{output}",
+        full_path,
     )
 
 
 def dump_current_conversation_to_json(conversation, filename="conversation"):
     """Dumps the conversation to the conversation directory as a json file."""
     dump_to_json(conversation, f"{CONVERSATIONS_CURRENT_DIR}/{filename}.json")
-    dump_to_json(conversation, f"{CHAT_INFO_DIR}/{filename}.json")
+    dump_to_json(conversation, f"{CHAT_DASHBOARD_DIR}/{filename}.json")
 
 
 def dump_conversation(conversation: list, label: str = "conversation"):
@@ -379,7 +385,7 @@ def dump_copy_of_chat_info_to_results(dump_name: str):
     """Dumps information about the chat, including things like the
     conversation history (both json and markdown format) to
     /results/chat-dumps."""
-    folder_to_copy = CHAT_INFO_DIR
+    folder_to_copy = CHAT_DASHBOARD_DIR
     folder_destination = os.path.join(CHAT_DUMPS_DIR, dump_name)
 
     while os.path.exists(folder_destination):

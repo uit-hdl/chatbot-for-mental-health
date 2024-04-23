@@ -35,7 +35,7 @@ limit_2_tokens_per_message: 200  # More severe warning
 max_tokens_before_summarization: 201  # Bot message gets shortened by GPT-3.5
 warning_limit_tokens_per_message: 150
 
-role_that_speaks_first: "user"
+role_that_speaks_first: "assistant"
 # --- OVERSEER BOTS ---
 # Set to false to turn of filters that check the contents of generated messages
 enable_overseer_filter: True

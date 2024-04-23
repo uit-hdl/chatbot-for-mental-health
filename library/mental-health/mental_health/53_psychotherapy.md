@@ -67,3 +67,5 @@ Some questions to consider asking your therapist
 - What sort of results can I expect?
 - How long before I should expect to feel some benefit from therapy?
 - What does the therapy cost?
+
+[This source is long; present only relevant parts]

@@ -41,6 +41,8 @@ def remove_syntax_from_message(message_content: str):
     message_no_code = re.sub(r"\¤:(.*?)\:¤", "", message_content, flags=re.DOTALL)
     # Remove surplus spaces
     message_cleaned = re.sub(r" {2,}(?![\n])", " ", message_no_code)
+    # Remove leading space
+    message_cleaned = message_cleaned.lstrip()
     if message_cleaned:
         message_cleaned = remove_superflous_linebreaks(message_cleaned)
     return message_cleaned

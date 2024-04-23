@@ -51,7 +51,7 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id
         )
-        conversation = check_length_of_chatbot_response(conversation)
+        conversation = manage_length_of_chatbot_response(conversation)
         conversation, flag = perform_quality_check_and_give_feedback(
             conversation, harvested_syntax, chatbot_id
         )
@@ -67,7 +67,7 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id
         )
-        conversation = check_length_of_chatbot_response(conversation)
+        conversation = manage_length_of_chatbot_response(conversation)
         conversation, flag = perform_quality_check_and_give_feedback(
             conversation, harvested_syntax, chatbot_id
         )
@@ -90,7 +90,7 @@ def create_tentative_bot_response(conversation, chatbot_id):
     return conversation, harvested_syntax
 
 
-def check_length_of_chatbot_response(conversation) -> list:
+def manage_length_of_chatbot_response(conversation) -> list:
     """Appends system warning to chat if message is too long. Very long messages
     get summarized."""
     bot_response = grab_last_assistant_response(conversation)

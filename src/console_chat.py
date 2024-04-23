@@ -1,10 +1,8 @@
 import sys
 
 from utils.general import silent_print
-from utils.overseers import user_confirms_they_want_redirect
 from utils.backend import PROMPTS
 from utils.backend import LOGGER
-from utils.backend import CONFIG
 from utils.backend import TRANSCRIPT_DUMP_PATH
 from utils.backend import SETTINGS
 from utils.backend import dump_to_json

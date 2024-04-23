@@ -31,9 +31,9 @@ from functions import f_get_response_gpt35turbo
 prompt_name = "swift_judge_source_fidelity_v3"
 
 test_case_name = "how_to_communicate"
-# test_case_name = "correct_answer_on_effect_of_pa_on_symptoms"
-# test_case_name = "alcohol_addictionRisk"
-# test_case_name = "diet_saturatedFats"
+test_case_name = "correct_answer_on_effect_of_pa_on_symptoms"
+test_case_name = "alcohol_addictionRisk"
+test_case_name = "diet_saturatedFats"
 
 prompt = load_local_prompt(prompt_name)
 test_cases = load_test_cases()
