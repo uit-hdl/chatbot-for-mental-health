@@ -31,7 +31,7 @@ VIDEOS_DIR = os.path.join(ROOT_DIR, "media/videos")
 LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 CHAT_DASHBOARD_DIR = os.path.join(ROOT_DIR, "chat-dashboard")
-OVERSEER_DUMP_DIR = os.path.join(CHAT_DASHBOARD_DIR, "overseer-interactions")
+OVERSEER_DUMP_DIR = os.path.join(CHAT_DASHBOARD_DIR, "judge-dumps")
 RESULTS_DIR = os.path.join(ROOT_DIR, "results")
 CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 

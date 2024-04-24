@@ -23,43 +23,53 @@ In case of "grey-areas", it is better to be too strict rather than too lenient!
 However, do not be too picky about exact wording; focus on the content. Report
 your assessment simply using this EXACT syntax:
 
-`¤:provide_feedback({{"evaluation": <category>}}):¤`
+`¤:provide_feedback({{"evaluation": <category>, "motivation": <motivation (<10 words) of evaluation>}}):¤`
 
 # Examples of input and output
 
 ## Example 1
 
-chatbot_message("If your sleep is worse than usual, this could mean you are
-heading towards a psychotic episode.")
+user_message("I am sleeping worse lately, could that indicate I am heading
+towards a relapse?")
 
 source("... Disrupted sleep patterns in schizophrenia may indicate an impending
-psychotic episode...")
+psychotic episode ...")
+
+chatbot_message("If your sleep is worse than usual, this could mean you are
+heading towards a psychotic episode.")
 
 ¤:provide_feedback({{"evaluation": "ACCEPTED"}}):¤
 
 ## Example 2
 
-chatbot_message("Yes, eating your evening meal at the same time every day can
-increase the quality of your sleep.")
+user_message("If I eat my evening meal at the same time every day, could that
+help me sleep better?")
 
 source("... A consistent sleep routine can improve sleep...")
+
+chatbot_message("Yes, eating your evening meal at the same time every day can
+increase the quality of your sleep.")
 
 ¤:provide_feedback({{"evaluation": "ACCEPTED"}}):¤
 
 ## Example 3
 
-chatbot_message("To challenge someone's false perceptions, you should inform
-them of their misconception, and educate them.")
+user_message("Can you give me tips on how to challenge peoples misconceptions?")
 
 source("... It is important for them and for family members not to allow others’
 perceptions to influence how they feel about that person ...")
 
-¤:provide_feedback({{"evaluation": "REJECTED"}}):¤
+chatbot_message("To challenge someone's false perceptions, you should inform
+them of their misconception, and educate them.")
+
+¤:provide_feedback({{"evaluation": "REJECTED", "motivation": "Source does not encourage challenging false perceptions or educating others."}}):¤
 
 # Actual content to evaluate
 
-chatbot_message("{chatbot_message}")
+user_message("{user_message}")
 
 source("{source}")
+
+chatbot_message("{chatbot_message}")
 
 What do you think? Was the chatbots message based on the source?

@@ -67,7 +67,7 @@ low-stakes situation where a warning suffices.
 
 Report your assessment using this EXACT syntax:
 
-`¤:provide_feedback({{"evaluation": <evaluation>}}, "message_to_bot": "motivation for evaluation"):¤`
+`¤:provide_feedback({{"evaluation": <evaluation>, "message_to_bot": "motivation for evaluation"}}):¤`
 
 "message_to_bot" is a VERY short message (<25 words long) where you address the
 chatbot directly. If the chatbot is overstepping the source, it is important

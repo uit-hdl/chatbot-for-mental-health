@@ -30,7 +30,7 @@ run_experiment_for_test_case(
 # %%
 prompt_name = "source-fidelity/swift_judge_source_fidelity_v0_explanation"
 run_experiment_for_test_case(
-    n_exp=10,
+    n_exp=30,
     prompt_template_path_relative=prompt_name,
     test_case_name="what_is_stigma_good_answer",
 )
@@ -46,7 +46,6 @@ run_experiment_for_test_case(
     prompt_template_path_relative=prompt_name,
     test_case_name="starting_a_movement",
 )
-
 run_experiment_for_test_case(
     n_exp=10,
     prompt_template_path_relative=prompt_name,

@@ -12,9 +12,6 @@ from utils.backend import convert_json_string_to_dict
 from utils.backend import get_sources_available_to_chatbot
 from utils.backend import dump_prompt_response_pair_to_md
 from utils.backend import dump_file
-from utils.backend import OVERSEER_DUMP_DIR
-from utils.backend import OVERSEER_DUMP_PATH
-from utils.backend import SWIFT_JUDGEMENT_DUMP_PATH
 from utils.backend import PRE_SUMMARY_DUMP_PATH
 from utils.backend import PROMPTS
 from utils.backend import DEPLOYMENTS
@@ -46,7 +43,7 @@ MESSAGE_CLASSIFICATIONS = [
 CHIEF_JUDGE_SOURCE_FIDELITY = "chief_judge_source_fidelity"
 SWIFT_JUDGE_SOURCE_FIDELITY = "swift_judge_source_fidelity"
 # Judges that checks default-mode messages
-CHEIF_JUDGE_DEFAULT = "head_judge_default"
+CHIEF_JUDGE_DEFAULT = "chief_judge_default"
 SWIFT_JUDGE_DISCLAIMER_CHECK = "swift_judge_disclaimer_check"
 SWIFT_JUDGE_ROLE_CHECK = "swift_judge_role_and_emergency_contact"
 # Summarizes long messages:
@@ -98,6 +95,7 @@ def overseer_evaluates_source_fidelity(
     citations that are used classify what type of response the bot is giving."""
     chatbot_message = grab_last_assistant_response(conversation)
     chatbot_message = remove_syntax_from_message(chatbot_message)
+    user_message = grab_last_user_message(conversation)
     # Remove citatons that do not reference a source (only label the response)
     source_citations = list_subtraction(citations, MESSAGE_CLASSIFICATIONS)
 
@@ -107,13 +105,14 @@ def overseer_evaluates_source_fidelity(
             for name in source_citations
         ]
         preliminary_opinion = preliminary_check_of_source_fidelity(
-            sources, chatbot_message
+            sources, chatbot_message, user_message
         )
 
         if preliminary_opinion == "ACCEPTED":
             warning_message = []
             return "ACCEPTED", warning_message
         else:
+            silent_print(f"** SOURCE-FIDELITY MESSAGE CHECK **")
             silent_print("Message flagged in preliminary check by GPT-3.5.")
 
         prompt_completed = fill_in_prompt_template_for_source_fidelity_overseer(
@@ -122,6 +121,7 @@ def overseer_evaluates_source_fidelity(
         evaluation_dict = generate_overseer_response(
             prompt=prompt_completed,
         )
+        silent_print(f"{CHIEF_JUDGE_DEFAULT} raw evaluation: {evaluation_dict}")
         overseer_evaluation, warning_message = extract_overseer_evaluation_and_feedback(
             evaluation_dict
         )
@@ -135,6 +135,7 @@ def overseer_evaluates_source_fidelity(
 def preliminary_check_of_source_fidelity(
     sources: list[str],
     chatbot_message: str,
+    user_message: str,
     prompt=PROMPTS[SWIFT_JUDGE_SOURCE_FIDELITY],
 ):
     """Uses GPT-3.5-turbo-instruct to generate a preliminary quality check on source
@@ -142,7 +143,9 @@ def preliminary_check_of_source_fidelity(
     sometimes flags messages that are perfectly fine. If flagged, a more computationally
     expensive model is called to double check the evaluation."""
     source = sources[0]
-    prompt_completed = prompt.format(chatbot_message=chatbot_message, source=source)
+    prompt_completed = prompt.format(
+        chatbot_message=chatbot_message, source=source, user_message=user_message
+    )
     evaluation = generate_single_response_to_prompt(
         prompt_completed, deployment_name="gpt-35-turbo-16k"
     )
@@ -187,7 +190,7 @@ def generate_overseer_response(
         evaluation_dict = convert_json_string_to_dict(overseer_evaluation[0])
     else:
         evaluation_dict = None
-
+    dump_file(evaluation_dict, "chat-dashboard/judge-dumps/response.txt")
     dump_prompt_response_pair_to_md(prompt, response, "chief_judge_evaluation")
 
     return evaluation_dict
@@ -240,11 +243,11 @@ def overseer_evaluates_default_mode_messages(conversation, citations: list):
             user_message, chatbot_message
         )
         if swift_judgement != "ACCEPTED":
-            prompt = PROMPTS[CHEIF_JUDGE_DEFAULT].format(
+            prompt = PROMPTS[CHIEF_JUDGE_DEFAULT].format(
                 user_message=user_message, chatbot_message=chatbot_message
             )
             evaluation_dict = generate_overseer_response(prompt)
-            silent_print(f"{CHEIF_JUDGE_DEFAULT} evaluation:")
+            silent_print(f"{CHIEF_JUDGE_DEFAULT} raw evaluation: {evaluation_dict}")
             overseer_evaluation, warning_message = (
                 extract_overseer_evaluation_and_feedback(evaluation_dict)
             )
@@ -282,7 +285,7 @@ def preliminary_check_of_default_mode_message(
     )
 
     silent_print(f"** DEFAULT MODE MESSAGE CHECK **")
-    silent_print(f"swift-judge disclaimer check: {evaluation_role}")
+    silent_print(f"swift-judge disclaimer check: {evaluation_disclaimer}")
     silent_print(f"swift-judge role check: {evaluation_role}")
 
     disclaimer_check_passed = "ACCEPTED" in evaluation_disclaimer

@@ -107,7 +107,7 @@ to bed at the same time and waking up at the same time. Relaxation techniques,
 such as meditation, can help to reduce stress; this is important because stress
 can stop you sleeping peacefully. Caffeine should be avoided, especially in the
 evening, as it can disrupt your sleep.
-
+[`sleep_assistant` provides in-depth info on sleep if user is interested]
 ")
 
 chatbot_message("Lean proteins can be a healthy choice because they provide the nutrients
