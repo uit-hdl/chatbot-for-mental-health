@@ -48,7 +48,7 @@ LOGFILE_REJECTED_RESPONSES_DUMP_PATH = os.path.join(
 )
 DELETED_MESSAGES_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "truncated_messages.json")
 PRE_SUMMARY_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "pre_summary_response.md")
-TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "conversation_full.json")
+TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "transcript.json")
 OVERSEER_DUMP_PATH = os.path.join(
     CHAT_DASHBOARD_DIR, "prompts-&-evaluations/overseer.md"
 )

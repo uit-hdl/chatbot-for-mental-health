@@ -73,7 +73,7 @@ def exceeding_max_tokens(conversation):
 
 def update_chat_transcript(conversation_current):
     """Ensures that the complete chat history (without truncation to stay within length
-    limits) can be viewed in `chat-info/conversation_full.json`."""
+    limits) can be viewed in `chat-info/transcript.json`."""
     if os.path.exists(DELETED_MESSAGES_DUMP_PATH):
         all_removed_messages = load_json_from_path(DELETED_MESSAGES_DUMP_PATH)
         full_conversation = all_removed_messages + conversation_current[1:]
