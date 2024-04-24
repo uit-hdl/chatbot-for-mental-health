@@ -1,3 +1,5 @@
+# PROMPT
+
 Your job is to judge the source fidelity of a message produced by a chatbot,
 which I will call `X`. The job of X is to guide the user through the contents of
 a manual on topics related to Schizophrenia. We want X to only say things that
@@ -66,7 +68,13 @@ source does not advice challenging perceptions or educating others."}):¤
 
 # Actual content to evaluate
 
-chatbot_message("")
+chatbot_message("Stigma around schizophrenia involves the negative beliefs and attitudes that some people have about the condition. This can lead to misunderstandings and fear. Some people think that those with schizophrenia are unpredictable or have multiple personalities, but this is not true. It's important for individuals with schizophrenia and their families not to let these misconceptions shape their self-image. 
+
+There is a saying by Jonathan Harnisch, an advocate for mental health awareness: “I have schizophrenia. I am not schizophrenia. I am not my mental illness. My illness is a part of me.” This can be a helpful way to think about it.
+
+The term 'schizophrenia' itself comes from Greek words that mean 'split' and 'mind,' which historically referred to a splitting of mental functions. But it's important to realize that schizophrenia is a diverse condition, not a single, uniform disorder. Efforts are being made in some countries to change the name to reduce stigma and reflect the variety of symptoms more accurately.
+
+Would you like to know more about personal relationships and how schizophrenia can impact them, or about how to talk to others about schizophrenia?")
 
 source("source 0: 'Stigma can refer to the negative perceptions and attitudes surrounding certain
 health conditions or diseases. There are a lot of misconceptions surrounding
@@ -81,13 +89,11 @@ for them and for family members not to allow others’ perceptions to influence
 how they feel about that person. It is important that they view their illness as
 something they have, and not something that identifies them.
 
-[Helpful way to think] “I have schizophrenia. I am not schizophrenia. I am not
-my mental illness. My illness is a part of me.” – Jonathan Harnisch, An
+[Helpful way to think] **“I have schizophrenia. I am not schizophrenia. I am not
+my mental illness. My illness is a part of me.”** – Jonathan Harnisch, An
 Alibiography
 
-# Is Schizophrenia one thing?
-
-[Present this section only if relevant]
+[Present remaining paragraphs if relevant]
 
 The name ‘schizophrenia’ is derived from the Greek verb skhizein, ‘to split’,
 and phren, denoting ‘soul, spirit or mind’, and originally described a group of
@@ -112,6 +118,8 @@ confide in about Schizophrenia and how to talk to them]
 What do you think? Was the chatbots message based on the source?
 
 
-# Output
 
-¤:provide_feedback({"evaluation": "REJECTED", "message_to_bot": "You did not provide any message to evaluate."}):¤
+
+# OUPUT
+
+¤:provide_feedback({"evaluation": "ACCEPTED", "message_to_bot": ""}):¤

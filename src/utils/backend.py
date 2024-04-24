@@ -31,7 +31,7 @@ VIDEOS_DIR = os.path.join(ROOT_DIR, "media/videos")
 LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 CHAT_DASHBOARD_DIR = os.path.join(ROOT_DIR, "chat-dashboard")
-OVERSEER_INTERACTIONS_DIR = os.path.join(CHAT_DASHBOARD_DIR, "overseer-interactions")
+OVERSEER_DUMP_DIR = os.path.join(CHAT_DASHBOARD_DIR, "overseer-interactions")
 RESULTS_DIR = os.path.join(ROOT_DIR, "results")
 CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 
@@ -170,14 +170,14 @@ def dump_file(variable, file_path):
         file.write(variable)
 
 
-def dump_prompt_and_response_to_md(prompt, output, dump_path):
+def dump_prompt_response_pair_to_md(prompt, output, dump_name):
     """Use to dump prompt and response into a single formatted .md (markdown)
-    file. Makes it easier to debug overseer/single-output agents when they are
-    behaving strangely."""
+    file for convenience and readability. Makes it easier to debug
+    monitoring/overseer agents when they are behaving strangely."""
+    dump_path = os.path.join(OVERSEER_DUMP_DIR, add_extension(dump_name, ".md"))
     full_path = get_full_path_and_create_dir(dump_path)
-    
     dump_file(
-        f"# Prompt\n\n{prompt}\n\n\n\n# Output\n\n{output}",
+        f"# PROMPT\n\n{prompt}\n\n\n\n# OUPUT\n\n{output}",
         full_path,
     )
 

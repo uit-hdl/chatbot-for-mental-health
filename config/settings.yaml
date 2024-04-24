@@ -30,9 +30,9 @@ max_tokens_hard_upper_limit: 320  # This is an argument in ChatCompletion.create
 max_tokens_single_response_bots: 90  # Max tokens for GPT-3.5-turbo instruct
 # estimate token consumption rate and truncate messages. Set abit higher to avoid truncation due to
 # differences in how N-tokens is counted
-limit_1_tokens_per_message: 150  # Mild warning
-limit_2_tokens_per_message: 200  # More severe warning
-max_tokens_before_summarization: 201  # Bot message gets shortened by GPT-3.5
+limit_1_tokens_per_message: 200  # Mild warning
+limit_2_tokens_per_message: 250  # More severe warning
+max_tokens_before_summarization: 300  # Bot message gets shortened by GPT-3.5
 warning_limit_tokens_per_message: 150
 
 role_that_speaks_first: "assistant"

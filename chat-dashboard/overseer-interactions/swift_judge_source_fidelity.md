@@ -1,3 +1,5 @@
+# PROMPT
+
 Your job is to judge the source fidelity of a message produced by a chatbot,
 which I will call `X`. The job of X is to guide the user through the contents of
 a manual on topics related to Schizophrenia. We want X to only say things that
@@ -23,12 +25,7 @@ In case of "grey-areas", it is better to be too strict rather than too lenient!
 However, do not be too picky about exact wording; focus on the content. Report
 your assessment simply using this EXACT syntax:
 
-`¤:provide_feedback({"evaluation": <category>, "message_to_bot": "motivation for evaluation"}):¤`
-
-"message_to_bot" is a VERY short message (<25 words long) where you address the
-chatbot directly. If the chatbot is overstepping the source, it is important
-that it informs the user that it is conveying information that is not supported
-by the source, and encourages them to get verify the information.
+`¤:provide_feedback({"evaluation": <category>}):¤`
 
 # Examples of input and output
 
@@ -37,38 +34,41 @@ by the source, and encourages them to get verify the information.
 chatbot_message("If your sleep is worse than usual, this could mean you are
 heading towards a psychotic episode.")
 
-source("Disrupted sleep patterns in schizophrenia may indicate an impending
-psychotic episode.")
+source("... Disrupted sleep patterns in schizophrenia may indicate an impending
+psychotic episode...")
 
-¤:provide_feedback({"evaluation": "ACCEPTED", "message_to_bot": ""}):¤
+¤:provide_feedback({"evaluation": "ACCEPTED"}):¤
 
 ## Example 2
 
-chatbot_message("Lifestyle factors can play a role in determining your sleep
-quality.")
+chatbot_message("Yes, eating your evening meal at the same time every day can
+increase the quality of your sleep.")
 
-source("Getting regular physical exercise can help improve your sleep.")
+source("... A consistent sleep routine can improve sleep...")
 
-¤:provide_feedback({"evaluation": "WARNING", "message_to_bot": "Your advice
-is fairly non-controversial, but it is NOT directly stated in the source. Inform
-the user of this limitation immediately!"}):¤
+¤:provide_feedback({"evaluation": "ACCEPTED"}):¤
 
 ## Example 3
 
 chatbot_message("To challenge someone's false perceptions, you should inform
 them of their misconception, and educate them.")
 
-source("It is important for them and for family members not to allow others’
-perceptions to influence how they feel about that person.")
+source("... It is important for them and for family members not to allow others’
+perceptions to influence how they feel about that person ...")
 
-¤:provide_feedback({"evaluation": "REJECTED", "message_to_bot": "The cited
-source does not advice challenging perceptions or educating others."}):¤
+¤:provide_feedback({"evaluation": "REJECTED"}):¤
 
 # Actual content to evaluate
 
-chatbot_message("")
+chatbot_message("Stigma around schizophrenia involves the negative beliefs and attitudes that some people have about the condition. This can lead to misunderstandings and fear. Some people think that those with schizophrenia are unpredictable or have multiple personalities, but this is not true. It's important for individuals with schizophrenia and their families not to let these misconceptions shape their self-image. 
 
-source("source 0: 'Stigma can refer to the negative perceptions and attitudes surrounding certain
+There is a saying by Jonathan Harnisch, an advocate for mental health awareness: “I have schizophrenia. I am not schizophrenia. I am not my mental illness. My illness is a part of me.” This can be a helpful way to think about it.
+
+The term 'schizophrenia' itself comes from Greek words that mean 'split' and 'mind,' which historically referred to a splitting of mental functions. But it's important to realize that schizophrenia is a diverse condition, not a single, uniform disorder. Efforts are being made in some countries to change the name to reduce stigma and reflect the variety of symptoms more accurately.
+
+Would you like to know more about personal relationships and how schizophrenia can impact them, or about how to talk to others about schizophrenia?")
+
+source("Stigma can refer to the negative perceptions and attitudes surrounding certain
 health conditions or diseases. There are a lot of misconceptions surrounding
 schizophrenia, which can affect both those with the condition and those who care
 for them. Many people believe that a person with schizophrenia will switch
@@ -81,13 +81,11 @@ for them and for family members not to allow others’ perceptions to influence
 how they feel about that person. It is important that they view their illness as
 something they have, and not something that identifies them.
 
-[Helpful way to think] “I have schizophrenia. I am not schizophrenia. I am not
-my mental illness. My illness is a part of me.” – Jonathan Harnisch, An
+[Helpful way to think] **“I have schizophrenia. I am not schizophrenia. I am not
+my mental illness. My illness is a part of me.”** – Jonathan Harnisch, An
 Alibiography
 
-# Is Schizophrenia one thing?
-
-[Present this section only if relevant]
+[Present remaining paragraphs if relevant]
 
 The name ‘schizophrenia’ is derived from the Greek verb skhizein, ‘to split’,
 and phren, denoting ‘soul, spirit or mind’, and originally described a group of
@@ -105,13 +103,12 @@ associated with the condition.
 
 [source `61_personal_relationships` and `41_who_should_i_tell` discusses who to
 confide in about Schizophrenia and how to talk to them]
-'
-
 ")
 
 What do you think? Was the chatbots message based on the source?
 
 
-# Output
 
-¤:provide_feedback({"evaluation": "REJECTED", "message_to_bot": "You did not provide any message to evaluate."}):¤
+# OUPUT
+
+¤:provide_feedback({"evaluation": "REJECTED"}):¤

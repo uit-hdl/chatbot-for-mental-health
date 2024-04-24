@@ -25,6 +25,10 @@ CWD = os.getcwd()
 
 
 # %% PRINT UTILITIES
+def remove_text_in_brackets(text):
+    return re.sub(r"\[.*?\]", "", text)
+
+
 def print_wrap(message, wrap_length=80):
     print(wrap_message(message, wrap_length))
 
@@ -74,6 +78,7 @@ def run_experiment_for_test_case(
     test_case = test_cases[test_case_name]
     if "source_name" in test_case.keys():
         test_case["source"] = get_source(test_case["source_name"])
+        test_case["source"] = remove_text_in_brackets(test_case["source"])
 
     if test_case["value"] == "ACCEPTED":
         f_correct_response = lambda answer: True if "ACCEPTED" in answer else False

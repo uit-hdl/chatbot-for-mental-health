@@ -1,7 +1,7 @@
-¤:cite(["63_social_life"]):¤ Moving to a new city and meeting people can be anxiety-provoking, especially when managing schizophrenia. Remember that it's common to feel less able to socialize or experience a lack of emotion due to schizophrenia, but as you start to recover, your desire to socialize may increase.
+¤:cite(["13_stigma"]):¤ Stigma refers to the negative attitudes and beliefs that society may hold about something, such as a health condition like schizophrenia. There are many misconceptions that contribute to the stigma of schizophrenia. For example, some people might incorrectly believe that those with schizophrenia have multiple personalities or that they are unpredictable and should be feared.
 
-Finding support groups may be beneficial, as they provide a platform to meet others with similar experiences. However, it's also important to interact with people who do not have the illness, as this can offer a broader perspective and help you step outside of the world of schizophrenia.
+It's important for individuals with schizophrenia and their families not to let these false perceptions affect how they view themselves. A person with schizophrenia should remember that their illness is just one aspect of who they are, not their entire identity. As Jonathan Harnisch said, "I have schizophrenia. I am not schizophrenia. I am not my mental illness. My illness is a part of me."
 
-Psychotherapy can be a helpful tool to regain confidence and overcome social barriers. For caregivers, sharing responsibilities can free up time to socialize.
+Schizophrenia is a complex and diverse condition, and people experience it differently. Efforts have been made in some countries, like Japan and the Netherlands, to change the name of the illness to reduce its stigma and reflect its heterogeneity better.
 
-I recommend you take gradual steps when meeting new people, and maybe start with low-pressure situations. Take care of your own needs, and remember that it's okay to ask for support if you need it. Would you like to know more about psychotherapy or support groups?
+If you're facing stigma or need tips on how to communicate about your condition with others, there are resources that can help. Would you like me to provide information on personal relationships regarding stigma and discussing schizophrenia?

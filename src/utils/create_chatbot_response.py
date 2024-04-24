@@ -14,7 +14,7 @@ from utils.filters import perform_quality_check_and_give_feedback
 from utils.filters import correct_erroneous_show_image_command
 from utils.general import silent_print
 from utils.consumption_of_tokens import count_tokens_in_message
-from utils.overseers import trim_message_length
+from utils.overseers import summarize_if_response_too_long
 
 
 def respond_to_user(conversation, chatbot_id: str) -> list:
@@ -95,13 +95,13 @@ def manage_length_of_chatbot_response(conversation) -> list:
     get summarized."""
     bot_response = grab_last_assistant_response(conversation)
     response_length = count_tokens_in_message(bot_response, MODEL_ID)
-
     warning = None
 
     if response_length >= SETTINGS["max_tokens_before_summarization"]:
         silent_print("Response exceeds max length, shortening message with GPT-3.5...")
-        conversation = trim_message_length(conversation)
+        conversation = summarize_if_response_too_long(conversation)
         warning = "Your response was shortened as it exceeded the maximum allowed length; keep messages short."
+
     elif response_length > SETTINGS["limit_2_tokens_per_message"]:
         silent_print(f"Response has length {response_length} tokens...")
         warning = f"You almost reached the maximum message length. Limit information per message to not overwhelm the user."

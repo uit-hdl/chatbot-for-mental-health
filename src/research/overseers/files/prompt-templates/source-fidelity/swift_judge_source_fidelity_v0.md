@@ -29,7 +29,7 @@ your assessment simply using this EXACT syntax:
 
 ## Example 1
 
-chatbot_message("If your sleep is worse than usual, this could mean you are
+chatbot_message("If your sleeswift_judge_source_fidelity_v0.mdp is worse than usual, this could mean you are
 heading towards a psychotic episode.")
 
 source("... Disrupted sleep patterns in schizophrenia may indicate an impending
