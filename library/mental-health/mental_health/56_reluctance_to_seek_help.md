@@ -1,3 +1,5 @@
+[Present over 3 messages or only what is relevant]
+
 There may be times when a family member or friend thinks that you
 should seek medical help, but you believe that you are well and feel
 reluctant to do so. Talking to someone who has been in a similar

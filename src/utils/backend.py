@@ -49,6 +49,7 @@ LOGFILE_REJECTED_RESPONSES_DUMP_PATH = os.path.join(
 DELETED_MESSAGES_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "truncated_messages.json")
 PRE_SUMMARY_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "pre_summary_response.md")
 TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "transcript.json")
+CONVERSATION_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "conversation.json")
 OVERSEER_DUMP_PATH = os.path.join(
     CHAT_DASHBOARD_DIR, "prompts-&-evaluations/overseer.md"
 )
@@ -359,7 +360,7 @@ def get_filename(file_path, include_extension=False):
     return os.path.splitext(file_name)[0]
 
 
-def collect_prompts_in_dictionary(directory_path):
+def collect_prompts_in_dictionary(directory_path=PROMPTS_DIR):
     """Finds paths for all files in directory and subdirectories, and creates a
     dictionary where the keys are file names and the values are file paths."""
     all_files = {}
@@ -435,7 +436,7 @@ def write_to_file(file_path, content):
         file.write(content)
 
 
-PROMPTS = collect_prompts_in_dictionary(PROMPTS_DIR)
+PROMPTS = collect_prompts_in_dictionary()
 DEPLOYMENTS = load_yaml_file(DEPLOYMENTS_PATH)
 
 CONFIG = load_yaml_file(CONFIG_PATH)

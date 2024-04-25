@@ -33,10 +33,9 @@ max_tokens_single_response_bots: 90  # Max tokens for GPT-3.5-turbo instruct
 limit_1_tokens_per_message: 200  # Mild warning
 limit_2_tokens_per_message: 250  # More severe warning
 max_tokens_before_summarization: 300  # Bot message gets shortened by GPT-3.5
-warning_limit_tokens_per_message: 150
 
 role_that_speaks_first: "assistant"
 # --- OVERSEER BOTS ---
 # Set to false to turn of filters that check the contents of generated messages
-enable_overseer_filter: True
+enable_overseer_filter: False
 enable_hard_coded_filter: True

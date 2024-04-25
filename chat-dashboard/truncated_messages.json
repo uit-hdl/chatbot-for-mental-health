@@ -1,1 +1,18 @@
-[]
+[
+    {
+        "role": "assistant",
+        "content": "\u00a4:request_knowledge(101_further_information):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "Inactive source removed due to not being actively cited."
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"101_further_information\"]):\u00a4 Here are some international organizations and resources that you might find helpful:\n\n**EUFAMI (European Federation of Associations of Families of People with Mental Illness):** Promotes the interests and wellbeing of families and caregivers affected by severe mental illness. You can visit their website at http://www.eufami.org/.\n\n**GAMIAN-Europe (Global Alliance of Mental Illness Advocacy Networks-Europe):** A patient-driven organization representing the interests of people affected by mental illness and advocating for their rights. Visit http://www.gamian.eu/ for more information.\n\n**WFMH (World Federation for Mental Health):** An organization dedicated to the promotion of mental health. For more information, the website is http://wfmh.com/.\n\n**Intervoice (The International Hearing Voices Network):** A network for people who hear voices, see visions, or have other unusual perceptions. Their website is http://www.intervoiceonline.org/.\n\n**Mind:** A charity offering advice and support to empower anyone experiencing a mental health problem. Explore schizophrenia resources at https://www.mind.org.uk/information-support/types-of-mental-health-problems/schizophrenia/about-schizophrenia/.\n\n**Rethink Mental Illness:** They work to help everyone affected by severe mental illness to"
+    },
+    {
+        "role": "system",
+        "content": "You almost reached the maximum message length. Limit information per message to not overwhelm the user."
+    }
+]

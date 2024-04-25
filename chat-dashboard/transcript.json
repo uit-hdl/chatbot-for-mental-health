@@ -1,0 +1,106 @@
+[
+    {
+        "role": "assistant",
+        "content": "\u00a4:request_knowledge(101_further_information):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "Inactive source removed due to not being actively cited."
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"101_further_information\"]):\u00a4 Here are some international organizations and resources that you might find helpful:\n\n**EUFAMI (European Federation of Associations of Families of People with Mental Illness):** Promotes the interests and wellbeing of families and caregivers affected by severe mental illness. You can visit their website at http://www.eufami.org/.\n\n**GAMIAN-Europe (Global Alliance of Mental Illness Advocacy Networks-Europe):** A patient-driven organization representing the interests of people affected by mental illness and advocating for their rights. Visit http://www.gamian.eu/ for more information.\n\n**WFMH (World Federation for Mental Health):** An organization dedicated to the promotion of mental health. For more information, the website is http://wfmh.com/.\n\n**Intervoice (The International Hearing Voices Network):** A network for people who hear voices, see visions, or have other unusual perceptions. Their website is http://www.intervoiceonline.org/.\n\n**Mind:** A charity offering advice and support to empower anyone experiencing a mental health problem. Explore schizophrenia resources at https://www.mind.org.uk/information-support/types-of-mental-health-problems/schizophrenia/about-schizophrenia/.\n\n**Rethink Mental Illness:** They work to help everyone affected by severe mental illness to"
+    },
+    {
+        "role": "system",
+        "content": "You almost reached the maximum message length. Limit information per message to not overwhelm the user."
+    },
+    {
+        "role": "user",
+        "content": "what are the symptoms?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:request_knowledge(31_symptoms):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "source 31_symptoms: [Present over 3 messages or only what is relevant]\n\n- \u201cThe only thing you have for measuring what\u2019s real is your mind...\n  so what happens when your mind becomes a pathological liar?\u201d \u2013 Neal\n  Shusterman, Challenger Deep\n\nSchizophrenia affects the way you think, feel and act. Each person\nwith schizophrenia will have different combinations of symptoms,\nmaking one individual\u2019s experience very different from another\u2019s. It\ncan be difficult to link the way you are feeling to the way in which\ndoctors describe the symptoms of schizophrenia. Medical professionals\noften divide the symptoms of schizophrenia into three categories:\npositive, negative and cognitive. The following pages explain what\nthese categories mean and give some examples.\n\n# Positive symptoms\n\nThis term is used to describe feelings or experiences that do not\ncorrespond to reality, such as hallucinations, delusions or paranoid\nthoughts.\n\n- Hallucinations \u2013 This means hearing, seeing, feeling, tasting or\n  smelling something that is not really there. \u2013 Hearing voices is a\n  common hallucination; some people may find the voices non-threatening\n  or even comforting, while others may find them disturbing and\n  frightening.\n- Delusions \u2013 Delusions or deluded thinking means strongly believing\n  in something that cannot be true. \u2013 This can be things like thinking\n  that you are being watched, believing that you are a famous person,\n  or believing that the television or radio is sending you signals.\n- Paranoid thoughts \u2013 Paranoia is extreme distrust, or believing the\n  worst. \u2013 Examples include feeling that other people are plotting\n  against you or are trying to harm you.\n\n# Negative symptoms\n\nThis term describes a lack of feelings or behaviours that are usually\npresent. Negative symptoms can include low motivation or mood, or\nwithdrawing from family and friends.\n\n- Low motivation \u2013 This can be losing interest in any or all aspects\n  of life. \u2013 A lack of energy can mean that you find it difficult to do\n  simple things, such as getting out of bed.\n- Lack of emotion \u2013 This lack of feeling can be shown by a lack of\n  expression, a flat tone of voice or a lack of eye contact. \u2022 Social\n  withdrawal \u2013 This is not wanting to socialize with family or friends,\n  preferring to spend most of your time alone.\n\n# Cognitive symptoms\n\nThis term is used to refer to changes in mental capacity, such as\ndifficulties concentrating or remembering things.\n\n- Disorganized thoughts and speech \u2013 Fragmented thinking can come\n  across in the way you speak and is characteristic of schizophrenia. \u2013\n  Examples include responding to questions with an unrelated answer,\n  and saying illogical things.\n- Lack of concentration or attention \u2013 A lack of concentration or\n  attention can mean that tasks like reading a book or watching a\n  television programme become very difficult and frustrating. \u2013 Thought\n  processes can be slowed, which can make interacting with others\n  difficult.\n- Memory problems \u2013 Remembering events or information, or learning\n  new things, may become challenging.\n\n# A personal perspective on the symptoms of schizophrenia\n\n- \u201cI have felt for a long time, from the beginning of this, that I am\n  in a different dimension. My feelings and thoughts are not natural.\n  They are a stranger\u2019s, they are not mine. I have felt that I am\n  special; that I have discovered the truth, the authority in the\n  background. I have felt that I am a messenger between the universe\n  and the earth. I am in a special position; I am the chosen one. I\n  have felt that everybody wants to hide something from me. They don\u2019t\n  want me to know the truth. I have felt that everybody is playing a\n  role. And everybody is talking about me, and they can hear my\n  thoughts. For a long time I was afraid to go out in the streets. I\n  didn\u2019t have control of reality. My thinking was not normal. I was\n  watching the \u2018signs\u2019 that \u2018they\u2019 were trying to send and show me. I\n  made connections between my feelings and thoughts and the outside\n  world. It was scary. I could express these things only after the bad\n  period: in that state, I could not. It was a changed state of mind.\n  I had no private life. I thought that the people wanted to\n  communicate with me about something without speaking.\u201d \u2013 Istv\u00e1n\n\n  [This section is long; present over multiple responses OR only the relevant parts]\n"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"31_symptoms\"]):\u00a4 Symptoms of schizophrenia are typically divided into three categories: positive, negative, and cognitive symptoms. Here are some examples:\n\n**Positive symptoms:**\n- **Hallucinations:** Hearing, seeing, or feeling things that aren't there, such as hearing voices.\n- **Delusions:** Strong beliefs in things that are not true, like thinking you're a celebrity or that the TV is communicating with you.\n- **Paranoid thoughts:** Feeling excessively distrustful or fearful, like believing that others are out to harm you.\n\nWould you like more detailed explanations of each type of symptom, or information on negative and cognitive symptoms as well?"
+    },
+    {
+        "role": "user",
+        "content": "ok"
+    },
+    {
+        "role": "user",
+        "content": "ok"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"31_symptoms\"]):\u00a4 \n\n**Negative symptoms:**\n- **Low motivation:** A decrease in the desire to take part in normal daily activities or interests.\n- **Lack of emotion:** Reduced expression of emotions, may speak in a very flat voice and avoid eye contact.\n- **Social withdrawal:** Preferring to spend time alone and avoiding social interactions with friends or family.\n\n**Cognitive symptoms:**\n- **Disorganized thoughts and speech:** Difficulty staying on topic or giving answers that aren't related to the question.\n- **Concentration issues:** Trouble focusing on tasks, such as reading or following a TV show.\n- **Memory problems:** Difficulty remembering things or learning new information.\n\nRemember, not everyone will experience all these symptoms, and their severity can vary widely from person to person. If you're having these symptoms, it's important to talk to a healthcare professional. Would you like to discuss anything specific or any concerns you might have?"
+    },
+    {
+        "role": "user",
+        "content": "What is cognitive?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"31_symptoms\"]):\u00a4 \"Cognitive\" refers to how our brain processes information, including memory, attention, and the ability to organize thoughts and problem-solve effectively. In schizophrenia, cognitive symptoms might include:\n\n- **Disorganized thoughts:** This can make it hard to structure your thoughts logically or keep them on track, which can also show up in the way you speak.\n- **Concentration difficulties:** You might find it hard to focus on tasks that require ongoing attention.\n- **Memory problems:** You may struggle to remember things or find it challenging to learn new information.\n\nThese symptoms can affect daily activities, making it harder to work, study, or interact with other people. Does this help clarify what cognitive means? If you have more questions or need assistance with something else, please let me know."
+    },
+    {
+        "role": "user",
+        "content": "I see thank you"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 You're welcome! If you have any other questions or need further information, feel free to ask. I'm here to help."
+    },
+    {
+        "role": "user",
+        "content": "what are the symptoms?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:request_knowledge(31_symptoms):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "source 31_symptoms: [Present over 3 messages or only what is relevant]\n\n- \u201cThe only thing you have for measuring what\u2019s real is your mind...\n  so what happens when your mind becomes a pathological liar?\u201d \u2013 Neal\n  Shusterman, Challenger Deep\n\nSchizophrenia affects the way you think, feel and act. Each person\nwith schizophrenia will have different combinations of symptoms,\nmaking one individual\u2019s experience very different from another\u2019s. It\ncan be difficult to link the way you are feeling to the way in which\ndoctors describe the symptoms of schizophrenia. Medical professionals\noften divide the symptoms of schizophrenia into three categories:\npositive, negative and cognitive. The following pages explain what\nthese categories mean and give some examples.\n\n# Positive symptoms\n\nThis term is used to describe feelings or experiences that do not\ncorrespond to reality, such as hallucinations, delusions or paranoid\nthoughts.\n\n- Hallucinations \u2013 This means hearing, seeing, feeling, tasting or\n  smelling something that is not really there. \u2013 Hearing voices is a\n  common hallucination; some people may find the voices non-threatening\n  or even comforting, while others may find them disturbing and\n  frightening.\n- Delusions \u2013 Delusions or deluded thinking means strongly believing\n  in something that cannot be true. \u2013 This can be things like thinking\n  that you are being watched, believing that you are a famous person,\n  or believing that the television or radio is sending you signals.\n- Paranoid thoughts \u2013 Paranoia is extreme distrust, or believing the\n  worst. \u2013 Examples include feeling that other people are plotting\n  against you or are trying to harm you.\n\n# Negative symptoms\n\nThis term describes a lack of feelings or behaviours that are usually\npresent. Negative symptoms can include low motivation or mood, or\nwithdrawing from family and friends.\n\n- Low motivation \u2013 This can be losing interest in any or all aspects\n  of life. \u2013 A lack of energy can mean that you find it difficult to do\n  simple things, such as getting out of bed.\n- Lack of emotion \u2013 This lack of feeling can be shown by a lack of\n  expression, a flat tone of voice or a lack of eye contact. \u2022 Social\n  withdrawal \u2013 This is not wanting to socialize with family or friends,\n  preferring to spend most of your time alone.\n\n# Cognitive symptoms\n\nThis term is used to refer to changes in mental capacity, such as\ndifficulties concentrating or remembering things.\n\n- Disorganized thoughts and speech \u2013 Fragmented thinking can come\n  across in the way you speak and is characteristic of schizophrenia. \u2013\n  Examples include responding to questions with an unrelated answer,\n  and saying illogical things.\n- Lack of concentration or attention \u2013 A lack of concentration or\n  attention can mean that tasks like reading a book or watching a\n  television programme become very difficult and frustrating. \u2013 Thought\n  processes can be slowed, which can make interacting with others\n  difficult.\n- Memory problems \u2013 Remembering events or information, or learning\n  new things, may become challenging.\n\n# A personal perspective on the symptoms of schizophrenia\n\n- \u201cI have felt for a long time, from the beginning of this, that I am\n  in a different dimension. My feelings and thoughts are not natural.\n  They are a stranger\u2019s, they are not mine. I have felt that I am\n  special; that I have discovered the truth, the authority in the\n  background. I have felt that I am a messenger between the universe\n  and the earth. I am in a special position; I am the chosen one. I\n  have felt that everybody wants to hide something from me. They don\u2019t\n  want me to know the truth. I have felt that everybody is playing a\n  role. And everybody is talking about me, and they can hear my\n  thoughts. For a long time I was afraid to go out in the streets. I\n  didn\u2019t have control of reality. My thinking was not normal. I was\n  watching the \u2018signs\u2019 that \u2018they\u2019 were trying to send and show me. I\n  made connections between my feelings and thoughts and the outside\n  world. It was scary. I could express these things only after the bad\n  period: in that state, I could not. It was a changed state of mind.\n  I had no private life. I thought that the people wanted to\n  communicate with me about something without speaking.\u201d \u2013 Istv\u00e1n\n\n  [This section is long; present over multiple responses OR only the relevant parts]\n"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"31_symptoms\"]):\u00a4 Symptoms of schizophrenia are typically divided into three categories: positive, negative, and cognitive symptoms. Here are some examples:\n\n**Positive symptoms:**\n- **Hallucinations:** Hearing, seeing, or feeling things that aren't there, such as hearing voices.\n- **Delusions:** Strong beliefs in things that are not true, like thinking you're a celebrity or that the TV is communicating with you.\n- **Paranoid thoughts:** Feeling excessively distrustful or fearful, like believing that others are out to harm you.\n\nWould you like more detailed explanations of each type of symptom, or information on negative and cognitive symptoms as well?"
+    },
+    {
+        "role": "user",
+        "content": "ok"
+    },
+    {
+        "role": "user",
+        "content": "ok"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"31_symptoms\"]):\u00a4 \n\n**Negative symptoms:**\n- **Low motivation:** A decrease in the desire to take part in normal daily activities or interests.\n- **Lack of emotion:** Reduced expression of emotions, may speak in a very flat voice and avoid eye contact.\n- **Social withdrawal:** Preferring to spend time alone and avoiding social interactions with friends or family.\n\n**Cognitive symptoms:**\n- **Disorganized thoughts and speech:** Difficulty staying on topic or giving answers that aren't related to the question.\n- **Concentration issues:** Trouble focusing on tasks, such as reading or following a TV show.\n- **Memory problems:** Difficulty remembering things or learning new information.\n\nRemember, not everyone will experience all these symptoms, and their severity can vary widely from person to person. If you're having these symptoms, it's important to talk to a healthcare professional. Would you like to discuss anything specific or any concerns you might have?"
+    },
+    {
+        "role": "user",
+        "content": "What is cognitive?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"31_symptoms\"]):\u00a4 \"Cognitive\" refers to how our brain processes information, including memory, attention, and the ability to organize thoughts and problem-solve effectively. In schizophrenia, cognitive symptoms might include:\n\n- **Disorganized thoughts:** This can make it hard to structure your thoughts logically or keep them on track, which can also show up in the way you speak.\n- **Concentration difficulties:** You might find it hard to focus on tasks that require ongoing attention.\n- **Memory problems:** You may struggle to remember things or find it challenging to learn new information.\n\nThese symptoms can affect daily activities, making it harder to work, study, or interact with other people. Does this help clarify what cognitive means? If you have more questions or need assistance with something else, please let me know."
+    },
+    {
+        "role": "user",
+        "content": "I see thank you"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 You're welcome! If you have any other questions or need further information, feel free to ask. I'm here to help."
+    }
+]

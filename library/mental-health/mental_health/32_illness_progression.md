@@ -1,3 +1,5 @@
+[Present over 3 messages or only what is relevant]
+
 # How will the illness progress?
 
 Once the signs of schizophrenia begin to show, you may notice that

@@ -1,3 +1,5 @@
+[Present over 3 messages or only what is relevant]
+
 “I think that medication keeps me going, and it has played a crucial
 role until now. My goal is to reduce my medication little by little. I
 try to be quite educated – I read a lot about it and I discuss it with

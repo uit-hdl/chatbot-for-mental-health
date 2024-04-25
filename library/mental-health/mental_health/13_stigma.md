@@ -1,3 +1,5 @@
+[Present over 2 messages or only what is relevant]
+
 Stigma can refer to the negative perceptions and attitudes surrounding certain
 health conditions or diseases. There are a lot of misconceptions surrounding
 schizophrenia, which can affect both those with the condition and those who care
@@ -30,6 +32,3 @@ Patient groups in the Netherlands are also taking steps towards realizing a name
 change in their country. The Dutch patient society, Anoiksis, has suggested a
 new name and new concept for schizophrenia, with the aim of reducing the stigma
 associated with the condition.
-
-[source `61_personal_relationships` and `41_who_should_i_tell` discusses who to
-confide in about Schizophrenia and how to talk to them]

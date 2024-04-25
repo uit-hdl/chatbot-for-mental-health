@@ -1,27 +1,26 @@
-Schizophrenia is not easy to live with. It can put strain on your
-relationships with people in your family or those you share a home
-with. During relapses in your illness, you may not realize the demands
-that are being made of people around you; when you emerge into
-recovery, you may find yourself feeling rather lonely. Likewise, it
-can be difficult to live with a person with schizophrenia.
-Nevertheless, there are some practical steps you can take together to
-make things easier.
+[Present over 2 messages or only what is relevant]
+
+Schizophrenia is not easy to live with. It can put strain on your relationships
+with people in your family or those you share a home with. During relapses in
+your illness, you may not realize the demands that are being made of people
+around you; when you emerge into recovery, you may find yourself feeling rather
+lonely. Likewise, it can be difficult to live with a person with schizophrenia.
+Nevertheless, there are some practical steps you can take together to make
+things easier.
 
 # Planning a family
 
-[QUERY FOR RELEVANCE] If you are planning a family, there are a number
-of issues that you need to discuss with your partner early on, such as
-the risk of your child developing schizophrenia, how you will manage
-having a child, and, if you are a woman, the possibility that you will
-relapse after giving birth or during the pregnancy. There will be
-decisions that are not easy to make, but information from your
-healthcare team can aid in difficult discussions. As mentioned in
-Chapter 5, some medications used to treat schizophrenia may not be
-suitable for use during pregnancy. Therefore, you should discuss your
-options with your doctor before trying to conceive a child.
+If you are planning a family, there are a number of issues that you need to
+discuss with your partner early on, such as the risk of your child developing
+schizophrenia, how you will manage having a child, and, if you are a woman, the
+possibility that you will relapse after giving birth or during the pregnancy.
+There will be decisions that are not easy to make, but information from your
+healthcare team can aid in difficult discussions. As mentioned in Chapter 5,
+some medications used to treat schizophrenia may not be suitable for use during
+pregnancy. Therefore, you should discuss your options with your doctor before
+trying to conceive a child.
 
-[`S` are for those with schizophrenia, while `F` is
-intended for family members]
+[`S` are for those with schizophrenia, while `F` is intended for family members]
 
 - Learn more about schizophrenia
   - S: Explain it to your friends and family

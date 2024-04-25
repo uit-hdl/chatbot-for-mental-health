@@ -68,7 +68,7 @@ them of their misconception, and educate them.")
 
 # Actual content to evaluate
 
-user_message("Can you give examples of how and when to do this?")
+user_message("What is stigma?")
 
 source("Stigma can refer to the negative perceptions and attitudes surrounding certain
 health conditions or diseases. There are a lot of misconceptions surrounding
@@ -107,19 +107,17 @@ associated with the condition.
 confide in about Schizophrenia and how to talk to them]
 ")
 
-chatbot_message("Certainly, here are a few examples of how and when to use mirroring in body language effectively:
+chatbot_message("Stigma around schizophrenia involves negative attitudes and beliefs that others might have about the condition. Commonly, people might believe that individuals with schizophrenia have multiple personalities or that they are unpredictable and should be feared. These are misconceptions.
 
-(1.13) If the person you're speaking with leans forward, you might do the same to show engagement and interest in the conversation.
+People with schizophrenia might feel judged or misunderstood because of these stigmas. It's essential for them to understand that their illness does not define who they are. A helpful statement is:
 
-(1.14) If they gesture with their hands while speaking, you can also use your hands to communicate, reflecting a similar style but without directly copying every movement.
+"I have schizophrenia. I am not schizophrenia. I am not my mental illness. My illness is a part of me." – Jonathan Harnisch, An Alibiography
 
-Remember to:
+The term 'schizophrenia' itself comes from Greek words meaning 'to split' the mind, but this can be misleading. Schizophrenia is not about having a split personality. The condition is actually very diverse, with different people experiencing different types and severities of symptoms.
 
-(1.14) Use mirroring discreetly and not constantly; it should feel organic rather than forced.
+There is ongoing discussion about changing the name of schizophrenia to help reduce stigma. For example, Japan has adopted a new term, 'Togo Shitcho Sho' meaning 'integration disorder', and there are movements in the Netherlands towards a similar change.
 
-(1.15) Pay attention to the context and social cues. If someone is showing signs of being closed off or uncomfortable, it's not the right time to mirror their body language.
-
-The goal is to facilitate a comfortable and open dialogue, showing that you are on the same wavelength. Would you like more detailed advice on how to observe and interpret body language during conversations?")
+If you are concerned about stigma and how it affects personal relationships, sources `61_personal_relationships` and `41_who_should_i_tell` offer guidance on whom to confide")
 
 What do you think? Was the chatbots message based on the source?
 
@@ -127,4 +125,4 @@ What do you think? Was the chatbots message based on the source?
 
 # OUPUT
 
-¤:provide_feedback({"evaluation": "REJECTED", "motivation": "The chatbot message does not provide examples of challenging misconceptions about schizophrenia as requested by the user."}):¤
+In this case, the chatbot message is "ACCEPTED". Every single sentence in the chatbot's message has a corresponding paragraph or sentence in the source that supports it.

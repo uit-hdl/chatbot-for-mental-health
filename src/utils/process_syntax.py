@@ -55,7 +55,8 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List
 
 
 def get_available_files(chatbot_id: str) -> dict:
-    """Finds and organizes all files (names and paths) associated with the chatbot-ID."""
+    """Finds and organizes all files (names and paths) associated with the
+    chatbot-ID."""
     subfolder = get_subfolder_of_assistant(chatbot_id)
 
     available_files = {
@@ -135,8 +136,8 @@ def process_and_organize_commands_and_arguments(
 def get_knowledge_requests(
     commands: list, arguments: list, available_files: dict
 ) -> List[Dict]:
-    """Checks commands for requests to build knowledge or refer to new assistant.
-    If these commands are found, gets the associated information."""
+    """Checks commands for requests to build knowledge or refer to new
+    assistant. If these commands are found, gets the associated information."""
     knowledge_extensions = []
     referral = []
     names_of_available_assistants = available_files["assistants"]["name"]

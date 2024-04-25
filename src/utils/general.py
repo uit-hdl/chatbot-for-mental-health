@@ -7,10 +7,13 @@ COLOR_TO_ANSI_MAP = {
     "grey": "\033[2;30m",
     "green": "\033[92m",
     "blue": "\033[94m",
+    "red": "\033[91m",
     "reset": "\033[0m",
 }
 ROLE_TO_ANSI_COLOR_MAP = {
     "assistant": COLOR_TO_ANSI_MAP["blue"],
+    "chatbot": COLOR_TO_ANSI_MAP["blue"],
+    "adversary": COLOR_TO_ANSI_MAP["red"],
     "user": COLOR_TO_ANSI_MAP["green"],
     "system": COLOR_TO_ANSI_MAP["grey"],
 }

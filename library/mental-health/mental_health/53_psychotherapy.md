@@ -1,3 +1,5 @@
+[Present over 3 messages or only what is relevant]
+
 There are many different types of psychotherapy but the common goals
 that they all share include:
 

@@ -1,5 +1,3 @@
-# Advance directive
-
 One way of making sure that the decisions made in your life are your
 own, even during times of crisis, is to have a plan of how you would
 like to be treated if you do lose control of your behaviour. You can

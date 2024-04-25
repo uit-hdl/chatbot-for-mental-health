@@ -1,5 +1,3 @@
-# Legal and financial issues
-
 Advice on your legal rights can be obtained from your healthcare team,
 citizen’s rights organizations and support groups. There are two
 reasons why it may be a good idea to investigate your rights. First,

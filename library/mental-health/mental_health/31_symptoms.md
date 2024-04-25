@@ -1,3 +1,5 @@
+[Present over 3 messages or only what is relevant]
+
 - “The only thing you have for measuring what’s real is your mind...
   so what happens when your mind becomes a pathological liar?” – Neal
   Shusterman, Challenger Deep

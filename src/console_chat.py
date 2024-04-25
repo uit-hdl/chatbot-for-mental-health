@@ -5,6 +5,7 @@ from utils.backend import PROMPTS
 from utils.backend import LOGGER
 from utils.backend import TRANSCRIPT_DUMP_PATH
 from utils.backend import SETTINGS
+from utils.backend import CONVERSATION_DUMP_PATH
 from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
@@ -44,7 +45,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             display_last_response(conversation)
 
     while True:
-        conversation = get_user_input(conversation)
+        conversation = get_user_input(conversation, chatbot_id)
 
         if BREAK_CONVERSATION:
             offer_to_store_conversation(conversation)
@@ -93,7 +94,7 @@ def initiate_conversation_object(
     return conversation
 
 
-def get_user_input(conversation) -> list:
+def get_user_input(conversation, chatbot_id) -> list:
     """Prompts user to input a prompt (the "question") in the command line."""
     global BREAK_CONVERSATION
 
@@ -101,8 +102,9 @@ def get_user_input(conversation) -> list:
     while role_that_gets_to_speak_next == "user" and BREAK_CONVERSATION == False:
         user_message = get_user_message_from_console()
         conversation, role_that_gets_to_speak_next, BREAK_CONVERSATION = (
-            search_for_console_command(user_message, conversation)
+            search_for_console_command(user_message, conversation, chatbot_id)
         )
+        print(role_that_gets_to_speak_next)
 
     dump_current_conversation_to_json(conversation)
 
@@ -122,11 +124,14 @@ if __name__ == "__main__":
     chatbot_id = "mental_health"
     chat_filepath = None
 
-    if len(sys.argv) > 1:
+    if len(sys.argv) == 2:
+        single_arg = sys.argv[1]
+        if single_arg == "pickup_last_chat":
+            chat_filepath = CONVERSATION_DUMP_PATH
+        else:
+            chatbot_id = single_arg
+    if len(sys.argv) == 3:
         chatbot_id = sys.argv[1]
-        if chatbot_id == "":
-            chatbot_id = "referral"
-    if len(sys.argv) > 2:
         chat_filepath = sys.argv[2]
 
     sleep_diary_assistant_bot(chatbot_id, chat_filepath)

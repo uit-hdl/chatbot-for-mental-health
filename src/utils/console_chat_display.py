@@ -14,10 +14,17 @@ from utils.general import RESET_COLOR
 from utils.general import ROLE_TO_ANSI_COLOR_MAP
 
 
-def print_whole_conversation_with_backend_info(conversation):
+def print_whole_conversation_with_backend_info(
+    conversation, include_initial_prompt=False
+):
     """Prints the entire conversation (excluding the prompt) in the console. Includes system
     messages, and does not remove bot syntax."""
-    for message_dict in conversation[1:]:
+    if include_initial_prompt:
+        start_idx = 0
+    else:
+        start_idx = 1
+
+    for message_dict in conversation[start_idx:]:
         role = message_dict["role"]
         message_text = message_dict["content"].strip()
         message_with_role = prepend_role(message_text, role)
