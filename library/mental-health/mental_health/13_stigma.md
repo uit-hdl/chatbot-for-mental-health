@@ -13,11 +13,8 @@ for them and for family members not to allow others’ perceptions to influence
 how they feel about that person. It is important that they view their illness as
 something they have, and not something that identifies them.
 
-[Helpful way to think] **'I have schizophrenia. I am not schizophrenia. I am not
-my mental illness. My illness is a part of me.'** – Jonathan Harnisch, An
-Alibiography
-
-[Present remaining paragraphs if relevant]
+**'I have schizophrenia. I am not schizophrenia. I am not my mental illness. My
+illness is a part of me.'** – Jonathan Harnisch, An Alibiography
 
 The name ‘schizophrenia’ is derived from the Greek verb skhizein, ‘to split’,
 and phren, denoting ‘soul, spirit or mind’, and originally described a group of

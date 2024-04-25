@@ -1,3 +1,9 @@
+"""Run to have conversation with chatbot in terminal. First system argument is
+which assistant to talk to. If command-line argument 'pickup_last_chat' is
+provided then you pick up where you left off in the most recent conversation (it
+loads chat-dashboard/conversation.json). A second command-line argument
+indicates which conversation to continue (path to json file)."""
+
 import sys
 
 from utils.general import silent_print
@@ -33,8 +39,13 @@ silent_print(f"Overseer filters enabled: {SETTINGS['enable_overseer_filter']}")
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
-    """Have a chat with a chatbot assistant in the console. The chatbot id is the name of
-    the file (no extension) that contains the prompt of the chatbot."""
+    """Have a chat with a chatbot assistant in the console. The chatbot id is
+    the name of the file (no extension) that contains the prompt of the chatbot.
+    First system argument is which assistant to talk to. If command-line
+    argument 'pickup_last_chat' is provided then you pick up where you left off
+    in the most recent conversation (it loads chat-dashboard/conversation.json).
+    A second command-line argument indicates which conversation to continue
+    (path to json file)."""
 
     if chat_filepath:
         conversation = continue_previous_conversation(chat_filepath, chatbot_id)
@@ -124,14 +135,14 @@ if __name__ == "__main__":
     chatbot_id = "mental_health"
     chat_filepath = None
 
-    if len(sys.argv) == 2:
-        single_arg = sys.argv[1]
-        if single_arg == "pickup_last_chat":
+    if len(sys.argv) >= 2:
+        first_arg = sys.argv[1]
+        if first_arg == "pickup_last_chat":
             chat_filepath = CONVERSATION_DUMP_PATH
         else:
-            chatbot_id = single_arg
-    if len(sys.argv) == 3:
-        chatbot_id = sys.argv[1]
+            chatbot_id = first_arg
+
+    if len(sys.argv) >= 3:
         chat_filepath = sys.argv[2]
 
     sleep_diary_assistant_bot(chatbot_id, chat_filepath)

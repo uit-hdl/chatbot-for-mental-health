@@ -6,8 +6,6 @@ schizophrenia. The reasons why some people develop the condition and some do not
 are currently unknown, although there are some factors that are thought to
 increase a person’s susceptibility to the condition.
 
-# Genes and environment
-
 Schizophrenia is sometimes referred to as a heritable condition, which means
 that if there are certain genes in a person’s DNA their risk of developing the
 illness is increased compared with people without those genes. The chance that a
@@ -26,8 +24,8 @@ events. There is some evidence that the environment a person is exposed to can
 interact with their genes. Research into this phenomenon is ongoing, but not
 enough is currently known to say who will or won’t develop schizophrenia.
 
-Show relationship between genes, environment, and illness: [show
-`schizophrenia_genes_environment_interactions.png`]
+[show: schizophrenia_genes_environment_interactions.png` | relationship between
+genes, environment, and illness]
 
 A key feature of schizophrenia is that different combinations of symptoms are
 seen both between individuals and within an individual over time – whether this

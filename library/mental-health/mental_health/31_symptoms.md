@@ -83,4 +83,3 @@ difficulties concentrating or remembering things.
   I had no private life. I thought that the people wanted to
   communicate with me about something without speaking.” – István
 
-  [This section is long; present over multiple responses OR only the relevant parts]

@@ -1,3 +1,5 @@
+[Present over 2 messages or only what is relevant]
+
 If you have experienced hallucinations, delusions, severe paranoia or
 disorganized behaviour leading to a crisis, it may be time to think about
 seeking help to identify whether or not there is an underlying mental health
@@ -5,7 +7,7 @@ condition.
 
 These could be the symptoms of a condition called schizophrenia; however, the
 symptoms of many mental illnesses overlap, so your first step towards getting
-help should be to consult your doctor. He or she can advise you on whether it is
+help should be to consult your doctor. They can advise you on whether it is
 necessary for you to see a psychiatrist.
 
 A diagnosis of schizophrenia should only be made by a qualified psychiatrist.
@@ -46,4 +48,3 @@ schizophrenia_early_signs.png` | contents shown in enumerated list below].
   - Using illegal drugs
   - Avoiding social situations
 
-[Present at most 1 item per response!]
