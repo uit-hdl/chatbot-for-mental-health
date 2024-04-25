@@ -8,19 +8,18 @@ lonely. Likewise, it can be difficult to live with a person with schizophrenia.
 Nevertheless, there are some practical steps you can take together to make
 things easier.
 
-# Planning a family
+[Present only if relevant] If you are planning a family, there are a number of
+issues that you need to discuss with your partner early on, such as the risk of
+your child developing schizophrenia, how you will manage having a child, and, if
+you are a woman, the possibility that you will relapse after giving birth or
+during the pregnancy. There will be decisions that are not easy to make, but
+information from your healthcare team can aid in difficult discussions. As
+mentioned in Chapter 5, some medications used to treat schizophrenia may not be
+suitable for use during pregnancy. Therefore, you should discuss your options
+with your doctor before trying to conceive a child.
 
-If you are planning a family, there are a number of issues that you need to
-discuss with your partner early on, such as the risk of your child developing
-schizophrenia, how you will manage having a child, and, if you are a woman, the
-possibility that you will relapse after giving birth or during the pregnancy.
-There will be decisions that are not easy to make, but information from your
-healthcare team can aid in difficult discussions. As mentioned in Chapter 5,
-some medications used to treat schizophrenia may not be suitable for use during
-pregnancy. Therefore, you should discuss your options with your doctor before
-trying to conceive a child.
-
-[`S` are for those with schizophrenia, while `F` is intended for family members]
+[present `S` to schizophrenia patients and `F` for family members (ask if
+unsure)]
 
 - Learn more about schizophrenia
   - S: Explain it to your friends and family

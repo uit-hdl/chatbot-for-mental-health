@@ -6,13 +6,13 @@ try to be quite educated – I read a lot about it and I discuss it with
 my doctor.” – Monika
 
 # Deciding on a medication
-There are many different medication options for schizophrenia and it
-is important to find the right one for you [show
-`medication_effects_side_effects_and_administration.png`]. The
-medication your psychiatrist recommends will depend on a number of
-things, including how you feel about your treatment, how well the
-medicine controls your symptoms and whether you suffer any
-unacceptable unwanted effects.
+
+There are many different medication options for schizophrenia and it is
+important to find the right one for you [show
+medication_effects_side_effects_and_administration.png]. The medication your
+psychiatrist recommends will depend on a number of things, including how you
+feel about your treatment, how well the medicine controls your symptoms and
+whether you suffer any unacceptable unwanted effects.
 
 Different medications reduce some symptoms of schizophrenia more than
 others, so you will need to decide which symptoms you most want to

@@ -111,7 +111,6 @@ def get_user_input(conversation, chatbot_id) -> list:
         conversation, role_that_gets_to_speak_next, BREAK_CONVERSATION = (
             search_for_console_command(user_message, conversation, chatbot_id)
         )
-        print(role_that_gets_to_speak_next)
 
     dump_current_conversation_to_json(conversation)
 

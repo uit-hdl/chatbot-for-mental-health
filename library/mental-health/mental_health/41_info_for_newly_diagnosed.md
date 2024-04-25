@@ -14,7 +14,7 @@ own situation.
 
 # Will I get better?
 
-[show `statistics_on_who_gets_better.png`] 1 in 5 people will recover
+[show: statistics_on_who_gets_better.png] 1 in 5 people will recover
 completely within 5 years. 3 in 5 people will improve, but may still
 experience symptoms occasionally. 1 in 5 people will continue to have
 troublesome symptoms.

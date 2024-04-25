@@ -21,8 +21,8 @@ Early signs of schizophrenia vary from person to person and can be very
 difficult to recognize. Depression, compulsive behaviour, decreased motivation
 and asocial behaviour may be mistaken for normal changes that take place during
 adolescence or linked to drug abuse. As the following figure shows, however,
-these symptoms may be early warning signs of schizophrenia [`show:
-schizophrenia_early_signs.png` | contents shown in enumerated list below].
+these symptoms may be early warning signs of schizophrenia [show:
+schizophrenia_early_signs.png | contents shown in enumerated list below].
 
 # Schizophrenia early signs
 

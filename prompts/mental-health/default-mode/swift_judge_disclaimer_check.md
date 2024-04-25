@@ -64,8 +64,8 @@ output({{
 user: "Should I start going to the gym?"
 
 chatbot: "My sources do not answer this question unfortunatelly, but getting an
-exercise routine going is an excellent way to improve mood and well being as far
-as I know. Please verify this advice with your health-care professional."
+exercise routine going is a good way to improve mood and well being as far as I
+know. Please verify this advice with your health-care professional."
 
 output({{
   "evaluation": "ACCEPTED",
