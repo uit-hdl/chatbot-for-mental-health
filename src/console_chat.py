@@ -41,11 +41,7 @@ silent_print(f"Overseer filters enabled: {SETTINGS['enable_overseer_filter']}")
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     """Have a chat with a chatbot assistant in the console. The chatbot id is
     the name of the file (no extension) that contains the prompt of the chatbot.
-    First system argument is which assistant to talk to. If command-line
-    argument 'pickup_last_chat' is provided then you pick up where you left off
-    in the most recent conversation (it loads chat-dashboard/conversation.json).
-    A second command-line argument indicates which conversation to continue
-    (path to json file)."""
+    Supply path to json file if you want to continue a previous conversation."""
 
     if chat_filepath:
         conversation = continue_previous_conversation(chat_filepath, chatbot_id)

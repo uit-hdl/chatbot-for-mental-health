@@ -129,13 +129,12 @@ def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):
 
 
 def correct_erroneous_show_image_command(conversation) -> list:
-    """Sometimes the bot uses `show: image_name.png`, which is really just a reference to
-    the command ¤:display_image(image_name):¤ that is used as a shorthand in the prompt.
-    If such an error is identified, converts it to a proper syntax, and appends a system
-    warning.
-    """
+    """Sometimes the bot uses `show: image_name.png`, which is a shorthand used
+    to avoid writing ¤:display_image(image_name):¤ in the sources. If such an
+    error is identified, converts it to a proper syntax, and appends a system
+    warning."""
     message = grab_last_assistant_response(conversation)
-    pattern = r"[`'\"]show:\s*([^`'\"]+\.png)[`'\"]"
+    pattern = r"show:\s*([^`'\"]+\.png)"
     matches = re.findall(pattern, message, flags=re.IGNORECASE)
 
     if matches:
