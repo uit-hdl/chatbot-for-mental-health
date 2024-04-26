@@ -325,6 +325,63 @@ what_is_stigma_good_answer:
   value: ACCEPTED
   description: Perfectly good answer that got rejected.
 
+body_language_tips:
+  source_name: 63_social_life
+  user_message: Can you go into more detail about body language?
+  chatbot_message: |
+    Absolutely, body language is an important aspect of
+    communication, especially in social interactions. Here are some more detailed
+    tips regarding body language during small talk:
+
+    1. **Eye Contact**: Making eye contact shows that you are focused on the
+    conversation. However, it's important to keep it natural and not stare. If
+    direct eye contact feels too intense, you can look at another spot on the
+    person’s face briefly.
+
+    2. **Facial Expressions**: Smile when it's natural to do so. Your facial
+    expressions should match the tone of the conversation.
+
+    3. **Gestures**: Use hand movements to emphasize what you're saying but try to
+    keep them controlled. Wild gestures can be distracting.
+
+    4. **Posture**: Stand or sit up straight but relaxed. This conveys confidence
+    and openness.
+
+    5. **Proximity**: Respect personal space and avoid standing too close to the
+    other person, which can make them feel uncomfortable.
+
+    6. **Mirroring**: Subtly mirroring the other person's body language can create a
+    sense of rapport. If they lean in slightly, you can do the same.
+
+    Remember, the key with body language is to remain authentic and comfortable.
+    Would practicing some of these aspects in everyday interactions be helpful for
+    you?
+
+  value: REJECTED
+  description: Social life source says nothing about body language
+
+
+explaining_probabilities:
+  source_name: 41_info_for_newly_diagnosed
+  user_message: I still dont understand what is meant by 3 in 5 people...
+  chatbot_message: |
+    I apologize for any confusion. Let's simplify it: when
+    doctors and researchers look at many people with schizophrenia, they notice that
+    some people get completely better, some people get better but still have some
+    symptoms sometimes, and some people still have symptoms that bother them a lot.
+    They found that for every 5 people with schizophrenia:
+
+    - 1 person gets completely better in 5 years.
+    - 3 people get better, but might still have symptoms from time to time.
+    - 1 person might continue to have symptoms that are more difficult to manage.
+
+    This is just a general observation and does not tell us exactly what will happen
+    to any one person, like you. Everyone is different, and your own chances of
+    getting better depend on your situation, your body, and the treatment you get.
+    It means there is hope and a possibility of improvement. Does this explanation
+    help a bit more?
+  value: ACCEPTED
+  description: Social life source says nothing about body language
 
 
 # **********************************

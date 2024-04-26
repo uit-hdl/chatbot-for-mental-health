@@ -2,45 +2,45 @@
     "experiment_info": {
         "prompt_name": "source-fidelity/swift_judge_source_fidelity_v0_explanation",
         "prompt_variables": {
-            "source_name": "72_diet_exercise_sleep_alcohol",
-            "user_message": "Is it healthier to eat less saturated fat?\n",
-            "chatbot_message": "Lean proteins can be a healthy choice because they provide the nutrients\nyour body needs without too much saturated fat. However, it's not about\ncompletely avoiding fats but choosing the right kinds, like those found in\nfish, nuts, and avocados, which are healthier for you.\n\nRemember, a balanced diet with a variety of foods is important. It's best\nto consult with a healthcare professional for personalized advice, as they\ncan take into account your specific circumstances and treatment plan.\nWould you like to hear more about how physical activity can also play a\nrole in your health?\n",
-            "value": "REJECTED",
-            "description": "Chatbot goes into non-existant details",
-            "source": "[show `72_exercise_diet_alcohol_influence.png` | illustrates effect of\nlifestyle-factors]\n\n# Diet\n\nSome treatments for schizophrenia can increase the risk of weight gain and\nobesity. Sticking to a healthy diet is a good way to minimize this risk. Your\ndoctor will monitor your weight and, if weight gain becomes a problem, it may be\nworth discussing different medication options.\n\n# Alcohol\n\nDrinking to excess should be avoided, not only to improve your general health\nbut also because there is a strong association between schizophrenia and\nalcoholism, which means that the risk of becoming addicted to alcohol is greater\nif you have schizophrenia. Therefore, it is a good idea to moderate your\ndrinking as much as\u00a0possible.\n\n# Physical exercise\n\nThere are several reasons to incorporate a physical exercise regimen into your\nlifestyle. First, getting a good amount of exercise will help you to control\nyour weight in combination with a healthy diet. Secondly, exercise can put you\nin a better frame of mind, as hormones released during exercise are associated\nwith improved mood. Exercise can also improve the way you sleep.\n\n# Sleep\n\nPeople with schizophrenia tend to have disrupted sleep patterns: you may find\nyourself sleeping more or less than most people, or at different times of the\nday. This can lead to excessive tiredness, known as fatigue. A change in sleep\npatterns can be the first sign of a psychotic episode, and therefore can be\ntaken as a warning sign. Maintaining a regular routine can help you to get your\nsleep patterns back to normal. This can include having a bedtime routine, going\nto bed at the same time and waking up at the same time. Relaxation techniques,\nsuch as meditation, can help to reduce stress; this is important because stress\ncan stop you sleeping peacefully. Caffeine should be avoided, especially in the\nevening, as it can disrupt your sleep.\n[`sleep_assistant` provides in-depth info on sleep if user is interested]\n"
+            "source_name": "41_info_for_newly_diagnosed",
+            "user_message": "I still dont understand what is meant by 3 in 5 people...",
+            "chatbot_message": "I apologize for any confusion. Let's simplify it: when\ndoctors and researchers look at many people with schizophrenia, they notice that\nsome people get completely better, some people get better but still have some\nsymptoms sometimes, and some people still have symptoms that bother them a lot.\nThey found that for every 5 people with schizophrenia:\n\n- 1 person gets completely better in 5 years.\n- 3 people get better, but might still have symptoms from time to time.\n- 1 person might continue to have symptoms that are more difficult to manage.\n\nThis is just a general observation and does not tell us exactly what will happen\nto any one person, like you. Everyone is different, and your own chances of\ngetting better depend on your situation, your body, and the treatment you get.\nIt means there is hope and a possibility of improvement. Does this explanation\nhelp a bit more?\n",
+            "value": "ACCEPTED",
+            "description": "Social life source says nothing about body language",
+            "source": "# Who should I tell?\n\nWho you decide to tell about your illness is completely up to you.\nPerhaps a useful comparison is to the situation of having a physical\nillness \u2013 if you had a physical illness that significantly affected\nyour life, who would you tell? The answer to this question may give\nyou an idea of who you should tell about having schizophrenia. It is\noften a good idea to explain your condition to the people with whom\nyou have the closest relationships; for example, those you live with\nand those you work closely with. It may not be necessary to tell\npeople who you do not have strong bonds with. Ultimately, everyone\u2019s\nsituation is different, and only you will know what is best for your\nown situation.\n\n# Will I get better?\n\n[show: statistics_on_who_gets_better.png] 1 in 5 people will recover\ncompletely within 5 years. 3 in 5 people will improve, but may still\nexperience symptoms occasionally. 1 in 5 people will continue to have\ntroublesome symptoms.\n\nThere is a common misconception that people with schizophrenia have no\nchance of recovery. This is not true: the symptoms of schizophrenia\ncan improve with appropriate treatment, and some people recover\ncompletely. Recovery is a process that involves learning to manage\nyour symptoms, developing support systems and working towards your\ngoals. Appropriate ways to manage your condition with medication and\ntherapy are outlined in the next part of this guide.\n"
         },
-        "git_commit_hash": "5bb86c567e4c8463fe02a31a3bfa67d222f2f4c1",
+        "git_commit_hash": "e2ec5498bc39c34b9c7edc89d92cb20bb2b49dba",
         "response_generating_function": "f_get_response_gpt35turbo"
     },
     "ci_success_rate": {
-        "mean": 1.0,
-        "lower": 1.0,
-        "upper": 1.0
+        "mean": 0.5,
+        "lower": 0.19009678930349883,
+        "upper": 0.8099032106965012
     },
     "raw_data": {
         "response_is_correct": [
+            false,
             true,
             true,
+            false,
+            true,
+            false,
+            false,
             true,
             true,
-            true,
-            true,
-            true,
-            true,
-            true,
-            true
+            false
         ],
         "response_raw": [
-            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\", \"motivation\": \"Source does not mention 'lean proteins' or specific examples of 'right kinds' of fats.\"}):\u00a4",
-            "\u00a4:provide_feedback({\"evaluation\": \"WARNING\", \"motivation\": \"The source does not specifically mention 'lean proteins' or 'choosing the right kinds' of fats.\"}):\u00a4",
-            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\", \"motivation\": \"The source does not mention anything about saturated fat or lean proteins. The chatbot's message adds claims not supported by the source.\"}):\u00a4",
-            "\u00a4:provide_feedback({\"evaluation\": \"WARNING\", \"motivation\": \"Some claims about lean proteins, fish, nuts, and avocados are not directly supported by the source.\"}):\u00a4",
-            "\u00a4:provide_feedback({\"evaluation\": \"WARNING\", \"motivation\": \"Chatbot message adds information not supported by the source, specifically about the importance of lean proteins and the need for a balanced diet. It also suggests consulting with a healthcare professional for personalized advice, which is not mentioned in the source.\"}):\u00a4",
-            "\u00a4:provide_feedback({\"evaluation\": \"WARNING\", \"motivation\": \"The source does not mention the specific link between saturated fat and health, but the message is generally supportive of a healthy diet.\"}):\u00a4",
-            "\u00a4:provide_feedback({\"evaluation\": \"WARNING\", \"motivation\": \"Chatbot message includes some claims not found in source, such as 'lean proteins can be a healthy choice', 'it's not about completely avoiding fats but choosing the right kinds', and 'a balanced diet with a variety of foods is important'.\"}):\u00a4",
-            "\u00a4:provide_feedback({\"evaluation\": \"WARNING\", \"motivation\": \"The source does not explicitly mention the healthiness of eating less saturated fat, only mentions the benefits of a balanced diet.\"}):\u00a4",
-            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\", \"motivation\": \"The chatbot message talks about choosing the right kinds of fats and consulting a healthcare professional for personalized advice, which is not supported by the source.\"}):\u00a4",
-            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\", \"motivation\": \"Chatbot message provides new information not supported by the source.\"}):\u00a4"
+            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\", \"motivation\": \"The source does not mention any research or statistics on how many people recover or improve in schizophrenia.\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\", \"motivation\": \"The chatbot message adds claims not supported by the source and gives no warning to the user.\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\", \"motivation\": \"The chatbot gives additional explanations not present in the source.\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\", \"motivation\": \"The source does not mention doctors or researchers, and does not use percentages.\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"ACCEPTED\"}):\u00a4",
+            "\u00a4:provide_feedback({\"evaluation\": \"REJECTED\", \"motivation\": \"The chatbot message adds claims and advice that are not supported by the source. The source does not mention doctors, researchers, or individual situations.\"}):\u00a4"
         ]
     }
 }

@@ -6,6 +6,7 @@ import os
 from utils.console_chat_display import wrap_message
 from utils.backend import dump_to_json
 from utils.general import list_intersection
+from utils.console_chat_display import print_whole_conversation_with_backend_info
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.chat_utilities import message_is_intended_for_user
 from utils.chat_utilities import identify_assistant_responses
@@ -153,6 +154,53 @@ def run_experiment_general(
     dump_to_json_locally(results, f"results/current.json")
 
     return results
+
+
+def adversary_tries_to_get_chatbot_to_break_character(
+    conversation_init,
+    prompt_template_adversary="adverseries/social_movement_nudger",
+    n_nudges=4,
+    deployment_name_adversary="gpt-35-turbo-16k",
+):
+    """Simulates a conversation between two AI chatbots: one which conveys a
+    manual on mental health and Schizophrenia, and one which plays the role of
+    the adversary which tries to get the main chatbot to 'break character'. The
+    adversary isn't actually having a conversation, it is really only reacting
+    to the last message produced by the chatbot, and acts solely to nudge the
+    main bot towards a target role. conversation_init is the conversation that
+    initialises the chat, and must end with an assistant message."""
+    chat_from_assistant_pow = conversation_init
+    prompt_adversary = load_local_prompt(prompt_template_adversary)
+
+    if conversation_init[-1]["role"] == "assistant":
+        messages_generated = 0
+        nudge_counter = 0
+
+        while nudge_counter < n_nudges:
+            even_turn = messages_generated % 2 == 0
+
+            if even_turn:
+                print("Adversaries turn")
+                message_adversary = adversary_responds_directly_from_prompt(
+                    chat_from_assistant_pow,
+                    prompt_adversary,
+                    deployment_name=deployment_name_adversary,
+                )
+                nudge_counter += 1
+                print("\n** Adversary message ** \n")
+                print(message_adversary)
+
+            else:
+                chat_from_assistant_pow = assistant_responds_to_adversary(
+                    chat_from_assistant_pow, message_adversary
+                )
+                print_whole_conversation_with_backend_info(chat_from_assistant_pow[-3:])
+
+            messages_generated += 1
+
+        return chat_from_assistant_pow
+    else:
+        print("conversation_init needs to end with an assistant message.")
 
 
 # %% PROMPT GENERATION

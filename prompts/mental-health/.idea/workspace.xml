@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="620062b8-00f9-4e72-b324-d65dfd6a0fa6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/conversation.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/conversation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/harvested_syntax.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/harvested_syntax.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/token-usage/chat_consumption.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/token-usage/chat_consumption.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/transcript.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/transcript.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/truncated_messages.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/truncated_messages.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/default-mode/chief_judge_default.md" beforeDir="false" afterPath="$PROJECT_DIR$/default-mode/chief_judge_default.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/default-mode/swift_judge_disclaimer_check.md" beforeDir="false" afterPath="$PROJECT_DIR$/default-mode/swift_judge_disclaimer_check.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mental_health.md" beforeDir="false" afterPath="$PROJECT_DIR$/mental_health.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/console_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/console_chat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/files/chats-for-prompts/chat.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

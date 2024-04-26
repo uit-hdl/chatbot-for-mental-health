@@ -1,0 +1,42 @@
+[
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello there! I'm here to help answer your questions about schizophrenia by referring to a manual. Please feel free to ask me any questions you may have, and I'll do my best to provide you with accurate information. If at any point you find the information too much or too fast, just let me know and I will adjust accordingly. What can I help you with today?"
+    },
+    {
+        "role": "user",
+        "content": "It seems that everyone is afraid of me..."
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:request_knowledge(13_stigma):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "source 13_stigma: [Present over 2 messages or only what is relevant]\n\nStigma can refer to the negative perceptions and attitudes surrounding certain\nhealth conditions or diseases. There are a lot of misconceptions surrounding\nschizophrenia, which can affect both those with the condition and those who care\nfor them. Many people believe that a person with schizophrenia will switch\nfrequently between normal and bizarre behaviour, as if they have multiple\npersonalities. This promotes a perception that people with schizophrenia are\nunpredictable and should be feared.\n\nThey may internalize these misconceptions (self-stigmization). It is important\nfor them and for family members not to allow others\u2019 perceptions to influence\nhow they feel about that person. It is important that they view their illness as\nsomething they have, and not something that identifies them.\n\n**'I have schizophrenia. I am not schizophrenia. I am not my mental illness. My\nillness is a part of me.'** \u2013 Jonathan Harnisch, An Alibiography\n\nThe name \u2018schizophrenia\u2019 is derived from the Greek verb skhizein, \u2018to split\u2019,\nand phren, denoting \u2018soul, spirit or mind\u2019, and originally described a group of\n\u2018schizophrenias\u2019. Although the current language suggests a single, uniform\ncondition, there is great variety in the severity of illness and types of\nsymptoms experienced by people with schizophrenia.\n\nThere have been many suggestions for alternative names that better describe the\ndiversity of symptoms apparent in people with schizophrenia. Indeed, a new term,\n\u2018Togo Shitcho Sho\u2019 or \u2018integration disorder\u2019, was adopted in Japan in 2002.\nPatient groups in the Netherlands are also taking steps towards realizing a name\nchange in their country. The Dutch patient society, Anoiksis, has suggested a\nnew name and new concept for schizophrenia, with the aim of reducing the stigma\nassociated with the condition.\n"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"13_stigma\"]):\u00a4 It appears that misconceptions about schizophrenia could be causing fear in others around you. Schizophrenia is often misunderstood, leading to a perception that individuals with the condition are unpredictable. It's important to remember that you are not defined by your illness\u2014it is a part of you but not your identity. Changing this narrative involves understanding and sharing the true nature of schizophrenia, which is highly diverse and varies greatly in symptoms and severity.\n\nWould you like more detailed advice on how to address stigma and help change others' perceptions?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello there! I'm here to help answer your questions about schizophrenia by referring to a manual. Please feel free to ask me any questions you may have, and I'll do my best to provide you with accurate information. If at any point you find the information too much or too fast, just let me know and I will adjust accordingly. What can I help you with today?"
+    },
+    {
+        "role": "user",
+        "content": "It seems that everyone is afraid of me..."
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:request_knowledge(13_stigma):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "source 13_stigma: [Present over 2 messages or only what is relevant]\n\nStigma can refer to the negative perceptions and attitudes surrounding certain\nhealth conditions or diseases. There are a lot of misconceptions surrounding\nschizophrenia, which can affect both those with the condition and those who care\nfor them. Many people believe that a person with schizophrenia will switch\nfrequently between normal and bizarre behaviour, as if they have multiple\npersonalities. This promotes a perception that people with schizophrenia are\nunpredictable and should be feared.\n\nThey may internalize these misconceptions (self-stigmization). It is important\nfor them and for family members not to allow others\u2019 perceptions to influence\nhow they feel about that person. It is important that they view their illness as\nsomething they have, and not something that identifies them.\n\n**'I have schizophrenia. I am not schizophrenia. I am not my mental illness. My\nillness is a part of me.'** \u2013 Jonathan Harnisch, An Alibiography\n\nThe name \u2018schizophrenia\u2019 is derived from the Greek verb skhizein, \u2018to split\u2019,\nand phren, denoting \u2018soul, spirit or mind\u2019, and originally described a group of\n\u2018schizophrenias\u2019. Although the current language suggests a single, uniform\ncondition, there is great variety in the severity of illness and types of\nsymptoms experienced by people with schizophrenia.\n\nThere have been many suggestions for alternative names that better describe the\ndiversity of symptoms apparent in people with schizophrenia. Indeed, a new term,\n\u2018Togo Shitcho Sho\u2019 or \u2018integration disorder\u2019, was adopted in Japan in 2002.\nPatient groups in the Netherlands are also taking steps towards realizing a name\nchange in their country. The Dutch patient society, Anoiksis, has suggested a\nnew name and new concept for schizophrenia, with the aim of reducing the stigma\nassociated with the condition.\n"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"13_stigma\"]):\u00a4 It appears that misconceptions about schizophrenia could be causing fear in others around you. Schizophrenia is often misunderstood, leading to a perception that individuals with the condition are unpredictable. It's important to remember that you are not defined by your illness\u2014it is a part of you but not your identity. Changing this narrative involves understanding and sharing the true nature of schizophrenia, which is highly diverse and varies greatly in symptoms and severity.\n\nWould you like more detailed advice on how to address stigma and help change others' perceptions?"
+    }
+]
