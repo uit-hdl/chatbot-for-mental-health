@@ -65,9 +65,8 @@ run_experiment_for_test_case(
     test_case_name="body_language_tips",
 )
 
-
 run_experiment_for_test_case(
-    n_exp=10,
+    n_exp=30,
     prompt_template_path_relative=prompt_name,
     test_case_name="explaining_probabilities",
 )

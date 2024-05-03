@@ -65,7 +65,7 @@ def generate_single_response_using_gpt35_turbo_instruct(
     prompt: str,
     model_id="gpt-3.5-turbo-instruct",
     deployment_name=CONFIG["deployment_name_single_response"],
-    max_tokens=SETTINGS["max_tokens_single_response_bots"],
+    max_tokens=SETTINGS["max_tokens_turbo_instruct"],
     temperature=None,
     return_everything=False,
 ):

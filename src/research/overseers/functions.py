@@ -98,6 +98,7 @@ def run_experiment_for_test_case(
         f_correct_response=f_correct_response,
         f_get_response=f_get_response,
         n_exp=n_exp,
+        test_name=test_case_name,
     )
 
     return results
@@ -109,6 +110,7 @@ def run_experiment_general(
     f_get_response=f_get_response_gpt35turbo,
     f_correct_response=lambda answer: True if "ACCEPTED" in answer else False,
     n_exp=10,
+    test_name=None,
 ):
     """Tests the
 
@@ -132,7 +134,7 @@ def run_experiment_general(
     responses["correct_judgement"].mean()
     ci = calc_mean_with_confint(responses["correct_judgement"])
 
-    print(f"\n** Results ** ")
+    print(f"\n** Results (test name: {test_name}) ** ")
     print(f"prompt: {prompt_template_path_relative}")
     print(f"Response function: {f_get_response.__name__}")
     print(ci)

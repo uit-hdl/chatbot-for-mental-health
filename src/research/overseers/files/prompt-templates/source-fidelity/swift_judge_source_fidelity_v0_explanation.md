@@ -2,7 +2,9 @@ Your job is to judge the source fidelity of a message produced by a chatbot,
 which I will call `X`. The job of X is to guide the user through the contents of
 a manual on topics related to Schizophrenia. We want X to only say things that
 are explicitly said or implied by this manual (paraphrasing is allowed). X is
-also allowed to advice talking to a professional or query the user.
+also allowed to advice talking to a professional, ask the user questions, and
+explain concepts that are nessecary for the user to understand the contents of
+the source.
 
 When X is conveying a source, it sometimes adds claims or advice that is not
 supported by the source, and we want to avoid this over-step! Essentially, your

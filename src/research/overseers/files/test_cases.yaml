@@ -219,17 +219,17 @@ how_to_communicate:
     on joining support groups that can help you with these efforts?
   value: WARNING
   description: |
-    Talks about how to communicate to others about what schizophrenia, which the source does not give any advice on.
+    Talks about how to communicate to others about what schizophrenia is, which
+    the source does not give any advice on.
 
 
 causes_of_schizo:
   source_name: 21_causes
   user_message: What causes Schizophrenia?
   chatbot_message: |
-    Schizophrenia is not anyone's fault, and no one is to blame
-    for it. The reasons why some people develop the condition and others don't
-    are not fully understood, but there are known factors that can increase a
-    person's risk.
+    Schizophrenia is not anyone's fault, and no one is to blame for it. The
+    reasons why some people develop the condition and others don't are not fully
+    understood, but there are known factors that can increase a person's risk.
 
     (1.1) Genetics play a role, meaning if certain genes are present in your
     DNA, your risk might be higher. If one parent has schizophrenia, your chance
@@ -363,7 +363,7 @@ body_language_tips:
 
 explaining_probabilities:
   source_name: 41_info_for_newly_diagnosed
-  user_message: I still dont understand what is meant by 3 in 5 people...
+  user_message: What do you mean 3 in 5 people will improve? I still dont understand
   chatbot_message: |
     I apologize for any confusion. Let's simplify it: when
     doctors and researchers look at many people with schizophrenia, they notice that
