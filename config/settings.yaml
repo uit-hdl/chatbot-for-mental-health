@@ -1,7 +1,8 @@
 word_wrap: 80  # N.o. characters before line gets wrapped.
 plot_duration: 10000  # The duration of time for which the figures are shown (uggly solution...)
 max_tokens_before_truncation: 4500  # Determines maximum length before chat gets truncated
-inactivity_threshold: 2  # Remove source from conversation if it has not been cited in the last ... messages
+inactivity_threshold: 2  # Remove source from conversation if it has not been cited in the last `inactivity_threshold` messages
+# Controll max number of attempts at producing valid response:
 n_attempts_at_producing_valid_response: 1
 max_requests: 2
 # Printing
@@ -25,14 +26,14 @@ dollars_per_1k_output_token: 0.06
 nok_per_dollar: 10.6  # rate: NOK per Dollar
 
 # --- TOKEN LIMITS AND BOUNDARIES ---
-max_tokens_per_message: 270  # Limit in prompt + margin
-max_tokens_hard_upper_limit: 320  # This is an argument in ChatCompletion.create() used to
-max_tokens_single_response_bots: 90  # Max tokens for GPT-3.5-turbo instruct
-# estimate token consumption rate and truncate messages. Set abit higher to avoid truncation due to
-# differences in how N-tokens is counted
-limit_1_tokens_per_message: 200  # Mild warning
-limit_2_tokens_per_message: 250  # More severe warning
-max_tokens_before_summarization: 300  # Bot message gets shortened by GPT-3.5
+# max tokens when calling ChatCompletion():
+max_tokens_chat_completion: 320  # Longer responses are truncated
+limit_1_tokens_per_message: 200  # threshold for mild warning message
+limit_2_tokens_per_message: 250  # threshold for more severe warning message
+# If exceeded, message gets shortened by GPT-3.5:
+max_tokens_before_summarization: 300  
+# Max tokens for GPT-3.5-turbo instruct (not currently in use)
+max_tokens_turbo_instruct: 90
 
 role_that_speaks_first: "assistant"
 # --- OVERSEER BOTS ---
