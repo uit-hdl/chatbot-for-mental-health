@@ -17,8 +17,8 @@ from utils.general import ROLE_TO_ANSI_COLOR_MAP
 def print_whole_conversation_with_backend_info(
     conversation, include_initial_prompt=False
 ):
-    """Prints the entire conversation (excluding the prompt) in the console. Includes system
-    messages, and does not remove bot syntax."""
+    """Prints the entire conversation (excluding the prompt) in the console.
+    Includes system messages, and does not remove bot syntax."""
     if include_initial_prompt:
         start_idx = 0
     else:
@@ -66,26 +66,27 @@ def wrap_message(message: str, line_length=80):
     return wrapped_message
 
 
-def display_last_response(conversation):
+def print_last_response(conversation):
     """Displays the last response of the conversation after stripping away syntax."""
-    display_message_without_syntax(message_dict=conversation[-1])
+    print_message_without_syntax(message=conversation[-1])
 
 
-def display_last_assistant_response(conversation):
+def print_last_assistant_response(conversation):
     """Displays the last assistant response of the conversation after stripping away syntax."""
-    display_message_without_syntax(
-        message_dict={
+    print_message_without_syntax(
+        message={
             "role": "assistant",
             "content": grab_last_assistant_response(conversation),
         }
     )
 
 
-def display_message_without_syntax(message_dict: dict):
+def print_message_without_syntax(message: dict):
     """Takes a message in dictionary form, removes the code syntax, and prints
     it in the console."""
-    role = message_dict["role"].strip()
-    message = message_dict["content"].strip()
+    role = message["role"].strip()
+    message = message["content"].strip()
+
     message_plain_text = remove_syntax_from_message(message)
     if not contains_only_whitespace(message_plain_text):
         message_with_role = prepend_role(message_plain_text, role)
@@ -106,7 +107,7 @@ def reprint_whole_conversation_without_syntax(
         if not include_system_messages and message["role"] == "system":
             continue
         else:
-            display_message_without_syntax(message)
+            print_message_without_syntax(message)
 
 
 def display_images(images: dict):

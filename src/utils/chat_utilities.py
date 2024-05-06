@@ -27,7 +27,7 @@ def generate_and_add_raw_bot_response(
     model_id=CONFIG["model_id"],
     deployment_name=CONFIG["deployment_name"],
     calc_tokens=True,
-    max_tokens=SETTINGS["max_tokens_per_message"],
+    max_tokens=SETTINGS["max_tokens_chat_completion"],
     temperature=None,
 ):
     """Takes the conversation log, and updates it with the response of the

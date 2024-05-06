@@ -23,8 +23,8 @@ from utils.managing_sources import remove_inactive_sources
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.create_chatbot_response import respond_to_user
-from utils.console_chat_display import display_last_response
-from utils.console_chat_display import display_last_assistant_response
+from utils.console_chat_display import print_last_response
+from utils.console_chat_display import print_last_assistant_response
 from utils.console_chat_display import play_videos
 from utils.console_chat_display import print_whole_conversation_with_backend_info
 from utils.console_chat_display import display_images
@@ -49,7 +49,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         conversation = initiate_conversation_object(chatbot_id)
         if ASSISTANT_SPEAKS_FIRST:
             conversation = generate_and_add_raw_bot_response(conversation)
-            display_last_response(conversation)
+            print_last_response(conversation)
 
     while True:
         conversation = get_user_input(conversation, chatbot_id)
@@ -60,7 +60,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
 
         conversation, harvested_syntax = respond_to_user(conversation, chatbot_id)
 
-        display_last_assistant_response(conversation)
+        print_last_assistant_response(conversation)
         display_images(harvested_syntax["images"])
         play_videos(harvested_syntax["videos"])
         dump_current_conversation_to_json(conversation)
@@ -69,7 +69,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
             assistant_name = harvested_syntax["referral"]["name"]
             conversation = direct_to_new_assistant(assistant_name)
             conversation = generate_and_add_raw_bot_response(conversation)
-            display_last_response(conversation)
+            print_last_response(conversation)
 
         conversation = remove_inactive_sources(conversation)
         conversation = truncate_if_too_long(conversation)

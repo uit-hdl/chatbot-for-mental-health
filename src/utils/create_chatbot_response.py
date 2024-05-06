@@ -17,10 +17,12 @@ from utils.consumption_of_tokens import count_tokens_in_message
 from utils.overseers import summarize_if_response_too_long
 
 
-def respond_to_user(conversation, chatbot_id: str) -> list:
-    """Generates and appends a response to the conversation. Assistant can iteratively
-    request sources untill it is satisfied. Requested sources are inserted into the
-    conversation by system."""
+def respond_to_user(conversation, chatbot_id: str) -> tuple[list, dict]:
+    """Generates and appends a response to the conversation. Assistant can
+    iteratively request sources untill it is satisfied. Requested sources are
+    inserted into the conversation by system. Returns conversation with response
+    and system messages (if any), as well as the information that was collected
+    from the bots message."""
     # Generate initial valid response
     (
         conversation,

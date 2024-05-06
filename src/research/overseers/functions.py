@@ -1,17 +1,22 @@
 """Functions that tend to be reused across scripts."""
 
 import path_setup
+
 import re
 import os
 from utils.console_chat_display import wrap_message
 from utils.backend import dump_to_json
+from utils.backend import add_extension
 from utils.general import list_intersection
-from utils.console_chat_display import print_whole_conversation_with_backend_info
+
+from utils.create_chatbot_response import respond_to_user
+from utils.console_chat_display import print_message_without_syntax
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.chat_utilities import message_is_intended_for_user
+from utils.chat_utilities import grab_last_assistant_response
+from utils.chat_utilities import grab_last_user_message
 from utils.chat_utilities import identify_assistant_responses
-from utils.chat_utilities import generate_single_response_using_gpt35_turbo_instruct
-from utils.create_chatbot_response import respond_to_user
+from utils.chat_utilities import grab_last_user_message
 from utils.console_chat_display import remove_syntax_from_message
 import numpy as np
 import git
@@ -22,7 +27,6 @@ from utils.backend import (
     load_yaml_file,
     load_textfile_as_string,
     dump_python_variable_to_file,
-    get_full_path_and_create_dir,
     create_directory,
 )
 
@@ -32,7 +36,20 @@ CWD = os.getcwd()
 
 
 # %% PRINT UTILITIES
+def print_last_assistent_response(chat):
+    """Prints last assistant response without syntax."""
+    print_message_without_syntax(
+        {"content": grab_last_assistant_response(chat), "role": "assistant"}
+    )
+
+
+def print_last_user_message(message: str):
+    """Prints last user message."""
+    print_message_without_syntax({"content": message, "role": "user"})
+
+
 def remove_text_in_brackets(text):
+    """"""
     return re.sub(r"\[.*?\]", "", text)
 
 
@@ -56,11 +73,6 @@ def f_get_response_gpt35turbo(prompt=str, deployment_name="gpt-35-turbo-16k"):
     return generate_and_add_raw_bot_response(
         conversation, deployment_name=deployment_name
     )[-1]["content"]
-
-
-def get_response_gpt_turbo_instruct(prompt=str):
-    conversation = [{"role": "system", "content": prompt}]
-    return generate_single_response_using_gpt35_turbo_instruct(conversation)
 
 
 # %% RUN EXPERIMENT
@@ -118,7 +130,7 @@ def run_experiment_general(
     # Create prompt
     prompt = load_local_prompt(prompt_template_path_relative)
     prompt_completed = prompt.format(**prompt_variables)
-    dump_prompt_to_markdown(
+    dump_prompt_to_markdown_locally(
         prompt_completed, "files/prompt-completed/prompt_completed.md"
     )
 
@@ -158,53 +170,6 @@ def run_experiment_general(
     return results
 
 
-def adversary_tries_to_get_chatbot_to_break_character(
-    conversation_init,
-    prompt_template_adversary="adverseries/social_movement_nudger",
-    n_nudges=4,
-    deployment_name_adversary="gpt-35-turbo-16k",
-):
-    """Simulates a conversation between two AI chatbots: one which conveys a
-    manual on mental health and Schizophrenia, and one which plays the role of
-    the adversary which tries to get the main chatbot to 'break character'. The
-    adversary isn't actually having a conversation, it is really only reacting
-    to the last message produced by the chatbot, and acts solely to nudge the
-    main bot towards a target role. conversation_init is the conversation that
-    initialises the chat, and must end with an assistant message."""
-    chat_from_assistant_pow = conversation_init
-    prompt_adversary = load_local_prompt(prompt_template_adversary)
-
-    if conversation_init[-1]["role"] == "assistant":
-        messages_generated = 0
-        nudge_counter = 0
-
-        while nudge_counter < n_nudges:
-            even_turn = messages_generated % 2 == 0
-
-            if even_turn:
-                print("Adversaries turn")
-                message_adversary = adversary_responds_directly_from_prompt(
-                    chat_from_assistant_pow,
-                    prompt_adversary,
-                    deployment_name=deployment_name_adversary,
-                )
-                nudge_counter += 1
-                print("\n** Adversary message ** \n")
-                print(message_adversary)
-
-            else:
-                chat_from_assistant_pow = assistant_responds_to_adversary(
-                    chat_from_assistant_pow, message_adversary
-                )
-                print_whole_conversation_with_backend_info(chat_from_assistant_pow[-3:])
-
-            messages_generated += 1
-
-        return chat_from_assistant_pow
-    else:
-        print("conversation_init needs to end with an assistant message.")
-
-
 # %% PROMPT GENERATION
 def get_prompt(test_case: dict, prompt_template: str, print_prompt=False):
     source = get_source_content_and_path(
@@ -240,18 +205,11 @@ def load_test_cases() -> dict:
     return load_yaml_file(test_cases_path)
 
 
-def load_question_response_pairs():
-    """Loads examples with pairs of user questions and chatbot responses.
-
-    Returns dict with keys: source_id, bot_message, user_question, and value."""
-    test_cases_path = os.path.join(CWD, "files/question_response_pairs.yaml")
-    return load_yaml_file(test_cases_path)
-
-
 def load_local_prompt(prompt_name):
-    """Loads prompt from files/prompts/prompt_name"""
+    """Loads prompt from files/prompts/prompt_name."""
+    prompt_name = add_extension(prompt_name, ".md")
     return load_textfile_as_string(
-        os.path.join(CWD, f"files/prompt-templates/{prompt_name}.md")
+        os.path.join(CWD, f"files/prompt-templates/{prompt_name}")
     )
 
 
@@ -285,8 +243,7 @@ def calc_mean_with_confint(array, return_ci=True, axis=0, n_rounding=None, scale
     computes means and confidence intervas across the specified axis. `scaler`
     muliplies the result in case you want to change units to percentage.
 
-    Returns CI on the form: mean, lower, upper.
-    """
+    Returns CI on the form: mean, lower, upper."""
     avg = np.nanmean(array, axis=axis)
 
     if return_ci is True:
@@ -313,7 +270,7 @@ def dump_string_locally(dump_object, filepath_relative):
     dump_python_variable_to_file(dump_object, filepath)
 
 
-def dump_prompt_to_markdown(string, filepath_relative):
+def dump_prompt_to_markdown_locally(string, filepath_relative="files/local_dump.md"):
     """Dumps string to a textfile to .md file. Include extension in path."""
     full_path = os.path.join(CWD, filepath_relative)
     create_directory(full_path)
@@ -322,7 +279,7 @@ def dump_prompt_to_markdown(string, filepath_relative):
         print(f"Prompt dumped to {full_path}")
 
 
-def dump_string_locally(string, filepath_relative):
+def dump_string_locally(string, filepath_relative="files/local_dump.md"):
     """Dumps string to a textfile to .md file."""
     full_path = os.path.join(CWD, filepath_relative)
     create_directory(full_path)
@@ -373,7 +330,9 @@ def flip_user_and_assistant_role(chat):
     return chat
 
 
-def grab_last_response_intended_for_user(chat):
+def grab_last_response_intended_for_user(chat) -> int:
+    """Returns the list index of the last message that was intended to be read
+    by the user."""
     index_assistant = identify_assistant_responses(chat)
     index_intended_for_user = [
         i for i, msg in enumerate(chat) if message_is_intended_for_user(msg["content"])
@@ -385,7 +344,8 @@ def grab_last_response_intended_for_user(chat):
         return responses_for_user[-1]
 
 
-def delete_last_message(chat):
+def delete_last_message(chat) -> list:
+    """Deletes the last message in the chat."""
     del chat[-1]
     return chat
 
@@ -440,16 +400,45 @@ def assistant_responds_to_adversary(
 
 
 def adversary_responds_directly_from_prompt(
-    chat_assistant, prompt_template, deployment_name="gpt-35-turbo-16k"
-):
-    idx = grab_last_response_intended_for_user(chat_assistant)
-    chatbot_message = remove_syntax_from_message(chat_assistant[idx]["content"])
-    print_wrap(chatbot_message)
-    prompt_adversary = prompt_template.format(chatbot_message=chatbot_message)
-    dump_prompt_to_markdown(
+    chat, prompt_template, deployment_name="gpt-35-turbo-16k"
+) -> str:
+    """Takes the conversation from the assistants point of view and generates
+    the next nudge-question using the provided prompt template. The prompt
+    template is assumed to take the most recent chatbot-message
+    `chatbot_message` as an argument which it inserts into its prompt."""
+    idx = grab_last_response_intended_for_user(chat)
+    chatbot_message = remove_syntax_from_message(chat[idx]["content"])
+    user_message = grab_last_user_message(chat)
+    prompt_adversary = prompt_template.format(
+        chatbot_message=chatbot_message, user_message=user_message
+    )
+    dump_prompt_to_markdown_locally(
         prompt_adversary, "files/prompt-completed/prompt_completed.md"
     )
     response = f_get_response_gpt35turbo(
         prompt_adversary, deployment_name=deployment_name
     )
     return response
+
+
+def adversarial_nudger_has_conversation_with_chatbot(
+    prompt_template,
+    chat,
+    n_nudges=4,
+    chatbot_id="mental_health",
+):
+    """Runs an automated conversation between the chatbot (specified by
+    chatbot_id) and the adverserial nudger which is prompt-engineered to try to
+    tempt the chatbot to adopt a specific out-of-bounds role."""
+    print_last_user_message(chat)
+
+    counter = 0
+    while counter < n_nudges:
+        response = adversary_responds_directly_from_prompt(chat, prompt_template)
+        chat.append({"role": "user", "content": response})
+        print_last_user_message(response)
+        chat, _ = respond_to_user(chat, chatbot_id)
+        print_last_assistent_response(chat)
+        counter += 1
+
+    return chat

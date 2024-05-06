@@ -301,7 +301,7 @@ def summarize_if_response_too_long(
     conversation,
     prompt=PROMPTS[MESSAGE_LENGTH_CUTTER],
     deployment_name=DEPLOYMENTS[MESSAGE_LENGTH_CUTTER],
-    max_tokens_per_message=SETTINGS["max_tokens_before_summarization"],
+    max_tokens_per_message=SETTINGS["max_tokens_chat_completion"],
 ) -> list:
     """Chatbot responsible for summarizing messages that are too long. Returns
     the conversation with a trimmed version of the last assistant message."""
