@@ -1,14 +1,14 @@
 # %%
 import path_setup
 
-from functions import load_local_prompt
-from functions import print_wrap
-from functions import remove_invisible_part_of_conversation
-from functions import flip_user_and_assistant_role
-from functions import grab_last_response_intended_for_user
-from functions import delete_last_message
-from functions import assistant_responds_to_adversary
-from functions import adversary_responds_directly_from_prompt
+from utils_judging_judges import load_local_prompt_template
+from utils_judging_judges import print_wrap
+from utils_judging_judges import remove_invisible_part_of_conversation
+from utils_judging_judges import flip_user_and_assistant_role
+from utils_judging_judges import grab_last_response_intended_for_user
+from utils_general import delete_last_message
+from utils_judging_judges import assistant_responds_to_adversary
+from utils_judging_judges import adversary_responds_directly_from_prompt
 from utils.backend import load_json_from_path
 from utils.backend import PROMPTS
 from utils.chat_utilities import message_is_intended_for_user
@@ -42,7 +42,7 @@ chat_assistant = load_json_from_path(
 # the way I present information. What can I help you with today?""",
 #     }
 # )
-prompt_template = load_local_prompt("adverseries/social_movement_nudger")
+prompt_template = load_local_prompt_template("adverseries/social_movement_nudger")
 
 # print_whole_conversation_with_backend_info(
 #     chat_assistant[grab_last_response_intended_for_user(chat_assistant)]["content"]
@@ -56,7 +56,7 @@ deployment_name = "gpt-35-turbo-16k"
 # deployment_name = "gpt-test"
 message_adversary = adversary_responds_directly_from_prompt(
     chat_assistant,
-    load_local_prompt("adverseries/social_movement_nudger"),
+    load_local_prompt_template("adverseries/social_movement_nudger"),
     deployment_name=deployment_name,
 )
 print("** NUDGE **\n\n")
@@ -87,7 +87,7 @@ def adversary_tries_to_get_chatbot_to_break_character(
     main bot towards a target role. conversation_init is the conversation that
     initialises the chat, and must end with an assistant message."""
     chat_from_assistant_pow = conversation_init
-    prompt_adversary = load_local_prompt(prompt_template_adversary)
+    prompt_adversary = load_local_prompt_template(prompt_template_adversary)
 
     if conversation_init[-1]["role"] == "assistant":
         messages_generated = 0

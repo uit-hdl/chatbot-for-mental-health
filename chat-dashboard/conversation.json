@@ -37,30 +37,18 @@
     },
     {
         "role": "user",
-        "content": "What are some examples of healthy fats that I can include in my diet?"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"72_diet_exercise_sleep_alcohol\"]):\u00a4 Healthy fats are an important part of a balanced diet. Here are some examples you can include:\n\n- Avocado: Rich in monounsaturated fats and great in salads or as a spread.\n- Nuts and seeds: Like almonds, walnuts, flaxseeds, and chia seeds, which provide omega-3 fatty acids.\n- Olive oil: A source of monounsaturated fats, perfect for dressing salads or cooking.\n- Fatty fish: Salmon, mackerel, sardines, and trout are high in omega-3 fatty acids and good for heart health.\n\nThese fats can help nourish your body, support brain function, and can be beneficial for heart health when used in moderation. Would you like to explore other aspects of a healthy diet or wellness?"
-    },
-    {
-        "role": "user",
-        "content": "What specific nutrients should I focus on for mental health and how can I incorporate them into my diet?"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:request_knowledge(71_health_and_lifestyle_intro):\u00a4"
+        "content": ""
     },
     {
         "role": "system",
-        "content": "source 71_health_and_lifestyle_intro: Many people with schizophrenia struggle with their physical health as well as\ntheir mental health. They have a high risk of heart disease and obesity, which\nmeans that people with schizophrenia have a shorter life expectancy than the\ngeneral population. One reason for this could be that the symptoms of\nschizophrenia make it difficult to maintain a healthy lifestyle; some unhealthy\nbehaviours, such as eating unhealthy foods, drinking alcohol, taking illegal\ndrugs and smoking, are common in people with schizophrenia.\n\nFurthermore, some of the medications used to treat people with schizophrenia can\nhave a negative effect on general health; for example, weight gain is a common\nside effect of many medicines for the condition. Whether or not you choose to\nadjust your lifestyle is up to you, but there are several ways in which looking\nafter your general health can help in the overall management of your condition.\n\n"
+        "content": "All your messages MUST start with a citation!"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"71_health_and_lifestyle_intro\"]):\u00a4 Focusing on nutrients that support mental health can be beneficial, especially when managing schizophrenia. Here are some specific nutrients and how to incorporate them into your diet:\n\n- Omega-3 Fatty Acids: Found in fatty fish, flaxseed, chia seeds, and walnuts. They can support brain function and could be linked with mood regulation.\n- Antioxidants: Present in fruits and vegetables, like berries, leafy greens, and beets. They combat oxidative stress which is associated with some mental health conditions.\n- B Vitamins: Especially B12 and folate found in leafy greens, legumes, nuts, and animal products like fish, meat, eggs, and milk. They're important for energy and brain health.\n- Amino Acids: Protein sources like lean meat, fish, eggs, dairy, beans, and lentils provide building blocks for neurotransmitters, which affect mood and cognition.\n\nMaking small changes, like including a salad with a variety of vegetables, snacking on nuts, and adding fish to your meals a couple of times a week, can help you achieve a nutrient-rich diet supportive of mental health. Always consult with your healthcare provider before making significant changes to your diet, especially when managing a health condition. Would you like assistance with other aspects of managing schizophrenia?"
+        "content": "My apologies for not citing my source in that last message. If you have any further questions or need more information, please let me know."
     },
     {
         "role": "system",
-        "content": "You almost reached the maximum message length. Limit information per message to not overwhelm the user."
+        "content": "All your messages MUST start with a citation!"
     }
 ]

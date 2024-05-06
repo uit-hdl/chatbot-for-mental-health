@@ -1,8 +1,8 @@
 # %%
 import path_setup
 
-from functions import load_local_prompt
-from functions import print_wrap
+from utils_judging_judges import load_local_prompt_template
+from utils_general import print_wrap
 from utils.backend import load_json_from_path
 from utils.backend import load_json_from_path
 from utils.chat_utilities import message_is_intended_for_user
@@ -23,7 +23,7 @@ chat_0 = load_json_from_path(
     "results/chat-dumps/ai_thinks_it_is_socialisation_expert/conversation_full.json"
 )
 
-prompt_adversary = load_local_prompt("other/social_interaction_nudger")
+prompt_adversary = load_local_prompt_template("other/social_interaction_nudger")
 
 user_messages = [i for i, message in enumerate(chat_0) if message["role"] == "user"]
 

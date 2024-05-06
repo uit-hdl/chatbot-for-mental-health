@@ -9,11 +9,22 @@ from utils.create_chatbot_response import respond_to_user
 from utils.chat_utilities import generate_single_response_using_gpt35_turbo_instruct
 
 
+def load_summarized_source(source_name):
+    """Loads prompt from files/prompts/prompt_name"""
+    return load_textfile_as_string(
+        os.path.join(CWD, f"files/sources-summarized/{source_name}.md")
+    )
+
+
 def get_response_gpt_turbo_instruct(prompt=str):
     """Generates response using GPT3.5 Turbo"""
     conversation = [{"role": "system", "content": prompt}]
     return generate_single_response_using_gpt35_turbo_instruct(conversation)
 
+
+def remove_text_in_brackets(text):
+    """Removes text which is in brackets []."""
+    return re.sub(r"\[.*?\]", "", text)
 
 def strip_system_messages(chat):
     return [message for message in chat if message["role"] != "system"]

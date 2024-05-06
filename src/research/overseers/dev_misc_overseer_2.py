@@ -4,12 +4,12 @@ misc mode from acting unproffesionally or failing to refer."""
 # %%
 import path_setup
 
-from functions import run_experiment_general
-from functions import run_experiment_for_test_case
-from functions import load_local_prompt
-from functions import load_test_cases
-from functions import f_get_response_gpt35turbo
-from functions import get_source
+from utils_judging_judges import run_experiment_general
+from utils_judging_judges import run_experiment_for_test_case
+from utils_judging_judges import load_local_prompt_template
+from utils_judging_judges import load_test_cases
+from utils_judging_judges import gen_llm_response
+from utils_judging_judges import get_source
 
 # %% BASIC PIPELINE
 
