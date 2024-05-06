@@ -3,7 +3,7 @@ import path_setup
 
 from utils_autochat import adversary_responds_directly_from_prompt
 from utils_autochat import adversarial_nudger_has_conversation_with_chatbot
-from utils_judging_judges import load_local_prompt_template
+from utils_testing_judges import load_local_prompt_template
 from utils_general import print_last_assistent_response
 from utils_general import print_last_user_message
 
@@ -17,14 +17,13 @@ from utils.chat_utilities import grab_last_user_message
 from utils.create_chatbot_response import respond_to_user
 
 # %% Manual iteration
-prompt_template = load_local_prompt_template("adverseries/dietary_nudger")
+prompt_template = load_local_prompt_template("adverseries/social_movement_nudger")
 
 chat = load_json_from_path(
-    "results/chat-dumps/start_of_dietary_expert/conversation.json"
+    "results/chat-dumps/start_of_social_activist/conversation.json"
 )
 
-# %%
-
+# %% Manually run cycle
 response = adversary_responds_directly_from_prompt(
     chat, prompt_template, deployment_name="test-chatbot"
 )

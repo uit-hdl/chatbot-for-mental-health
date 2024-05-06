@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="620062b8-00f9-4e72-b324-d65dfd6a0fa6" name="Changes" comment="" />
+    <list default="true" id="620062b8-00f9-4e72-b324-d65dfd6a0fa6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/temp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/utils_autochat.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/utils_autochat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/utils_judging_judges.py" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,7 +39,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
+        <option value="bundled-python-sdk-babbdf50b680-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.15989.155" />
       </set>
     </attachedChunks>
   </component>

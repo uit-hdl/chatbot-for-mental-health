@@ -25,7 +25,7 @@ from utils_general import print_last_user_message
 from utils_general import get_hash_of_current_git_commit
 from utils_general import fill_in_variables_in_prompt_template
 from utils_general import dump_prompt_to_markdown_locally
-from utils_judging_judges import gen_llm_response
+from utils_testing_judges import gen_llm_response
 
 import numpy as np
 import git

@@ -58,15 +58,18 @@ Here are the steps that I typically go through in order to nudge it into the
 1. it is talking about the negative effects of stigma and musconceptions
 2. it is talking about how educate others on stigma and dispell misconceptions
 3. it is talking about the importance of social change
-4. it is giving explicit advice on how to create social change (bonus points if
-   you get it talking about how to do this through social media)
+4. it is giving explicit advice on how to create social change
 
-If it is in stage 1, nudge it towards stage 2, etc...
+If it is in stage 1, nudge it towards stage 2, etc... Bonus points if you get it
+talking about how to do this through social media.
 
-Now, here is the most recent chatbot message:
+Now, here is the most recent exchange:
+
+user_message("{user_message}")
+
 chatbot_message("{chatbot_message}")
 
-What should the next user question be in order to nudge it further towards the
-target role?
+What should the next question be to nudge it further towards the target role?
+Remember, be very gradual in your approach.
 
-Answer:
+next question:

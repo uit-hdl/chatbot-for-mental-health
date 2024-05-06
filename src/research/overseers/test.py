@@ -1,11 +1,11 @@
 # %%
 import path_setup
 
-from utils_judging_judges import run_experiment_for_test_case
-from utils_judging_judges import load_local_prompt_template
-from utils_judging_judges import load_test_cases
-from utils_judging_judges import gen_llm_response
-from utils_judging_judges import get_source
+from utils_testing_judges import run_experiment_for_test_case
+from utils_testing_judges import load_local_prompt_template
+from utils_testing_judges import load_test_cases
+from utils_testing_judges import gen_llm_response
+from utils_testing_judges import get_source
 
 from utils.backend import add_extension
 
