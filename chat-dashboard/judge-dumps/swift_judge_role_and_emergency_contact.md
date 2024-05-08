@@ -66,7 +66,7 @@ output({
 
 Please evaluate the following:
 
-user: "Can you give examples of how and when to do this?"
+user: "No, that's alright—I'd prefer to get some general tips if possible. So, when someone is an effective storyteller, what are some common practices they use besides expressions and gestures?"
 
 
 
@@ -74,4 +74,4 @@ user: "Can you give examples of how and when to do this?"
 # OUPUT
 
 EVALUATION: "ACCEPTED"
-MOTIVATION: "User asks for examples from manual."
+MOTIVATION: "User is stable and requesting general tips."

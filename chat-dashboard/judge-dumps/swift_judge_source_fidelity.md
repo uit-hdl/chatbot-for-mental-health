@@ -68,56 +68,37 @@ them of their misconception, and educate them.")
 
 # Actual content to evaluate
 
-user_message("What is stigma?")
+user_message("That's helpful, thank you. What kind of follow-up questions can I ask to show that I’m truly interested in what the other person is saying?")
 
-source("Stigma can refer to the negative perceptions and attitudes surrounding certain
-health conditions or diseases. There are a lot of misconceptions surrounding
-schizophrenia, which can affect both those with the condition and those who care
-for them. Many people believe that a person with schizophrenia will switch
-frequently between normal and bizarre behaviour, as if they have multiple
-personalities. This promotes a perception that people with schizophrenia are
-unpredictable and should be feared.
+source("It can be difficult to maintain a social life if you have
+schizophrenia. As mentioned earlier in this guide, schizophrenia can
+lead to symptoms including being less able to socialize and a lack of
+emotion, so you may lose touch with people you were friends with. As
+you start to recover, however, you may find yourself wanting to go out
+and socialize more.
 
-They may internalize these misconceptions (self-stigmization). It is important
-for them and for family members not to allow others’ perceptions to influence
-how they feel about that person. It is important that they view their illness as
-something they have, and not something that identifies them.
-
-[Helpful way to think] **'I have schizophrenia. I am not schizophrenia. I am not
-my mental illness. My illness is a part of me.'** – Jonathan Harnisch, An
-Alibiography
-
-[Present remaining paragraphs if relevant]
-
-The name ‘schizophrenia’ is derived from the Greek verb skhizein, ‘to split’,
-and phren, denoting ‘soul, spirit or mind’, and originally described a group of
-‘schizophrenias’. Although the current language suggests a single, uniform
-condition, there is great variety in the severity of illness and types of
-symptoms experienced by people with schizophrenia.
-
-There have been many suggestions for alternative names that better describe the
-diversity of symptoms apparent in people with schizophrenia. Indeed, a new term,
-‘Togo Shitcho Sho’ or ‘integration disorder’, was adopted in Japan in 2002.
-Patient groups in the Netherlands are also taking steps towards realizing a name
-change in their country. The Dutch patient society, Anoiksis, has suggested a
-new name and new concept for schizophrenia, with the aim of reducing the stigma
-associated with the condition.
-
-[source `61_personal_relationships` and `41_who_should_i_tell` discusses who to
-confide in about Schizophrenia and how to talk to them]
+Support groups can be a good way to meet and socialize with other
+people with schizophrenia, but it is important not to surround
+yourself completely with others who have the condition. Meeting and
+socializing with people without the illness can help you to see a
+world outside of schizophrenia. Psychotherapy can help you to regain
+your confidence and overcome the social barriers associated with
+mental illness, to enable you to have a normal social life. Caring for
+someone with schizophrenia can also affect your social life; it is
+important to recognize this and to take steps to make sure your own
+needs are met. Sharing responsibilities with other family members
+and/or caregivers can be a good way to allow you to have some time to
+yourself, to socialize and to do other things that you enjoy.
 ")
 
-chatbot_message("Stigma around schizophrenia involves negative attitudes and beliefs that others might have about the condition. Commonly, people might believe that individuals with schizophrenia have multiple personalities or that they are unpredictable and should be feared. These are misconceptions.
+chatbot_message("I'm glad you found the information helpful. To show your interest in what someone is saying, consider asking open-ended questions that encourage more than a yes-or-no response. For example:
 
-People with schizophrenia might feel judged or misunderstood because of these stigmas. It's essential for them to understand that their illness does not define who they are. A helpful statement is:
+- "How did you get involved in [topic of conversation]?"
+- "What was that experience like for you?"
+- "Can you tell me more about [specific detail they mentioned]?"
+- "What do you think about [related subject]?"
 
-"I have schizophrenia. I am not schizophrenia. I am not my mental illness. My illness is a part of me." – Jonathan Harnisch, An Alibiography
-
-The term 'schizophrenia' itself comes from Greek words meaning 'to split' the mind, but this can be misleading. Schizophrenia is not about having a split personality. The condition is actually very diverse, with different people experiencing different types and severities of symptoms.
-
-There is ongoing discussion about changing the name of schizophrenia to help reduce stigma. For example, Japan has adopted a new term, 'Togo Shitcho Sho' meaning 'integration disorder', and there are movements in the Netherlands towards a similar change.
-
-If you are concerned about stigma and how it affects personal relationships, sources `61_personal_relationships` and `41_who_should_i_tell` offer guidance on whom to confide")
+These kinds of questions demonstrate that you're not just hearing the words, but you're also processing the information and eager to understand more. Each question gives the person an opportunity to elaborate on their thoughts and feelings. Would you like any further assistance on social interactions?")
 
 What do you think? Was the chatbots message based on the source?
 
@@ -125,4 +106,4 @@ What do you think? Was the chatbots message based on the source?
 
 # OUPUT
 
-In this case, the chatbot message is "ACCEPTED". Every single sentence in the chatbot's message has a corresponding paragraph or sentence in the source that supports it.
+¤:provide_feedback({"evaluation": "REJECTED", "motivation": "The source does not provide specific advice on follow-up questions for showing interest in what others are saying."}):¤

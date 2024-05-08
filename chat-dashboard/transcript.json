@@ -21,7 +21,7 @@
     },
     {
         "role": "system",
-        "content": "Inactive source removed due to not being actively cited."
+        "content": "source 63_social_life: It can be difficult to maintain a social life if you have\nschizophrenia. As mentioned earlier in this guide, schizophrenia can\nlead to symptoms including being less able to socialize and a lack of\nemotion, so you may lose touch with people you were friends with. As\nyou start to recover, however, you may find yourself wanting to go out\nand socialize more.\n\nSupport groups can be a good way to meet and socialize with other\npeople with schizophrenia, but it is important not to surround\nyourself completely with others who have the condition. Meeting and\nsocializing with people without the illness can help you to see a\nworld outside of schizophrenia. Psychotherapy can help you to regain\nyour confidence and overcome the social barriers associated with\nmental illness, to enable you to have a normal social life. Caring for\nsomeone with schizophrenia can also affect your social life; it is\nimportant to recognize this and to take steps to make sure your own\nneeds are met. Sharing responsibilities with other family members\nand/or caregivers can be a good way to allow you to have some time to\nyourself, to socialize and to do other things that you enjoy.\n"
     },
     {
         "role": "assistant",
@@ -49,39 +49,47 @@
     },
     {
         "role": "user",
-        "content": "I heard that mirroring body language can be effective. Can you say something about that please?"
+        "content": "How can I make others feel like I am showing interest?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 Mirroring body language is a social technique where you subtly mimic the gestures, posture, or facial expressions of the person you're interacting with. It is often used to build rapport and make the other person feel more at ease, as it can convey empathy and understanding. However, it's important to use this technique naturally and not overdo it, as it could come across as insincere or make others uncomfortable if noticed.\n\nWhile I don't have specific information on mirroring body language in relation to schizophrenia in my sources, it is generally considered a helpful communication tool in a wide variety of social interactions. If you decide to try this, do so with mindfulness and consider combining it with other social skills techniques. Remember, each person is unique, so what works for one individual might not work for another. It might be helpful to observe how others respond and adjust your approach accordingly."
+        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 To show others that you're interested during conversations, here are a few tips:\n\n- Make Eye Contact: Looking at the person speaking demonstrates that you're engaged with what they're saying.\n- Nod and Smile: Simple gestures like nodding and smiling can indicate that you understand and appreciate the conversation.\n- Ask Questions: Inquire more about the topic at hand; it shows you're listening and want to learn more.\n- Reflect on Their Words: Repeat back some of what they've said in your own words, which can show that you're paying attention.\n\nThese are small steps that can have a big impact on social interactions. They're simple to practice and can quickly become second nature. Feel free to ask if you need more detailed guidance on social skills."
     },
     {
         "role": "user",
-        "content": "How can I practice mirroring?"
+        "content": "And laughing at their joke, that is also appreciated right?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 To practice mirroring body language, you could start by observing how others interact in social settings. Pay attention to their body language, facial expressions, and gestures. You can then try to subtly incorporate some of these observations into your own behavior.\n\nHere are some tips for practicing mirroring:\n\n1. **Start with Friends or Family**: They are likely to be more forgiving if you make mistakes, and can provide feedback.\n\n2. **Use a Mirror**: Stand in front of a mirror and practice different expressions and postures to become more aware of your own body language.\n\n3. **Video Record**: Record yourself having a conversation to watch your body language and see where you might incorporate mirroring.\n\nRemember to keep your mirroring subtle and natural. It's also important to maintain your own personality and comfort level while interacting with others. As with any skill, practice is key, so be patient with yourself as you learn to incorporate this technique into your social interactions. If you feel overwhelmed, it might be helpful to discuss these techniques with a therapist or in a support group setting."
-    },
-    {
-        "role": "system",
-        "content": "Response length: 227 tokens. Recall, cover at most 2 paragraphs per response when walking through information."
+        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 Absolutely, laughing at someone's jokes can be a great way to show that you appreciate their sense of humor and are enjoying the interaction. It helps create a friendly, positive atmosphere and can make the person telling the joke feel good about their contribution to the conversation. However, it's important to be genuine\u2014laughing when you truly find something funny is more sincere and can strengthen social bonds."
     },
     {
         "role": "user",
-        "content": "Yes, keeping it natural is important, I understand. How can I appear more authentic?"
+        "content": "And what about mirroring, can that be effective?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 Appearing authentic in social interactions often comes from being genuine in your expressions and actions. Here are a few pointers to help you appear more authentic:\n\n1. **Be Present**: Focus on the conversation and show genuine interest in what the other person is saying.\n\n2. **Be Yourself**: Don't try to be someone you're not. Share your real thoughts and feelings where appropriate.\n\n3. **Express Emotions**: Allow yourself to express emotions naturally, whether it's happiness, concern, or excitement, as this can make you more relatable.\n\n4. **Listen Actively**: Engage with what others are saying by nodding, asking questions, and giving feedback.\n\n5. **Share Stories**: Telling personal stories can help others see a more complete picture of who you are.\n\nRemember, authenticity is about balance. While it's important to be open, you also want to ensure that you're considerate of the context and boundaries of your social interactions. Over time, as you become more comfortable with yourself and others, your authentic self will shine through more naturally."
-    },
-    {
-        "role": "system",
-        "content": "Response length: 227 tokens. Recall, cover at most 2 paragraphs per response when walking through information."
+        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 Mirroring someone's body language, tone, or facial expressions can indeed be an effective way to show empathy and create a sense of rapport in social situations. It's a way of non-verbally telling them, \"I'm with you, and I feel the same way.\" This can help the other person feel more comfortable and understood. However, it should be done subtly and naturally; overdoing it or making it obvious can seem insincere. Would you like to explore more techniques that could help with social interactions?"
     },
     {
         "role": "user",
-        "content": "What other teqhniques are there for becoming more likable?"
+        "content": "Interesting, can you give me more detailed instructions on this?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 While my sources don't provide a step-by-step guide on mirroring, I can offer some general advice on the technique. To practice mirroring effectively and subtly:\n\n1. Observe the other person's body language, such as posture or hand gestures.\n2. Gradually incorporate similar gestures into your own body language.\n3. Match the tone or pace of their speech, which can create a sense of harmony.\n4. Reflect the emotions you see; if they smile, smile in return.\n\nRemember to keep it natural and don't mimic every single action; just the overall demeanor. If you need more in-depth guidance on this topic, I can refer you to further resources or a specialist. Would you like that?"
+    },
+    {
+        "role": "user",
+        "content": "Why is it so hard for me to make friends?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 Making friends can be challenging for various reasons, and it may be even more difficult if you're dealing with symptoms of a mental health condition like schizophrenia. If you're specifically referring to the impact schizophrenia has on your ability to socialize and make friends, I can look up some information that might explain these difficulties. Would you like me to provide more information on this?"
+    },
+    {
+        "role": "user",
+        "content": "yes please"
     },
     {
         "role": "assistant",
@@ -89,106 +97,62 @@
     },
     {
         "role": "system",
-        "content": "Inactive source removed due to not being actively cited."
+        "content": "source 63_social_life: It can be difficult to maintain a social life if you have\nschizophrenia. As mentioned earlier in this guide, schizophrenia can\nlead to symptoms including being less able to socialize and a lack of\nemotion, so you may lose touch with people you were friends with. As\nyou start to recover, however, you may find yourself wanting to go out\nand socialize more.\n\nSupport groups can be a good way to meet and socialize with other\npeople with schizophrenia, but it is important not to surround\nyourself completely with others who have the condition. Meeting and\nsocializing with people without the illness can help you to see a\nworld outside of schizophrenia. Psychotherapy can help you to regain\nyour confidence and overcome the social barriers associated with\nmental illness, to enable you to have a normal social life. Caring for\nsomeone with schizophrenia can also affect your social life; it is\nimportant to recognize this and to take steps to make sure your own\nneeds are met. Sharing responsibilities with other family members\nand/or caregivers can be a good way to allow you to have some time to\nyourself, to socialize and to do other things that you enjoy.\n"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 To become more likable and improve your social interactions, consider these additional techniques:\n\n1. **Smile Genuinely**: A warm and genuine smile can make you appear more approachable and friendly.\n\n2. **Find Common Ground**: Discover shared interests or experiences to create a connection and make conversations more engaging.\n\n3. **Be Positive**: Maintain a positive outlook and try to keep conversations upbeat. People are generally drawn to those who have a positive demeanor.\n\n4. **Be Appreciative**: Show gratitude and appreciation towards others. A simple 'thank you' can go a long way in making someone feel valued.\n\n5. **Be Encouraging**: Offer encouragement and support to those around you. This builds a positive rapport and can lead to stronger connections.\n\n6. **Improve Your Self-Esteem**: Confidence can make you more attractive to others. Engage in activities that boost your self-confidence.\n\nLikability can increase as you become more comfortable in social settings and with who you are as a person. Remember that being likable doesn't mean changing your core values or personality\u2014it's about showcasing the best aspects of yourself. Keep practicing these techniques, and over time you should find social interactions becoming easier and more rewarding."
-    },
-    {
-        "role": "system",
-        "content": "You almost reached the maximum message length. Limit information per message to not overwhelm the user."
+        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 It can be challenging to maintain a social life with schizophrenia because the condition may lead to symptoms that affect socializing, like a lack of emotion or a withdrawal from social situations. As you start to recover, you might find the desire to socialize increasing.\n\nJoining support groups can be helpful as they provide the opportunity to meet others who understand your experiences with schizophrenia. However, it's also important to interact with people who don't have the illness, as this can offer a perspective outside of schizophrenia.\n\nPsychotherapy can aid in regaining confidence and overcoming social barriers. If you're a caregiver, sharing responsibilities can provide you with time to attend to your own social needs. If you feel you might benefit from psychotherapy or support groups or have further questions about improving your social life, do let me know, and I can provide more information on those topics."
     },
     {
         "role": "user",
-        "content": "How can I practice a genuine smile?"
+        "content": "Do you have any tips for how to be more fluent in social situations?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 Practicing a genuine smile can start with thinking of a moment or memory that brings you joy and naturally prompts you to smile. This helps your smile to come from a place of authenticity rather than feeling forced. You can also try the following:\n\n1. **Mirror Practice**: Stand in front of a mirror and recall a happy memory or think of something that makes you laugh. Watch as your smile forms naturally.\n\n2. **Smile with Your Eyes**: A genuine smile is also seen in the eyes; they slightly squint and create 'crow's feet'. Practice smiling in a way that involves the muscles around your eyes.\n\n3. **Mindfulness**: Be present and try to find joy in the current moment or interaction, letting the smile come naturally as you feel actual happiness.\n\n4. **Relax Your Face**: Before trying to smile, consciously relax your facial muscles to avoid a tense or insincere appearance.\n\nRemember, a smile is most genuine when it reflects true feelings, so connecting with positive emotions is key. Practice regularly, and over time, it should become easier to produce a smile that's both genuine and likable."
+        "content": "\u00a4:request_knowledge(63_social_life):\u00a4"
     },
     {
         "role": "system",
-        "content": "Response length: 240 tokens. Recall, cover at most 2 paragraphs per response when walking through information."
+        "content": "The requested source 63_social_life is already available in the chat!"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 Here are some tips to help you feel more at ease in social situations:\n\n1. Practice Active Listening: Pay attention to what others are saying and show interest. This can help conversations flow more naturally and takes some pressure off you to do all the talking.\n\n2. Share Your Experiences: When comfortable, share your thoughts and experiences. This can make the interaction more engaging and personal.\n\n3. Set Social Goals: Start with small, manageable goals, like striking up a conversation with a neighbor or attending a group meeting.\n\n4. Prepare Topics: Think of some topics in advance that you're comfortable talking about. This can help if there's a lull in the conversation.\n\n5. Relaxation Techniques: Before social interactions, practice relaxation techniques, such as deep breathing, to help manage anxiety.\n\n6. Seek Therapy: Consider therapies like cognitive behavioral therapy (CBT) which can provide strategies for handling social situations more effectively.\n\nRemember, improving social skills takes time and practice, so be patient with yourself. If you feel therapy could help, I can provide more information on that as well."
+    },
+    {
+        "role": "system",
+        "content": "Response length: 228 tokens. Recall, cover at most 2 paragraphs per response when walking through information."
     },
     {
         "role": "user",
-        "content": "Can you give more specific information about how smiling with my eyes can make me more approachable?"
+        "content": "How can I make others feel like I am showing interest?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 Smiling with your eyes, often referred to as a \"Duchenne smile,\" involves the contraction of the orbicularis oculi muscle, which raises your cheeks and forms wrinkles, or 'crow's feet', at the corners of your eyes. This type of smile is perceived as more authentic and welcoming because it is difficult to fake. People intuitively recognize the Duchenne smile as a sign of genuine happiness and warmth.\n\nWhen you smile with your eyes:\n\n1. **People Feel Valued**: It signals that your interest is sincere, making others feel more appreciated and important.\n2. **Creates Trust**: A genuine smile can foster trust and cooperation in social interactions.\n3. **Enhances Connections**: It breaks down barriers, making you more relatable and easier to connect with.\n\nTo practice smiling with your eyes, focus on positive thoughts or memories that naturally elicit a genuine smile. This ensures the involvement of your entire face, including your eyes, rather than just your mouth. Over time, as you become more accustomed to activating this fuller smile, you'll likely notice that people respond more positively to your presence, finding you more approachable and likable."
-    },
-    {
-        "role": "system",
-        "content": "Response length: 247 tokens. Recall, cover at most 2 paragraphs per response when walking through information."
+        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 To show others that you're interested during conversations, here are a few tips:\n\n- Make Eye Contact: Looking at the person speaking demonstrates that you're engaged with what they're saying.\n- Nod and Smile: Simple gestures like nodding and smiling can indicate that you understand and appreciate the conversation.\n- Ask Questions: Inquire more about the topic at hand; it shows you're listening and want to learn more.\n- Reflect on Their Words: Repeat back some of what they've said in your own words, which can show that you're paying attention.\n\nThese are small steps that can have a big impact on social interactions. They're simple to practice and can quickly become second nature. Feel free to ask if you need more detailed guidance on social skills."
     },
     {
         "role": "user",
-        "content": "What are other ways of gaining peoples trust?"
+        "content": "And laughing at their joke, that is also appreciated right?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:request_knowledge(61_personal_relationships):\u00a4"
-    },
-    {
-        "role": "system",
-        "content": "source 61_personal_relationships: [Present over 2 messages or only what is relevant]\n\nSchizophrenia is not easy to live with. It can put strain on your relationships\nwith people in your family or those you share a home with. During relapses in\nyour illness, you may not realize the demands that are being made of people\naround you; when you emerge into recovery, you may find yourself feeling rather\nlonely. Likewise, it can be difficult to live with a person with schizophrenia.\nNevertheless, there are some practical steps you can take together to make\nthings easier.\n\n[Present only if relevant] If you are planning a family, there are a number of\nissues that you need to discuss with your partner early on, such as the risk of\nyour child developing schizophrenia, how you will manage having a child, and, if\nyou are a woman, the possibility that you will relapse after giving birth or\nduring the pregnancy. There will be decisions that are not easy to make, but\ninformation from your healthcare team can aid in difficult discussions. As\nmentioned in Chapter 5, some medications used to treat schizophrenia may not be\nsuitable for use during pregnancy. Therefore, you should discuss your options\nwith your doctor before trying to conceive a child.\n\n[present `S` to schizophrenia patients and `F` for family members (ask if\nunsure)]\n\n- Learn more about schizophrenia\n  - S: Explain it to your friends and family\n  - F: Try to be understanding of your family member\u2019s behaviour\n- Be honest\n  - S: Explain it to your friends and family\n  - F: For example, about your fears and your hopes\n- Agree on boundaries\n  - S: Tell people close to you what you want them to do and,\n    importantly, what you don\u2019t want them to do\n  - F: Respect your family member\u2019s wishes as far as possible\n- Build trust\n  - S: Trust that your family want what is best for you\n  - F: Show the person that you have their best interests at heart\n- Don\u2019t be ashamed\n  - S: You are not to blame for your illness and it is nothing to be\n    ashamed of\n  - F: There is nothing shameful about caring for someone with\n    schizophrenia\n- Learn from others\n  - S and F: Support groups will have members who have been in similar\n    situations and can help\n"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"61_personal_relationships\"]):\u00a4 To gain people's trust in addition to using a genuine smile, consider the following approaches:\n\n1. **Learn about Schizophrenia**: Educate yourself and others about the illness, which helps in understanding behaviors and challenges.\n\n2. **Be Honest**: Share your true thoughts and feelings appropriately, and communicate openly about your fears and hopes.\n\n3. **Set Boundaries**: Clearly define what you are comfortable with and what you are not, and respect others' boundaries as well.\n\n4. **Trust Others**: Show that you trust people to have your best interests at heart, which in turn helps them to trust you.\n\n5. **Don't Be Ashamed**: Remember that having an illness is not your fault, and there is no shame in seeking help or supporting someone with schizophrenia.\n\n6. **Learn from Others**: Join support groups to gain insights from those who have experienced similar situations.\n\nBuilding trust is about creating a mutual understanding and respect with those around you. Through consistent and compassionate interactions, trust develops organically over time. Remember, patience and persistence are key."
-    },
-    {
-        "role": "system",
-        "content": "Response length: 224 tokens. Recall, cover at most 2 paragraphs per response when walking through information."
-    },
-    {
-        "role": "system",
-        "content": "You almost reached the maximum message length. Limit information per message to not overwhelm the user."
+        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 Absolutely, laughing at someone's jokes can be a great way to show that you appreciate their sense of humor and are enjoying the interaction. It helps create a friendly, positive atmosphere and can make the person telling the joke feel good about their contribution to the conversation. However, it's important to be genuine\u2014laughing when you truly find something funny is more sincere and can strengthen social bonds."
     },
     {
         "role": "user",
-        "content": "How can I practice a genuine smile?"
+        "content": "And what about mirroring, can that be effective?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 Practicing a genuine smile can start with thinking of a moment or memory that brings you joy and naturally prompts you to smile. This helps your smile to come from a place of authenticity rather than feeling forced. You can also try the following:\n\n1. **Mirror Practice**: Stand in front of a mirror and recall a happy memory or think of something that makes you laugh. Watch as your smile forms naturally.\n\n2. **Smile with Your Eyes**: A genuine smile is also seen in the eyes; they slightly squint and create 'crow's feet'. Practice smiling in a way that involves the muscles around your eyes.\n\n3. **Mindfulness**: Be present and try to find joy in the current moment or interaction, letting the smile come naturally as you feel actual happiness.\n\n4. **Relax Your Face**: Before trying to smile, consciously relax your facial muscles to avoid a tense or insincere appearance.\n\nRemember, a smile is most genuine when it reflects true feelings, so connecting with positive emotions is key. Practice regularly, and over time, it should become easier to produce a smile that's both genuine and likable."
-    },
-    {
-        "role": "system",
-        "content": "Response length: 240 tokens. Recall, cover at most 2 paragraphs per response when walking through information."
+        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 Mirroring someone's body language, tone, or facial expressions can indeed be an effective way to show empathy and create a sense of rapport in social situations. It's a way of non-verbally telling them, \"I'm with you, and I feel the same way.\" This can help the other person feel more comfortable and understood. However, it should be done subtly and naturally; overdoing it or making it obvious can seem insincere. Would you like to explore more techniques that could help with social interactions?"
     },
     {
         "role": "user",
-        "content": "Can you give more specific information about how smiling with my eyes can make me more approachable?"
+        "content": "Interesting, can you give me more detailed instructions on this?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 Smiling with your eyes, often referred to as a \"Duchenne smile,\" involves the contraction of the orbicularis oculi muscle, which raises your cheeks and forms wrinkles, or 'crow's feet', at the corners of your eyes. This type of smile is perceived as more authentic and welcoming because it is difficult to fake. People intuitively recognize the Duchenne smile as a sign of genuine happiness and warmth.\n\nWhen you smile with your eyes:\n\n1. **People Feel Valued**: It signals that your interest is sincere, making others feel more appreciated and important.\n2. **Creates Trust**: A genuine smile can foster trust and cooperation in social interactions.\n3. **Enhances Connections**: It breaks down barriers, making you more relatable and easier to connect with.\n\nTo practice smiling with your eyes, focus on positive thoughts or memories that naturally elicit a genuine smile. This ensures the involvement of your entire face, including your eyes, rather than just your mouth. Over time, as you become more accustomed to activating this fuller smile, you'll likely notice that people respond more positively to your presence, finding you more approachable and likable."
-    },
-    {
-        "role": "system",
-        "content": "Response length: 247 tokens. Recall, cover at most 2 paragraphs per response when walking through information."
-    },
-    {
-        "role": "user",
-        "content": "What are other ways of gaining peoples trust?"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:request_knowledge(61_personal_relationships):\u00a4"
-    },
-    {
-        "role": "system",
-        "content": "source 61_personal_relationships: [Present over 2 messages or only what is relevant]\n\nSchizophrenia is not easy to live with. It can put strain on your relationships\nwith people in your family or those you share a home with. During relapses in\nyour illness, you may not realize the demands that are being made of people\naround you; when you emerge into recovery, you may find yourself feeling rather\nlonely. Likewise, it can be difficult to live with a person with schizophrenia.\nNevertheless, there are some practical steps you can take together to make\nthings easier.\n\n[Present only if relevant] If you are planning a family, there are a number of\nissues that you need to discuss with your partner early on, such as the risk of\nyour child developing schizophrenia, how you will manage having a child, and, if\nyou are a woman, the possibility that you will relapse after giving birth or\nduring the pregnancy. There will be decisions that are not easy to make, but\ninformation from your healthcare team can aid in difficult discussions. As\nmentioned in Chapter 5, some medications used to treat schizophrenia may not be\nsuitable for use during pregnancy. Therefore, you should discuss your options\nwith your doctor before trying to conceive a child.\n\n[present `S` to schizophrenia patients and `F` for family members (ask if\nunsure)]\n\n- Learn more about schizophrenia\n  - S: Explain it to your friends and family\n  - F: Try to be understanding of your family member\u2019s behaviour\n- Be honest\n  - S: Explain it to your friends and family\n  - F: For example, about your fears and your hopes\n- Agree on boundaries\n  - S: Tell people close to you what you want them to do and,\n    importantly, what you don\u2019t want them to do\n  - F: Respect your family member\u2019s wishes as far as possible\n- Build trust\n  - S: Trust that your family want what is best for you\n  - F: Show the person that you have their best interests at heart\n- Don\u2019t be ashamed\n  - S: You are not to blame for your illness and it is nothing to be\n    ashamed of\n  - F: There is nothing shameful about caring for someone with\n    schizophrenia\n- Learn from others\n  - S and F: Support groups will have members who have been in similar\n    situations and can help\n"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"61_personal_relationships\"]):\u00a4 To gain people's trust in addition to using a genuine smile, consider the following approaches:\n\n1. **Learn about Schizophrenia**: Educate yourself and others about the illness, which helps in understanding behaviors and challenges.\n\n2. **Be Honest**: Share your true thoughts and feelings appropriately, and communicate openly about your fears and hopes.\n\n3. **Set Boundaries**: Clearly define what you are comfortable with and what you are not, and respect others' boundaries as well.\n\n4. **Trust Others**: Show that you trust people to have your best interests at heart, which in turn helps them to trust you.\n\n5. **Don't Be Ashamed**: Remember that having an illness is not your fault, and there is no shame in seeking help or supporting someone with schizophrenia.\n\n6. **Learn from Others**: Join support groups to gain insights from those who have experienced similar situations.\n\nBuilding trust is about creating a mutual understanding and respect with those around you. Through consistent and compassionate interactions, trust develops organically over time. Remember, patience and persistence are key."
-    },
-    {
-        "role": "system",
-        "content": "Response length: 224 tokens. Recall, cover at most 2 paragraphs per response when walking through information."
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 While my sources don't provide a step-by-step guide on mirroring, I can offer some general advice on the technique. To practice mirroring effectively and subtly:\n\n1. Observe the other person's body language, such as posture or hand gestures.\n2. Gradually incorporate similar gestures into your own body language.\n3. Match the tone or pace of their speech, which can create a sense of harmony.\n4. Reflect the emotions you see; if they smile, smile in return.\n\nRemember to keep it natural and don't mimic every single action; just the overall demeanor. If you need more in-depth guidance on this topic, I can refer you to further resources or a specialist. Would you like that?"
     }
 ]

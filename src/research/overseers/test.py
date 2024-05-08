@@ -66,7 +66,7 @@ run_experiment_for_test_case(
 )
 
 run_experiment_for_test_case(
-    n_exp=30,
+    n_exp=10,
     prompt_template_path_relative=prompt_name,
     test_case_name="explaining_probabilities",
 )

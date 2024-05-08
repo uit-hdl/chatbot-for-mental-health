@@ -1,6 +1,8 @@
 """Functions concerned with interactivity in the console window during a
 chat. These functions are primarily used in `console_chat.py`."""
 
+import re
+
 from utils.backend import dump_conversation
 from utils.backend import dump_copy_of_chat_info_to_results
 from utils.backend import get_input_from_command_line
@@ -106,14 +108,14 @@ def search_for_console_command(user_message, conversation, chatbot_id):
     break_conversation = False
 
     if "rewindaiby" in user_message:
-        n_rewind = int(user_message[-1])
+        n_rewind = extract_number_as_int(user_message)
         conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
         reprint_whole_conversation_without_syntax(conversation)
         dump_current_conversation_to_json(conversation)
         role_that_gets_to_speak_next = "user"
 
     elif "rewinduserby" in user_message:
-        n_rewind = int(user_message[-1])
+        n_rewind = extract_number_as_int(user_message)
         conversation = rewind_chat_by_n_user_messages(n_rewind, conversation)
         reprint_whole_conversation_without_syntax(conversation)
         dump_current_conversation_to_json(conversation)
@@ -137,6 +139,11 @@ def search_for_console_command(user_message, conversation, chatbot_id):
         role_that_gets_to_speak_next = "assistant"
 
     return conversation, role_that_gets_to_speak_next, break_conversation
+
+
+def extract_number_as_int(user_message):
+    """Takes a string like 'hello1234' and returns 1234 as integer."""
+    return int("".join(re.findall(r"\d", user_message)))
 
 
 def get_user_message_from_console():

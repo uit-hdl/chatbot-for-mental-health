@@ -190,7 +190,6 @@ def generate_overseer_response(
         evaluation_dict = convert_json_string_to_dict(overseer_evaluation[0])
     else:
         evaluation_dict = None
-    dump_file(evaluation_dict, "chat-dashboard/judge-dumps/response.txt")
     dump_prompt_response_pair_to_md(prompt, response, "chief_judge_evaluation")
 
     return evaluation_dict

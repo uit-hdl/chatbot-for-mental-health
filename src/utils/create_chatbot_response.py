@@ -102,15 +102,17 @@ def manage_length_of_chatbot_response(conversation) -> list:
     if response_length >= SETTINGS["max_tokens_before_summarization"]:
         silent_print("Response exceeds max length, shortening message with GPT-3.5...")
         conversation = summarize_if_response_too_long(conversation)
-        warning = "Your response was shortened as it exceeded the maximum allowed length; keep messages short."
+        warning = """Your response was shortened as it exceeded the maximum
+        allowed length; keep messages short."""
 
     elif response_length > SETTINGS["limit_2_tokens_per_message"]:
         silent_print(f"Response has length {response_length} tokens...")
-        warning = f"You almost reached the maximum message length. Limit information per message to not overwhelm the user."
+        warning = """You almost reached the maximum message length. Limit
+        information per message to not overwhelm the user."""
 
     elif response_length > SETTINGS["limit_1_tokens_per_message"]:
         silent_print(f"Response has length {response_length} tokens...")
-        warning = f"Response length: {response_length} tokens. Recall, cover at most 2 paragraphs per response when walking through information."
+        warning = """Remember: Keep messages as brief as possible."""
 
     if warning:
         conversation.append({"role": "system", "content": warning})

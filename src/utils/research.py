@@ -9,7 +9,6 @@ import time
 from utils.console_chat_display import wrap_message
 from utils.backend import dump_to_json
 from utils.backend import add_extension
-from utils.backend import load_json_from_path
 from utils.general import list_intersection
 from utils.create_chatbot_response import respond_to_user
 from utils.console_chat_display import print_message_without_syntax
@@ -20,17 +19,6 @@ from utils.chat_utilities import grab_last_user_message
 from utils.chat_utilities import identify_assistant_responses
 from utils.chat_utilities import grab_last_user_message
 from utils.console_chat_display import remove_syntax_from_message
-
-from utils_general import print_wrap
-from utils_general import calc_mean_with_confint
-from utils_general import print_last_assistent_response
-from utils_general import print_last_user_message
-from utils_general import get_hash_of_current_git_commit
-from utils_general import fill_in_variables_in_prompt_template
-from utils_general import dump_prompt_to_markdown_locally
-from utils_general import load_local_prompt_template
-from utils_general import dump_to_json_locally
-from utils_testing_judges import gen_llm_response
 
 import numpy as np
 import git
@@ -112,24 +100,7 @@ def adversarial_nudger_has_conversation_with_chatbot(
         chat, _ = respond_to_user(chat, chatbot_id)
         print_last_assistent_response(chat)
         counter += 1
-
-        dump_to_json_locally(
-            chat,
-            "files/chat_current.json",
-        )
         print("Cooling off...")
         time.sleep(cooldown_time)
 
     return chat
-
-
-def load_chat_and_prompt_for_roleplay_test(trickster_tests, target_role):
-    """Loads the conversation that initiates the role-play where the
-    adverserially prompted chatbot plays a role where it tries to get the other
-    chatbot to talk about subjects that are far out of its scope."""
-
-    prompt_template = load_local_prompt_template(
-        trickster_tests[target_role]["prompt_path"]
-    )
-    chat = load_json_from_path(trickster_tests[target_role]["initial_chat_path"])
-    return chat, prompt_template

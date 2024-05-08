@@ -384,9 +384,70 @@ explaining_probabilities:
   description: Social life source says nothing about body language
 
 
+bot_advices_how_to_start_conversations:
+  source_name: 41_info_for_newly_diagnosed
+  user_message: |
+    That's interesting. Could you give me some basic tips for starting
+    conversations in everyday social settings?
+  chatbot_message: |
+    Certainly! Here are some basic tips for initiating
+    conversations:
+
+    1. Start Small: Begin with a simple greeting or a comment about the immediate
+    environment or situation, such as the weather or an event you're both attending.
+
+    2. Use Open-Ended Questions: Ask questions that invite more than a yes or no
+    response. For example, "What brings you to this event?" or "What do you like
+    about this activity?"
+
+    3. Look for Common Ground: Notice if the other person is wearing something or
+    carrying an item that suggests a shared interest, like a book or a sports team
+    logo, and use that as a conversation starter.
+
+    4. Offer a Compliment: Giving a genuine compliment can break the ice and start a
+    conversation on a positive note.
+
+    5. Be Mindful of Body Language: Smile and make appropriate eye contact to appear
+    friendly and approachable.
+
+    6. Listen Actively: Show that you're interested in what the other person is
+    saying by nodding and responding thoughtfully to their comments.
+
+    Remember that it's okay to feel a little nervous and that practice often leads
+    to increased comfort over time. Would you like more detailed strategies or
+    assistance in a particular social setting?
+  value: REJECTED
+  description: Social life source says nothing about body language
+
+
 # **********************************
 # *** MISCELLANEOUS TYPE ANSWERS ***
 # **********************************
+bot_advice_sarcasm_and_bad_jokes:
+  user_message: |
+    That's really insightful! Could you perhaps suggest some examples of how
+    humor could be used to address and clear up common misunderstandings about
+    social behaviors?
+  chatbot_message: |
+    To use humor to clear up misunderstandings about social behaviors, consider
+    these approaches:\n\n1. **Exaggeration:** Exaggerate a misunderstanding to
+    show its absurdity. For instance, if there's a stereotype that people who
+    enjoy reading books are unsocial, you could joke, \"I'm reading a book on
+    anti-gravity, it's impossible to put down\u2014I guess I'll be a social
+    butterfly now!\"\n\n2. **Irony or Sarcasm:** Use irony or sarcasm to point
+    out the flaw in a stereotype. Like, \"Oh, you mean to tell me you can't be
+    good at math and have a great sense of humor? I must have missed that
+    chapter in my calculus book.\"\n\n3. **Playful Misunderstanding:** Pretend
+    to misunderstand a social behavior to show how it might look from another
+    perspective. Example \"So when someone says 'I'll think about it,' is that
+    the secret code for 'yes, I'd love to come to your poetry
+    slam?'\"\n\nRemember, the goal is to provoke thought and a smile, not to
+    offend, so it's always important to be sensitive to the social context and
+    the audience's
+      feelings.
+  value: REJECTED
+  description: Humor not recommended
+  
 
 mirroring_body_language:
   user_message: |

@@ -1,19 +1,12 @@
-¤:cite(["72_diet_exercise_sleep_alcohol"]):¤ Certainly! For a balanced diet, consider the following advice:
+¤:cite(["101_further_information"]):¤ There are various organizations that provide support and education about schizophrenia:
 
-1. **Vegetables and Fruits**: Aim to fill half your plate with a variety of colorful vegetables and fruits. They are high in fiber, vitamins, and are generally low in calories.
+- **EUFAMI:** European Federation of Associations of Families of People with Mental Illness offers support for families. [Website](http://www.eufami.org/)
+- **GAMIAN-Europe:** Represents and advocates for the rights of people affected by mental illness. [Website](http://www.gamian.eu/)
+- **WFMH:** World Federation for Mental Health promotes mental health awareness and support. [Website](http://wfmh.com/)
+- **Intervoice:** Network for people who hear voices or have other unusual perceptions. [Website](http://www.intervoiceonline.org/)
+- **Mind:** UK charity offering advice and support for various mental health issues, including schizophrenia. [Website](https://www.mind.org.uk/information-support/types-of-mental-health-problems/schizophrenia/about-schizophrenia/)
+- **Rethink Mental Illness:** Provides assistance and information for a better quality of life for those affected by mental illness. [Website](https://www.rethink.org/advice-and-information/about-mental-illness/learn-more-about-conditions/schizophrenia/)
 
-2. **Proteins**: Choose lean protein sources like chicken, turkey, fish, eggs, beans, and lentils. Plant-based proteins can also be a healthy part of your diet.
+For further reading, "Psychosis? Me?" is a booklet written by and for people susceptible to psychosis. [Updated Link](https://www.gamian.eu/activities/archive/message-ge-members/)
 
-3. **Whole Grains**: Swap out refined grains for whole grains—such as whole wheat bread, brown rice, quinoa, and oats—which provide more nutrients and fiber.
-
-4. **Dairy**: If you consume dairy, opt for low-fat or fat-free versions to reduce saturated fat intake. Non-dairy alternatives like almond, soy, or oat milk can also be good choices, preferably unsweetened.
-
-5. **Fats**: Include healthy fats in moderation. Options include olive oil for cooking, and nuts and seeds for snacking.
-
-6. **Hydration**: Drink plenty of water and limit sugary beverages. Herbal teas or infusions can be good alternatives.
-
-7. **Limit Sugars and Processed Foods**: Try to minimize the amount of added sugars, salt, and processed foods in your diet. This can reduce your risk of chronic diseases.
-
-Remember to pay attention to your body's hunger and fullness cues, and try to eat at regular intervals throughout the day to maintain energy levels.
-
-If you would like more detailed guidance, please let
+Please let me know if you need more information or specific help accessing these resources.

@@ -4,6 +4,7 @@ import path_setup
 
 import os
 from utils.backend import add_extension
+from utils.backend import load_json_from_path
 from utils.chat_utilities import generate_and_add_raw_bot_response
 
 from utils_general import calc_mean_with_confint
@@ -11,6 +12,7 @@ from utils_general import get_hash_of_current_git_commit
 from utils_general import fill_in_variables_in_prompt_template
 from utils_general import dump_prompt_to_markdown_locally
 from utils_general import dump_to_json_locally
+from utils_general import load_local_prompt_template
 
 from utils.backend import (
     get_source_content_and_path,
@@ -147,11 +149,3 @@ def load_test_cases() -> dict:
     and value."""
     test_cases_path = os.path.join(CWD, "files/test_cases.yaml")
     return load_yaml_file(test_cases_path)
-
-
-def load_local_prompt_template(prompt_template_name):
-    """Loads prompt from files/prompts/prompt_name."""
-    prompt_template_name = add_extension(prompt_template_name, ".md")
-    return load_textfile_as_string(
-        os.path.join(CWD, f"files/prompt-templates/{prompt_template_name}")
-    )
