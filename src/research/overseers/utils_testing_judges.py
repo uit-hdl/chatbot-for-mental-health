@@ -101,6 +101,7 @@ def run_experiment_for_test_case(
     n_exp=10,
     prompt_template_path_relative="swift_judge_source_fidelity_v1",
     test_case_name="starting_a_movement",
+    f_correct_response=None,
 ):
     """Runs experiment that tests ability of AI-judges to correctly classify a
     labelled test-case as either ACCEPTED or REJECTED/WARNING. re-runs multiple
@@ -112,10 +113,13 @@ def run_experiment_for_test_case(
         test_case["source"] = get_source(test_case["source_name"])
         # test_case["source"] = remove_text_in_brackets(test_case["source"])
 
-    if test_case["value"] == "ACCEPTED":
-        f_correct_response = lambda answer: True if "ACCEPTED" in answer else False
-    else:
-        f_correct_response = lambda answer: True if "ACCEPTED" not in answer else False
+    if f_correct_response is None:
+        if test_case["value"] == "ACCEPTED":
+            f_correct_response = lambda answer: True if "ACCEPTED" in answer else False
+        else:
+            f_correct_response = lambda answer: (
+                True if "ACCEPTED" not in answer else False
+            )
 
     results = run_experiment_general(
         prompt_variables=test_case,
@@ -125,6 +129,8 @@ def run_experiment_for_test_case(
         n_exp=n_exp,
         test_name=test_case_name,
     )
+
+    dump_to_json_locally(results, "results/current_result.json")
 
     return results
 

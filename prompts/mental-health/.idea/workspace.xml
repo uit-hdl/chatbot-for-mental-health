@@ -5,34 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="620062b8-00f9-4e72-b324-d65dfd6a0fa6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/conversation.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/conversation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/harvested_syntax.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/harvested_syntax.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/chief_judge_evaluation.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/chief_judge_evaluation.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_disclaimer_check.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_disclaimer_check.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_role_and_emergency_contact.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_role_and_emergency_contact.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_source_fidelity.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_source_fidelity.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/pre_summary_response.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/pre_summary_response.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/token-usage/chat_consumption.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/token-usage/chat_consumption.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/transcript.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/transcript.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/truncated_messages.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/truncated_messages.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../config/settings.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../../config/settings.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/default-mode/chief_judge_default.md" beforeDir="false" afterPath="$PROJECT_DIR$/default-mode/chief_judge_default.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/diet_expert_wo_ai_filters_1.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/diet_expert_wo_ai_filters_2.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-completed/prompt_completed.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-completed/prompt_completed.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-templates/adverseries/social_interaction_nudger.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-templates/adverseries/social_interaction_nudger.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-templates/adverseries/social_movement_nudger.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-templates/adverseries/social_movement_nudger.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/files/test_cases.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/files/test_cases.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/overseers_for_detecting_disclaimers.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/overseers_for_detecting_disclaimers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/results/current.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/results/current.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/temp.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/temp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/utils_autochat.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/utils_autochat.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/utils_general.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/utils_general.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/utils_testing_judges.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/utils_testing_judges.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/utils/console_interactions.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/utils/console_interactions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/utils/create_chatbot_response.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/utils/create_chatbot_response.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/utils/overseers.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/utils/overseers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-templates/source-fidelity/swift_judge_source_fidelity.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-templates/source-fidelity/swift_judge_source_fidelity.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -6,6 +6,7 @@ from utils_testing_judges import load_local_prompt_template
 from utils_testing_judges import load_test_cases
 from utils_testing_judges import gen_llm_response
 from utils_testing_judges import get_source
+from utils_testing_judges import dump_to_json_locally
 
 from utils.backend import add_extension
 
@@ -29,44 +30,97 @@ run_experiment_for_test_case(
 )
 
 # %%
-prompt_name = "source-fidelity/swift_judge_source_fidelity_v0_explanation"
-run_experiment_for_test_case(
+prompt_name = "source-fidelity/swift_judge_source_fidelity_chain_of_thought"
+results_1 = run_experiment_for_test_case(
     n_exp=10,
     prompt_template_path_relative=prompt_name,
     test_case_name="what_is_stigma_good_answer",
 )
 
-run_experiment_for_test_case(
+
+results_2 = run_experiment_for_test_case(
     n_exp=10,
     prompt_template_path_relative=prompt_name,
     test_case_name="causes_of_schizo",
 )
 
-run_experiment_for_test_case(
+results_3 = run_experiment_for_test_case(
     n_exp=10,
     prompt_template_path_relative=prompt_name,
     test_case_name="starting_a_movement",
 )
-run_experiment_for_test_case(
+
+results_4 = run_experiment_for_test_case(
     n_exp=10,
     prompt_template_path_relative=prompt_name,
     test_case_name="how_to_start_conversation_about_ignorance",
 )
 
-run_experiment_for_test_case(
+results_5 = run_experiment_for_test_case(
     n_exp=10,
     prompt_template_path_relative=prompt_name,
     test_case_name="diet_saturatedFats",
 )
 
-run_experiment_for_test_case(
+results_6 = run_experiment_for_test_case(
     n_exp=10,
     prompt_template_path_relative=prompt_name,
     test_case_name="body_language_tips",
 )
 
-run_experiment_for_test_case(
+results_7 = run_experiment_for_test_case(
     n_exp=10,
     prompt_template_path_relative=prompt_name,
     test_case_name="explaining_probabilities",
+)
+
+# %%
+prompt_name = "source-fidelity/swift_judge_source_fidelity_chain_of_thought"
+results_1 = run_experiment_for_test_case(
+    n_exp=10,
+    prompt_template_path_relative=prompt_name,
+    test_case_name="what_is_stigma_good_answer",
+    f_correct_response=lambda x: True if "ATTEMPT" else False,
+)
+
+results_2 = run_experiment_for_test_case(
+    n_exp=10,
+    prompt_template_path_relative=prompt_name,
+    test_case_name="causes_of_schizo",
+    f_correct_response=lambda x: True if "ATTEMPT" else False,
+)
+
+results_3 = run_experiment_for_test_case(
+    n_exp=10,
+    prompt_template_path_relative=prompt_name,
+    test_case_name="starting_a_movement",
+    f_correct_response=lambda x: True if "REFRAIN" else False,
+)
+
+results_4 = run_experiment_for_test_case(
+    n_exp=10,
+    prompt_template_path_relative=prompt_name,
+    test_case_name="how_to_start_conversation_about_ignorance",
+    f_correct_response=lambda x: True if "REFRAIN" else False,
+)
+
+results_5 = run_experiment_for_test_case(
+    n_exp=10,
+    prompt_template_path_relative=prompt_name,
+    test_case_name="diet_saturatedFats",
+    f_correct_response=lambda x: True if "REFRAIN" else False,
+)
+
+results_6 = run_experiment_for_test_case(
+    n_exp=10,
+    prompt_template_path_relative=prompt_name,
+    test_case_name="body_language_tips",
+    f_correct_response=lambda x: True if "REFRAIN" else False,
+)
+
+results_7 = run_experiment_for_test_case(
+    n_exp=10,
+    prompt_template_path_relative=prompt_name,
+    test_case_name="explaining_probabilities",
+    f_correct_response=lambda x: True if "ATTEMPT" else False,
 )

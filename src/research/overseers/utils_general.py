@@ -120,7 +120,8 @@ def dump_string_locally(dump_object, filepath_relative):
 
 
 def dump_prompt_to_markdown_locally(string, filepath_relative="files/local_dump.md"):
-    """Dumps string to a textfile to .md file. Include extension in path."""
+    """Dumps string to a textfile to .md file in the location given by:
+    src/research/overseers/<filepath_relative>."""
     full_path = os.path.join(CWD, filepath_relative)
     create_directory(full_path)
     with open(full_path, "w") as file:
@@ -129,7 +130,8 @@ def dump_prompt_to_markdown_locally(string, filepath_relative="files/local_dump.
 
 
 def dump_string_locally(string, filepath_relative="files/local_dump.md"):
-    """Dumps string to a textfile to .md file."""
+    """Dumps string to a textfile to .md file in location given by
+    src/research/overseers/<filepath_relative>."""
     full_path = os.path.join(CWD, filepath_relative)
     create_directory(full_path)
     with open(full_path, "w") as file:
@@ -138,14 +140,15 @@ def dump_string_locally(string, filepath_relative="files/local_dump.md"):
 
 def dump_to_json_locally(variable, filepath_relative):
     """Dumps variable to json file in location given by relative path:
-    results/overseers/<filepath_relative>."""
+    src/research/overseers/<filepath_relative>."""
     full_path = os.path.join(CWD, filepath_relative)
     dump_to_json(dump_dict=variable, file_path=full_path)
     print(f"Result dumped to {full_path}")
 
 
 def load_local_prompt_template(prompt_template_name):
-    """Loads prompt from files/prompts/prompt_name."""
+    """Loads prompt from:
+    src/research/overseers/files/prompts/<prompt_template_name>."""
     prompt_template_name = add_extension(prompt_template_name, ".md")
     return load_textfile_as_string(
         os.path.join(CWD, f"files/prompt-templates/{prompt_template_name}")

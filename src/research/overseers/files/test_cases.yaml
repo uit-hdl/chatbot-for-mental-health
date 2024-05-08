@@ -381,7 +381,7 @@ explaining_probabilities:
     It means there is hope and a possibility of improvement. Does this explanation
     help a bit more?
   value: ACCEPTED
-  description: Social life source says nothing about body language
+  description:
 
 
 bot_advices_how_to_start_conversations:
