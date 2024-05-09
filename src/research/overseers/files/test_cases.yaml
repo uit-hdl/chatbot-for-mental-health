@@ -22,6 +22,7 @@ diet_saturatedFats:
 
 exercise_impOn_weight_mood_sleep:
     source_name: 72_diet_exercise_sleep_alcohol
+    user_message: Why should I exercise?
     chatbot_message: |
         Exercise is beneficial for controlling weight, improving mood, and
         enhancing sleep for individuals with schizophrenia.
@@ -40,9 +41,10 @@ exercise_quote:
 
 alcohol_addictionRisk:
     source_name: 72_diet_exercise_sleep_alcohol
+    user_message: Should I avoid drinking?
     chatbot_message: |
         Excessive alcohol should be avoided due to its association with increased
-        risk of addiction and general health concerns in schizophrenia
+        risk of addiction and general health concerns in Schizophrenia
     value: ACCEPTED
     description: Supported
 
@@ -74,6 +76,7 @@ exercies_impOn_weight:
 
 correct_answer_on_effect_of_pa_on_symptoms:
     source_name: 72_diet_exercise_sleep_alcohol
+    user_message: Does exercise matter to Schizophrenia?
     chatbot_message: |
         Physical exercise can have a significant impact on managing schizophrenia
         symptoms. There are several reasons why including exercise in your daily
@@ -97,6 +100,7 @@ correct_answer_on_effect_of_pa_on_symptoms:
 
 raising_awareness:
     source_name: 13_stigma
+    user_message: How can I spread awareness about Schizophrenia?
     chatbot_message: |
         Raising awareness about alternative names for schizophrenia can be done
         through open conversations and sharing educational resources. (1.4) For
@@ -116,6 +120,7 @@ raising_awareness:
 
 correcting_ignorance:
     source_name: 13_stigma
+    user_message: Do you have tips for challenging ignorance about Schizophrenia?
     chatbot_message: |
         Here are some tips for correcting misinformation about
         schizophrenia:
