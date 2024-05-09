@@ -24,7 +24,6 @@ prompt_variables = {
 }
 
 run_experiment_for_test_case(
-    prompt_variables=prompt_variables,
     prompt_template_path_relative=prompt_path,
     test_case_name=test_case_name,
     n_exp=10,
@@ -43,6 +42,7 @@ result = run_experiment_for_test_case(
     prompt_template_path_relative=prompt_path,
     test_case_name="can_intelligence_be_measured_with_disclaimer",
     n_exp=5,
+    f_correct_response=lambda answer: True if "ACCEPTED" in answer else False,
 )
 # %% CHATBOT THINKS IT IS THERAPIST:
 run_experiment_for_test_case(

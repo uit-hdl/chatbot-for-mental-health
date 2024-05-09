@@ -4,4 +4,4 @@ and sentiments expressed are. It is VITAL that you do not loose any information!
 
 Here is the section:
 
-"""{source_name}"""
+"""{source_content}"""

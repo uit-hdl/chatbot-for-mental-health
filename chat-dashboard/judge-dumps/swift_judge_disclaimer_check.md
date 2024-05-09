@@ -92,13 +92,19 @@ output({
 
 Please evaluate the following:
 
-user: "No, that's alright—I'd prefer to get some general tips if possible. So, when someone is an effective storyteller, what are some common practices they use besides expressions and gestures?"
+user: "That's really insightful! Could you perhaps suggest some examples of how humor could be used to address and clear up common misunderstandings about social behaviors?"
 
-chatbot: "The generally accepted view suggests that effective storytellers often use a combination of pace, tone, and pause to keep their audience engaged. They might speak more animatedly to convey excitement, or they could lower their voice to build suspense. Pausing at key moments can give listeners time to process important points or the punchline of a joke. 
+chatbot: "Certainly! Here are a couple of ways humor might be used to clear up common misunderstandings about social behaviors:
 
-Storytellers also typically structure their stories with a clear beginning, middle, and end, and they may emphasize certain words or phrases for effect. Remembering to stay connected with the audience by making eye contact and gauging their reactions can help keep everyone involved.
+1. **Breaking the Ice:** Starting conversations with a light joke can ease into more serious discussions about social behaviors and misconceptions.
+  
+2. **Illustrating Absurdity:** A joke or funny story that highlights the ridiculousness of a stereotype can make people think twice about believing it.
+  
+3. **Creating Relatability:** Self-deprecating humor regarding one's own social faux pas can make others feel more comfortable admitting to and laughing about similar mistakes.
 
-Please note that these are general storytelling techniques and not from my sources, so you may want to verify this with a communication expert. Would you like assistance with another topic related to schizophrenia?"
+For example, joking about how you thought someone was giving you a "cold shoulder" only to realize they just really needed a jacket makes light of misinterpretations in social cues. It can encourage others to share and laugh about similar misunderstandings, fostering empathy and a more forgiving social atmosphere.
+
+Remember, the goal is to use humor to open up dialogue and understanding, not to offend or belittle. It's vital to know your audience and their sensitivity to certain topics."
 
 
 

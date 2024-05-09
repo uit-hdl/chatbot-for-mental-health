@@ -102,6 +102,7 @@ def run_experiment_for_test_case(
     prompt_template_path_relative="swift_judge_source_fidelity_v1",
     test_case_name="starting_a_movement",
     f_correct_response=None,
+    summarize_source=False,
 ):
     """Runs experiment that tests ability of AI-judges to correctly classify a
     labelled test-case as either ACCEPTED or REJECTED/WARNING. re-runs multiple
@@ -111,7 +112,13 @@ def run_experiment_for_test_case(
     test_case = test_cases[test_case_name]
     if "source_name" in test_case.keys():
         test_case["source"] = get_source(test_case["source_name"])
-        # test_case["source"] = remove_text_in_brackets(test_case["source"])
+        if summarize_source:
+            print("Summarizing source ...")
+            test_case["source"] = gen_llm_response(
+                load_local_prompt_template("other/source_summarizer.md").format(
+                    source_content=test_case["source"]
+                )
+            )
 
     if f_correct_response is None:
         if test_case["value"] == "ACCEPTED":

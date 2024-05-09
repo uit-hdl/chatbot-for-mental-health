@@ -10,6 +10,7 @@ from utils.backend import collect_prompts_in_dictionary
 from utils.chat_utilities import index_of_assistant_responses_intended_for_user
 from utils.general import ROLE_TO_ANSI_COLOR_MAP
 from utils.general import RESET_COLOR
+from utils.general import silent_print
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
 from utils.backend import dump_current_conversation_to_json
 
@@ -129,6 +130,7 @@ def search_for_console_command(user_message, conversation, chatbot_id):
             conversation, chatbot_id=chatbot_id
         )
         role_that_gets_to_speak_next = "user"
+        silent_print("Prompts refreshed.")
 
     elif user_message == "break":
         break_conversation = True

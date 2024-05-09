@@ -2,5 +2,29 @@
     {
         "role": "assistant",
         "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide you with information about schizophrenia from a manual. If you have questions or need clarity on certain aspects of this condition, feel free to ask. I'll do my best to answer clearly and simply. Let me know if the information is helpful or if you require it to be presented differently. How can I assist you today?"
+    },
+    {
+        "role": "user",
+        "content": "Why is it so hard for me to make friends?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 Making friends can be challenging for various reasons, and it may be even more difficult if you're dealing with symptoms of a mental health condition like schizophrenia. If you're specifically referring to the impact schizophrenia has on your ability to socialize and make friends, I can look up some information that might explain these difficulties. Would you like me to provide more information on this?"
+    },
+    {
+        "role": "user",
+        "content": "yes please"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:request_knowledge(63_social_life):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "Inactive source removed due to not being actively cited."
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 It can be challenging to maintain a social life with schizophrenia because the condition may lead to symptoms that affect socializing, like a lack of emotion or a withdrawal from social situations. As you start to recover, you might find the desire to socialize increasing.\n\nJoining support groups can be helpful as they provide the opportunity to meet others who understand your experiences with schizophrenia. However, it's also important to interact with people who don't have the illness, as this can offer a perspective outside of schizophrenia.\n\nPsychotherapy can aid in regaining confidence and overcoming social barriers. If you're a caregiver, sharing responsibilities can provide you with time to attend to your own social needs. If you feel you might benefit from psychotherapy or support groups or have further questions about improving your social life, do let me know, and I can provide more information on those topics."
     }
 ]

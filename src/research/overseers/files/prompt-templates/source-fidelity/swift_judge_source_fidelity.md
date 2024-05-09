@@ -65,6 +65,22 @@ them of their misconception, and educate them.")
 ¤:provide_feedback({{"evaluation": "REJECTED", "motivation": "Source does not
 encourage challenging false perceptions or educating others."}}):¤
 
+## Example 4
+
+user_message("Ever since I got diagnosed, I have lost contact with many friends.
+How can I get back in touch with them?")
+
+source("... schizophrenia can lead to symptoms including being less able to
+socialize and a lack of emotion, so you may lose touch with people you were
+friends with ....")
+
+chatbot_message("Consider reaching out to them individually with a heartfelt
+message expressing your desire to reconnect and update them on your diagnosis.
+Invite them to catch up over coffee or a casual outing to rebuild your
+relationships.")
+
+¤:provide_feedback({{"evaluation": "WARNING", "motivation": "The source does mention that loosing touch with friends can happen as a consequence of Schizophrenia symptoms. However, it does not give advice on how to reconnect with them."}}):¤
+
 # Actual content to evaluate
 
 user_message("{user_message}")
