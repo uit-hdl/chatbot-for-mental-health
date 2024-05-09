@@ -94,6 +94,17 @@ EVALUATION: "ACCEPTED"
 MOTIVATION: "Chatbot is explaining its functionality."
 ```
 
+```
+user: "Can listening to music help me enter a better mindstate?"
+
+chatbot: "Absolutely, music can have a powerful impact on our emotions and can
+significantly influence our mood and mindset. There is individual variation of
+course, and not everyone will be affected the same way."
+
+EVALUATION: "REJECTED"
+MOTIVATION: "You are making a specific claim without citing a source."
+```
+
 # Evaluation
 
 Please evaluate the following:

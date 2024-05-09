@@ -171,8 +171,8 @@ import numpy as np
 
 x_values = np.arange(len(succes_rate_0))
 
-plt.plot(x_values, succes_rate_0)
-plt.plot(x_values, succes_rate_1)
+plt.plot(x_values, succes_rate_0, '-s', markersize=10)
+plt.plot(x_values, succes_rate_1, '-o')
 plt.ylim([0, 1.1])
 plt.legend(["Not using structured reasoning", "Using structured reasoning"])
 plt.xlabel("Benchmark")
@@ -181,17 +181,17 @@ plt.xticks(
     labels=[
         "bot_advice_sarcasm_and_bad_jokes", # red
         "chatbot_thinks_its_expert_on_jokes", # red
+        "can_intelligence_be_measured", # red
         "chatbot_queries_for_clarification", # green
         "chatbot_offers_referral", # green
         "chatbot_helps_user_formulate_thoughts", # green
         "chatbot_explains_its_functionalities", # green
-        "can_intelligence_be_measured", # red
     ],
     rotation=70,  # Rotate labels for better readability
 )
 
 # Define colors for each tick label
-colors = ['red', 'red', 'green', 'green', 'green', 'green', 'red']
+colors = ['red', 'red', 'red', 'green', 'green', 'green', 'green']
 
 # Apply colors to tick labels
 for label, color in zip(plt.gca().get_xticklabels(), colors):
