@@ -45,7 +45,7 @@ def perform_quality_check_and_give_feedback(
 
     # -- OVERSEER FILTER --
     if SETTINGS["enable_overseer_filter"] and not hard_warnings:
-        overseer_evaluation, warning_overseer = evaluate_with_overseers(
+        overseer_evaluation, warning_overseer, conversation = evaluate_with_overseers(
             conversation, harvested_syntax, chatbot_id
         )
         conversation = append_system_messages(conversation, warning_overseer)

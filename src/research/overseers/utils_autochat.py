@@ -105,6 +105,10 @@ def adversarial_nudger_has_conversation_with_chatbot(
             deployment_name=deployment_name_adversary,
         )
         chat.append({"role": "user", "content": response})
+        dump_to_json_locally(
+            chat,
+            "files/chat_current.json",
+        )
         print("Cooling off...")
         time.sleep(cooldown_time)
         print_last_user_message(response)
@@ -127,7 +131,6 @@ def load_chat_and_prompt_for_roleplay_test(trickster_tests, target_role):
     """Loads the conversation that initiates the role-play where the
     adverserially prompted chatbot plays a role where it tries to get the other
     chatbot to talk about subjects that are far out of its scope."""
-
     prompt_template = load_local_prompt_template(
         trickster_tests[target_role]["prompt_path"]
     )

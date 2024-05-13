@@ -18,6 +18,7 @@ from utils.backend import DEPLOYMENTS
 from utils.backend import CONFIG
 from utils.backend import SETTINGS
 from utils.chat_utilities import grab_last_assistant_response
+from utils.chat_utilities import replace_last_assistant_response
 from utils.chat_utilities import grab_last_user_message
 from utils.chat_utilities import generate_single_response_to_prompt
 from utils.process_syntax import extract_command_names_and_arguments
@@ -59,7 +60,8 @@ def evaluate_with_overseers(conversation, harvested_syntax, chatbot_id):
     the miscellaneous overseer which checks "non-factual" responses.
 
     If the overseer evaluation is "ACCEPTED" then warning_message = [] is
-    returned."""
+    returned. If evaluation is "REJECTED" then message gets replaced by
+    corrected response so that it complies with system warning."""
 
     available_sources = get_sources_available_to_chatbot(chatbot_id)
     citations = harvested_syntax["citations"]
@@ -74,16 +76,16 @@ def evaluate_with_overseers(conversation, harvested_syntax, chatbot_id):
                               user."""
 
     elif list_intersection(available_sources, citations):
-        overseer_evaluation, warning_message = overseer_evaluates_source_fidelity(
-            conversation, citations, chatbot_id
+        overseer_evaluation, warning_message, conversation = (
+            overseer_evaluates_source_fidelity(conversation, citations, chatbot_id)
         )
 
     else:
-        overseer_evaluation, warning_message = overseer_evaluates_default_mode_messages(
-            conversation, citations
+        overseer_evaluation, warning_message, conversation = (
+            overseer_evaluates_default_mode_messages(conversation, citations)
         )
 
-    return overseer_evaluation, warning_message
+    return overseer_evaluation, warning_message, conversation
 
 
 # -- SOURCE FIDELITY BOT --
@@ -95,7 +97,6 @@ def overseer_evaluates_source_fidelity(
     citations that are used classify what type of response the bot is giving."""
     chatbot_message = grab_last_assistant_response(conversation)
     chatbot_message = remove_syntax_from_message(chatbot_message)
-    user_message = grab_last_user_message(conversation)
     # Remove citatons that do not reference a source (only label the response)
     source_citations = list_subtraction(citations, MESSAGE_CLASSIFICATIONS)
 
@@ -105,12 +106,12 @@ def overseer_evaluates_source_fidelity(
             for name in source_citations
         ]
         preliminary_opinion = preliminary_check_of_source_fidelity(
-            sources, chatbot_message, user_message
+            sources, chatbot_message
         )
 
         if preliminary_opinion == "ACCEPTED":
             warning_message = []
-            return "ACCEPTED", warning_message
+            return "ACCEPTED", warning_message, conversation
         else:
             silent_print(f"** SOURCE-FIDELITY MESSAGE CHECK **")
             silent_print("Message flagged in preliminary check by GPT-3.5.")
@@ -125,17 +126,28 @@ def overseer_evaluates_source_fidelity(
         overseer_evaluation, warning_message = extract_overseer_evaluation_and_feedback(
             evaluation_dict
         )
+        if overseer_evaluation == "REJECTED":
+            response_corrected = correct_rejected_response(
+                user_message=grab_last_user_message(conversation),
+                chatbot_message=chatbot_message,
+                system_message=warning_message,
+            )
+            conversation = replace_last_assistant_response(
+                conversation, replacement_content=response_corrected
+            )
+            overseer_evaluation = "ACCEPTED"
+            warning_message = []
+
     else:
         overseer_evaluation = "ACCEPTED"
         warning_message = []
 
-    return overseer_evaluation, warning_message
+    return overseer_evaluation, warning_message, conversation
 
 
 def preliminary_check_of_source_fidelity(
     sources: list[str],
     chatbot_message: str,
-    user_message: str,
     prompt=PROMPTS[SWIFT_JUDGE_SOURCE_FIDELITY],
 ):
     """Uses GPT-3.5-turbo-instruct to generate a preliminary quality check on source
@@ -143,9 +155,7 @@ def preliminary_check_of_source_fidelity(
     sometimes flags messages that are perfectly fine. If flagged, a more computationally
     expensive model is called to double check the evaluation."""
     source = sources[0]
-    prompt_completed = prompt.format(
-        chatbot_message=chatbot_message, source=source, user_message=user_message
-    )
+    prompt_completed = prompt.format(chatbot_message=chatbot_message, source=source)
     evaluation = generate_single_response_to_prompt(
         prompt_completed, deployment_name="gpt-35-turbo-16k"
     )
@@ -154,9 +164,9 @@ def preliminary_check_of_source_fidelity(
     )
     silent_print(f"GPT-3.5-Turbo says {evaluation}")
     if "NOT_SUPPORTED" in evaluation:
-        return "ACCEPTED"
-    else:
         return "WARNING"
+    else:
+        return "ACCEPTED"
 
 
 def fill_in_prompt_template_for_source_fidelity_overseer(
@@ -203,10 +213,12 @@ def extract_overseer_evaluation_and_feedback(
     overseer_evaluation = "ACCEPTED"
     warning_message = []
     if evaluation_dict and overseer_response_is_valid(evaluation_dict):
+
         if evaluation_dict["evaluation"] != "ACCEPTED":
             silent_print(evaluation_dict)
-            warning_message = evaluation_dict["message_to_bot"]
             overseer_evaluation = evaluation_dict["evaluation"]
+            warning_message = evaluation_dict["message_to_bot"]
+
     return overseer_evaluation, warning_message
 
 
@@ -217,6 +229,23 @@ def overseer_response_is_valid(overseer_dict: dict) -> bool:
         if "message_to_bot" in overseer_dict.keys():
             return True
     return False
+
+
+def correct_rejected_response(user_message, chatbot_message, system_message) -> str:
+    """An AI agent has been prompted to correct the message generated by the
+    chatbot so that it complies with the systems warning. Typically replaces an
+    out-of-scope response with a more standard 'I am not allowed to talk about
+    that'-type message."""
+    prompt_completed = PROMPTS["conversation_killer"].format(
+        user_message=user_message,
+        chatbot_message=chatbot_message,
+        system_message=system_message,
+    )
+    corrected_response = generate_single_response_to_prompt(
+        prompt_completed, deployment_name=DEPLOYMENTS["conversation_killer"]
+    )
+    corrected_response = f'¤:cite(["no_advice_or_claims"]):¤ {corrected_response}'
+    return corrected_response
 
 
 # -- OVERSEER OF MISCELLANEOUS/NON-FACTUAL MESSAGES --
@@ -250,8 +279,19 @@ def overseer_evaluates_default_mode_messages(conversation, citations: list):
             overseer_evaluation, warning_message = (
                 extract_overseer_evaluation_and_feedback(evaluation_dict)
             )
+            if overseer_evaluation == "REJECTED":
+                response_corrected = correct_rejected_response(
+                    user_message=grab_last_user_message(conversation),
+                    chatbot_message=chatbot_message,
+                    system_message=warning_message,
+                )
+                conversation = replace_last_assistant_response(
+                    conversation, replacement_content=response_corrected
+                )
+                overseer_evaluation = "ACCEPTED"
+                warning_message = []
 
-    return overseer_evaluation, warning_message
+    return overseer_evaluation, warning_message, conversation
 
 
 def preliminary_check_of_default_mode_message(
@@ -287,7 +327,7 @@ def preliminary_check_of_default_mode_message(
     silent_print(f"swift-judge disclaimer check: {evaluation_disclaimer}")
     silent_print(f"swift-judge role check: {evaluation_role}")
 
-    disclaimer_check_passed = "ACCEPTED" in evaluation_disclaimer
+    disclaimer_check_passed = "AGREE" in evaluation_disclaimer
     role_check_passed = "ACCEPTED" in evaluation_role
 
     if disclaimer_check_passed and role_check_passed:

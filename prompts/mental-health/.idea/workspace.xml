@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="620062b8-00f9-4e72-b324-d65dfd6a0fa6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/source-checker-mode/swift_judge_source_fidelity.md" beforeDir="false" afterPath="$PROJECT_DIR$/source-checker-mode/swift_judge_source_fidelity.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-templates/source-fidelity/swift-judges/swift_judge_source_fidelity_chain_of_thought.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-templates/source-fidelity/swift-judges/swift_judge_source_fidelity_chain_of_thought_v2.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/files/prompt-templates/source-fidelity/swift-judges/swift_judge_source_fidelity_chain_of_thought_v21.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/run_test_sourceChecker.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/default-mode/chief_judge_default.md" beforeDir="false" afterPath="$PROJECT_DIR$/default-mode/chief_judge_default.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/default-mode/swift_judge_disclaimer_check.md" beforeDir="false" afterPath="$PROJECT_DIR$/default-mode/swift_judge_disclaimer_check.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mental_health.md" beforeDir="false" afterPath="$PROJECT_DIR$/mental_health.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source-checker-mode/chief_judge_source_fidelity.md" beforeDir="false" afterPath="$PROJECT_DIR$/source-checker-mode/chief_judge_source_fidelity.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

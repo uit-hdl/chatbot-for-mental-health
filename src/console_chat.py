@@ -7,7 +7,6 @@ indicates which conversation to continue (path to json file)."""
 import sys
 
 from utils.general import silent_print
-from utils.backend import PROMPTS
 from utils.backend import LOGGER
 from utils.backend import TRANSCRIPT_DUMP_PATH
 from utils.backend import SETTINGS
@@ -16,6 +15,7 @@ from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.backend import reset_files_that_track_cumulative_variables
+from utils.backend import PROMPTS
 from utils.console_interactions import offer_to_store_conversation
 from utils.console_interactions import get_user_message_from_console
 from utils.console_interactions import search_for_console_command

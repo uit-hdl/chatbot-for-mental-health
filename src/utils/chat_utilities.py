@@ -128,6 +128,13 @@ def identify_assistant_responses(conversation) -> list[int]:
     return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
 
 
+def replace_last_assistant_response(conversation, replacement_content: str) -> list:
+    """Substitutes the last assistant response with a new message."""
+    index_assistant_messages = identify_assistant_responses(conversation)
+    conversation[index_assistant_messages[-1]]["content"] = replacement_content
+    return conversation
+
+
 def grab_last_user_message(conversation: list) -> str:
     """Grab the latest message string from user."""
     index_user_messages = identify_user_messages(conversation)

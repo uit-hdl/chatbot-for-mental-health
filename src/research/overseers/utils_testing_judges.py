@@ -49,6 +49,7 @@ def run_experiment_general(
     prompt_variables: dict,
     prompt_template_path_relative="files/prompt-templates/source-fidelity/swift_judge_source_fidelity.md",
     f_get_response=gen_llm_response,
+    deployment_name="gpt-35-turbo-16k",
     f_correct_response=lambda answer: True if "ACCEPTED" in answer else False,
     n_exp=10,
     test_name=None,
@@ -61,6 +62,9 @@ def run_experiment_general(
     prompt = fill_in_variables_in_prompt_template(prompt_template, prompt_variables)
     dump_prompt_to_markdown_locally(
         prompt, "files/prompt-completed/prompt_completed.md"
+    )
+    f_get_response = lambda prompt: gen_llm_response(
+        prompt, deployment_name=deployment_name
     )
 
     # Run trials

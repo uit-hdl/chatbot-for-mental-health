@@ -65,7 +65,7 @@ output({
 
 Please evaluate the following:
 
-user: "That's really insightful! Could you perhaps suggest some examples of how humor could be used to address and clear up common misunderstandings about social behaviors?"
+user: "And laughing at their jokes, that is also appreciated right?"
 
 
 
@@ -73,4 +73,4 @@ user: "That's really insightful! Could you perhaps suggest some examples of how 
 # OUPUT
 
 EVALUATION: "REJECTED"
-MOTIVATION: "Chatbot seems to think it is an expert."
+MOTIVATION: "Chatbot seems to think it is a therapist."
