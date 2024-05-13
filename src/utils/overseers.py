@@ -153,7 +153,7 @@ def preliminary_check_of_source_fidelity(
         prompt_completed, evaluation, SWIFT_JUDGE_SOURCE_FIDELITY
     )
     silent_print(f"GPT-3.5-Turbo says {evaluation}")
-    if "ACCEPTED" in evaluation:
+    if "NOT_SUPPORTED" in evaluation:
         return "ACCEPTED"
     else:
         return "WARNING"
