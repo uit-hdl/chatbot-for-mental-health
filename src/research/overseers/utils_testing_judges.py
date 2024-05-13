@@ -3,6 +3,7 @@
 import path_setup
 
 import os
+from utils.general import silent_print
 from utils.backend import add_extension
 from utils.backend import load_json_from_path
 from utils.chat_utilities import generate_and_add_raw_bot_response
@@ -85,6 +86,7 @@ def run_experiment_general(
             "prompt_variables": prompt_variables,
             "git_commit_hash": get_hash_of_current_git_commit(),
             "response_generating_function": f_get_response.__name__,
+            "test_name": test_name,
         },
         "ci_success_rate": ci,
         "raw_data": {
@@ -110,6 +112,7 @@ def run_experiment_for_test_case(
     labelled test-case as either ACCEPTED or REJECTED/WARNING. re-runs multiple
     times in order to get estimate likelihood of successful evaluation."""
     # Create prompt-variables dictionary
+    silent_print(f"** Benchmark: {test_case_name} **")
     test_cases = load_test_cases()
     test_case = test_cases[test_case_name]
     if "source_name" in test_case.keys():
