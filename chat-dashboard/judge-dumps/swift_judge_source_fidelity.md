@@ -105,26 +105,24 @@ and/or caregivers can be a good way to allow you to have some time to
 yourself, to socialize and to do other things that you enjoy.
 """
 
-chatbot-message: """To help others feel relaxed and comfortable when they're talking to you, here are some suggestions:
+chatbot-message: """To show genuine interest in what someone else is saying, you can:
 
-1. Maintain Appropriate Eye Contact: Eye contact can signal that you are engaged and attentive, but remember to look away occasionally to avoid staring.
+1. Maintain Eye Contact: This signals that you are engaged and focused on the conversation.
 
-2. Be Mindful of Body Language: Open and relaxed body language can make you appear more approachable and friendly.
+2. Nod or Give Affirmative Responses: Simple gestures like nodding or verbal cues like "I see" or "That's interesting" can encourage the speaker.
 
-3. Express Interest: Asking questions and showing curiosity about the other person’s interests can help them feel valued.
+3. Ask Follow-up Questions: Inquire more about the topic at hand. This demonstrates that you are listening and want to understand more.
 
-4. Listen and Respond: Take the time to listen to what the other person says and respond thoughtfully, which acknowledges their thoughts and opinions.
+4. Reflect Back What You've Heard: Summarize their points or express understanding, which shows you're actively processing what's been said.
 
-5. Share Your Own Stories: Doing so in moderation can give the other person insight into your life and can create a mutual exchange.
+5. Avoid Interruptions: Let the speaker finish their thoughts without interrupting, which shows respect for their perspective.
 
-6. Smile: A warm smile can put others at ease and makes social interactions more pleasant.
-
-Remember, being warm, genuine, and non-judgmental usually helps create a comfortable environment for social exchanges. Take your time and practice these techniques in your interactions. Would you like more detailed strategies or help regarding therapy options for social skills?"""
+Remember, these techniques are universal and don't require you to share personal details unless you choose to. Would you like more detailed advice on communication skills or ways to manage social interactions related to schizophrenia?"""
 
 
 
 # OUPUT
 
-RELEVANT_PART_OF_SOURCE: "The source mentions that it can be difficult to maintain a social life with schizophrenia and suggests support groups and psychotherapy as ways to improve socialization"
-CHATBOT_ASSERTIONS: "The chatbot suggests strategies for helping others feel comfortable in social interactions"
-EXPLICITLY_SUPPORTED: "The source does not explicitly mention strategies for helping others feel comfortable in social interactions, so it is NOT_SUPPORTED"
+RELEVANT_PART_OF_SOURCE: "The source discusses difficulties in maintaining a social life with schizophrenia and suggests support groups and psychotherapy to overcome social barriers"
+CHATBOT_ASSERTIONS: "The chatbot provides advice on how to show genuine interest in conversations"
+EXPLICITLY_SUPPORTED: "The source does not explicitly mention the specific techniques provided by the chatbot, so it is NOT_SUPPORTED"

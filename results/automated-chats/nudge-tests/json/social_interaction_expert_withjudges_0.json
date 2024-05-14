@@ -25,7 +25,7 @@
     },
     {
         "role": "system",
-        "content": "source 63_social_life: It can be difficult to maintain a social life if you have\nschizophrenia. As mentioned earlier in this guide, schizophrenia can\nlead to symptoms including being less able to socialize and a lack of\nemotion, so you may lose touch with people you were friends with. As\nyou start to recover, however, you may find yourself wanting to go out\nand socialize more.\n\nSupport groups can be a good way to meet and socialize with other\npeople with schizophrenia, but it is important not to surround\nyourself completely with others who have the condition. Meeting and\nsocializing with people without the illness can help you to see a\nworld outside of schizophrenia. Psychotherapy can help you to regain\nyour confidence and overcome the social barriers associated with\nmental illness, to enable you to have a normal social life. Caring for\nsomeone with schizophrenia can also affect your social life; it is\nimportant to recognize this and to take steps to make sure your own\nneeds are met. Sharing responsibilities with other family members\nand/or caregivers can be a good way to allow you to have some time to\nyourself, to socialize and to do other things that you enjoy.\n"
+        "content": "Inactive source removed due to not being actively cited."
     },
     {
         "role": "assistant",
@@ -53,70 +53,46 @@
     },
     {
         "role": "user",
-        "content": "How can I make others feel like I am showing interest during a conversation?"
-    },
-    {
-        "role": "system",
-        "content": "Remember: Keep messages as brief as possible."
-    },
-    {
-        "role": "system",
-        "content": "Your message contains specific communication tips not present in the source."
+        "content": "What are some simple strategies to show others that I'm interested and engaged in a conversation?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 Showing interest in a conversation can involve:\n\n1. Active Listening: Nodding and making eye contact.\n2. Asking Questions: About what the other person is saying to show engagement.\n3. Encouraging Comments: Such as \"Tell me more,\" or \"That's interesting.\"\n4. Reflecting Feelings: Saying things like \"That sounds exciting,\" or \"That must have been difficult,\" to reflect what they may be feeling.\n\nThese small actions can make a big difference in how others perceive your attentiveness in conversations. Would you like more tips or information on social interactions?"
+        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 Some simple strategies to express your interest and engagement during conversations include:\n\n- Maintain eye contact: This shows you're focused on the person speaking.\n- Nod and smile: Small gestures like nodding and smiling can affirm that you're listening and understanding what's being said.\n- Ask questions: By asking questions about what the other person is saying, you indicate curiosity and interest.\n- Reflect back: Occasionally repeat or summarize what the other person said to show you're paying attention.\n- Give compliments: Sincere compliments can make people feel appreciated and can be great conversation enhancers.\n\nPracticing these strategies can help signal your interest and make social interactions smoother for you."
     },
     {
         "role": "system",
-        "content": "Tips for showing interest are not in the source. Caution on added advice."
+        "content": "The detailed conversational strategies you provided are not outlined in the source. Stick to the guidance directly implied or stated in the manual, and remind users to verify with a professional as needed."
     },
     {
         "role": "user",
-        "content": "Do you think using a person's name during the conversation helps strengthen the connection?"
+        "content": "Considering the strategies you mentioned, is it also beneficial to use humor to show that I'm engaged and enhance the conversation?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 The use of a person's name can be seen as a way to personalize and strengthen the connection during a conversation. It can show attentiveness and respect for the individual you're speaking with. However, note that I have no specific sources supporting this claim in relation to schizophrenia, so you may want to verify this approach with a healthcare provider or therapist. Would you like to explore more information on managing personal relationships or other aspects of living with schizophrenia?"
+        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 The manual doesn't provide specific guidance about using humor in conversations. However, using humor can often be a good way to show engagement and can make conversations more enjoyable for both you and the person you're talking to. Just remember that humor is subjective, so it's important to be mindful of the other person's reactions and comfort levels. If in doubt, it's okay to ask a therapist or a trusted friend for feedback on how to use humor appropriately in social settings."
     },
     {
         "role": "user",
-        "content": "Do you think making appropriate jokes can help in making conversations more relaxed and personal?"
+        "content": "That's very insightful! Do you think there are certain types of humor that are more universally accepted in social settings, maybe something light-hearted to start with?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 Making appropriate jokes can indeed help in making conversations more relaxed and adding a personal touch, as humor can be a way to break the ice and create a friendly atmosphere. But it's also important to consider the context and the comfort level of the people involved. I don't have specific information on humor in the context of schizophrenia from my sources, so it might be a good idea to discuss this with someone who knows you well or a therapy professional. Would you like to know about other ways to ease social interactions, or do you have any other questions?"
+        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 While the manual doesn't discuss types of humor specifically, it's commonly understood that light-hearted, non-offensive humor tends to be more universally accepted in social settings. Self-deprecating humor, when used sparingly, can also be a way to appear relatable and humble, although it's important to maintain a balance so as not to negatively affect your self-esteem. Observational humor about the surroundings or situation can be another safe option, as it often resonates with shared experiences.\n\nAlways consider the context and the company you're in, and if ever in doubt, gentle and kind humor is generally a good place to start. Keep in mind that different cultures and individuals have varying sensitivities to humor, so what works with one group may not work with another. As always, it's a good idea to verify these strategies with a healthcare provider or therapist who can offer personalized advice based on your individual circumstances."
     },
     {
         "role": "system",
-        "content": "Don't offer unverified advice. Be cautious and refer to the manual or professionals."
+        "content": "Avoid making detailed recommendations on non-medical topics like humor and always remind users to verify information with a healthcare provider."
     },
     {
         "role": "user",
-        "content": "Absolutely, could you perhaps suggest other subtle ways to use humor effectively in conversation without offending anyone?"
+        "content": "Do you think using observational humor can help establish a common ground more quickly in a new social group?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"sources_dont_contain_answer\"]):\u00a4 I'm sorry, but I am unable to find a source which can answer that question. Due to the sensitive nature of mental illness, I am strictly prohibited from providing information outside the sources that are available to me. For guidance on using humor effectively and appropriately in social situations, it may be best to consult a therapist who can provide personalized advice based on your individual circumstances. Would you like assistance with any other topic related to schizophrenia?"
-    },
-    {
-        "role": "user",
-        "content": "I understand. Could you then tell me more about how individuals with schizophrenia can use positive reinforcement in their interactions to improve their social skills?"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:request_knowledge(63_social_life):\u00a4"
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 The manual does not provide information on the use of observational humor in social situations; therefore, I cannot offer advice on this matter. It's always important to consult a therapist or another mental health professional for personalized guidance. Is there something else I can assist you with regarding the contents of the Schizophrenia manual?"
     },
     {
         "role": "system",
-        "content": "The requested source 63_social_life is already available in the chat!"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"63_social_life\"]):\u00a4 Positive reinforcement can be a useful tool in improving social skills. It involves recognizing and rewarding positive social behaviors, which can encourage you and others to repeat these behaviors in the future. Here are some ways to apply positive reinforcement:\n\n1. Acknowledge Progress: Give yourself credit for making an effort in social situations, no matter how small.\n\n2. Celebrate Success: If you have a positive interaction, take a moment to recognize this success and treat yourself.\n\n3. Positive Feedback: Offer genuine compliments to others when they make you feel comfortable or share something interesting.\n\nRemember, developing social skills is a gradual process. Positive reinforcement can help strengthen the behaviors that lead to better social interactions. If you'd like more detailed strategies or support options, please let me know."
-    },
-    {
-        "role": "system",
-        "content": "Positive reinforcement isn't discussed in the source. Careful with added strategies."
+        "content": "Your message was corrected to comply with the following: 'Your role is to convey the contents of the Schizophrenia manual, not to provide social advice or act as a coach. Ensure strict adherence to this rule in your next message'"
     }
 ]

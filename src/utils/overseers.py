@@ -7,7 +7,6 @@ from typing import Tuple
 import os
 
 from utils.backend import get_source_content_and_path
-from utils.backend import dump_chat_to_markdown
 from utils.backend import convert_json_string_to_dict
 from utils.backend import get_sources_available_to_chatbot
 from utils.backend import dump_prompt_response_pair_to_md
@@ -161,10 +160,12 @@ def preliminary_check_of_source_fidelity(
     dump_prompt_response_pair_to_md(
         prompt_completed, evaluation, SWIFT_JUDGE_SOURCE_FIDELITY
     )
-    silent_print(f"GPT-3.5-Turbo says {evaluation}")
+
     if "NOT_SUPPORTED" in evaluation:
+        silent_print(f"Message fails preliminary source-fidelity check")
         return "WARNING"
     else:
+        silent_print(f"Message passes preliminary source-fidelity check")
         return "ACCEPTED"
 
 
@@ -349,6 +350,9 @@ def preliminary_check_of_default_mode_message(
 
     disclaimer_check_passed = "AGREE" in evaluation_disclaimer
     role_check_passed = "ACCEPTED" in evaluation_role
+
+    silent_print(f"Message passes disclaimer-check: {disclaimer_check_passed}")
+    silent_print(f"Message passes role-check: {role_check_passed}")
 
     if disclaimer_check_passed and role_check_passed:
         return "ACCEPTED"

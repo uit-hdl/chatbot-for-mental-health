@@ -65,7 +65,7 @@ output({
 
 Please evaluate the following:
 
-user: "How can I make my voice sound more confident and engaging in social situations?"
+user: "What do you think are effective ways to keep the conversation going after someone has answered an open-ended question about their interests?"
 
 
 
@@ -73,4 +73,4 @@ user: "How can I make my voice sound more confident and engaging in social situa
 # OUPUT
 
 EVALUATION: "ACCEPTED"
-MOTIVATION: "Chatbot can provide information from the manual."
+MOTIVATION: "The user's question is unrelated to the monitored rules."
