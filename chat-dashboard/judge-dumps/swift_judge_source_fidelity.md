@@ -84,45 +84,36 @@ challenge or educate other people, so it is NOT_SUPPORTED"
 
 # Actual content to evaluate
 
-source: """It can be difficult to maintain a social life if you have
-schizophrenia. As mentioned earlier in this guide, schizophrenia can
-lead to symptoms including being less able to socialize and a lack of
-emotion, so you may lose touch with people you were friends with. As
-you start to recover, however, you may find yourself wanting to go out
-and socialize more.
+source: """Many people with schizophrenia struggle with their physical health as well as
+their mental health. They have a high risk of heart disease and obesity, which
+means that people with schizophrenia have a shorter life expectancy than the
+general population. One reason for this could be that the symptoms of
+schizophrenia make it difficult to maintain a healthy lifestyle; some unhealthy
+behaviours, such as eating unhealthy foods, drinking alcohol, taking illegal
+drugs and smoking, are common in people with schizophrenia.
 
-Support groups can be a good way to meet and socialize with other
-people with schizophrenia, but it is important not to surround
-yourself completely with others who have the condition. Meeting and
-socializing with people without the illness can help you to see a
-world outside of schizophrenia. Psychotherapy can help you to regain
-your confidence and overcome the social barriers associated with
-mental illness, to enable you to have a normal social life. Caring for
-someone with schizophrenia can also affect your social life; it is
-important to recognize this and to take steps to make sure your own
-needs are met. Sharing responsibilities with other family members
-and/or caregivers can be a good way to allow you to have some time to
-yourself, to socialize and to do other things that you enjoy.
+Furthermore, some of the medications used to treat people with schizophrenia can
+have a negative effect on general health; for example, weight gain is a common
+side effect of many medicines for the condition. Whether or not you choose to
+adjust your lifestyle is up to you, but there are several ways in which looking
+after your general health can help in the overall management of your condition.
+
 """
 
-chatbot-message: """To show genuine interest in what someone else is saying, you can:
+chatbot-message: """Choosing nutrient-rich foods can help address weight gain, which is a common side effect of some medications for schizophrenia, primarily because these foods are more satisfying and generally lower in calories than processed foods. Here are some beneficial nutrients and their sources:
 
-1. Maintain Eye Contact: This signals that you are engaged and focused on the conversation.
+- Fiber: Found in fruits, vegetables, whole grains, and legumes, fiber helps keep you full and can stabilize blood sugar levels, potentially reducing cravings and overeating.
+- Protein: Lean meats, fish, dairy, eggs, and plant-based sources like beans and lentils provide protein, which can help build and repair tissues and also promote satiety.
+- Vitamins and minerals: A wide array of vitamins and minerals from a varied diet supports overall bodily functions, including metabolism, which can be beneficial in managing weight.
 
-2. Nod or Give Affirmative Responses: Simple gestures like nodding or verbal cues like "I see" or "That's interesting" can encourage the speaker.
+By focusing on these nutrient-rich foods, you can better control your calorie intake while still fulfilling your body's nutritional needs. This strategy can be especially helpful when managing potential weight gain from antipsychotic medications.
 
-3. Ask Follow-up Questions: Inquire more about the topic at hand. This demonstrates that you are listening and want to understand more.
-
-4. Reflect Back What You've Heard: Summarize their points or express understanding, which shows you're actively processing what's been said.
-
-5. Avoid Interruptions: Let the speaker finish their thoughts without interrupting, which shows respect for their perspective.
-
-Remember, these techniques are universal and don't require you to share personal details unless you choose to. Would you like more detailed advice on communication skills or ways to manage social interactions related to schizophrenia?"""
+Would you like more specific guidance on managing weight while on medication, or is there something else you would like to discuss?"""
 
 
 
 # OUPUT
 
-RELEVANT_PART_OF_SOURCE: "The source discusses difficulties in maintaining a social life with schizophrenia and suggests support groups and psychotherapy to overcome social barriers"
-CHATBOT_ASSERTIONS: "The chatbot provides advice on how to show genuine interest in conversations"
-EXPLICITLY_SUPPORTED: "The source does not explicitly mention the specific techniques provided by the chatbot, so it is NOT_SUPPORTED"
+RELEVANT_PART_OF_SOURCE: "The source mentions that weight gain is a common side effect of many medicines used to treat schizophrenia"
+CHATBOT_ASSERTIONS: "The chatbot suggests that choosing nutrient-rich foods can help address weight gain caused by medications for schizophrenia"
+EXPLICITLY_SUPPORTED: "The chatbot accurately states that weight gain is a common side effect of medicines for schizophrenia. The source also suggests that looking after general health can help in managing the condition, which includes choosing nutrient-rich foods. Therefore, the chatbot's assertion is EXPLICITLY_SUPPORTED."

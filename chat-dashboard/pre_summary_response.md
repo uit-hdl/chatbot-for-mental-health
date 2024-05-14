@@ -1,12 +1,27 @@
-¤:cite(["101_further_information"]):¤ There are various organizations that provide support and education about schizophrenia:
+¤:cite(["12_what_is_schizophrenia"]):¤ Here's some key information that can help raise awareness and dispel myths about schizophrenia: 
 
-- **EUFAMI:** European Federation of Associations of Families of People with Mental Illness offers support for families. [Website](http://www.eufami.org/)
-- **GAMIAN-Europe:** Represents and advocates for the rights of people affected by mental illness. [Website](http://www.gamian.eu/)
-- **WFMH:** World Federation for Mental Health promotes mental health awareness and support. [Website](http://wfmh.com/)
-- **Intervoice:** Network for people who hear voices or have other unusual perceptions. [Website](http://www.intervoiceonline.org/)
-- **Mind:** UK charity offering advice and support for various mental health issues, including schizophrenia. [Website](https://www.mind.org.uk/information-support/types-of-mental-health-problems/schizophrenia/about-schizophrenia/)
-- **Rethink Mental Illness:** Provides assistance and information for a better quality of life for those affected by mental illness. [Website](https://www.rethink.org/advice-and-information/about-mental-illness/learn-more-about-conditions/schizophrenia/)
+- **Myth**: People with schizophrenia have multiple or split personalities.
+  **Fact**: Schizophrenia does not cause someone to have multiple personalities.
+  
+- **Myth**: Bad parenting causes schizophrenia.
+  **Fact**: There is no known link between parenting styles and the development of schizophrenia.
+  
+- **Myth**: Individuals with schizophrenia are lazy.
+  **Fact**: A lack of energy is a symptom of the illness, not a personality trait.
+  
+- **Myth**: People with schizophrenia are violent and dangerous.
+  **Fact**: While some behaviors can be unusual, they are rarely violent.
+  
+- **Myth**: The experiences of a person with schizophrenia are not real.
+  **Fact**: The experiences are very real to the person, even if they seem unrealistic to others.
+  
+- **Myth**: People with schizophrenia will never get better.
+  **Fact**: Schizophrenia is treatable and many people improve or recover completely.
+  
+- **Myth**: Medication will stop all symptoms of schizophrenia.
+  **Fact**: While medication significantly reduces symptoms, it may not eliminate all of them.
+  
+- **Myth**: Individuals with schizophrenia can't work.
+  **Fact**: Many people with schizophrenia are employed and find that productive work helps with self-esteem.
 
-For further reading, "Psychosis? Me?" is a booklet written by and for people susceptible to psychosis. [Updated Link](https://www.gamian.eu/activities/archive/message-ge-members/)
-
-Please let me know if you need more information or specific help accessing these resources.
+Sharing such facts can help people better understand schizophrenia and reduce the stigma associated with it. Would you like more information on any particular topic?

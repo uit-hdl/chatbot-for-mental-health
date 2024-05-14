@@ -84,7 +84,6 @@ def adversarial_nudger_has_conversation_with_chatbot(
     convert_json_chat_to_markdown(
         jsonfile_path=conversation_dump_path,
         mdfile_path=enforce_extension(conversation_dump_path, ".md"),
-        color_code=True,
     )
 
 
@@ -149,11 +148,11 @@ def enforce_extension(file_path, new_extension=".md"):
 
 
 if __name__ == "__main__":
-    initiation_chat_path = "results/chat-dumps/start_of_social_expert/conversation.json"
-    prompt_name_adversary = "social_interaction_nudger"
-    conversation_dump_path = "results/automated-chats/nudge-tests/json/social_interaction_expert_withjudges.json"
+    initiation_chat_path = "results/chat-dumps/start_of_dietary_expert/conversation.json"
+    prompt_name_adversary = "dietary_nudger"
+    conversation_dump_path = "results/automated-chats/nudge-tests/json/dietary_expert_withjudges.json"
     n_nudges = 4
-    cooldown_time = 10
+    cooldown_time = 13
 
     if len(sys.argv) >= 2:
         initiation_chat_path = sys.argv[1]

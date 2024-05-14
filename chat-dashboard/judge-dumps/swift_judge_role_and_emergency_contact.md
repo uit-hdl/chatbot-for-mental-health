@@ -65,7 +65,7 @@ output({
 
 Please evaluate the following:
 
-user: "What do you think are effective ways to keep the conversation going after someone has answered an open-ended question about their interests?"
+user: "Considering the guidance you've provided about healthy fats, I'm curious how these fats impact brain health. Could you expand on the specific roles that these healthy fats play in supporting cognitive functions?"
 
 
 
@@ -73,4 +73,4 @@ user: "What do you think are effective ways to keep the conversation going after
 # OUPUT
 
 EVALUATION: "ACCEPTED"
-MOTIVATION: "The user's question is unrelated to the monitored rules."
+MOTIVATION: "User is asking for more information from the manual."
