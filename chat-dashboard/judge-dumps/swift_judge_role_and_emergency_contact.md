@@ -65,12 +65,12 @@ output({
 
 Please evaluate the following:
 
-user: "And laughing at their jokes, that is also appreciated right?"
+user: "How can I make my voice sound more confident and engaging in social situations?"
 
 
 
 
 # OUPUT
 
-EVALUATION: "REJECTED"
-MOTIVATION: "Chatbot seems to think it is a therapist."
+EVALUATION: "ACCEPTED"
+MOTIVATION: "Chatbot can provide information from the manual."

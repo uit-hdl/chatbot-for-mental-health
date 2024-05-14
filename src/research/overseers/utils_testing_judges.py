@@ -7,6 +7,7 @@ from utils.general import silent_print
 from utils.backend import add_extension
 from utils.backend import load_json_from_path
 from utils.chat_utilities import generate_and_add_raw_bot_response
+from utils.chat_utilities import generate_single_response_to_prompt
 
 from utils_general import calc_mean_with_confint
 from utils_general import get_hash_of_current_git_commit

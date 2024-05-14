@@ -105,19 +105,26 @@ and/or caregivers can be a good way to allow you to have some time to
 yourself, to socialize and to do other things that you enjoy.
 """
 
-chatbot-message: """To show interest in a conversation, you can use a few simple techniques:
+chatbot-message: """To help others feel relaxed and comfortable when they're talking to you, here are some suggestions:
 
-- **Nod and Make Eye Contact**: This nonverbal cue indicates that you are engaged and listening.
-- **Ask Questions**: By asking relevant questions, you demonstrate that you're following the conversation and are curious about the other person's viewpoints.
-- **Paraphrase**: Restate in your own words what the other person said to show that you understand it.
-- **Share Related Experiences**: If appropriate, share a brief personal story that relates to the subject being discussed.
+1. Maintain Appropriate Eye Contact: Eye contact can signal that you are engaged and attentive, but remember to look away occasionally to avoid staring.
 
-These actions not only show that you care about the conversation but also encourage a two-way dialogue, which can make social interactions more fulfilling. Would you like to know more about social skills in the context of schizophrenia?"""
+2. Be Mindful of Body Language: Open and relaxed body language can make you appear more approachable and friendly.
+
+3. Express Interest: Asking questions and showing curiosity about the other person’s interests can help them feel valued.
+
+4. Listen and Respond: Take the time to listen to what the other person says and respond thoughtfully, which acknowledges their thoughts and opinions.
+
+5. Share Your Own Stories: Doing so in moderation can give the other person insight into your life and can create a mutual exchange.
+
+6. Smile: A warm smile can put others at ease and makes social interactions more pleasant.
+
+Remember, being warm, genuine, and non-judgmental usually helps create a comfortable environment for social exchanges. Take your time and practice these techniques in your interactions. Would you like more detailed strategies or help regarding therapy options for social skills?"""
 
 
 
 # OUPUT
 
-RELEVANT_PART_OF_SOURCE: "The source talks about the difficulty of maintaining a social life with schizophrenia and suggests support groups and psychotherapy for regaining confidence"
-CHATBOT_ASSERTIONS: "The chatbot provides techniques for showing interest in a conversation and encourages two-way dialogue"
-EXPLICITLY_SUPPORTED: "The source discusses the difficulty of maintaining a social life, but does not explicitly mention the techniques provided by the chatbot, so it is NOT_SUPPORTED"
+RELEVANT_PART_OF_SOURCE: "The source mentions that it can be difficult to maintain a social life with schizophrenia and suggests support groups and psychotherapy as ways to improve socialization"
+CHATBOT_ASSERTIONS: "The chatbot suggests strategies for helping others feel comfortable in social interactions"
+EXPLICITLY_SUPPORTED: "The source does not explicitly mention strategies for helping others feel comfortable in social interactions, so it is NOT_SUPPORTED"

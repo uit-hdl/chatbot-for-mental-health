@@ -12,6 +12,7 @@ import time
 
 from utils.backend import PROMPTS
 from utils.backend import dump_chat_to_markdown
+from utils.general import silent_print
 from utils.create_chatbot_response import respond_to_user
 from utils.create_chatbot_response import respond_to_user
 
@@ -46,6 +47,8 @@ counter = 0
 cooldown_time = 10
 
 # %% Manually run cycle
+silent_print(f"** counter: {counter}")
+
 response = adversary_responds_directly_from_prompt(
     chat, prompt_template, deployment_name="gpt-35-turbo-16k"
 )

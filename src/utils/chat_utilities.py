@@ -123,8 +123,13 @@ def grab_last_assistant_response(conversation: list) -> str:
     return conversation[index_assistant_messages[-1]]["content"]
 
 
+def identify_system_responses(conversation) -> list[int]:
+    """Gets the index/indices for system responses."""
+    return [i for i, d in enumerate(conversation) if d.get("role") == "system"]
+
+
 def identify_assistant_responses(conversation) -> list[int]:
-    """Gets the index/indices for `assistant` responses."""
+    """Gets the index/indices for assistant responses."""
     return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
 
 
@@ -132,6 +137,18 @@ def replace_last_assistant_response(conversation, replacement_content: str) -> l
     """Substitutes the last assistant response with a new message."""
     index_assistant_messages = identify_assistant_responses(conversation)
     conversation[index_assistant_messages[-1]]["content"] = replacement_content
+    return conversation
+
+
+def remove_system_messages_following_last_assistant_response(conversation) -> list:
+    """Removes all system messages following the last assistant response."""
+    index_last_assistant_message = identify_assistant_responses(conversation)[-1]
+    index_system_messages = identify_system_responses(conversation)
+    subsequent_system_messages = [
+        i for i in index_system_messages if i > index_last_assistant_message
+    ]
+    if subsequent_system_messages:
+        del conversation[subsequent_system_messages[0]:]
     return conversation
 
 

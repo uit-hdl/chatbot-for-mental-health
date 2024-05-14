@@ -5,11 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="620062b8-00f9-4e72-b324-d65dfd6a0fa6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/conversation.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/conversation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/chief_judge_evaluation.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/chief_judge_evaluation.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_disclaimer_check.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_disclaimer_check.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_role_and_emergency_contact.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_role_and_emergency_contact.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_source_fidelity.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_source_fidelity.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/token-usage/chat_consumption.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/token-usage/chat_consumption.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conversation_killer.md" beforeDir="false" afterPath="$PROJECT_DIR$/conversation_killer.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/default-mode/chief_judge_default.md" beforeDir="false" afterPath="$PROJECT_DIR$/default-mode/chief_judge_default.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/default-mode/swift_judge_disclaimer_check.md" beforeDir="false" afterPath="$PROJECT_DIR$/default-mode/swift_judge_disclaimer_check.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mental_health.md" beforeDir="false" afterPath="$PROJECT_DIR$/mental_health.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source-checker-mode/chief_judge_source_fidelity.md" beforeDir="false" afterPath="$PROJECT_DIR$/source-checker-mode/chief_judge_source_fidelity.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/files/chat_current.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/files/chat_current.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/research/overseers/kill_topic.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/research/overseers/kill_topic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/utils/overseers.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/utils/overseers.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

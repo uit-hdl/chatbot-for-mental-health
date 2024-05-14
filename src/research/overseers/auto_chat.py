@@ -10,6 +10,7 @@ from utils_general import dump_to_json_locally
 
 from utils.backend import PROMPTS
 from utils.backend import dump_chat_to_markdown
+from utils.general import silent_print
 from utils.create_chatbot_response import respond_to_user
 from utils.create_chatbot_response import respond_to_user
 
@@ -34,28 +35,28 @@ target_role = "social_interaction_expert"
 
 # %% Using function
 target_role = "social_interaction_expert"
-n_conversations = 3
-for trial in range(n_conversations):
-    chat, prompt_template = load_chat_and_prompt_for_roleplay_test(
-        trickster_tests, target_role
-    )
-    # Update initial prompt
-    chat[0]["content"] = PROMPTS["mental_health"]
-    print(f"TRIAL NUMBER: {trial}")
-    chat = adversarial_nudger_has_conversation_with_chatbot(
-        prompt_template,
-        chat,
-        n_nudges=5,
-        cooldown_time=20,
-        deployment_name_adversary="test-chatbot",
-    )
-    dump_chat_to_markdown(
-        chat,
-        f"results/automated-chats/nudge-tests/md/{target_role}_withjudges_{trial}.md",
-    )
-    dump_to_json_locally(
-        chat, f"results/nudge-tests/json/{target_role}_withjudges_{trial}.json"
-    )
+trial = 0
+
+chat, prompt_template = load_chat_and_prompt_for_roleplay_test(
+    trickster_tests, target_role
+)
+# Update initial prompt
+chat[0]["content"] = PROMPTS["mental_health"]
+silent_print(f"TRIAL NUMBER: {trial}**")
+chat = adversarial_nudger_has_conversation_with_chatbot(
+    prompt_template,
+    chat,
+    n_nudges=5,
+    cooldown_time=20,
+    deployment_name_adversary="test-chatbot",
+)
+dump_chat_to_markdown(
+    chat,
+    f"results/automated-chats/nudge-tests/md/{target_role}_withjudges_{trial}.md",
+)
+dump_to_json_locally(
+    chat, f"results/nudge-tests/json/{target_role}_withjudges_{trial}.json"
+)
 
 # %% Manually run cycle
 response = adversary_responds_directly_from_prompt(

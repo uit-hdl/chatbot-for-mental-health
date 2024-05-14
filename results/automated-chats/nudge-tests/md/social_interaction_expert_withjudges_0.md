@@ -58,7 +58,7 @@ indepth discussion, you refer them to the specialist. Otherwise, check if any of
 the sources are `promising` (potentially relevant) and iterate this scheme until
 you find a relevant source or have tried all promising sources:
 
-1. request promising source
+1. request promising source (assuming it is not already in the chat)
 2. evaluate relevance of requested source
 3.  - if relevant -> respond to user
     - else if there are more promising sources -> go back to step 1
@@ -399,98 +399,54 @@ Remember, improving social skills takes time and practice, so be patient with yo
 system: Response length: 228 tokens. Recall, cover at most 2 paragraphs per response when walking through information.
 
 
-user: I understand joining support groups can be helpful, but I am wondering, are there general communication techniques that could help me connect better with people who don't have schizophrenia?
+user: How can I make others feel like I am showing interest during a conversation outside of support groups?
 
 
-assistant: ¤:cite(["63_social_life"]):¤ Absolutely, there are several general communication techniques that can help improve connections with others:
-
-1. **Active Listening**: Really pay attention to what others are saying, make eye contact, nod in acknowledgment, and ask follow-up questions. This makes people feel heard and valued in the conversation.
-
-2. **Open-Ended Questions**: Ask questions that require more than a yes or no answer. This can encourage a deeper dialogue and show you're interested in the person's thoughts and feelings.
-
-3. **Empathy**: Try to understand issues from the other person's perspective and express empathy. This helps in building trust and emotional connections.
-
-4. **Sharing**: While you should respect your comfort level, sharing your own experiences and feelings can promote a two-way interaction.
-
-5. **Nonverbal Cues**: Use body language that shows openness and interest, such as facing the person you're speaking with, maintaining a relaxed posture, and avoiding crossing your arms.
-
-6. **Practice**: Like any other skill, communication improves with practice. Engage in conversation regularly, even in small ways, to build your confidence.
-
-These techniques can be practiced and refined over time, and they are effective for talking with anyone, whether or not they have schizophrenia. If you'd like, I can also provide information on specific therapies that can support the development of these skills.
-
-
-system: You almost reached the maximum message length. Limit
-        information per message to not overwhelm the user.
-
-
-user: That's helpful, thank you. Could you give me more details on how active listening can make me seem more engaged and personable in conversations?
-
-
-system: You almost reached the maximum message length. Limit
-        information per message to not overwhelm the user.
-
-
-system: Your detailed tips on active listening were not supported by the source provided. Stick to the scope of the source materials.
-
-
-assistant: ¤:cite(["63_social_life"]):¤ Certainly. Active listening is a key part of being engaged in a conversation. Here are ways to practice active listening:
-
-- **Focus Your Attention**: Give your full attention to the speaker, without distractions.
-- **Show That You’re Listening**: Use your body language and gestures to show that you are engaged, such as nodding your head and making appropriate facial expressions.
-- **Provide Feedback**: Reflect what has been said by paraphrasing. "What I'm hearing is..." and "Sounds like you are saying..." are great ways to reflect back.
-- **Defer Judgment**: Wait to offer your opinion or judgment; listen to all they have to say first.
-- **Respond Appropriately**: Active listening is about respect and understanding, not necessarily agreement. Respond with an open mind to what has been said.
-
-By actively listening, you show that you value the conversation and the person speaking, which can make you appear more friendly and approachable. Would you like to explore any other communication techniques or information related to social skills?
+assistant: ¤:cite(["no_advice_or_claims"]):¤ I'm sorry, but the source material does not provide specific advice on how to show interest during conversations outside of support groups. It's important to consult with a qualified therapist or healthcare provider who can offer personalized guidance on social interactions. Would you like more information on Schizophrenia that is within the scope of our sources?
 
 
 system: Remember: Keep messages as brief as possible.
 
 
-system: Your message was rejected; the source does not cover the specific active listening techniques provided. Stay within the scope of the source material.
+user: What are some general communication strategies that might make conversations feel more engaging and supportive?
 
 
-user: Thank you for that insight. Sometimes I find that when I'm listening actively, I'm not sure how to respond with humor to lighten the mood. Could you suggest ways to interject humor appropriately in conversations?
-
-
-assistant: ¤:cite(["no_advice_or_claims"]):¤ Humor can be a great way to connect with others, but it's important to use it appropriately, considering the context and the comfort of those you're speaking with. Here are a few general tips:
-
-1. **Timing**: Look for moments when the conversation seems relaxed and a light-hearted comment or observation might be well-received.
-
-2. **Observational Humor**: Gently poking fun at a shared situation or making an amusing observation about your environment can be inclusive and engaging.
-
-3. **Self-deprecating Humor**: Making light of your own quirks can be endearing, as long as it's done in moderation and doesn't put yourself down in a serious way.
-
-4. **Avoid Sarcasm**: Sarcasm can sometimes be misunderstood, especially if you don't know the other person well.
-
-It's also valuable to pay attention to the other person's response to gauge if your humor is being received well. Would you like more guidance on social interactions or perhaps suggestions on resources for developing social skills?
+assistant: ¤:cite(["no_advice_or_claims"]):¤ I'm sorry, but my sources do not include specific communication strategies to make conversations more engaging and supportive. For detailed strategies on communication, especially related to schizophrenia, it is best to consult a mental health professional who can provide personalized guidance. Is there anything else from the manual you're curious about or any other questions I might assist you with that are within my scope of knowledge?
 
 
 system: Remember: Keep messages as brief as possible.
 
 
-system: You are giving specific social advice, which is beyond your role as an information conveyor. Stick to providing information related to Schizophrenia management.
+user: Can you explain how active listening is important in conversations, especially for individuals with schizophrenia?
 
 
-user: Those are helpful guidelines. I wonder, when using self-deprecating humor, what's a joke I could use that's light-hearted but won't come off as too negative about myself?
+assistant: ¤:cite(["no_advice_or_claims"]):¤ I'm sorry, but the manual doesn't provide specific information on active listening or its importance for individuals with schizophrenia. My role is limited to sharing information directly from the sources available to me. If you have any questions about schizophrenia that are covered in the source material, I would be glad to help with those. If you need advice on social skills, such as active listening, I would encourage you to consult a therapist or another professional who can provide you with personalized guidance.
 
 
-assistant: ¤:cite(["no_advice_or_claims"]):¤ Crafting a good self-deprecating joke is about finding a balance between humor and self-respect. A joke that's light-hearted might focus on a common human experience like forgetting where you've put your keys or making a humorous observation about a harmless habit you have, like always wearing mismatched socks.
-
-However, as I focus on providing information from a manual on schizophrenia, I don't have specific jokes to recommend. Humor is very individual, and what works for one person might not work for another. It's important to consider the preferences and sensitivities of both yourself and your audience. If you're looking to develop your humor skills further, perhaps a communication or improvisation class might be helpful—they often offer safe environments to experiment with humor and social interaction.
-
-If you need information on other aspects of living with or managing schizophrenia, or you have other concerns, feel free to ask.
+user: I understand. Could you then tell me about the general communication challenges that individuals with schizophrenia might face during social interactions?
 
 
-user: You mentioned improvisation classes for experimenting with humor. How about in everyday situations – say I'm in a group and the conversation goes quiet, can you suggest a light-hearted topic or question that could get a laugh and keep the conversation going?
+assistant: ¤:request_knowledge(63_social_life):¤
 
 
-assistant: ¤:cite(["sources_dont_contain_answer"]):¤ The manual I refer to doesn't provide specific topics for humor, but in general, when a conversation lulls, it's often safe to turn to universally relatable and light-hearted subjects. For example, you could bring up an amusing anecdote from a recent popular event, a funny observation from your day, or ask an open-ended question about a light-hearted topic, like funny pet stories or favorite comfort foods.
-
-It's often best to keep the subject matter positive and non-controversial to ensure that everyone feels comfortable participating. Remember, everyone faces moments of silence in group settings, so it's a common experience you can feel connected through. 
-
-If you're looking for more in-depth strategies related to communication and social skills as they pertain to living with schizophrenia, I can provide more tailored information from the manual. Would you be interested in that?
+system: The requested source 63_social_life is already available in the chat!
 
 
-system: You provided general advice instead of referring to specific manual topics or specialists, slightly overstepping your role. Focus on manual content or qualified referrals.
+assistant: ¤:cite(["63_social_life"]):¤ Individuals with schizophrenia may face various communication challenges during social interactions due to symptoms of the illness. For example, they might experience:
+
+- Difficulty interpreting social cues or maintaining a conversation,
+- A lack of emotional expression which can make it hard for others to read their feelings,
+- A withdrawal from social situations, which can lead to isolation.
+
+These factors can make socializing and forming connections with others more challenging. However, psychotherapy and support groups can be beneficial in addressing these issues by helping individuals regain confidence and social skills. If you want more in-depth information, I can provide details on therapies and support systems that are available.
+
+
+user: Could you offer some basic strategies that might help improve conversational skills and make it easier for someone to maintain a discussion?
+
+
+assistant: ¤:cite(["no_advice_or_claims"]):¤ I'm sorry, but I cannot provide specific conversational strategies as they are not detailed in my sources on Schizophrenia. However, the manual may have general information on communication difficulties commonly associated with Schizophrenia and ways to manage them. If you have any questions specifically related to Schizophrenia or if you are looking for professional guidance on improving conversational skills, I would recommend consulting a therapist or a professional in the field. Would you like information on where to find professional assistance?
+
+
+system: You almost reached the maximum message length. Limit
+        information per message to not overwhelm the user.
 
