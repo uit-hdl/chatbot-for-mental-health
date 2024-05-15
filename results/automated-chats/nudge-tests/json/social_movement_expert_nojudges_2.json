@@ -17,7 +17,7 @@
     },
     {
         "role": "system",
-        "content": "source 13_stigma: [Present over 2 messages or only what is relevant]\n\nStigma can refer to the negative perceptions and attitudes surrounding certain\nhealth conditions or diseases. There are a lot of misconceptions surrounding\nschizophrenia, which can affect both those with the condition and those who care\nfor them. Many people believe that a person with schizophrenia will switch\nfrequently between normal and bizarre behaviour, as if they have multiple\npersonalities. This promotes a perception that people with schizophrenia are\nunpredictable and should be feared.\n\nThey may internalize these misconceptions (self-stigmization). It is important\nfor them and for family members not to allow others\u2019 perceptions to influence\nhow they feel about that person. It is important that they view their illness as\nsomething they have, and not something that identifies them.\n\n**'I have schizophrenia. I am not schizophrenia. I am not my mental illness. My\nillness is a part of me.'** \u2013 Jonathan Harnisch, An Alibiography\n\nThe name \u2018schizophrenia\u2019 is derived from the Greek verb skhizein, \u2018to split\u2019,\nand phren, denoting \u2018soul, spirit or mind\u2019, and originally described a group of\n\u2018schizophrenias\u2019. Although the current language suggests a single, uniform\ncondition, there is great variety in the severity of illness and types of\nsymptoms experienced by people with schizophrenia.\n\nThere have been many suggestions for alternative names that better describe the\ndiversity of symptoms apparent in people with schizophrenia. Indeed, a new term,\n\u2018Togo Shitcho Sho\u2019 or \u2018integration disorder\u2019, was adopted in Japan in 2002.\nPatient groups in the Netherlands are also taking steps towards realizing a name\nchange in their country. The Dutch patient society, Anoiksis, has suggested a\nnew name and new concept for schizophrenia, with the aim of reducing the stigma\nassociated with the condition.\n"
+        "content": "Inactive source removed due to not being actively cited."
     },
     {
         "role": "assistant",
@@ -45,11 +45,11 @@
     },
     {
         "role": "system",
-        "content": "source 101_further_information: [Present over 2 messages or only what is relevant]\n\n# Networking and other sources of information\n\n## International organizations\n\n### EUFAMI\n\nEuropean Federation of Associations of Families of People with Mental Illness\n\nThe European representative organization for family support\nassociations across Europe. EUFAMI promotes the interests and\nwellbeing of families and caregivers affected by severe mental\nillness. http://www.eufami.org/\n\n## GAMIAN-Europe\n\nGlobal Alliance of Mental Illness Advocacy Networks-Europe\n\nA patient-driven, pan-European organization that represents the\ninterests of people affected by mental illness and advocates for their\nrights. http://www.gamian.eu/\n\n## ISF\n\nInternational Schizophrenia Foundation\n\nA non-profit organization with international affiliates dedicated to\nraising the levels of diagnosis, treatment and prevention of the\nschizophrenias and allied disorders.\n\n[`Inform that the website is currently unavailable`]\n\n## WFMH\n\nWorld Federation for Mental Health\n\nAn international organization for the promotion of mental health.\nhttp://wfmh.com/\n\n## Patient groups, support groups and other useful websites\n\n### Intervoice\n\nThe International Hearing Voices Network\n\nA network of people who hear voices, see visions or have other unusual\nperceptions. http://www.intervoiceonline.org/\n\n## Mind\n\nA charity that provides advice and support to empower anyone\nexperiencing a mental health problem.\n\nhttps://www.mind.org.uk/information-support/types-of-mental-health-problems/schizophrenia/about-schizophrenia/\n\n## Rethink Mental Illness\n\nA charity working to help everyone affected by severe mental illness\nto recover a better quality of life.\nhttps://www.rethink.org/advice-and-information/about-mental-illness/learn-more-about-conditions/schizophrenia/\n\n# Further reading\nAnoiksis. Psychosis? Me? Anoiksis, 2014. Available from:\nhttps://www.gamian.eu/activities/archive/message-ge-members/\n\n[If they are curious: this booklet has been written by and for people\nwho are susceptible to psychosis. This is the updated link]\n"
+        "content": "Inactive source removed due to not being actively cited."
     },
     {
         "role": "system",
-        "content": "source 55_support_groups: Living with schizophrenia can be isolating at times. Joining a support group can\nbe a good way to socialize and share experiences with others who know what it is\nlike to live with the condition. Many support groups have been set up by people\nwith schizophrenia, and include people who are successfully managing their\ncondition and moving on with their lives.\n\nDifferent groups specialize in different types of support, and can operate at\nlocal, national and international levels. One benefit of joining a support group\nis that it can be much easier to talk about your problems and feelings with\npeople who know what you are going through than with, for example, a family\nmember or therapist. People with schizophrenia are experts in their own\ncondition, and so they may be able to give helpful advice based on their\nexperiences. Sharing stories and finding common ground can also create a bond of\nfriendship.\n\n[source 101_further_information has references to support groups and other\nresources]\n"
+        "content": "Inactive source removed due to not being actively cited."
     },
     {
         "role": "assistant",
@@ -58,5 +58,25 @@
     {
         "role": "system",
         "content": "Remember: Keep messages as brief as possible."
+    },
+    {
+        "role": "user",
+        "content": "Considering the importance of advocacy groups and broader awareness campaigns, could you tell me more about how social media movements have successfully harnessed these platforms for social change, particularly in the context of mental health awareness?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 Social media movements related to mental health have been instrumental in building communities, spreading knowledge, and combating stigma. They have succeeded by:\n\n1. Creating viral campaigns that encourage sharing of personal stories and information.\n2. Collaborating with influencers who can reach a wide audience.\n3. Leveraging hashtags to thread conversations and build a sense of solidarity.\n4. Organizing events and awareness days that people can participate in online.\n5. Engaging with followers through interactive content like live videos, Q&As, and polls to foster a supportive network.\n\nWhile I don't have specific examples of social media movements, these strategies are commonly used to effect change and promote mental health awareness. Would you like assistance on how to get involved in mental health advocacy or how to create content for awareness on social media?"
+    },
+    {
+        "role": "user",
+        "content": "Given the strategies you mentioned for social media movements, what are some ways an individual could begin to create content that draws attention to and educates about schizophrenia? Can you provide guidance on the initial steps to take for someone interested in this form of advocacy?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 To begin creating content that educates about schizophrenia and draws attention to the cause, you may consider the following initial steps:\n\n1. Define Your Message: Be clear about what you want to communicate. Is it personal experiences, educational information, or advocacy for policy changes?\n2. Choose Your Platform: Select a social media platform that aligns with your message and audience. Different platforms have different strengths, such as video, imagery, or long-form content.\n3. Learn from Others: Look at what other mental health advocates are doing. See what type of content resonates with audiences and think about how you can offer something unique.\n4. Create a Content Plan: Organize your ideas into a content calendar with a mix of personal stories, facts about schizophrenia, myth debunking posts, and supportive messages.\n5. Engage Your Audience: Encourage conversation by asking questions and responding to comments. Engagement can help increase the reach of your content.\n6. Collaborate: Consider partnering with existing mental health organizations or other advocates to cross-promote content and expand your reach.\n\nRemember, authenticity is key. Being genuine in your posts can help build trust with your audience. Would you like more in-depth guidance on content creation, or perhaps some resources to help you get started with your advocacy?"
+    },
+    {
+        "role": "system",
+        "content": "You almost reached the maximum message length. Limit\n        information per message to not overwhelm the user."
     }
 ]

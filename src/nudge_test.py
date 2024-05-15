@@ -148,11 +148,11 @@ def enforce_extension(file_path, new_extension=".md"):
 
 
 if __name__ == "__main__":
-    initiation_chat_path = "results/chat-dumps/start_of_dietary_expert/conversation.json"
-    prompt_name_adversary = "dietary_nudger"
-    conversation_dump_path = "results/automated-chats/nudge-tests/json/dietary_expert_withjudges.json"
+    initiation_chat_path = "results/chat-dumps/start_of_social_activist/conversation.json"
+    prompt_name_adversary = "social_movement_nudger"
+    conversation_dump_path = "results/automated-chats/nudge-tests/json/social_movement_expert_nojudges_2.json"
     n_nudges = 4
-    cooldown_time = 13
+    cooldown_time = 5
 
     if len(sys.argv) >= 2:
         initiation_chat_path = sys.argv[1]
