@@ -1,0 +1,7 @@
+max_tokens_chat_completion: |
+  Your response was shortened as it exceeded the maximum allowed length; keep
+  messages short.
+limit_1_tokens_per_message: |
+  You almost reached the maximum message length. Limit information per message
+  to not overwhelm the user.
+limit_2_tokens_per_message: Keep messages as brief as possible.

@@ -7,6 +7,7 @@ from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.chat_utilities import grab_last_assistant_response
 from utils.backend import SETTINGS
+from utils.backend import SYSTEM_MESSAGES
 from utils.backend import LOGGER
 from utils.backend import MODEL_ID
 from utils.backend import dump_current_conversation_to_json
@@ -20,8 +21,8 @@ from utils.overseers import summarize_if_response_too_long
 def respond_to_user(conversation, chatbot_id: str) -> tuple[list, dict]:
     """Generates and appends a response to the conversation. Assistant can
     iteratively request sources untill it is satisfied. Requested sources are
-    inserted into the conversation. 
-    
+    inserted into the conversation.
+
     Returns updated conversation and dictionary with harvested syntax."""
     # Generate initial valid response
     (
@@ -79,11 +80,12 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
 
 
 def create_tentative_bot_response(conversation, chatbot_id):
-    """Generates a bot message, corrects common bot errors where they can be easily
-    corrected, extracts commands from the raw message, and checks if the files requested
-    by the commands actually exists. If they do not exist, then system messages are added
-    to the chat to inform the bot of its errors, and quality_check is set to "failed" so
-    to inform that the bot should generate a new response."""
+    """Generates a bot message, corrects common bot errors where they can be
+    easily corrected, extracts commands from the raw message, and checks if the
+    files requested by the commands actually exists. If they do not exist, then
+    system messages are added to the chat to inform the bot of its errors, and
+    quality_check is set to "failed" so to inform that the bot should generate a
+    new response."""
     silent_print(f"Generating raw bot response ...")
     conversation = generate_and_add_raw_bot_response(conversation)
     silent_print(f"Raw bot response generated")
@@ -102,17 +104,15 @@ def manage_length_of_chatbot_response(conversation) -> list:
     if response_length >= SETTINGS["max_tokens_before_summarization"]:
         silent_print("Response exceeds max length, shortening message with GPT-3.5...")
         conversation = summarize_if_response_too_long(conversation)
-        warning = """Your response was shortened as it exceeded the maximum
-        allowed length; keep messages short."""
+        warning = SYSTEM_MESSAGES["max_tokens_before_summarization"]
 
     elif response_length > SETTINGS["limit_2_tokens_per_message"]:
         silent_print(f"Response has length {response_length} tokens...")
-        warning = """You almost reached the maximum message length. Limit
-        information per message to not overwhelm the user."""
+        warning = SYSTEM_MESSAGES["limit_2_tokens_per_message"]
 
     elif response_length > SETTINGS["limit_1_tokens_per_message"]:
         silent_print(f"Response has length {response_length} tokens...")
-        warning = """Remember: Keep messages as brief as possible."""
+        warning = SYSTEM_MESSAGES["limit_1_tokens_per_message"]
 
     if warning:
         conversation.append({"role": "system", "content": warning})

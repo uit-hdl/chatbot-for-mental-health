@@ -38,6 +38,7 @@ CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 # Configuration-file paths
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
+SYSTEM_MESSAGES_PATH = os.path.join(ROOT_DIR, "config/system_messages.yaml")
 DEPLOYMENTS_PATH = os.path.join(ROOT_DIR, "config/agent_to_deployment_map.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
@@ -441,6 +442,7 @@ DEPLOYMENTS = load_yaml_file(DEPLOYMENTS_PATH)
 
 CONFIG = load_yaml_file(CONFIG_PATH)
 SETTINGS = load_yaml_file(SETTINGS_PATH)
+SYSTEM_MESSAGES = load_yaml_file(SYSTEM_MESSAGES_PATH)
 API_KEY = os.environ["AZURE_API_KEY"]
 
 MODEL_ID = CONFIG["model_id"]
