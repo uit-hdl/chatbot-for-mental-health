@@ -20,9 +20,9 @@ from utils.overseers import summarize_if_response_too_long
 def respond_to_user(conversation, chatbot_id: str) -> tuple[list, dict]:
     """Generates and appends a response to the conversation. Assistant can
     iteratively request sources untill it is satisfied. Requested sources are
-    inserted into the conversation by system. Returns conversation with response
-    and system messages (if any), as well as the information that was collected
-    from the bots message."""
+    inserted into the conversation. 
+    
+    Returns updated conversation and dictionary with harvested syntax."""
     # Generate initial valid response
     (
         conversation,

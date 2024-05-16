@@ -11,6 +11,7 @@ conversation_killer: "test-chatbot"
 # GPT-3.5-Turbo 16k context window
 message_length_cutter: "gpt-35-turbo-16k"
 referral_consent_checker: "gpt-35-turbo-16k"
+user_simulated: "gpt-35-turbo-16k"
 # GPT-3.5 turbo instruct
 swift_judge_misc: "gpt-35-instruct-overseers"
 swift_judge_source_fidelity: "gpt-35-instruct-overseers"

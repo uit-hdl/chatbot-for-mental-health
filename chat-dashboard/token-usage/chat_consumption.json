@@ -1,4 +1,5 @@
 {
-    "token_usage_total": 26566,
-    "chat_cost_kr_total": 8.806055999999998
+    "token_usage_total": 25727,
+    "chat_cost_kr_total": 8.537664,
+    "current_chat_token_count": 5230
 }

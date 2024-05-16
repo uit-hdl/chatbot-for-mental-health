@@ -120,7 +120,8 @@ def grab_last_response(conversation: list) -> str:
 def grab_last_assistant_response(conversation: list) -> str:
     """Grab the latest assistant response string."""
     index_assistant_messages = identify_assistant_responses(conversation)
-    return conversation[index_assistant_messages[-1]]["content"]
+    if index_assistant_messages:
+        return conversation[index_assistant_messages[-1]]["content"]
 
 
 def identify_system_responses(conversation) -> list[int]:
@@ -148,7 +149,7 @@ def remove_system_messages_following_last_assistant_response(conversation) -> li
         i for i in index_system_messages if i > index_last_assistant_message
     ]
     if subsequent_system_messages:
-        del conversation[subsequent_system_messages[0]:]
+        del conversation[subsequent_system_messages[0] :]
     return conversation
 
 

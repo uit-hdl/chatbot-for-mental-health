@@ -1,27 +1,9 @@
-¤:cite(["12_what_is_schizophrenia"]):¤ Here's some key information that can help raise awareness and dispel myths about schizophrenia: 
+¤:cite(["21_causes"]):¤ Schizophrenia is not anyone's fault. It can be influenced by genetics—if a parent has the condition, the risk increases from about 1% to about 10%. Environment also plays a role, with factors like urban upbringing, drug abuse, and stressful life events being potential influencers. However, no single genetic or environmental factor is solely responsible for causing Schizophrenia. It's a complex interplay of both. ¤:display_image(schizophrenia_genes_environment_interactions.png):¤
 
-- **Myth**: People with schizophrenia have multiple or split personalities.
-  **Fact**: Schizophrenia does not cause someone to have multiple personalities.
-  
-- **Myth**: Bad parenting causes schizophrenia.
-  **Fact**: There is no known link between parenting styles and the development of schizophrenia.
-  
-- **Myth**: Individuals with schizophrenia are lazy.
-  **Fact**: A lack of energy is a symptom of the illness, not a personality trait.
-  
-- **Myth**: People with schizophrenia are violent and dangerous.
-  **Fact**: While some behaviors can be unusual, they are rarely violent.
-  
-- **Myth**: The experiences of a person with schizophrenia are not real.
-  **Fact**: The experiences are very real to the person, even if they seem unrealistic to others.
-  
-- **Myth**: People with schizophrenia will never get better.
-  **Fact**: Schizophrenia is treatable and many people improve or recover completely.
-  
-- **Myth**: Medication will stop all symptoms of schizophrenia.
-  **Fact**: While medication significantly reduces symptoms, it may not eliminate all of them.
-  
-- **Myth**: Individuals with schizophrenia can't work.
-  **Fact**: Many people with schizophrenia are employed and find that productive work helps with self-esteem.
+¤:cite(["41_info_for_newly_diagnosed"]):¤ In terms of getting better, some people recover completely, and others improve with treatment. Recovery includes managing symptoms, building support systems, and working toward goals. Treatment options and strategies will be discussed further in the manual. ¤:display_image(statistics_on_who_gets_better.png):¤
 
-Sharing such facts can help people better understand schizophrenia and reduce the stigma associated with it. Would you like more information on any particular topic?
+As for whom to talk to, it's up to you to decide whom to inform about your condition, typically starting with close relationships and individuals you interact with regularly.
+
+¤:cite(["11_seeking_a_diagnosis"]):¤ Should you feel the need for diagnosis, start by consulting your doctor who may then refer you to a psychiatrist. Early signs of Schizophrenia can be varied and subtle, so professional assessment is essential. ¤:display_image(schizophrenia_early_signs.png):¤
+
+Would you like to discuss any of these topics in more detail or have other questions?

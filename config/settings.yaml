@@ -26,6 +26,7 @@ dollars_per_1k_output_token: 0.06
 nok_per_dollar: 10.6  # rate: NOK per Dollar
 
 # --- TOKEN LIMITS AND BOUNDARIES ---
+max_inserted_sources: 4
 # max tokens when calling ChatCompletion():
 max_tokens_chat_completion: 320  # Longer responses are truncated
 limit_1_tokens_per_message: 200  # threshold for mild warning message
@@ -35,7 +36,7 @@ max_tokens_before_summarization: 300
 # Max tokens for GPT-3.5-turbo instruct (not currently in use)
 max_tokens_turbo_instruct: 90
 
-role_that_speaks_first: "assistant"
+role_that_speaks_first: "user"
 # --- OVERSEER BOTS ---
 # Set to false to turn of filters that check the contents of generated messages
 enable_overseer_filter: False

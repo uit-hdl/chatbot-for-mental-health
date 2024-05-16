@@ -22,6 +22,7 @@ from utils.general import remove_syntax_from_message
 from utils.general import list_intersection
 from utils.general import silent_print
 from utils.backend import load_json_from_path
+from utils.backend import dump_current_conversation_to_json
 from utils.backend import dump_to_json
 from utils.backend import add_extension
 from utils.backend import PROMPTS
@@ -42,7 +43,6 @@ def adversarial_nudger_has_conversation_with_chatbot(
     chatbot_id) and the adverserial nudger which is prompt-engineered to try to
     tempt the chatbot to adopt a specific out-of-bounds role."""
     prompt_template = PROMPTS[prompt_name_adversary]
-    print(n_nudges)
     conversation = load_json_from_path(initiation_chat_path)
 
     print_last_assistent_response(conversation)
@@ -60,7 +60,6 @@ def adversarial_nudger_has_conversation_with_chatbot(
         conversation.append({"role": "user", "content": response})
         dump_to_json(conversation, conversation_dump_path)
         print_last_user_message(response)
-        cool_off(cooldown_time)
 
         # CHATBOT RESPONDS
         conversation, harvested_syntax = respond_to_user(conversation, chatbot_id)
