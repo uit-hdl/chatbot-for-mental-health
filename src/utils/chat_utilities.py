@@ -61,37 +61,11 @@ def generate_and_add_raw_bot_response(
     return conversation
 
 
-def generate_single_response_using_gpt35_turbo_instruct(
-    prompt: str,
-    model_id="gpt-3.5-turbo-instruct",
-    deployment_name=CONFIG["deployment_name_single_response"],
-    max_tokens=SETTINGS["max_tokens_turbo_instruct"],
-    temperature=None,
-    return_everything=False,
-):
-    """Provides a chat completion to a single message input. `Completion` is
-    optimized for cases where only a single response is desired, rather than a
-    conversation. Note: GPT-3.5-turbot-instruct is fine tuned for this task."""
-    response = openai.Completion.create(
-        model=model_id,
-        prompt=prompt,
-        engine=deployment_name,
-        max_tokens=max_tokens,
-        temperature=temperature,
-    )
-    if return_everything:
-        return response
-    else:
-        return_string = response.choices[0]["text"]
-        return return_string.replace("\n", "").replace(" .", ".").strip()
-
-
 def generate_single_response_to_prompt(
     prompt, deployment_name=CONFIG["deployment_name"]
 ):
     """Used when a single response to a single prompt is all that is wanted, not
-    a conversation. Uses GPT-3.5 or 4. GPT-3.5-turbo instruct uses a different
-    setup, and has its own function."""
+    a conversation. Uses GPT-3.5 or 4."""
     # Create conversation object with just one message (the prompt)
     conversation = initiate_conversation_with_prompt(prompt)
     # Get response
