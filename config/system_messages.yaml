@@ -19,4 +19,5 @@ image_doesnt_exist: |
 video_doesnt_exist: |
   Video `{video}` does not exist! Request only videos I have referenced.
 no_citation: All your messages MUST start with a citation!
+confirm_before_redirect: Ask for confirmation before redirecting the user.
 

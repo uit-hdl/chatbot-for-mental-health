@@ -113,7 +113,7 @@ def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):
 
     # Check if there are any citations
     if not bot_citations and not harvested_syntax["referral"]:
-        hard_warnings.append(SETTINGS["no_citation"])
+        hard_warnings.append(SYSTEM_MESSAGES["no_citation"])
 
     for citation in bot_citations:
 

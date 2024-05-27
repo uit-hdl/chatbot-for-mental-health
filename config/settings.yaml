@@ -1,14 +1,31 @@
-word_wrap: 80  # N.o. characters before line gets wrapped.
-plot_duration: 10000  # The duration of time for which the figures are shown (uggly solution...)
-max_tokens_before_truncation: 4500  # Length above which chat gets truncated
-inactivity_threshold: 2  # Remove source from conversation if it has not been cited in this many consecutive responses
+# --- MESSAGE GENERATION ---
 # Controll max number of attempts at producing valid response:
 n_attempts_at_producing_valid_response: 1
-max_requests: 2
+max_requests: 2 # Maximum number of sources that the chatbot is allowed to request per turn.
+role_that_speaks_first: "user"
+# --- FILTERS ---
+# Set to false to turn of filters that check the contents of generated messages
+enable_overseer_filter: True
+enable_hard_coded_filter: True
+
+# --- LIMITATIONS RELATED TO CHAT LENGTH ---
+inactivity_threshold: 2 # Remove source from conversation if it has not been cited in this many consecutive responses
+max_tokens_before_truncation: 4500 # Length above which chat gets truncated
+max_inserted_sources: 4 # Maximum number of sources that can be inserted at any given point.
+# max tokens when calling ChatCompletion():
+max_tokens_chat_completion: 320 # Longer responses are truncated
+limit_1_tokens_per_message: 200 # threshold for mild warning message
+limit_2_tokens_per_message: 250 # threshold for more severe warning message
+# If exceeded, message gets shortened by GPT-3.5:
+max_tokens_before_summarization: 300
+
+# --- APPEARANCES ---
+word_wrap: 80 # N.o. characters before line gets wrapped.
+plot_duration: 10000 # The duration of time for which the figures are shown (uggly solution...)
 # Printing
 print_knowledge_requests: True
 
-# --- Pricing info for each model ---
+# --- RATES USED TO CALCULATE COSTS ---
 dollars_per_1k_token:
   "gpt-4":
     "input": 0.03
@@ -23,21 +40,4 @@ dollars_per_1k_token:
     "input": 0.0015
     "output": 0.002
 dollars_per_1k_output_token: 0.06
-nok_per_dollar: 10.6  # rate: NOK per Dollar
-
-# --- TOKEN LIMITS AND BOUNDARIES ---
-max_inserted_sources: 4
-# max tokens when calling ChatCompletion():
-max_tokens_chat_completion: 320  # Longer responses are truncated
-limit_1_tokens_per_message: 200  # threshold for mild warning message
-limit_2_tokens_per_message: 250  # threshold for more severe warning message
-# If exceeded, message gets shortened by GPT-3.5:
-max_tokens_before_summarization: 300  
-# Max tokens for GPT-3.5-turbo instruct (not currently in use)
-max_tokens_turbo_instruct: 90
-
-role_that_speaks_first: "user"
-# --- OVERSEER BOTS ---
-# Set to false to turn of filters that check the contents of generated messages
-enable_overseer_filter: True
-enable_hard_coded_filter: True
+nok_per_dollar: 10.6 # rate: NOK per Dollar

@@ -1,8 +1,9 @@
 # AVAILABLE: "gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-1106", "gpt-3.5-turbo-instruct"
-model_id: "gpt-4"
-model_id_source_fidelity: "gpt-4"
+model_id: "gpt-4"  # LLM used for the AI that converses with the user
 api_base: "https://gpt4-for-trusting.openai.azure.com/"
 deployment_name: "test-chatbot"  # The 'engine' argument
-deployment_name_single_response: "gpt-35-instruct-overseers"
 api_version: "2023-05-15"
 api_type: "azure"
+model_to_deployment_map:
+  gpt_4: "test-chatbot"
+  gpt_35: "gpt-35-turbo-16k"

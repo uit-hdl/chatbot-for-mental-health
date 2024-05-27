@@ -12,13 +12,6 @@ import shutil
 
 from utils.logging import setup_logger
 
-# Collect and rename deployments
-DEPLOYMENTS = {
-    "gpt-4": "test-chatbot",
-    "gpt-35-turbo": "gpt-35-turbo-test",
-    "gpt-35-turbo-instruct": "gpt-35-instruct-overseers",
-}
-
 # Directory paths
 ROOT_DIR = pathlib.Path(__file__).parents[2]
 CONVERSATIONS_DIR = os.path.join(ROOT_DIR, "conversations")

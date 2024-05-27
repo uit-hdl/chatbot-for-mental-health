@@ -1,10 +1,9 @@
-"""Functions for creating external overseer bots which various parts of the conversation
-and chatbot messages and provides feedback to prevent chatbot identity drift. Overseer
-bots are assumed to generate a message on the form `¤:provide_feedback(<data on JSON
-format>):¤`"""
+"""Functions for creating AI-monitors which oversee various parts of the
+conversation and chatbot messages and provides feedback to prevent chatbot
+identity drift. Overseer bots are assumed to generate a message on the form
+`¤:provide_feedback(<data on JSON format>):¤`"""
 
 from typing import Tuple
-import os
 
 from utils.backend import get_source_content_and_path
 from utils.backend import convert_json_string_to_dict
@@ -16,6 +15,7 @@ from utils.backend import PROMPTS
 from utils.backend import DEPLOYMENTS
 from utils.backend import CONFIG
 from utils.backend import SETTINGS
+from utils.backend import SYSTEM_MESSAGES
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import replace_last_assistant_response
 from utils.chat_utilities import (
@@ -41,16 +41,6 @@ MESSAGE_CLASSIFICATIONS = [
     "the_architect",
     "sources_dont_contain_answer",
 ]
-# These are names of the prompts for the various AI-judges.
-# Judes that check source-fidelity
-CHIEF_JUDGE_SOURCE_FIDELITY = "chief_judge_source_fidelity"
-SWIFT_JUDGE_SOURCE_FIDELITY = "swift_judge_source_fidelity"
-# Judges that checks default-mode messages
-CHIEF_JUDGE_DEFAULT = "chief_judge_default"
-SWIFT_JUDGE_DISCLAIMER_CHECK = "swift_judge_disclaimer_check"
-SWIFT_JUDGE_ROLE_CHECK = "swift_judge_role_and_emergency_contact"
-# Summarizes long messages:
-MESSAGE_LENGTH_CUTTER = "message_length_cutter"
 
 
 def evaluate_with_overseers(conversation, harvested_syntax, chatbot_id):
@@ -74,8 +64,7 @@ def evaluate_with_overseers(conversation, harvested_syntax, chatbot_id):
             silent_print("Overseer confirms that user wants to be referred.")
             warning_message = []
         else:
-            warning_message = """Ask for confirmation before redirecting the
-                              user."""
+            warning_message = SYSTEM_MESSAGES["confirm_before_redirect"]
 
     elif list_intersection(available_sources, citations):
         overseer_evaluation, warning_message, conversation = (
@@ -94,9 +83,10 @@ def evaluate_with_overseers(conversation, harvested_syntax, chatbot_id):
 def overseer_evaluates_source_fidelity(
     conversation, citations: list, chatbot_id: str
 ) -> list:
-    """An overseer bot checks fidelity of bot response to the source it cites. Only
-    considers citations that reference files containing information, as opposed to dummy
-    citations that are used classify what type of response the bot is giving."""
+    """An overseer bot checks fidelity of bot response to the source it cites.
+    Only considers citations that reference files containing information, as
+    opposed to dummy citations that are used classify what type of response the
+    bot is giving."""
     chatbot_message = grab_last_assistant_response(conversation)
     chatbot_message = remove_syntax_from_message(chatbot_message)
     # Remove citatons that do not reference a source (only label the response)
@@ -124,7 +114,7 @@ def overseer_evaluates_source_fidelity(
         evaluation_dict = generate_overseer_response(
             prompt=prompt_completed,
         )
-        silent_print(f"{CHIEF_JUDGE_DEFAULT} raw evaluation: {evaluation_dict}")
+        silent_print(f"chief_judge_default raw evaluation: {evaluation_dict}")
         overseer_evaluation, warning_message = extract_overseer_evaluation_and_feedback(
             evaluation_dict
         )
@@ -146,7 +136,7 @@ def overseer_evaluates_source_fidelity(
 def preliminary_check_of_source_fidelity(
     sources: list[str],
     chatbot_message: str,
-    prompt=PROMPTS[SWIFT_JUDGE_SOURCE_FIDELITY],
+    prompt=PROMPTS["swift_judge_source_fidelity"],
 ):
     """Uses GPT-3.5-turbo-instruct to generate a preliminary quality check on source
     adherence. This evaluation is decent at catching deviations from source materials, but
@@ -155,10 +145,10 @@ def preliminary_check_of_source_fidelity(
     source = sources[0]
     prompt_completed = prompt.format(chatbot_message=chatbot_message, source=source)
     evaluation = generate_single_response_to_prompt(
-        prompt_completed, deployment_name="gpt-35-turbo-16k"
+        prompt_completed, deployment_name=DEPLOYMENTS["message_summarizer"]
     )
     dump_prompt_response_pair_to_md(
-        prompt_completed, evaluation, SWIFT_JUDGE_SOURCE_FIDELITY
+        prompt_completed, evaluation, "swift_judge_source_fidelity"
     )
 
     if "NOT_SUPPORTED" in evaluation:
@@ -172,7 +162,7 @@ def preliminary_check_of_source_fidelity(
 def fill_in_prompt_template_for_source_fidelity_overseer(
     chatbot_message: str,
     sources: list[str],
-    prompt_template=PROMPTS[CHIEF_JUDGE_SOURCE_FIDELITY],
+    prompt_template=PROMPTS["chief_judge_source_fidelity"],
 ) -> str:
     """Takes the response generated by the chatbot and a list of sources
     that the bot cites to support its message and inserts them into the prompt
@@ -296,11 +286,11 @@ def overseer_evaluates_default_mode_messages(conversation, citations: list):
             user_message, chatbot_message
         )
         if swift_judgement != "ACCEPTED":
-            prompt = PROMPTS[CHIEF_JUDGE_DEFAULT].format(
+            prompt = PROMPTS["chief_judge_default"].format(
                 user_message=user_message, chatbot_message=chatbot_message
             )
             evaluation_dict = generate_overseer_response(prompt)
-            silent_print(f"{CHIEF_JUDGE_DEFAULT} raw evaluation: {evaluation_dict}")
+            silent_print(f"chief_judge_default raw evaluation: {evaluation_dict}")
             overseer_evaluation, warning_message = (
                 extract_overseer_evaluation_and_feedback(evaluation_dict)
             )
@@ -322,17 +312,17 @@ def preliminary_check_of_default_mode_message(
     """Uses GPT-3.5-turbo-instruct to screen for behaviours that violates the
     chatbots role limitations."""
     # Disclaimer check
-    prompt_disclaimer_check = PROMPTS[SWIFT_JUDGE_DISCLAIMER_CHECK].format(
+    prompt_disclaimer_check = PROMPTS["swift_judge_disclaimer_check"].format(
         user_message=user_message, chatbot_message=chatbot_message
     )
     evaluation_disclaimer = generate_single_response_to_prompt(
         prompt_disclaimer_check, deployment_name="gpt-35-turbo-16k"
     )
     dump_prompt_response_pair_to_md(
-        prompt_disclaimer_check, evaluation_disclaimer, SWIFT_JUDGE_DISCLAIMER_CHECK
+        prompt_disclaimer_check, evaluation_disclaimer, "swift_judge_disclaimer_check"
     )
     # Role and referral to emergency contact check
-    prompt_role_check = PROMPTS[SWIFT_JUDGE_ROLE_CHECK].format(
+    prompt_role_check = PROMPTS["swift_judge_role_and_emergency_contact"].format(
         user_message=user_message, chatbot_message=chatbot_message
     )
     evaluation_role = generate_single_response_to_prompt(
@@ -341,7 +331,7 @@ def preliminary_check_of_default_mode_message(
     dump_prompt_response_pair_to_md(
         prompt_role_check,
         evaluation_role,
-        SWIFT_JUDGE_ROLE_CHECK,
+        "swift_judge_role_and_emergency_contact",
     )
 
     silent_print(f"** DEFAULT MODE MESSAGE CHECK **")
@@ -362,8 +352,8 @@ def preliminary_check_of_default_mode_message(
 
 def summarize_if_response_too_long(
     conversation,
-    prompt=PROMPTS[MESSAGE_LENGTH_CUTTER],
-    deployment_name=DEPLOYMENTS[MESSAGE_LENGTH_CUTTER],
+    prompt=PROMPTS["message_summarizer"],
+    deployment_name=DEPLOYMENTS["message_summarizer"],
     max_tokens_per_message=SETTINGS["max_tokens_chat_completion"],
 ) -> list:
     """Chatbot responsible for summarizing messages that are too long. Returns

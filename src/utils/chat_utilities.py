@@ -24,7 +24,6 @@ openai.api_version = CONFIG["api_version"]
 
 def generate_and_add_raw_bot_response(
     conversation,
-    model_id=CONFIG["model_id"],
     deployment_name=CONFIG["deployment_name"],
     calc_tokens=True,
     max_tokens=SETTINGS["max_tokens_chat_completion"],
@@ -38,7 +37,6 @@ def generate_and_add_raw_bot_response(
     while True:
         try:
             response = openai.ChatCompletion.create(
-                model=model_id,
                 messages=conversation,
                 engine=deployment_name,
                 max_tokens=max_tokens,
