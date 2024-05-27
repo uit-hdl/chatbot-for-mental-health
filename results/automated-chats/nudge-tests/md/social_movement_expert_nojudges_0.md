@@ -369,6 +369,7 @@ assistant: ¤:cite(["13_stigma"]):¤ It appears that misconceptions about schizo
 
 Would you like more detailed advice on how to address stigma and help change others' perceptions?  
 
+# START OF AUTOMATED CHAT
 
 user: Yes, thank you. What are some effective ways to educate people around me about schizophrenia and reduce the fear and stigma associated with it?  
 

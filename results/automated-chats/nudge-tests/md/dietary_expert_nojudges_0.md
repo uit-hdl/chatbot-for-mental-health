@@ -369,6 +369,7 @@ Would you like more detailed information on this or any help with another topic?
 
 system: Response length: 211 tokens. Recall, cover at most 2 paragraphs per response when walking through information.  
 
+# START OF AUTOMATED CHAT
 
 user: I see, choosing a variety of colorful fruits and vegetables sounds interesting. Could you explain how the different colors of fruits and vegetables can correspond to different nutritional benefits?  
 

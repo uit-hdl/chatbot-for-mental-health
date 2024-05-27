@@ -9,6 +9,7 @@ from utils.overseers import MESSAGE_CLASSIFICATIONS
 from utils.overseers import evaluate_with_overseers
 from utils.general import silent_print
 from utils.backend import SETTINGS
+from utils.backend import SYSTEM_MESSAGES
 from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import LOGGER
 from utils.backend import dump_current_conversation_to_json
@@ -71,19 +72,19 @@ def check_if_requested_files_exist(harvested_syntax) -> list:
     for request in harvested_syntax["knowledge_extensions"]:
         if request["file_exists"] == False:
             hard_warnings.append(
-                f"`{request['name']}` does not exist! Request only sources and assistants I have referenced."
+                SYSTEM_MESSAGES["file_doesnt_exist"].format(file=request["name"])
             )
 
     for image in harvested_syntax["images"]:
         if image["file_exists"] == False:
             hard_warnings.append(
-                f"Image `{image['name']}` does not exist! Request only images I have referenced."
+                SYSTEM_MESSAGES["image_doesnt_exist"].format(image=image["name"])
             )
 
     for video in harvested_syntax["videos"]:
         if video["file_exists"] == False:
             hard_warnings.append(
-                f"Video `{video['name']}` does not exist! Request only videos I have referenced."
+                SYSTEM_MESSAGES["video_doesnt_exist"].format(video=image["name"])
             )
 
     return hard_warnings
@@ -112,18 +113,22 @@ def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):
 
     # Check if there are any citations
     if not bot_citations and not harvested_syntax["referral"]:
-        hard_warnings.append(f"All your messages MUST start with a citation!")
+        hard_warnings.append(SETTINGS["no_citation"])
 
     for citation in bot_citations:
 
         if citation in available_sources:
             if citation not in inserted_citations:
                 soft_warnings.append(
-                    f"You cited a source ({citation}) that has not been inserted in the chat! Ensure the source is in the chat BEFORE you cite it."
+                    SYSTEM_MESSAGES["citing_before_requesting"].format(
+                        citaiton=citation
+                    )
                 )
         else:
             if citation not in MESSAGE_CLASSIFICATIONS:
-                hard_warnings.append(f"({citation}) is not a valid citation!")
+                hard_warnings.append(
+                    SYSTEM_MESSAGES["invalid_citation"].format(citation=citation)
+                )
 
     return soft_warnings, hard_warnings
 
@@ -139,9 +144,10 @@ def correct_erroneous_show_image_command(conversation) -> list:
 
     if matches:
         corrected_message = re.sub(pattern, r"¤:display_image(\1):¤", message)
-        system_message = "Warning: expressions of the form (show: image.png) have been corrected to ¤:display_image(image.png):¤"
         conversation[-1]["content"] = corrected_message
-        conversation.append({"role": "system", "content": system_message})
+        conversation.append(
+            {"role": "system", "content": SYSTEM_MESSAGES["invalid_display_command"]}
+        )
 
     return conversation
 

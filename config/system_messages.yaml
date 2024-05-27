@@ -1,7 +1,22 @@
-max_tokens_chat_completion: |
-  Your response was shortened as it exceeded the maximum allowed length; keep
-  messages short.
-limit_1_tokens_per_message: |
-  You almost reached the maximum message length. Limit information per message
+limit_1_tokens_per_message: Keep messages as brief as possible.
+limit_2_tokens_per_message: |
+  You almost reached the maximum message length. Deliver information in chunks
   to not overwhelm the user.
-limit_2_tokens_per_message: Keep messages as brief as possible.
+max_tokens_before_summarization: |
+  Your response was shortened. Present information in smaller chunks.
+citing_before_requesting: |
+  You cited {citation} that has not been inserted in the chat! Ensure the source
+  is in the chat BEFORE you cite it.
+invalid_citation: "`{citation}` is not a valid citation!"
+invalid_display_command: |
+  Warning: expressions of the form (show: image.png) have been corrected to
+  ¤:display_image(image.png):¤
+file_doesnt_exist: |
+  `{file}` does not exist! Request only sources and assistants I have
+  referenced.
+image_doesnt_exist: |
+  Image `{image}` does not exist! Request only images I have referenced.
+video_doesnt_exist: |
+  Video `{video}` does not exist! Request only videos I have referenced.
+no_citation: All your messages MUST start with a citation!
+

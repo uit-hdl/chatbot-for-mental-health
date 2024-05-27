@@ -400,6 +400,7 @@ Remember to watch portion sizes and try to limit foods and drinks high in calori
 
 Would you like more detailed information on this or any help with another topic?  
 
+# START OF AUTOMATED CHAT
 
 system: Response length: 211 tokens. Recall, cover at most 2 paragraphs per response when walking through information.  
 

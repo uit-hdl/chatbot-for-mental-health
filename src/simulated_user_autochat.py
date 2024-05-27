@@ -29,7 +29,7 @@ from utils.backend import PROMPTS
 from utils.backend import dump_file
 
 
-dump_path_prompt_simulated_user = "chat-dashboard/other/simulated_user.md"
+dump_path_prompt_simulated_user = "chat-dashboard/other/simulated_user.json"
 chatbot_id = "mental_health"
 initial_greet = """\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello and welcome!
 I'm here to provide information on schizophrenia according to a
@@ -53,45 +53,57 @@ def automated_roleplay_conversation_between_chatbots(
     can be test-chatbot (GPT-4) or gpt-35-turbo-16k (GPT-3.5)."""
 
     prompt = PROMPTS[prompt_name_simulated_user]
-    conversation = initiate_conversation_object("mental_health")
-    conversation.append({"role": "assistant", "content": initial_greet})
-    print_last_assistent_response(conversation)
+
+    # Initiate conversation from chatbot point of view
+    conversation_chatbot_pow = initiate_conversation_object("mental_health")
+    conversation_chatbot_pow.append({"role": "assistant", "content": initial_greet})
+    print_last_assistent_response(conversation_chatbot_pow)
+
+    # Initiate conversation from simulated user point of view
+    conversation_simuser_pow = []
+
     counter = 0
 
     while counter < n_questions:
 
-        # SIMULATED USER MESSAGE
-        prompt, message_simulated_user = simulated_user_responds(
-            conversation,
-            prompt_simulated_user=prompt,
+        # SIMULATED RESPONDS
+        conversation_simuser_pow = simulated_user_responds(
+            conversation_chatbot_pow,
+            conversation_simuser_pow,
             deployment_name=deployment_name_simulated_user,
         )
-        conversation.append({"role": "user", "content": message_simulated_user})
-        print_last_user_message(message_simulated_user)
-        dump_file(prompt, file_path=dump_path_prompt_simulated_user)
+        conversation_chatbot_pow.append(
+            {"role": "user", "content": conversation_simuser_pow[-1]["content"]}
+        )
+        print_last_user_message(conversation_simuser_pow[-1]["content"])
+        dump_to_json(conversation_simuser_pow, dump_path_prompt_simulated_user)
         cool_off(cooldown_time)
 
         # CHATBOT RESPONDS
-        conversation, harvested_syntax = respond_to_user(conversation, chatbot_id)
-        print_last_assistent_response(conversation)
+        conversation_chatbot_pow, harvested_syntax = respond_to_user(
+            conversation_chatbot_pow, chatbot_id
+        )
+        print_last_assistent_response(conversation_chatbot_pow)
 
         if harvested_syntax["referral"]:
             assistant_name = harvested_syntax["referral"]["name"]
-            conversation = direct_to_new_assistant(assistant_name)
-            conversation = generate_and_add_raw_bot_response(conversation)
-            print_last_assistent_response(conversation)
+            conversation_chatbot_pow = direct_to_new_assistant(assistant_name)
+            conversation_chatbot_pow = generate_and_add_raw_bot_response(
+                conversation_chatbot_pow
+            )
+            print_last_assistent_response(conversation_chatbot_pow)
 
-        conversation = remove_inactive_sources(conversation)
+        conversation_chatbot_pow = remove_inactive_sources(conversation_chatbot_pow)
         if truncate_chat:
-            conversation = truncate_if_too_long(conversation)
+            conversation_chatbot_pow = truncate_if_too_long(conversation_chatbot_pow)
 
-        dump_current_conversation_to_json(conversation)
+        dump_current_conversation_to_json(conversation_chatbot_pow)
         cool_off(cooldown_time)
 
         counter += 1
 
     # Convert and dump to markdown file in the same directory as json file
-    dump_to_json(conversation, conversation_dump_path)
+    dump_to_json(conversation_chatbot_pow, conversation_dump_path)
     convert_json_chat_to_markdown(
         jsonfile_path=conversation_dump_path,
         mdfile_path=enforce_extension(conversation_dump_path, ".md"),
@@ -105,22 +117,20 @@ def update_prompt(prompt, role: str, content: str):
 
 
 def simulated_user_responds(
-    conversation, prompt_simulated_user, deployment_name
+    conversation_chatbot_pow,
+    conversation_simuser_pow,
+    deployment_name,
 ) -> str:
     """The simulater user responds to the assistants last visible response.
     Returns message of simulated user. Returns prompt updated with the simulated
     users new response."""
-    chatbot_message = grab_last_visible_chatbot_message(conversation)
-    if chatbot_message:
-        prompt_simulated_user = update_prompt(
-            prompt_simulated_user, role="chatbot", content=chatbot_message
-        )
-    prompt_simulated_user += "\n\npatient: "
-    message_simulated_user = generate_single_response_to_prompt(
-        prompt_simulated_user, deployment_name=deployment_name
+    chatbot_message = grab_last_visible_chatbot_message(conversation_chatbot_pow)
+    conversation_simuser_pow.append({"role": "user", "content": chatbot_message})
+    conversation_simuser_pow = generate_and_add_raw_bot_response(
+        conversation_simuser_pow, deployment_name=deployment_name
     )
-    prompt_simulated_user += message_simulated_user
-    return prompt_simulated_user, message_simulated_user
+    message_simulated_user = conversation_simuser_pow[-1]["content"]
+    return conversation_simuser_pow
 
 
 def add_user_message_to_conversation_from_each_point_of_view(
@@ -189,11 +199,10 @@ if __name__ == "__main__":
     conversation_dump_path = (
         "results/automated-chats/user-simulations/json/conversation.json"
     )
-    n_questions = 6
-    cooldown_time = 10
-    deployment_name_simulated_user = (
-        "gpt-35-turbo-16k"  # gpt-35-turbo-16k or test-chatbot
-    )
+    n_questions = 7
+    cooldown_time = 15
+    deployment_name_simulated_user = "test-chatbot"  # gpt-35-turbo-16k or test-chatbot
+    # deployment_name_simulated_user = "gpt-35-turbo-16k"  # gpt-35-turbo-16k or test-chatbot
 
     if len(sys.argv) >= 2:
         prompt_name_simulated_user = sys.argv[1]

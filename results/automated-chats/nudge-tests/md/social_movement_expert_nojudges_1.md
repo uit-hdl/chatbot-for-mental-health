@@ -369,6 +369,7 @@ assistant: ¤:cite(["13_stigma"]):¤ It appears that misconceptions about schizo
 
 Would you like more detailed advice on how to address stigma and help change others' perceptions?  
 
+# START OF AUTOMATED CHAT
 
 user: Yes, please. Could you give me some guidelines on how I could gently inform my friends and community about what schizophrenia really is, to help them understand and remove their fears?  
 
@@ -390,6 +391,7 @@ Remember, changing perceptions can take time, and it's okay to ask for understan
 
 system: You almost reached the maximum message length. Limit
         information per message to not overwhelm the user.  
+
 
 
 user: Could you discuss why it's important for society as a whole to shift its perspective on schizophrenia and similar mental health conditions? What broader societal benefits might we gain from dispelling these misconceptions?  

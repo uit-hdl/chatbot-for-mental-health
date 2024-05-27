@@ -1,9 +1,10 @@
 ## General Information
+
 This repository contains code for chatting with prompt-engineered AI assistants
 powered by GPT through Azure API. The assistants (defined by their prompts) are
 instructed to follow a set of syntax conventions, which allows backend scripts
 to extract and interpret commands such as `display_image(image.png)`. They can
-show images or videos, or redirect the user to other assistants upon request. 
+show images or videos, or redirect the user to other assistants upon request.
 
 To have a chat with an assistant in the terminal run `src/console_chat.py
 assistant_id`. The default assistant, if no argument is provided, is `mental`
@@ -47,5 +48,3 @@ good example where this method works quite well.
 
 To see an example on how to instruct a bot to do a `referral` to another that is
 better suited to answer a question, see the prompt `referral`.
-
-

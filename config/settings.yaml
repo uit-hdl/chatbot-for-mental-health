@@ -39,5 +39,5 @@ max_tokens_turbo_instruct: 90
 role_that_speaks_first: "user"
 # --- OVERSEER BOTS ---
 # Set to false to turn of filters that check the contents of generated messages
-enable_overseer_filter: False
+enable_overseer_filter: True
 enable_hard_coded_filter: True

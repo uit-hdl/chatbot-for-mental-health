@@ -5,58 +5,66 @@
     },
     {
         "role": "system",
-        "content": "You almost reached the maximum message length. Limit\n        information per message to not overwhelm the user."
-    },
-    {
-        "role": "user",
-        "content": "I don't know... I'm still trying to process everything. Can you tell me more about the symptoms?"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:request_knowledge(31_symptoms):\u00a4"
+        "content": "Source removed due to inactivity."
     },
     {
         "role": "system",
-        "content": "Inactive source removed due to not being actively cited."
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"31_symptoms\"]):\u00a4 Symptoms of schizophrenia are commonly divided into three categories: positive, negative, and cognitive. Here's a brief overview:\n\n**Positive symptoms:**\n- **Hallucinations:** Seeing, hearing, or feeling things that aren't there.\n- **Delusions:** Strongly believing in things that aren't true or real.\n- **Paranoid thoughts:** Feeling excessively distrustful or threatened by others.\n\n**Negative symptoms:**\n- **Low motivation:** Losing interest in daily activities.\n- **Lack of emotion:** Showing less facial expression, flat voice, or reduced eye contact.\n- **Social withdrawal:** Preferring to be alone and avoiding social interactions.\n\n**Cognitive symptoms:**\n- **Disorganized thoughts and speech:** Difficulty in communicating logically.\n- **Lack of concentration:** Struggling to focus on tasks.\n- **Memory problems:** Issues with remembering or learning new information.\n\nThese are just examples and not everyone will experience all these symptoms. Does this information help? If you need to know more or have specific questions, feel free to ask."
+        "content": "Source removed due to inactivity."
     },
     {
         "role": "system",
-        "content": "Remember: Keep messages as brief as possible."
-    },
-    {
-        "role": "user",
-        "content": "Yes, I think I understand. It's a lot to take in, but this gives me a better idea of what I might experience. Thank you."
+        "content": "Source removed due to inactivity."
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 You're welcome. It's completely natural to feel overwhelmed. Take your time to process the information. If you have any more questions or need further clarification on any aspect of schizophrenia, don't hesitate to reach out. Here to help when you need it."
+        "content": "\u00a4:cite([\"52_medication\"]):\u00a4 For more information about medication, it's helpful to have open conversations with your psychiatrist about your goals, symptoms to target, and concerns you have about side effects or administration methods. They can guide you in finding the right medication plan and make necessary adjustments over time.\n\n\u00a4:cite([\"53_psychotherapy\"]):\u00a4 For psychotherapy, you may want to ask your therapist about their experience with schizophrenia, the specific type of therapy they offer, session duration, frequency, cost, and expected outcomes. Knowing what to expect can help you make an informed decision about your therapy journey.\n\n\u00a4:cite([\"55_support_groups\"]):\u00a4 Regarding peer support, you might find it helpful to reach out to local mental health charities or organizations for information on support groups in your area. Online platforms and patient networks could also connect you with peer support.\n\n\u00a4:cite([\"101_further_information\"]):\u00a4 Finally, there are online resources that can provide further information and support, both for individuals with schizophrenia and their caregivers. Would you like to be directed to such resources or need assistance in any other area related to schizophrenia management?"
+    },
+    {
+        "role": "system",
+        "content": "You almost reached the maximum message length. Limit information per message\nto not overwhelm the user.\n"
+    },
+    {
+        "role": "system",
+        "content": "You cited a source (101_further_information) that has not been inserted in the chat! Ensure the source is in the chat BEFORE you cite it."
     },
     {
         "role": "user",
-        "content": "Thank you, I appreciate that. I might have more questions later, but for now, I think I need some time to process everything."
+        "content": "Thank you for providing those additional suggestions! It's important to have open and honest conversations with healthcare professionals and therapists to ensure effective medication and therapy options are chosen. Seeking local mental health charities or organizations for support group information is a helpful idea as well.\n\nIf you have any specific online resources that you would recommend for further information and support regarding schizophrenia management, I would greatly appreciate it if you could share them. Additionally, if there are any other areas related to schizophrenia management that you believe would be beneficial to cover, please feel free to provide more information. Thank you!"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 Of course, take all the time you need. When you're ready, I'll be here to answer any questions you might have. Take care."
+        "content": "\u00a4:request_knowledge(101_further_information):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "Source removed due to inactivity."
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"101_further_information\"]):\u00a4 There are several international organizations that provide resources and support for individuals and families affected by mental illnesses like schizophrenia:\n\n- EUFAMI focuses on promoting the interests and well-being of families and caregivers.\n- GAMIAN-Europe is a patient-driven organization advocating for the rights of those affected by mental illness.\n\nUnfortunately, the International Schizophrenia Foundation's website is currently unavailable.\n\nAdditionally, you might find Intervoice, Mind, and Rethink Mental Illness helpful. \n\nFor further reading, the booklet \"Psychosis? Me?\" created by and for individuals who are susceptible to psychosis may be of interest. It's available through GAMIAN-Europe.\n\nEach of these organizations has its own set of resources and communities."
+    },
+    {
+        "role": "system",
+        "content": "Your response was shortened as it exceeded the maximum allowed length. Present\ninformation in smaller chunks.\n"
     },
     {
         "role": "user",
-        "content": "Thank you, I will."
+        "content": "Thank you for providing those organizations and resources! The EUFAMI and GAMIAN-Europe seem to be valuable sources of support for families, caregivers, and individuals affected by mental illnesses like schizophrenia. I will certainly look into Intervoice, Mind, and Rethink Mental Illness as well.\n\nThe \"Psychosis? Me?\" booklet created by and for individuals susceptible to psychosis sounds like a great resource, especially as it is available through GAMIAN-Europe.\n\nI appreciate all the information you have provided. If there are any other areas related to schizophrenia management or any other topics you would like to highlight, please feel free to share."
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 You're welcome! Remember, you're not alone in this. If you ever feel ready to talk or have questions in the future, just reach out. Wishing you strength and support on your journey."
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 You are welcome! I'm glad you found the resources useful. Remember to explore these organizations' websites and materials as they can offer additional support, information, and connections with others who understand what you're going through with schizophrenia.\n\nIf you have specific questions about any aspect of schizophrenia, such as its symptoms, treatment strategies, medications, psychotherapy options, managing personal relationships, or anything else, feel free to ask, and I can provide more targeted information. Your well-being is important, and having the right information can help you manage schizophrenia effectively."
     },
     {
         "role": "user",
-        "content": "Thank you, I'll keep that in mind."
+        "content": "Thank you for your kind words and the offer to provide more targeted information! I appreciate your dedication to ensuring individuals have the right information to manage schizophrenia effectively.\n\nAt this time, I don't have any specific questions, but I will certainly reach out if I do in the future. I believe the information you have provided thus far will be helpful for anyone seeking a general understanding of schizophrenia and its management.\n\nThank you once again for your assistance and for taking the time to provide comprehensive information. Your support is greatly appreciated!"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 That's great. Remember, I'm here whenever you need information or guidance related to schizophrenia. Take care and be well."
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 It's my pleasure to assist you. Remember, whenever you have questions or need support related to schizophrenia, I'm here to help you find the information you need. \n\nIf you think of anything in the future, don't hesitate to reach out. Take care, and I wish you the best on your journey. Thank you for your kind words, and be well!"
+    },
+    {
+        "role": "system",
+        "content": "Avoid language that could be interpreted as personal support or care, this is not part of your role."
     }
 ]
