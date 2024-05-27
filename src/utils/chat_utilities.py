@@ -61,6 +61,18 @@ def generate_and_add_raw_bot_response(
     return conversation
 
 
+def extract_wait_time(error):
+    """Extracts the wait time from RateLimitError message."""
+    error_message = str(error)
+    match = re.search(r"Retry after (\d+) seconds", error_message)
+    if match:
+        wait_time = int(match.group(1))
+        return wait_time
+    else:
+        # Default wait time if unable to extract from error message
+        return 20
+
+
 def generate_single_response_to_prompt(
     prompt, deployment_name=CONFIG["deployment_name"]
 ):
@@ -108,6 +120,13 @@ def identify_assistant_responses(conversation) -> list[int]:
     return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
 
 
+def grab_last_user_message(conversation: list) -> str:
+    """Grab the latest message string from user."""
+    index_user_messages = identify_user_messages(conversation)
+    if index_user_messages:
+        return conversation[index_user_messages[-1]]["content"]
+
+
 def replace_last_assistant_response(conversation, replacement_content: str) -> list:
     """Substitutes the last assistant response with a new message."""
     index_assistant_messages = identify_assistant_responses(conversation)
@@ -127,24 +146,14 @@ def remove_system_messages_following_last_assistant_response(conversation) -> li
     return conversation
 
 
-def grab_last_user_message(conversation: list) -> str:
-    """Grab the latest message string from user."""
-    index_user_messages = identify_user_messages(conversation)
-    if index_user_messages:
-        return conversation[index_user_messages[-1]]["content"]
-    else:
-        return None
-
-
 def identify_user_messages(conversation) -> list[int]:
     """Gets the index/indices for `assistant` responses."""
     return [i for i, d in enumerate(conversation) if d.get("role") == "user"]
 
 
 def index_of_assistant_responses_intended_for_user(conversation) -> list[int]:
-    """Finds indices assistant messages that are contain human readable
-    text (not just commands for the backend)."""
-    # Get index of a
+    """Finds indices of assistant messages that are and are intended to be seen
+    by the user (ignores messages intended only for backend)."""
     responses_with_readable_text = [
         i
         for (i, message) in enumerate(conversation)
@@ -176,15 +185,3 @@ def delete_last_bot_response(conversation) -> list:
     assistant_indices = identify_assistant_responses(conversation)
     del conversation[assistant_indices[-1]]
     return conversation
-
-
-def extract_wait_time(error):
-    """Extracts the wait time from RateLimitError message."""
-    error_message = str(error)
-    match = re.search(r"Retry after (\d+) seconds", error_message)
-    if match:
-        wait_time = int(match.group(1))
-        return wait_time
-    else:
-        # Default wait time if unable to extract from error message
-        return 20
