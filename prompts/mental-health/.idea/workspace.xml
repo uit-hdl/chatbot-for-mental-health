@@ -8,24 +8,13 @@
       <change beforePath="$PROJECT_DIR$/../../chat-dashboard/conversation.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/conversation.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../chat-dashboard/harvested_syntax.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/harvested_syntax.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/chief_judge_evaluation.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/chief_judge_evaluation.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_source_fidelity.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_source_fidelity.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/pre_summary_response.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/pre_summary_response.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_disclaimer_check.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_disclaimer_check.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_role_and_emergency_contact.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/judge-dumps/swift_judge_role_and_emergency_contact.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../chat-dashboard/token-usage/chat_consumption.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/token-usage/chat_consumption.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../chat-dashboard/transcript.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/transcript.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../chat-dashboard/truncated_messages.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../chat-dashboard/truncated_messages.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../config/settings.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../../config/settings.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../config/system_messages.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../../config/system_messages.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simulated-users/user_simulator.md" beforeDir="false" afterPath="$PROJECT_DIR$/simulated-users/user_simulator.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/dietary_expert_nojudges_0.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/dietary_expert_nojudges_0.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/dietary_expert_nojudges_1.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/dietary_expert_nojudges_1.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/dietary_expert_nojudges_2.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/dietary_expert_nojudges_2.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/social_movement_expert_nojudges_0.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/social_movement_expert_nojudges_0.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/social_movement_expert_nojudges_1.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/social_movement_expert_nojudges_1.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/social_movement_expert_nojudges_2.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../results/automated-chats/nudge-tests/md/social_movement_expert_nojudges_2.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../results/automated-chats/user-simulations/json/conversation.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../results/automated-chats/user-simulations/json/conversation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../results/automated-chats/user-simulations/json/conversation.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../results/automated-chats/user-simulations/json/conversation.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/chat_with_simulated_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mental_health.md" beforeDir="false" afterPath="$PROJECT_DIR$/mental_health.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/console_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/console_chat.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -16,9 +16,9 @@ from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.backend import reset_files_that_track_cumulative_variables
 from utils.backend import PROMPTS
-from src.utils.command_line_utils import offer_to_store_conversation
-from src.utils.command_line_utils import get_user_message_from_console
-from src.utils.command_line_utils import search_for_console_command
+from utils.command_line_utils import offer_to_store_conversation
+from utils.command_line_utils import get_user_message_from_console
+from utils.command_line_utils import search_for_console_command
 from utils.managing_sources import remove_inactive_sources
 from utils.chat_utilities import initiate_conversation_with_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response

@@ -1,5 +1,5 @@
 # Shows which deployment on Azure each assistant uses
-# GPT-4
+# Prompted AI that uses GPT-4
 app_support: "test-chatbot"
 mental_health: "test-chatbot"
 overseer_misc: "test-chatbot"
@@ -8,11 +8,11 @@ relaxation: "test-chatbot"
 sleep_assistant: "test-chatbot"
 sleep_diary_support: "test-chatbot"
 conversation_killer: "test-chatbot"
-# GPT-3.5-Turbo 16k context window
+# Prompted AI that uses GPT-3.5-Turbo with 16k context window
 message_length_cutter: "gpt-35-turbo-16k"
 referral_consent_checker: "gpt-35-turbo-16k"
 user_simulated: "gpt-35-turbo-16k"
-# GPT-3.5 turbo instruct
+# Prompted AI that uses GPT-3.5 turbo instruct
 swift_judge_misc: "gpt-35-instruct-overseers"
 swift_judge_source_fidelity: "gpt-35-instruct-overseers"
 
