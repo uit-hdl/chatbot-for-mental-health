@@ -48,7 +48,7 @@ chat = adversarial_nudger_has_conversation_with_chatbot(
     chat,
     n_nudges=5,
     cooldown_time=20,
-    deployment_name_adversary="test-chatbot",
+    model_llm_adversary="gpt-4",
 )
 dump_chat_to_markdown(
     chat,
@@ -60,7 +60,7 @@ dump_to_json_locally(
 
 # %% Manually run cycle
 response = adversary_responds_directly_from_prompt(
-    chat, prompt_template, deployment_name="test-chatbot"
+    chat, prompt_template, model="gpt-4"
 )
 print_last_user_message(response)
 chat.append({"role": "user", "content": response})

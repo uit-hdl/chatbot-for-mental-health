@@ -431,11 +431,11 @@ def write_to_file(file_path, content):
 
 
 PROMPTS = collect_prompts_in_dictionary()
-DEPLOYMENTS = load_yaml_file(DEPLOYMENTS_PATH)
 
 CONFIG = load_yaml_file(CONFIG_PATH)
 SETTINGS = load_yaml_file(SETTINGS_PATH)
 SYSTEM_MESSAGES = load_yaml_file(SYSTEM_MESSAGES_PATH)
 API_KEY = os.environ["AZURE_API_KEY"]
 
+MODEL_TO_DEPLOYMENT_MAP = CONFIG["model_to_deployment_map"]
 MODEL_ID = CONFIG["model_id"]

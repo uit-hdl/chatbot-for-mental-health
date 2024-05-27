@@ -44,7 +44,7 @@ def automated_roleplay_conversation_between_chatbots(
     conversation_dump_path="results/automated-chats/user-simulations/json/conversation.json",
     n_questions=5,
     cooldown_time=15,
-    deployment_name_simulated_user="gpt-35-turbo-16k",
+    model_llm_simulated_user="gpt-4",
     truncate_chat=True,
 ):
     """Runs an automated conversation between the chatbot (specified by
@@ -70,7 +70,7 @@ def automated_roleplay_conversation_between_chatbots(
         conversation_simuser_pow = simulated_user_responds(
             conversation_chatbot_pow,
             conversation_simuser_pow,
-            deployment_name=deployment_name_simulated_user,
+            llm=model_llm_simulated_user,
         )
         conversation_chatbot_pow.append(
             {"role": "user", "content": conversation_simuser_pow[-1]["content"]}
@@ -119,7 +119,7 @@ def update_prompt(prompt, role: str, content: str):
 def simulated_user_responds(
     conversation_chatbot_pow,
     conversation_simuser_pow,
-    deployment_name,
+    model,
 ) -> str:
     """The simulater user responds to the assistants last visible response.
     Returns message of simulated user. Returns prompt updated with the simulated
@@ -127,7 +127,7 @@ def simulated_user_responds(
     chatbot_message = grab_last_visible_chatbot_message(conversation_chatbot_pow)
     conversation_simuser_pow.append({"role": "user", "content": chatbot_message})
     conversation_simuser_pow = generate_and_add_raw_bot_response(
-        conversation_simuser_pow, deployment_name=deployment_name
+        conversation_simuser_pow, model
     )
     message_simulated_user = conversation_simuser_pow[-1]["content"]
     return conversation_simuser_pow
@@ -201,8 +201,7 @@ if __name__ == "__main__":
     )
     n_questions = 7
     cooldown_time = 15
-    deployment_name_simulated_user = "test-chatbot"  # gpt-35-turbo-16k or test-chatbot
-    # deployment_name_simulated_user = "gpt-35-turbo-16k"  # gpt-35-turbo-16k or test-chatbot
+    model_llm_simulated_user = "gpt-4"  # gpt-35-turbo-16k or test-chatbot
 
     if len(sys.argv) >= 2:
         prompt_name_simulated_user = sys.argv[1]
@@ -218,5 +217,5 @@ if __name__ == "__main__":
         conversation_dump_path,
         n_questions,
         cooldown_time,
-        deployment_name_simulated_user,
+        model_llm_simulated_user,
     )

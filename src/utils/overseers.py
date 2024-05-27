@@ -12,7 +12,7 @@ from utils.backend import dump_prompt_response_pair_to_md
 from utils.backend import dump_file
 from utils.backend import PRE_SUMMARY_DUMP_PATH
 from utils.backend import PROMPTS
-from utils.backend import DEPLOYMENTS
+from utils.backend import MODEL_TO_DEPLOYMENT_MAP
 from utils.backend import CONFIG
 from utils.backend import SETTINGS
 from utils.backend import SYSTEM_MESSAGES
@@ -145,7 +145,7 @@ def preliminary_check_of_source_fidelity(
     source = sources[0]
     prompt_completed = prompt.format(chatbot_message=chatbot_message, source=source)
     evaluation = generate_single_response_to_prompt(
-        prompt_completed, deployment_name=DEPLOYMENTS["message_summarizer"]
+        prompt_completed, model="gpt-35-turbo-16k"
     )
     dump_prompt_response_pair_to_md(
         prompt_completed, evaluation, "swift_judge_source_fidelity"
@@ -178,13 +178,11 @@ def fill_in_prompt_template_for_source_fidelity_overseer(
 
 def generate_overseer_response(
     prompt: str,
-    deployment_name: str = CONFIG["deployment_name"],
+    model: str = "gpt-4",
 ) -> dict:
     """Generates the response of the overseer (uses GPT-4) and returns it as a
     dictionary."""
-    response = generate_single_response_to_prompt(
-        prompt, deployment_name=deployment_name
-    )
+    response = generate_single_response_to_prompt(prompt, model)
     _, overseer_evaluation = extract_command_names_and_arguments(response)
     if overseer_evaluation:
         evaluation_dict = convert_json_string_to_dict(overseer_evaluation[0])
@@ -255,9 +253,7 @@ def correct_rejected_response(user_message, chatbot_message, system_message) -> 
         chatbot_message=chatbot_message,
         system_message=system_message,
     )
-    corrected_response = generate_single_response_to_prompt(
-        prompt_completed, deployment_name=DEPLOYMENTS["conversation_killer"]
-    )
+    corrected_response = generate_single_response_to_prompt(prompt_completed, "gpt-4")
     corrected_response = f'¤:cite(["no_advice_or_claims"]):¤ {corrected_response}'
     silent_print("** Rejected message substituted **")
     return corrected_response
@@ -316,7 +312,7 @@ def preliminary_check_of_default_mode_message(
         user_message=user_message, chatbot_message=chatbot_message
     )
     evaluation_disclaimer = generate_single_response_to_prompt(
-        prompt_disclaimer_check, deployment_name="gpt-35-turbo-16k"
+        prompt_disclaimer_check, model="gpt-35-turbo-16k"
     )
     dump_prompt_response_pair_to_md(
         prompt_disclaimer_check, evaluation_disclaimer, "swift_judge_disclaimer_check"
@@ -326,7 +322,7 @@ def preliminary_check_of_default_mode_message(
         user_message=user_message, chatbot_message=chatbot_message
     )
     evaluation_role = generate_single_response_to_prompt(
-        prompt_role_check, deployment_name="gpt-35-turbo-16k"
+        prompt_role_check, model="gpt-35-turbo-16k"
     )
     dump_prompt_response_pair_to_md(
         prompt_role_check,
@@ -353,7 +349,7 @@ def preliminary_check_of_default_mode_message(
 def summarize_if_response_too_long(
     conversation,
     prompt=PROMPTS["message_summarizer"],
-    deployment_name=DEPLOYMENTS["message_summarizer"],
+    model="gpt-35-turbo-16k",
     max_tokens_per_message=SETTINGS["max_tokens_chat_completion"],
 ) -> list:
     """Chatbot responsible for summarizing messages that are too long. Returns
@@ -367,7 +363,7 @@ def summarize_if_response_too_long(
     )
     shortened_message = generate_single_response_to_prompt(
         prompt_completed,
-        deployment_name=deployment_name,
+        model,
     )
     # Re-insert commands
     shortened_message = insert_commands(commands, shortened_message)
@@ -378,7 +374,7 @@ def summarize_if_response_too_long(
 
 def user_confirms_they_want_redirect(
     conversation,
-    deployment_name=DEPLOYMENTS["referral_consent_checker"],
+    model="gpt-35-turbo-16k",
 ) -> str:
     """Checks if the user has confirmed that they want to be referred to another
     assistant, assuming that a referral request has been issued. AI agent checks
@@ -394,7 +390,7 @@ def user_confirms_they_want_redirect(
         last_2_messages=last_2_messages
     )
     # Generate response
-    response = generate_single_response_to_prompt(prompt_completed, deployment_name)
+    response = generate_single_response_to_prompt(prompt_completed, model)
     dump_prompt_response_pair_to_md(
         prompt_completed, response, "referral_consent_checker"
     )

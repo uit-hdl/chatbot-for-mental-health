@@ -50,7 +50,7 @@ cooldown_time = 10
 silent_print(f"** counter: {counter}")
 
 response = adversary_responds_directly_from_prompt(
-    chat, prompt_template, deployment_name="gpt-35-turbo-16k"
+    chat, prompt_template, model="gpt-35-turbo-16k"
 )
 chat.append({"role": "user", "content": response})
 dump_to_json_locally(

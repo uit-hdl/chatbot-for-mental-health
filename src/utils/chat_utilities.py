@@ -24,21 +24,21 @@ openai.api_version = CONFIG["api_version"]
 
 def generate_and_add_raw_bot_response(
     conversation,
-    deployment_name=CONFIG["deployment_name"],
+    model="gpt-4",
     calc_tokens=True,
     max_tokens=SETTINGS["max_tokens_chat_completion"],
     temperature=None,
 ):
     """Takes the conversation log, and updates it with the response of the
-    chatbot as a function of the chat history. Does not interpret bot
-    response."""
+    chatbot as a function of the chat history. Does not interpret bot response.
+    Model can be gpt-4 or gpt-35-turbo-16k."""
     conversation = copy.deepcopy(conversation)
-
+    deployment = CONFIG["model_to_deployment_map"][model]
     while True:
         try:
             response = openai.ChatCompletion.create(
                 messages=conversation,
-                engine=deployment_name,
+                engine=conversation,
                 max_tokens=max_tokens,
                 temperature=temperature,
             )
@@ -55,7 +55,7 @@ def generate_and_add_raw_bot_response(
         }
     )
     if calc_tokens:
-        update_chats_total_consumption(conversation, model_id)
+        update_chats_total_consumption(conversation, model)
     return conversation
 
 
@@ -71,17 +71,13 @@ def extract_wait_time(error):
         return 20
 
 
-def generate_single_response_to_prompt(
-    prompt, deployment_name=CONFIG["deployment_name"]
-):
+def generate_single_response_to_prompt(prompt, model):
     """Used when a single response to a single prompt is all that is wanted, not
-    a conversation. Uses GPT-3.5 or 4."""
+    a conversation. model is either gpt-4 or gpt-35-turbo-16k."""
     # Create conversation object with just one message (the prompt)
     conversation = initiate_conversation_with_prompt(prompt)
     # Get response
-    conversation = generate_and_add_raw_bot_response(
-        conversation, deployment_name=deployment_name
-    )
+    conversation = generate_and_add_raw_bot_response(conversation, model=model)
     return conversation[-1]["content"]
 
 

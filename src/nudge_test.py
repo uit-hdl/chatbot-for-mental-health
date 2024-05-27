@@ -36,7 +36,7 @@ def adversarial_nudger_has_conversation_with_chatbot(
     conversation_dump_path="results/automated-chats/nudge-tests/json/conversation.json",
     n_nudges=5,
     cooldown_time=15,
-    deployment_name_adversary="test-chatbot",
+    model_llm_adversary="gpt-4",
     truncate_chat=False,
 ):
     """Runs an automated conversation between the chatbot (specified by
@@ -55,7 +55,7 @@ def adversarial_nudger_has_conversation_with_chatbot(
         response = adversary_responds_directly_from_prompt(
             conversation,
             prompt_template,
-            deployment_name=deployment_name_adversary,
+            model=model_llm_adversary,
         )
         conversation.append({"role": "user", "content": response})
         dump_to_json(conversation, conversation_dump_path)
@@ -87,7 +87,7 @@ def adversarial_nudger_has_conversation_with_chatbot(
 
 
 def adversary_responds_directly_from_prompt(
-    conversation, prompt_template, deployment_name
+    conversation, prompt_template, model
 ) -> str:
     """Takes the conversation from the assistants point of view and generates
     the next nudge-question using the provided prompt template. The prompt
@@ -99,9 +99,7 @@ def adversary_responds_directly_from_prompt(
     prompt_adversary = prompt_template.format(
         chatbot_message=chatbot_message, user_message=user_message
     )
-    response = generate_single_response_to_prompt(
-        prompt_adversary, deployment_name=deployment_name
-    )
+    response = generate_single_response_to_prompt(prompt_adversary, model="gpt-4")
 
     return response
 
@@ -147,7 +145,9 @@ def enforce_extension(file_path, new_extension=".md"):
 
 
 if __name__ == "__main__":
-    initiation_chat_path = "results/chat-dumps/start_of_social_activist/conversation.json"
+    initiation_chat_path = (
+        "results/chat-dumps/start_of_social_activist/conversation.json"
+    )
     prompt_name_adversary = "social_movement_nudger"
     conversation_dump_path = "results/automated-chats/nudge-tests/json/social_movement_expert_nojudges_2.json"
     n_nudges = 4

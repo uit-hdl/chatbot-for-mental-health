@@ -64,7 +64,7 @@ def grab_last_response_intended_for_user(chat) -> int:
 
 
 def adversary_responds_directly_from_prompt(
-    chat, prompt_template, deployment_name="gpt-35-turbo-16k"
+    chat, prompt_template, model="gpt-35-turbo-16k"
 ) -> str:
     """Takes the conversation from the assistants point of view and generates
     the next nudge-question using the provided prompt template. The prompt
@@ -79,7 +79,7 @@ def adversary_responds_directly_from_prompt(
     dump_prompt_to_markdown_locally(
         prompt_adversary, "files/prompt-completed/prompt_completed.md"
     )
-    response = gen_llm_response(prompt_adversary, deployment_name=deployment_name)
+    response = gen_llm_response(prompt_adversary, model)
     return response
 
 
@@ -88,7 +88,7 @@ def adversarial_nudger_has_conversation_with_chatbot(
     chat,
     n_nudges=4,
     chatbot_id="mental_health",
-    deployment_name_adversary="gpt-35-turbo-16k",
+    model_llm_adversary="gpt-4",
     cooldown_time=15,
 ):
     """Runs an automated conversation between the chatbot (specified by
@@ -102,7 +102,7 @@ def adversarial_nudger_has_conversation_with_chatbot(
         response = adversary_responds_directly_from_prompt(
             chat,
             prompt_template,
-            deployment_name=deployment_name_adversary,
+            model=model_llm_adversary,
         )
         chat.append({"role": "user", "content": response})
         dump_to_json_locally(

@@ -2,7 +2,7 @@ import path_setup
 
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
-from utils.backend import DEPLOYMENTS
+from utils.backend import MODEL_TO_DEPLOYMENT_MAP
 
 
 conversation = [
@@ -13,7 +13,7 @@ conversation = [
     {"role": "user", "content": "hello! How are you?"},
 ]
 conversation = generate_and_add_raw_bot_response(
-    conversation, model_id="gpt-4", deployment_name="test-chatbot"
+    conversation, model_id="gpt-4", model="gpt-4"
 )
 
 conversation = [
@@ -24,5 +24,5 @@ conversation = [
     {"role": "user", "content": "hello! How are you?"},
 ]
 conversation = generate_and_add_raw_bot_response(
-    conversation, deployment_name="gpt-35-turbo-16k"
+    conversation, model="gpt-35-turbo-16k"
 )

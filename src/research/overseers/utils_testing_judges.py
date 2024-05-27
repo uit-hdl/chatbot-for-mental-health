@@ -28,12 +28,12 @@ CWD = os.getcwd()
 
 
 # %% AI RESPONSE GENERATION
-def gen_llm_response(prompt=str, deployment_name="gpt-35-turbo-16k", max_tokens=400):
+def gen_llm_response(prompt=str, model="gpt-35-turbo-16k", max_tokens=400):
     """Generates a response to the prompt using the specific LLM."""
     conversation = [{"role": "system", "content": prompt}]
     return generate_and_add_raw_bot_response(
         conversation,
-        deployment_name=deployment_name,
+        model=model,
         max_tokens=max_tokens,
     )[-1]["content"]
 
@@ -50,7 +50,7 @@ def run_experiment_general(
     prompt_variables: dict,
     prompt_template_path_relative="files/prompt-templates/source-fidelity/swift_judge_source_fidelity.md",
     f_get_response=gen_llm_response,
-    deployment_name="gpt-35-turbo-16k",
+    model="gpt-35-turbo-16k",
     f_correct_response=lambda answer: True if "ACCEPTED" in answer else False,
     n_exp=10,
     test_name=None,
@@ -64,9 +64,7 @@ def run_experiment_general(
     dump_prompt_to_markdown_locally(
         prompt, "files/prompt-completed/prompt_completed.md"
     )
-    f_get_response = lambda prompt: gen_llm_response(
-        prompt, deployment_name=deployment_name
-    )
+    f_get_response = lambda prompt: gen_llm_response(prompt, model)
 
     # Run trials
     responses = pd.DataFrame(
