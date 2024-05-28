@@ -32,7 +32,6 @@ CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 SYSTEM_MESSAGES_PATH = os.path.join(ROOT_DIR, "config/system_messages.yaml")
-DEPLOYMENTS_PATH = os.path.join(ROOT_DIR, "config/agent_to_deployment_map.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
 # File-dump paths

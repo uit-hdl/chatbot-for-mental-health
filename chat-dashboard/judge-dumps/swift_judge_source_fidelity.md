@@ -84,39 +84,43 @@ challenge or educate other people, so it is NOT_SUPPORTED"
 
 # Actual content to evaluate
 
-source: """Living with schizophrenia can be isolating at times. Joining a support group can
-be a good way to socialize and share experiences with others who know what it is
-like to live with the condition. Many support groups have been set up by people
-with schizophrenia, and include people who are successfully managing their
-condition and moving on with their lives.
+source: """Stress is a common trigger for schizophrenia and, unfortunately, it is extremely
+difficult to avoid stress completely because having schizophrenia can be
+extremely stressful in itself. Nevertheless, it is possible to manage your
+stress levels and to reduce the impact that stress has on your life.
 
-Different groups specialize in different types of support, and can operate at
-local, national and international levels. One benefit of joining a support group
-is that it can be much easier to talk about your problems and feelings with
-people who know what you are going through than with, for example, a family
-member or therapist. People with schizophrenia are experts in their own
-condition, and so they may be able to give helpful advice based on their
-experiences. Sharing stories and finding common ground can also create a bond of
-friendship.
+[show: 82_how_to_avoid_stress.png | illustrates points below]
 
-[source 101_further_information has references to support groups and other
-resources]
+- Learn which situations you find stressful and avoid them
+- Talk to someone – a problem shared is a problem halved
+- Avoid alcohol, caffeine and illicit drugs, as these can cause
+  anxiety
+- Learn some relaxation techniques
+- Simplify your life - just do one thing at a time
+- Stick to a schedule for each day
+- Exercise - this can prevent as well as relieve stress
+- Withdraw gradually from situations you find stressful
+
+[`relaxation` assistant provides in-depth info if user is interested]
 """
 
-chatbot-message: """Yes, community resources and support groups are valuable for individuals with schizophrenia. They provide a space to socialize and share experiences with others who understand the condition. These groups may exist at local, national, or international levels.
+chatbot-message: """While it's not always possible to completely control or avoid stress, there are ways you can manage it as part of living with schizophrenia:
 
-Benefits of joining include:
+- Identify situations that are stressful for you and try to avoid them when possible.
+- Share your concerns with someone you trust. Talking about problems can help reduce their weight.
+- Stay away from alcohol, caffeine, and illicit drugs; they can increase anxiety.
+- Practice relaxation techniques that can help calm your mind.
+- Simplify your routines; focus on doing one thing at a time.
+- Maintain a daily schedule to add structure to your life.
+- Regular exercise can help prevent and relieve stress.
+- If certain situations are stressful, try to gradually reduce your exposure to them.
 
-- Easier communication about personal issues with those who relate.
-- Gaining insight and advice from others who manage their condition successfully.
-- Forming bonds and friendships through shared stories.
-
-If you're interested in finding a support group, I can guide you to resources that can help you get involved. Would you like assistance with that?"""
+If you're interested in learning relaxation techniques in-depth, I can refer you to a specialist assistant. Let me know if that would be helpful to you."""
 
 
 
 # OUPUT
 
-RELEVANT_PART_OF_SOURCE: "The source states that joining a support group can be a good way to socialize and share experiences with others who understand the condition. It also mentions that support groups can be easier to talk to and can provide helpful advice based on their experiences. The source also mentions that sharing stories can create a bond of friendship."
-CHATBOT_ASSERTIONS: "The chatbot claims that community resources and support groups are valuable for individuals with schizophrenia. It also states the benefits of joining a support group, including easier communication, gaining insight and advice, and forming bonds and friendships through shared stories."
-EXPLICITLY_SUPPORTED: "The chatbot is clearly summarizing and paraphrasing the information from the source accurately. Therefore, it is EXPLICITLY_SUPPORTED."
+RELEVANT_PART_OF_SOURCE: "The source suggests several ways to manage stress in individuals with schizophrenia, including identifying and avoiding stressful situations, talking to someone, avoiding alcohol, caffeine, and illicit drugs, learning relaxation techniques, simplifying routines, sticking to a schedule, exercising, and gradually withdrawing from stressful situations."
+CHATBOT_ASSERTIONS: "The chatbot provides a list of strategies to manage stress in individuals with schizophrenia."
+EXPLICITLY_SUPPORTED: "The chatbot's message is explicitly supported by the source, as it accurately summarizes and conveys the strategies mentioned in the source. Therefore, it is SUPPORTED."

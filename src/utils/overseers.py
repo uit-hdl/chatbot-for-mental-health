@@ -178,7 +178,7 @@ def fill_in_prompt_template_for_source_fidelity_overseer(
 
 def generate_overseer_response(
     prompt: str,
-    model: str = "gpt-4",
+    model="gpt-4",
 ) -> dict:
     """Generates the response of the overseer (uses GPT-4) and returns it as a
     dictionary."""
@@ -315,8 +315,11 @@ def preliminary_check_of_default_mode_message(
         prompt_disclaimer_check, model="gpt-35-turbo-16k"
     )
     dump_prompt_response_pair_to_md(
-        prompt_disclaimer_check, evaluation_disclaimer, "swift_judge_disclaimer_check"
+        prompt_disclaimer_check,
+        evaluation_disclaimer,
+        dump_name="swift_judge_disclaimer_check",
     )
+
     # Role and referral to emergency contact check
     prompt_role_check = PROMPTS["swift_judge_role_and_emergency_contact"].format(
         user_message=user_message, chatbot_message=chatbot_message
@@ -327,7 +330,7 @@ def preliminary_check_of_default_mode_message(
     dump_prompt_response_pair_to_md(
         prompt_role_check,
         evaluation_role,
-        "swift_judge_role_and_emergency_contact",
+        dump_name="swift_judge_role_and_emergency_contact",
     )
 
     silent_print(f"** DEFAULT MODE MESSAGE CHECK **")

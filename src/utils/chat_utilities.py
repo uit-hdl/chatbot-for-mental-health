@@ -33,15 +33,9 @@ def generate_and_add_raw_bot_response(
     chatbot as a function of the chat history. Does not interpret bot response.
     Model can be gpt-4 or gpt-35-turbo-16k."""
     conversation = copy.deepcopy(conversation)
-    deployment = CONFIG["model_to_deployment_map"][model]
     while True:
         try:
-            response = openai.ChatCompletion.create(
-                messages=conversation,
-                engine=conversation,
-                max_tokens=max_tokens,
-                temperature=temperature,
-            )
+            response = get_chat_completion(conversation, model, max_tokens, temperature)
             break
         except RateLimitError as e:
             wait_time = extract_wait_time(e)
@@ -57,6 +51,17 @@ def generate_and_add_raw_bot_response(
     if calc_tokens:
         update_chats_total_consumption(conversation, model)
     return conversation
+
+
+def get_chat_completion(conversation, model, max_tokens=None, temperature=None):
+    """Get chat-completion using openai API."""
+    deployment = CONFIG["model_to_deployment_map"][model]
+    return openai.ChatCompletion.create(
+        messages=conversation,
+        engine=deployment,
+        max_tokens=max_tokens,
+        temperature=temperature,
+    )
 
 
 def extract_wait_time(error):
@@ -77,7 +82,7 @@ def generate_single_response_to_prompt(prompt, model):
     # Create conversation object with just one message (the prompt)
     conversation = initiate_conversation_with_prompt(prompt)
     # Get response
-    conversation = generate_and_add_raw_bot_response(conversation, model=model)
+    conversation = generate_and_add_raw_bot_response(conversation, model)
     return conversation[-1]["content"]
 
 

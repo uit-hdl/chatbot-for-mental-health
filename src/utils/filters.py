@@ -121,7 +121,7 @@ def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):
             if citation not in inserted_citations:
                 soft_warnings.append(
                     SYSTEM_MESSAGES["citing_before_requesting"].format(
-                        citaiton=citation
+                        citation=citation
                     )
                 )
         else:

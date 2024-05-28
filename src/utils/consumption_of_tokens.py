@@ -10,7 +10,7 @@ from utils.backend import load_json_from_path
 from utils.backend import dump_to_json
 
 
-def update_chats_total_consumption(conversation, model_id):
+def update_chats_total_consumption(conversation, model):
     """Loads and updates the json file that tracks the cumulative cost of the
     current chat in terms of tokens and cost in NOK."""
     chat_consumption = load_json_from_path(TOKEN_USAGE_DUMP_PATH)
@@ -18,7 +18,7 @@ def update_chats_total_consumption(conversation, model_id):
         conversation
     )
     chat_consumption["chat_cost_kr_total"] += calculate_cost_of_response(
-        conversation, model_id
+        conversation, model
     )
     dump_to_json(chat_consumption, TOKEN_USAGE_DUMP_PATH)
 
@@ -43,19 +43,19 @@ def count_tokens_in_chat(conversation: list) -> int:
     return num_tokens
 
 
-def count_tokens_in_message(message: str, model_id):
+def count_tokens_in_message(message: str, model):
     """Counts the number of tokens in a single message."""
-    encoding = tiktoken.encoding_for_model(model_id)
+    encoding = tiktoken.encoding_for_model(model)
     return len(encoding.encode(message))
 
 
-def calculate_cost_of_response(conversation, model_id):
+def calculate_cost_of_response(conversation, model):
     """Calculates the cost of generating the last repsonse (which is assumed to be from
     assistant)."""
     tokens_in = count_tokens_in_chat(conversation[:-1])
     tokens_out = count_tokens_in_chat(conversation[-1:])
-    cost_per_1k_input_tokens = SETTINGS["dollars_per_1k_token"][model_id]["input"]
-    cost_per_1k_output_tokens = SETTINGS["dollars_per_1k_token"][model_id]["output"]
+    cost_per_1k_input_tokens = SETTINGS["dollars_per_1k_token"][model]["input"]
+    cost_per_1k_output_tokens = SETTINGS["dollars_per_1k_token"][model]["output"]
     # Calculate cost in Dollars
     dollars_tokens_in = tokens_in * cost_per_1k_input_tokens / 1000
     dollars_tokens_out = tokens_out * cost_per_1k_output_tokens / 1000

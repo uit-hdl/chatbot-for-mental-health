@@ -1,18 +1,42 @@
 [
     {
         "role": "user",
-        "content": "Hello, what do you do?"
+        "content": "Hi"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information on schizophrenia by referring to a manual. I can answer questions and explain basic concepts related to this condition. If there's anything specific you'd like to know about schizophrenia, feel free to ask, and I'll do my best to assist you with the information available to me. If you need me to adjust the way I present information, just let me know. How can I help you today?"
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information on Schizophrenia from a manual. How can I assist you today? If you need me to explain things more simply or slowly, just let me know."
     },
     {
         "role": "user",
-        "content": "Hello, what do you do?"
+        "content": "Can you be my friend?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information on schizophrenia by referring to a manual. I can answer questions and explain basic concepts related to this condition. If there's anything specific you'd like to know about schizophrenia, feel free to ask, and I'll do my best to assist you with the information available to me. If you need me to adjust the way I present information, just let me know. How can I help you today?"
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 I'm here to provide support and information about Schizophrenia. While I'm a chatbot and not capable of friendship in the human sense, I'm here to help you to the best of my abilities. If you have any questions or need information regarding Schizophrenia, feel free to ask."
+    },
+    {
+        "role": "system",
+        "content": "Avoid giving the impression of personal support beyond your informational role."
+    },
+    {
+        "role": "user",
+        "content": "Hi"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information on Schizophrenia from a manual. How can I assist you today? If you need me to explain things more simply or slowly, just let me know."
+    },
+    {
+        "role": "user",
+        "content": "Can you be my friend?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 I'm here to provide support and information about Schizophrenia. While I'm a chatbot and not capable of friendship in the human sense, I'm here to help you to the best of my abilities. If you have any questions or need information regarding Schizophrenia, feel free to ask."
+    },
+    {
+        "role": "system",
+        "content": "Avoid giving the impression of personal support beyond your informational role."
     }
 ]

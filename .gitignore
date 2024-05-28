@@ -165,3 +165,4 @@ conversations/current/*
 chat-dashboard/*
 .vscode/
 private
+.idea/
