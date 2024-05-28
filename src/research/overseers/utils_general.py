@@ -62,14 +62,20 @@ def get_hash_of_current_git_commit():
     return repo.head.object.hexsha
 
 
+# %% PROMPTS
 def fill_in_variables_in_prompt_template(
     prompt_template,
     prompt_variables: dict,
+    dump_prompt=True,
 ):
     """Example input arguments:
     prompt_template = "{var1}, is your name {var2}?"
     prompt_variables = {"var1": "Hello!", "var2": "John"}."""
     prompt_completed = prompt_template.format(**prompt_variables)
+    if dump_prompt:
+        dump_prompt_to_markdown_locally(
+            prompt_completed, "files/prompt-completed/prompt_completed.md"
+        )
     return prompt_completed
 
 

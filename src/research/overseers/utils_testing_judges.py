@@ -61,9 +61,6 @@ def run_experiment_general(
     # Create prompt
     prompt_template = load_local_prompt_template(prompt_template_path_relative)
     prompt = fill_in_variables_in_prompt_template(prompt_template, prompt_variables)
-    dump_prompt_to_markdown_locally(
-        prompt, "files/prompt-completed/prompt_completed.md"
-    )
     f_get_response = lambda prompt: gen_llm_response(prompt, model)
 
     # Run trials
