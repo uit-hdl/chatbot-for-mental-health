@@ -1,95 +1,83 @@
 [
     {
         "role": "user",
-        "content": "Hi!"
+        "content": "hi"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello and welcome! I'm here to provide information on Schizophrenia based on a specific manual. If you have any questions or need explanations on this topic, feel free to ask. And please, let me know how you would like the information presented or if you need me to adjust my responses to better suit your needs. How can I assist you today?"
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information on schizophrenia from a manual. If you have any questions or need some information, please feel free to ask. Remember, I'll keep my responses simple and brief. If you need me to adjust my explanations at any time, just let me know. How can I assist you today?"
     },
     {
         "role": "user",
-        "content": "What can you tell me?"
+        "content": "What can you help me with?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 To help you best, I need to know what specific information you're looking for about Schizophrenia. Are you interested in understanding the diagnosis, symptoms, treatments, managing daily life, or perhaps impacts on personal relationships? Let me know what area you'd like to learn more about, or if you have a specific question in mind."
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 I can help you with information on several topics related to schizophrenia, such as:\n\n- Understanding a diagnosis of schizophrenia\n- Symptoms and how schizophrenia is diagnosed\n- Management strategies including medication and therapy\n- How schizophrenia may affect personal relationships and social life\n- Information on general health, lifestyle, and living with schizophrenia\n- Understanding and dealing with stigma\n- Legal rights and advocacy\n\nIf you have specific questions or need information on a particular aspect of schizophrenia, feel free to ask, and I will provide information from the manual."
     },
     {
         "role": "user",
-        "content": "start from the beginning"
+        "content": "Can you support me?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:request_knowledge(12_what_is_schizophrenia):\u00a4"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"12_what_is_schizophrenia\"]):\u00a4 Schizophrenia is a long-term mental health condition that causes a range of different psychological symptoms, which can include changes in behavior, emotions, and thinking patterns. It\u2019s important to understand that this condition is treatable, and many people with schizophrenia lead normal lives. \n\nHere are some myths and facts to help clarify common misconceptions:\n\n- **Myth**: People with schizophrenia have multiple personalities.\n  **Fact**: Schizophrenia does not mean someone has multiple personalities.\n\n- **Myth**: Schizophrenia is caused by bad parenting.\n  **Fact**: Parenting style is not related to the development of schizophrenia.\n\n- **Myth**: People with schizophrenia are lazy.\n  **Fact**: A lack of energy is a symptom of the illness, not laziness.\n\n- **Myth**: People with schizophrenia are dangerous.\n  **Fact**: While people with schizophrenia may sometimes act oddly, they are rarely violent.\n\nIf you'd like more detailed information about anything specific to schizophrenia or have more questions, please let me know!"
-    },
-    {
-        "role": "system",
-        "content": "Keep messages as brief as possible."
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 I can offer support in the form of information and guidance on schizophrenia based on the manual I have. While I am not a therapist or a healthcare provider, I can help answer questions, clarify concepts, and provide information that may assist you in understanding and managing schizophrenia. If you're looking for a listening ear, it's important to reach out to friends, family, or a professional who can offer you the emotional support you need.\n\nIf you're experiencing distress or an emergency situation, I strongly recommend contacting a professional for immediate help. Would you like to learn more about a specific topic related to schizophrenia?"
     },
     {
         "role": "user",
-        "content": "continue"
+        "content": "yes please"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"12_what_is_schizophrenia\"]):\u00a4 Moving on with some more myths and facts:\n\n- **Myth**: The experiences of those with schizophrenia aren't real.\n  **Fact**: Individuals with schizophrenia genuinely experience their symptoms, even if they seem unbelievable to others.\n\n- **Myth**: People with schizophrenia won't improve.\n  **Fact**: Many individuals with schizophrenia see improvements, and some may recover completely.\n\n- **Myth**: Medication eliminates all schizophrenia symptoms.\n  **Fact**: While medication can significantly reduce symptoms, it may not eliminate them entirely.\n\n- **Myth**: Those with schizophrenia can't work.\n  **Fact**: Many individuals with schizophrenia are employed and find productive work beneficial to their self-esteem.\n\nRemember, experiences vary from person to person, so symptoms and effects are different for everyone. Would you like more information on any particular aspect of schizophrenia?"
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Great, I'd be happy to help with that. Could you please specify which topic related to schizophrenia you would like more information on? Here are a few options you might consider:\n\n- Diagnosis and symptoms of schizophrenia\n- Treatment and management strategies\n- Living with schizophrenia and maintaining relationships\n- Coping with stigma and public perception\n- Tips for general health and lifestyle changes\n\nLet me know which area you're interested in, or if there's something else specific on your mind."
     },
     {
         "role": "user",
-        "content": "ok, more"
+        "content": "How can I get better? what can I do?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"12_what_is_schizophrenia\"]):\u00a4 Sure, let's delve a bit deeper into what schizophrenia is.\n\nPeople with schizophrenia may experience a range of symptoms that can be categorized into positive symptoms (such as delusions and hallucinations), negative symptoms (like reduced emotions or motivation), and cognitive symptoms (which affect memory and thinking). It's not a choice or a result of someone's actions; the exact causes are unknown, but it involves a combination of genetic and environmental factors.\n\nThe condition is often misunderstood due to sensationalized media portrayals, leading to stigmatization and myths about the illness. However, with proper treatment and support, many people with schizophrenia manage their condition well and maintain fulfilling lives.\n\nLet me know if there's a specific topic related to schizophrenia you'd like to explore, such as causes, managing symptoms, or treatment options."
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 To provide you with accurate information on how to manage schizophrenia and improve your condition, I will need to reference specific sections of the manual. Topics related to treatment and improving symptoms can include medication, therapy, lifestyle adjustments, and support systems. \n\nMay I request the relevant source to share with you detailed information on management strategies and what you can do to get better? Or, if you prefer, I can refer you to more specialized assistance. Which option would you like to proceed with?"
+    },
+    {
+        "role": "user",
+        "content": "I dont know. I dont know where to begin"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 It's completely understandable to feel overwhelmed when trying to figure out where to start. Why don't we begin by discussing the basics of treatment and management for schizophrenia? This could include an overview of medication, different types of therapy, and general strategies to manage your symptoms and well-being. I'll request some introductory information to get us started. One moment, please.\n\n\u00a4:request_knowledge(`51_management_strategy_intro`):\u00a4"
     },
     {
         "role": "system",
         "content": "Source removed due to inactivity."
     },
     {
-        "role": "user",
-        "content": "continue"
-    },
-    {
         "role": "assistant",
-        "content": "\u00a4:cite([\"12_what_is_schizophrenia\"]):\u00a4 Understanding schizophrenia also involves recognizing the diversity of experiences among those affected by the condition. The illness varies greatly between individuals, and the path to managing it can be quite personal. \n\nTreatment typically includes medication, which can help control the symptoms, along with psychotherapy and support to address the broader impact on life and relationships.\n\nIt's vital to dispel the stigma and to approach the topic with empathy and understanding. Education and awareness can help in recognizing the human element behind the condition, knowing that each person with schizophrenia has their unique story, challenges, and strengths.\n\nWould you like to know more about specific treatment options, or perhaps the impact of schizophrenia on daily life and relationships?"
+        "content": "\u00a4:cite([\"51_management_strategy_intro\"]):\u00a4\u00a4:display_image(factors_of_recovery.png):\u00a4 It's key to remember that mental illness is not a choice, but recovery involves making decisions to help manage your illness.\n\nThe main goal of treatment for schizophrenia is to relieve symptoms, prevent psychotic episodes, and help you progress along the path to recovery. Effective treatment often includes a combination of medication and psychotherapy (\"talking therapy\"), as well as peer-to-peer contact. Every person is unique, so finding the right mix of therapies tailored to your needs is crucial.\n\nWould you like to delve deeper into any of these treatment options, like learning about specific medications, different types of therapy, or support networks?"
     },
     {
         "role": "user",
-        "content": "What can you tell me about stigma?"
+        "content": "I understand"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:request_knowledge(13_stigma):\u00a4"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"13_stigma\"]):\u00a4 Stigma around schizophrenia comes from negative perceptions and misconceptions about the condition, often leading people to fear or misunderstand those with the illness. People may believe individuals with schizophrenia are unpredictable due to the incorrect idea that they switch between normal and bizarre behaviors.\n\nSuch views can lead to self-stigmatization, where individuals with schizophrenia may begin to view themselves through the lens of such misconceptions. It's crucial for them and their family members to see the illness as just one aspect of the person, not their entire identity.\n\nThe term 'schizophrenia' originates from Greek words meaning 'to split' and 'mind,' leading some to mistakenly think it involves a split personality. In reality, schizophrenia is diverse in how it affects individuals, both in severity and symptoms.\n\nEfforts are being made to change the name and concept of schizophrenia in some countries, like Japan and the Netherlands, to help reduce stigma and better reflect the diversity of experiences by those with the condition.\n\nWould you like to know more about handling stigma or any other topic related to schizophrenia?"
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 That's great to hear. If you have any more questions, need clarification, or wish to explore other topics related to schizophrenia, feel free to ask. Remember, I'm here to provide you with information and help you navigate through these topics at your own pace."
     },
     {
         "role": "system",
-        "content": "source 13_stigma: [Present over 2 messages or only what is relevant]\n\nStigma can refer to the negative perceptions and attitudes surrounding certain\nhealth conditions or diseases. There are a lot of misconceptions surrounding\nschizophrenia, which can affect both those with the condition and those who care\nfor them. Many people believe that a person with schizophrenia will switch\nfrequently between normal and bizarre behaviour, as if they have multiple\npersonalities. This promotes a perception that people with schizophrenia are\nunpredictable and should be feared.\n\nThey may internalize these misconceptions (self-stigmization). It is important\nfor them and for family members not to allow others\u2019 perceptions to influence\nhow they feel about that person. It is important that they view their illness as\nsomething they have, and not something that identifies them.\n\n**'I have schizophrenia. I am not schizophrenia. I am not my mental illness. My\nillness is a part of me.'** \u2013 Jonathan Harnisch, An Alibiography\n\nThe name \u2018schizophrenia\u2019 is derived from the Greek verb skhizein, \u2018to split\u2019,\nand phren, denoting \u2018soul, spirit or mind\u2019, and originally described a group of\n\u2018schizophrenias\u2019. Although the current language suggests a single, uniform\ncondition, there is great variety in the severity of illness and types of\nsymptoms experienced by people with schizophrenia.\n\nThere have been many suggestions for alternative names that better describe the\ndiversity of symptoms apparent in people with schizophrenia. Indeed, a new term,\n\u2018Togo Shitcho Sho\u2019 or \u2018integration disorder\u2019, was adopted in Japan in 2002.\nPatient groups in the Netherlands are also taking steps towards realizing a name\nchange in their country. The Dutch patient society, Anoiksis, has suggested a\nnew name and new concept for schizophrenia, with the aim of reducing the stigma\nassociated with the condition.\n"
-    },
-    {
-        "role": "system",
-        "content": "Keep messages as brief as possible."
+        "content": "Your response is friendly and open-ended, which is good, but remember not to offer too much of a personal touch. Stick to providing information from the manual or referring to other assistants as necessary."
     },
     {
         "role": "user",
-        "content": "yes"
+        "content": "Thanks... what is the role of family?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"13_stigma\"]):\u00a4 Handling stigma involves education and advocacy. Learning about schizophrenia and sharing that knowledge can help correct misconceptions. Open conversations and sharing personal experiences can also reduce fear and misunderstanding. \n\nRemember the words of Jonathan Harnisch: \"I have schizophrenia. I am not schizophrenia. I am not my mental illness. My illness is a part of me.\"\n\nSupport groups, awareness campaigns, and even considering a change in terminology, as done in Japan, can also contribute to reducing stigma. It's about humanizing the condition and recognizing the individual beyond the diagnosis.\n\nWould you like more detailed strategies or support sources to deal with stigma?"
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 Families can play a significant role in supporting a loved one with schizophrenia. They can provide emotional support, help with managing treatment plans, and assist in daily activities. Educating oneself about the illness is also important, as it helps in understanding and responding appropriately to various situations. \n\nFamily members can benefit from resources like support groups and family-focused therapy to better handle the challenges that come with schizophrenia. Would you like me to provide more specific information on how families can be supportive or on any related topics?"
     },
     {
         "role": "system",
-        "content": "The message about education, advocacy, and Jonathan Harnisch's quote aligns with the source. However, support groups, awareness campaigns, and details about Japan's change in terminology should be presented as examples from the source, not as additional advice or strategies."
+        "content": "Your response should have included a disclaimer that the information is not sourced from the manual and therefore should be verified with a healthcare provider."
     },
     {
         "role": "user",
@@ -97,15 +85,59 @@
     },
     {
         "role": "assistant",
-        "content": "\u00a4:request_knowledge(13_stigma):\u00a4"
+        "content": "\u00a4:request_knowledge(`61_personal_relationships`):\u00a4"
     },
     {
         "role": "system",
-        "content": "The requested source 13_stigma is already available in the chat!"
+        "content": "source 61_personal_relationships: [Present over 2 messages or only what is relevant]\n\nSchizophrenia is not easy to live with. It can put strain on your relationships\nwith people in your family or those you share a home with. During relapses in\nyour illness, you may not realize the demands that are being made of people\naround you; when you emerge into recovery, you may find yourself feeling rather\nlonely. Likewise, it can be difficult to live with a person with schizophrenia.\nNevertheless, there are some practical steps you can take together to make\nthings easier.\n\n[Present only if relevant] If you are planning a family, there are a number of\nissues that you need to discuss with your partner early on, such as the risk of\nyour child developing schizophrenia, how you will manage having a child, and, if\nyou are a woman, the possibility that you will relapse after giving birth or\nduring the pregnancy. There will be decisions that are not easy to make, but\ninformation from your healthcare team can aid in difficult discussions. As\nmentioned in Chapter 5, some medications used to treat schizophrenia may not be\nsuitable for use during pregnancy. Therefore, you should discuss your options\nwith your doctor before trying to conceive a child.\n\n[present `S` to schizophrenia patients and `F` for family members (ask if\nunsure)]\n\n- Learn more about schizophrenia\n  - S: Explain it to your friends and family\n  - F: Try to be understanding of your family member\u2019s behaviour\n- Be honest\n  - S: Explain it to your friends and family\n  - F: For example, about your fears and your hopes\n- Agree on boundaries\n  - S: Tell people close to you what you want them to do and,\n    importantly, what you don\u2019t want them to do\n  - F: Respect your family member\u2019s wishes as far as possible\n- Build trust\n  - S: Trust that your family want what is best for you\n  - F: Show the person that you have their best interests at heart\n- Don\u2019t be ashamed\n  - S: You are not to blame for your illness and it is nothing to be\n    ashamed of\n  - F: There is nothing shameful about caring for someone with\n    schizophrenia\n- Learn from others\n  - S and F: Support groups will have members who have been in similar\n    situations and can help\n"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"13_stigma\"]):\u00a4 To deal with stigma effectively, education is key. Understanding and sharing accurate information about schizophrenia can help dispel myths. Support from family, friends, and support groups can also be empowering. \n\nJapan has adopted a new term, \u2018Togo Shitcho Sho\u2019 or \u2018integration disorder\u2019, to describe schizophrenia, which has contributed to reducing stigma there. Similarly, the Dutch patient society, Anoiksis, is advocating for a name change to help shift perceptions.\n\nIt's important to view and present schizophrenia as just one part of a person's life, not defining them entirely, which can help in reducing stigma.\n\nIf you're interested in learning more about specific support sources or ways to advocate against stigma, I can provide further information. Would you like to explore these options?"
+        "content": "\u00a4:cite([\"61_personal_relationships\"]):\u00a4 Managing relationships when dealing with schizophrenia involves effort from both the individual with the illness and their family members. Here are some practical steps for patients and family members:\n\n1. Educate yourselves about schizophrenia:\n   - Patients: Explain the illness to friends and family to foster understanding.\n   - Family Members: Try to understand your family member's behavior and experiences.\n\n2. Be honest in communication:\n   - Patients: Share your feelings and boundaries clearly.\n   - Family Members: Discuss your fears and hopes openly.\n\n3. Set boundaries:\n   - Patients: Communicate your needs and limits to those close to you.\n   - Family Members: Respect the wishes of your family member with schizophrenia.\n\n4. Build trust:\n   - Patients: Trust that your family wants the best for you.\n   - Family Members: Show your compassion and commitment to their well-being.\n\n5. No shame:\n   - Patients: Remember that your illness is not your fault, and there is no shame in it.\n   - Family Members: Caring for someone with schizophrenia is an act of love and should not be seen as shameful.\n\n6. Learn from others:\n   - Both Patients and Family Members: Join support groups to gain insights from others in similar situations.\n\nWhether you're a patient or family member, would you like to explore any of these areas in more detail, or is there another aspect of managing family relationships you'd like to discuss?"
+    },
+    {
+        "role": "system",
+        "content": "Your response was shortened. Present information in smaller chunks.\n"
+    },
+    {
+        "role": "user",
+        "content": "I dont know. I dont know where to begin"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 It's completely understandable to feel overwhelmed when trying to figure out where to start. Why don't we begin by discussing the basics of treatment and management for schizophrenia? This could include an overview of medication, different types of therapy, and general strategies to manage your symptoms and well-being. I'll request some introductory information to get us started. One moment, please.\n\n\u00a4:request_knowledge(`51_management_strategy_intro`):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "Source removed due to inactivity."
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"51_management_strategy_intro\"]):\u00a4\u00a4:display_image(factors_of_recovery.png):\u00a4 It's key to remember that mental illness is not a choice, but recovery involves making decisions to help manage your illness.\n\nThe main goal of treatment for schizophrenia is to relieve symptoms, prevent psychotic episodes, and help you progress along the path to recovery. Effective treatment often includes a combination of medication and psychotherapy (\"talking therapy\"), as well as peer-to-peer contact. Every person is unique, so finding the right mix of therapies tailored to your needs is crucial.\n\nWould you like to delve deeper into any of these treatment options, like learning about specific medications, different types of therapy, or support networks?"
+    },
+    {
+        "role": "user",
+        "content": "I understand"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 That's great to hear. If you have any more questions, need clarification, or wish to explore other topics related to schizophrenia, feel free to ask. Remember, I'm here to provide you with information and help you navigate through these topics at your own pace."
+    },
+    {
+        "role": "system",
+        "content": "Your response is friendly and open-ended, which is good, but remember not to offer too much of a personal touch. Stick to providing information from the manual or referring to other assistants as necessary."
+    },
+    {
+        "role": "user",
+        "content": "Thanks... what is the role of family?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 Families can play a significant role in supporting a loved one with schizophrenia. They can provide emotional support, help with managing treatment plans, and assist in daily activities. Educating oneself about the illness is also important, as it helps in understanding and responding appropriately to various situations. \n\nFamily members can benefit from resources like support groups and family-focused therapy to better handle the challenges that come with schizophrenia. Would you like me to provide more specific information on how families can be supportive or on any related topics?"
+    },
+    {
+        "role": "system",
+        "content": "Your response should have included a disclaimer that the information is not sourced from the manual and therefore should be verified with a healthcare provider."
     },
     {
         "role": "user",
@@ -113,66 +145,18 @@
     },
     {
         "role": "assistant",
-        "content": "\u00a4:request_knowledge(101_further_information):\u00a4"
+        "content": "\u00a4:request_knowledge(`61_personal_relationships`):\u00a4"
     },
     {
         "role": "system",
-        "content": "source 101_further_information: [Present over 2 messages or only what is relevant]\n\n# Networking and other sources of information\n\n## International organizations\n\n### EUFAMI\n\nEuropean Federation of Associations of Families of People with Mental Illness\n\nThe European representative organization for family support\nassociations across Europe. EUFAMI promotes the interests and\nwellbeing of families and caregivers affected by severe mental\nillness. http://www.eufami.org/\n\n## GAMIAN-Europe\n\nGlobal Alliance of Mental Illness Advocacy Networks-Europe\n\nA patient-driven, pan-European organization that represents the\ninterests of people affected by mental illness and advocates for their\nrights. http://www.gamian.eu/\n\n## ISF\n\nInternational Schizophrenia Foundation\n\nA non-profit organization with international affiliates dedicated to\nraising the levels of diagnosis, treatment and prevention of the\nschizophrenias and allied disorders.\n\n[`Inform that the website is currently unavailable`]\n\n## WFMH\n\nWorld Federation for Mental Health\n\nAn international organization for the promotion of mental health.\nhttp://wfmh.com/\n\n## Patient groups, support groups and other useful websites\n\n### Intervoice\n\nThe International Hearing Voices Network\n\nA network of people who hear voices, see visions or have other unusual\nperceptions. http://www.intervoiceonline.org/\n\n## Mind\n\nA charity that provides advice and support to empower anyone\nexperiencing a mental health problem.\n\nhttps://www.mind.org.uk/information-support/types-of-mental-health-problems/schizophrenia/about-schizophrenia/\n\n## Rethink Mental Illness\n\nA charity working to help everyone affected by severe mental illness\nto recover a better quality of life.\nhttps://www.rethink.org/advice-and-information/about-mental-illness/learn-more-about-conditions/schizophrenia/\n\n# Further reading\nAnoiksis. Psychosis? Me? Anoiksis, 2014. Available from:\nhttps://www.gamian.eu/activities/archive/message-ge-members/\n\n[If they are curious: this booklet has been written by and for people\nwho are susceptible to psychosis. This is the updated link]\n"
+        "content": "source 61_personal_relationships: [Present over 2 messages or only what is relevant]\n\nSchizophrenia is not easy to live with. It can put strain on your relationships\nwith people in your family or those you share a home with. During relapses in\nyour illness, you may not realize the demands that are being made of people\naround you; when you emerge into recovery, you may find yourself feeling rather\nlonely. Likewise, it can be difficult to live with a person with schizophrenia.\nNevertheless, there are some practical steps you can take together to make\nthings easier.\n\n[Present only if relevant] If you are planning a family, there are a number of\nissues that you need to discuss with your partner early on, such as the risk of\nyour child developing schizophrenia, how you will manage having a child, and, if\nyou are a woman, the possibility that you will relapse after giving birth or\nduring the pregnancy. There will be decisions that are not easy to make, but\ninformation from your healthcare team can aid in difficult discussions. As\nmentioned in Chapter 5, some medications used to treat schizophrenia may not be\nsuitable for use during pregnancy. Therefore, you should discuss your options\nwith your doctor before trying to conceive a child.\n\n[present `S` to schizophrenia patients and `F` for family members (ask if\nunsure)]\n\n- Learn more about schizophrenia\n  - S: Explain it to your friends and family\n  - F: Try to be understanding of your family member\u2019s behaviour\n- Be honest\n  - S: Explain it to your friends and family\n  - F: For example, about your fears and your hopes\n- Agree on boundaries\n  - S: Tell people close to you what you want them to do and,\n    importantly, what you don\u2019t want them to do\n  - F: Respect your family member\u2019s wishes as far as possible\n- Build trust\n  - S: Trust that your family want what is best for you\n  - F: Show the person that you have their best interests at heart\n- Don\u2019t be ashamed\n  - S: You are not to blame for your illness and it is nothing to be\n    ashamed of\n  - F: There is nothing shameful about caring for someone with\n    schizophrenia\n- Learn from others\n  - S and F: Support groups will have members who have been in similar\n    situations and can help\n"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"101_further_information\"]):\u00a4 For additional resources and support on stigma and schizophrenia, you can connect with international organizations like EUFAMI and GAMIAN-Europe, which support families and individuals affected by mental illness. \n\nThe World Federation for Mental Health also offers resources for mental health promotion. For peer support, Intervoice serves as a network for those who hear voices or have other unusual perceptions.\n\nMental health charities like Mind and Rethink Mental Illness provide guidance and support for those experiencing mental health issues, including schizophrenia.\n\nFor further reading, Anoiksis has a booklet written for those susceptible to psychosis, which you can find through the GAMIAN-Europe website.\n\nWould you like links to any of these resources, or information on other specific topics?"
+        "content": "\u00a4:cite([\"61_personal_relationships\"]):\u00a4 Managing relationships when dealing with schizophrenia involves effort from both the individual with the illness and their family members. Here are some practical steps for patients and family members:\n\n1. Educate yourselves about schizophrenia:\n   - Patients: Explain the illness to friends and family to foster understanding.\n   - Family Members: Try to understand your family member's behavior and experiences.\n\n2. Be honest in communication:\n   - Patients: Share your feelings and boundaries clearly.\n   - Family Members: Discuss your fears and hopes openly.\n\n3. Set boundaries:\n   - Patients: Communicate your needs and limits to those close to you.\n   - Family Members: Respect the wishes of your family member with schizophrenia.\n\n4. Build trust:\n   - Patients: Trust that your family wants the best for you.\n   - Family Members: Show your compassion and commitment to their well-being.\n\n5. No shame:\n   - Patients: Remember that your illness is not your fault, and there is no shame in it.\n   - Family Members: Caring for someone with schizophrenia is an act of love and should not be seen as shameful.\n\n6. Learn from others:\n   - Both Patients and Family Members: Join support groups to gain insights from others in similar situations.\n\nWhether you're a patient or family member, would you like to explore any of these areas in more detail, or is there another aspect of managing family relationships you'd like to discuss?"
     },
     {
         "role": "system",
-        "content": "source 13_stigma: [Present over 2 messages or only what is relevant]\n\nStigma can refer to the negative perceptions and attitudes surrounding certain\nhealth conditions or diseases. There are a lot of misconceptions surrounding\nschizophrenia, which can affect both those with the condition and those who care\nfor them. Many people believe that a person with schizophrenia will switch\nfrequently between normal and bizarre behaviour, as if they have multiple\npersonalities. This promotes a perception that people with schizophrenia are\nunpredictable and should be feared.\n\nThey may internalize these misconceptions (self-stigmization). It is important\nfor them and for family members not to allow others\u2019 perceptions to influence\nhow they feel about that person. It is important that they view their illness as\nsomething they have, and not something that identifies them.\n\n**'I have schizophrenia. I am not schizophrenia. I am not my mental illness. My\nillness is a part of me.'** \u2013 Jonathan Harnisch, An Alibiography\n\nThe name \u2018schizophrenia\u2019 is derived from the Greek verb skhizein, \u2018to split\u2019,\nand phren, denoting \u2018soul, spirit or mind\u2019, and originally described a group of\n\u2018schizophrenias\u2019. Although the current language suggests a single, uniform\ncondition, there is great variety in the severity of illness and types of\nsymptoms experienced by people with schizophrenia.\n\nThere have been many suggestions for alternative names that better describe the\ndiversity of symptoms apparent in people with schizophrenia. Indeed, a new term,\n\u2018Togo Shitcho Sho\u2019 or \u2018integration disorder\u2019, was adopted in Japan in 2002.\nPatient groups in the Netherlands are also taking steps towards realizing a name\nchange in their country. The Dutch patient society, Anoiksis, has suggested a\nnew name and new concept for schizophrenia, with the aim of reducing the stigma\nassociated with the condition.\n"
-    },
-    {
-        "role": "system",
-        "content": "Keep messages as brief as possible."
-    },
-    {
-        "role": "user",
-        "content": "yes"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"13_stigma\"]):\u00a4 Handling stigma involves education and advocacy. Learning about schizophrenia and sharing that knowledge can help correct misconceptions. Open conversations and sharing personal experiences can also reduce fear and misunderstanding. \n\nRemember the words of Jonathan Harnisch: \"I have schizophrenia. I am not schizophrenia. I am not my mental illness. My illness is a part of me.\"\n\nSupport groups, awareness campaigns, and even considering a change in terminology, as done in Japan, can also contribute to reducing stigma. It's about humanizing the condition and recognizing the individual beyond the diagnosis.\n\nWould you like more detailed strategies or support sources to deal with stigma?"
-    },
-    {
-        "role": "system",
-        "content": "The message about education, advocacy, and Jonathan Harnisch's quote aligns with the source. However, support groups, awareness campaigns, and details about Japan's change in terminology should be presented as examples from the source, not as additional advice or strategies."
-    },
-    {
-        "role": "user",
-        "content": "yes"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:request_knowledge(13_stigma):\u00a4"
-    },
-    {
-        "role": "system",
-        "content": "The requested source 13_stigma is already available in the chat!"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"13_stigma\"]):\u00a4 To deal with stigma effectively, education is key. Understanding and sharing accurate information about schizophrenia can help dispel myths. Support from family, friends, and support groups can also be empowering. \n\nJapan has adopted a new term, \u2018Togo Shitcho Sho\u2019 or \u2018integration disorder\u2019, to describe schizophrenia, which has contributed to reducing stigma there. Similarly, the Dutch patient society, Anoiksis, is advocating for a name change to help shift perceptions.\n\nIt's important to view and present schizophrenia as just one part of a person's life, not defining them entirely, which can help in reducing stigma.\n\nIf you're interested in learning more about specific support sources or ways to advocate against stigma, I can provide further information. Would you like to explore these options?"
-    },
-    {
-        "role": "user",
-        "content": "yes"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:request_knowledge(101_further_information):\u00a4"
-    },
-    {
-        "role": "system",
-        "content": "source 101_further_information: [Present over 2 messages or only what is relevant]\n\n# Networking and other sources of information\n\n## International organizations\n\n### EUFAMI\n\nEuropean Federation of Associations of Families of People with Mental Illness\n\nThe European representative organization for family support\nassociations across Europe. EUFAMI promotes the interests and\nwellbeing of families and caregivers affected by severe mental\nillness. http://www.eufami.org/\n\n## GAMIAN-Europe\n\nGlobal Alliance of Mental Illness Advocacy Networks-Europe\n\nA patient-driven, pan-European organization that represents the\ninterests of people affected by mental illness and advocates for their\nrights. http://www.gamian.eu/\n\n## ISF\n\nInternational Schizophrenia Foundation\n\nA non-profit organization with international affiliates dedicated to\nraising the levels of diagnosis, treatment and prevention of the\nschizophrenias and allied disorders.\n\n[`Inform that the website is currently unavailable`]\n\n## WFMH\n\nWorld Federation for Mental Health\n\nAn international organization for the promotion of mental health.\nhttp://wfmh.com/\n\n## Patient groups, support groups and other useful websites\n\n### Intervoice\n\nThe International Hearing Voices Network\n\nA network of people who hear voices, see visions or have other unusual\nperceptions. http://www.intervoiceonline.org/\n\n## Mind\n\nA charity that provides advice and support to empower anyone\nexperiencing a mental health problem.\n\nhttps://www.mind.org.uk/information-support/types-of-mental-health-problems/schizophrenia/about-schizophrenia/\n\n## Rethink Mental Illness\n\nA charity working to help everyone affected by severe mental illness\nto recover a better quality of life.\nhttps://www.rethink.org/advice-and-information/about-mental-illness/learn-more-about-conditions/schizophrenia/\n\n# Further reading\nAnoiksis. Psychosis? Me? Anoiksis, 2014. Available from:\nhttps://www.gamian.eu/activities/archive/message-ge-members/\n\n[If they are curious: this booklet has been written by and for people\nwho are susceptible to psychosis. This is the updated link]\n"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"101_further_information\"]):\u00a4 For additional resources and support on stigma and schizophrenia, you can connect with international organizations like EUFAMI and GAMIAN-Europe, which support families and individuals affected by mental illness. \n\nThe World Federation for Mental Health also offers resources for mental health promotion. For peer support, Intervoice serves as a network for those who hear voices or have other unusual perceptions.\n\nMental health charities like Mind and Rethink Mental Illness provide guidance and support for those experiencing mental health issues, including schizophrenia.\n\nFor further reading, Anoiksis has a booklet written for those susceptible to psychosis, which you can find through the GAMIAN-Europe website.\n\nWould you like links to any of these resources, or information on other specific topics?"
+        "content": "Your response was shortened. Present information in smaller chunks.\n"
     }
 ]

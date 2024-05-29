@@ -86,88 +86,81 @@ challenge or educate other people, so it is NOT_SUPPORTED"
 
 source: """[Present over 2 messages or only what is relevant]
 
-# Networking and other sources of information
+Schizophrenia is not easy to live with. It can put strain on your relationships
+with people in your family or those you share a home with. During relapses in
+your illness, you may not realize the demands that are being made of people
+around you; when you emerge into recovery, you may find yourself feeling rather
+lonely. Likewise, it can be difficult to live with a person with schizophrenia.
+Nevertheless, there are some practical steps you can take together to make
+things easier.
 
-## International organizations
+[Present only if relevant] If you are planning a family, there are a number of
+issues that you need to discuss with your partner early on, such as the risk of
+your child developing schizophrenia, how you will manage having a child, and, if
+you are a woman, the possibility that you will relapse after giving birth or
+during the pregnancy. There will be decisions that are not easy to make, but
+information from your healthcare team can aid in difficult discussions. As
+mentioned in Chapter 5, some medications used to treat schizophrenia may not be
+suitable for use during pregnancy. Therefore, you should discuss your options
+with your doctor before trying to conceive a child.
 
-### EUFAMI
+[present `S` to schizophrenia patients and `F` for family members (ask if
+unsure)]
 
-European Federation of Associations of Families of People with Mental Illness
-
-The European representative organization for family support
-associations across Europe. EUFAMI promotes the interests and
-wellbeing of families and caregivers affected by severe mental
-illness. http://www.eufami.org/
-
-## GAMIAN-Europe
-
-Global Alliance of Mental Illness Advocacy Networks-Europe
-
-A patient-driven, pan-European organization that represents the
-interests of people affected by mental illness and advocates for their
-rights. http://www.gamian.eu/
-
-## ISF
-
-International Schizophrenia Foundation
-
-A non-profit organization with international affiliates dedicated to
-raising the levels of diagnosis, treatment and prevention of the
-schizophrenias and allied disorders.
-
-[`Inform that the website is currently unavailable`]
-
-## WFMH
-
-World Federation for Mental Health
-
-An international organization for the promotion of mental health.
-http://wfmh.com/
-
-## Patient groups, support groups and other useful websites
-
-### Intervoice
-
-The International Hearing Voices Network
-
-A network of people who hear voices, see visions or have other unusual
-perceptions. http://www.intervoiceonline.org/
-
-## Mind
-
-A charity that provides advice and support to empower anyone
-experiencing a mental health problem.
-
-https://www.mind.org.uk/information-support/types-of-mental-health-problems/schizophrenia/about-schizophrenia/
-
-## Rethink Mental Illness
-
-A charity working to help everyone affected by severe mental illness
-to recover a better quality of life.
-https://www.rethink.org/advice-and-information/about-mental-illness/learn-more-about-conditions/schizophrenia/
-
-# Further reading
-Anoiksis. Psychosis? Me? Anoiksis, 2014. Available from:
-https://www.gamian.eu/activities/archive/message-ge-members/
-
-[If they are curious: this booklet has been written by and for people
-who are susceptible to psychosis. This is the updated link]
+- Learn more about schizophrenia
+  - S: Explain it to your friends and family
+  - F: Try to be understanding of your family member’s behaviour
+- Be honest
+  - S: Explain it to your friends and family
+  - F: For example, about your fears and your hopes
+- Agree on boundaries
+  - S: Tell people close to you what you want them to do and,
+    importantly, what you don’t want them to do
+  - F: Respect your family member’s wishes as far as possible
+- Build trust
+  - S: Trust that your family want what is best for you
+  - F: Show the person that you have their best interests at heart
+- Don’t be ashamed
+  - S: You are not to blame for your illness and it is nothing to be
+    ashamed of
+  - F: There is nothing shameful about caring for someone with
+    schizophrenia
+- Learn from others
+  - S and F: Support groups will have members who have been in similar
+    situations and can help
 """
 
-chatbot-message: """For additional resources and support on stigma and schizophrenia, you can connect with international organizations like EUFAMI and GAMIAN-Europe, which support families and individuals affected by mental illness. 
+chatbot-message: """Managing relationships when dealing with schizophrenia involves effort from both the individual with the illness and their family members. Here are some practical steps for patients and family members:
 
-The World Federation for Mental Health also offers resources for mental health promotion. For peer support, Intervoice serves as a network for those who hear voices or have other unusual perceptions.
+1. Educate yourselves about schizophrenia:
+ - Patients: Explain the illness to friends and family to foster understanding.
+ - Family Members: Try to understand your family member's behavior and experiences.
 
-Mental health charities like Mind and Rethink Mental Illness provide guidance and support for those experiencing mental health issues, including schizophrenia.
+2. Be honest in communication:
+ - Patients: Share your feelings and boundaries clearly.
+ - Family Members: Discuss your fears and hopes openly.
 
-For further reading, Anoiksis has a booklet written for those susceptible to psychosis, which you can find through the GAMIAN-Europe website.
+3. Set boundaries:
+ - Patients: Communicate your needs and limits to those close to you.
+ - Family Members: Respect the wishes of your family member with schizophrenia.
 
-Would you like links to any of these resources, or information on other specific topics?"""
+4. Build trust:
+ - Patients: Trust that your family wants the best for you.
+ - Family Members: Show your compassion and commitment to their well-being.
+
+5. No shame:
+ - Patients: Remember that your illness is not your fault, and there is no shame in it.
+ - Family Members: Caring for someone with schizophrenia is an act of love and should not be seen as shameful.
+
+6. Learn from others:
+ - Both Patients and Family Members: Join support groups to gain insights from others in similar situations.
+
+Whether you're a patient or family member, would you like to explore any of these areas in more detail, or is there another aspect of managing family relationships you'd like to discuss?"""
 
 
 
 # OUPUT
 
-RELEVANT_PART_OF_SOURCE: "The relevant part of the source provides a list of international organizations, patient groups, support groups, charities, and websites that offer information and support for individuals and families affected by schizophrenia and mental illness."
-CHATBOT_ASSERTIONS: "The chatbot mentions specific international organizations such as EUFAMI and GAMIAN-Europe, and also mentions mental health charities like Mind and Rethink Mental Illness. It also mentions peer support through Intervoice and provides information about a booklet from Anoiksis."
-EXPLICITLY_SUPPORTED: "The chatbot accurately summarizes the relevant information from the source, so it is SUPPORTED."
+RELEVANT_PART_OF_SOURCE: "The source provides practical steps for managing relationships when dealing with schizophrenia, for both individuals with the illness and their family members"
+CHATBOT_ASSERTIONS: "The chatbot summarizes and gives practical steps for managing relationships when dealing with schizophrenia, both for patients and family members"
+EXPLICITLY_SUPPORTED: "The chatbot's assertions accurately summarize the practical steps mentioned in the source, so it is SUPPORTED"

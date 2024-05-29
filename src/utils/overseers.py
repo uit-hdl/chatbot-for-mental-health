@@ -9,13 +9,9 @@ from utils.backend import get_source_content_and_path
 from utils.backend import convert_json_string_to_dict
 from utils.backend import get_sources_available_to_chatbot
 from utils.backend import dump_prompt_response_pair_to_md
-from utils.backend import dump_file
-from utils.backend import PRE_SUMMARY_DUMP_PATH
 from utils.backend import PROMPTS
-from utils.backend import MODEL_TO_DEPLOYMENT_MAP
-from utils.backend import CONFIG
-from utils.backend import SETTINGS
 from utils.backend import SYSTEM_MESSAGES
+from utils.backend import LOGGER
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import replace_last_assistant_response
 from utils.chat_utilities import (
@@ -24,8 +20,6 @@ from utils.chat_utilities import (
 from utils.chat_utilities import grab_last_user_message
 from utils.chat_utilities import generate_single_response_to_prompt
 from utils.process_syntax import extract_command_names_and_arguments
-from utils.process_syntax import get_commands
-from utils.process_syntax import insert_commands
 from utils.general import list_intersection
 from utils.general import list_subtraction
 from utils.general import remove_syntax_from_message
@@ -65,16 +59,17 @@ def evaluate_with_overseers(conversation, harvested_syntax, chatbot_id):
             warning_message = []
         else:
             warning_message = SYSTEM_MESSAGES["confirm_before_redirect"]
-
-    elif list_intersection(available_sources, citations):
-        overseer_evaluation, warning_message, conversation = (
-            overseer_evaluates_source_fidelity(conversation, citations, chatbot_id)
-        )
-
     else:
-        overseer_evaluation, warning_message, conversation = (
-            overseer_evaluates_default_mode_messages(conversation, citations)
-        )
+        LOGGER.info(f"*** AI-filter ***")
+        if list_intersection(available_sources, citations):
+            overseer_evaluation, warning_message, conversation = (
+                overseer_evaluates_source_fidelity(conversation, citations, chatbot_id)
+            )
+
+        else:
+            overseer_evaluation, warning_message, conversation = (
+                overseer_evaluates_default_mode_messages(conversation, citations)
+            )
 
     return overseer_evaluation, warning_message, conversation
 
@@ -114,10 +109,12 @@ def overseer_evaluates_source_fidelity(
         evaluation_dict = generate_overseer_response(
             prompt=prompt_completed,
         )
-        silent_print(f"chief_judge_default raw evaluation: {evaluation_dict}")
         overseer_evaluation, warning_message = extract_overseer_evaluation_and_feedback(
             evaluation_dict
         )
+        silent_print(f"chief_judge_source_fidelity evaluation: {overseer_evaluation}")
+        LOGGER.info(f"chief_judge_source_fidelity:\n{evaluation_dict}")
+
         if overseer_evaluation == "REJECTED":
             conversation, warning_message = (
                 correct_rejected_response_and_modify_chat_and_warning_accordingly(
@@ -150,6 +147,7 @@ def preliminary_check_of_source_fidelity(
     dump_prompt_response_pair_to_md(
         prompt_completed, evaluation, "swift_judge_source_fidelity"
     )
+    LOGGER.info(f"swift_judge_source_fidelity:\n{evaluation}")
 
     if "NOT_SUPPORTED" in evaluation:
         silent_print(f"Message fails preliminary source-fidelity check")
@@ -203,7 +201,6 @@ def extract_overseer_evaluation_and_feedback(
     if evaluation_dict and overseer_response_is_valid(evaluation_dict):
 
         if evaluation_dict["evaluation"] != "ACCEPTED":
-            silent_print(evaluation_dict)
             overseer_evaluation = evaluation_dict["evaluation"]
             warning_message = evaluation_dict["message_to_bot"]
 
@@ -286,10 +283,13 @@ def overseer_evaluates_default_mode_messages(conversation, citations: list):
                 user_message=user_message, chatbot_message=chatbot_message
             )
             evaluation_dict = generate_overseer_response(prompt)
-            silent_print(f"chief_judge_default raw evaluation: {evaluation_dict}")
             overseer_evaluation, warning_message = (
                 extract_overseer_evaluation_and_feedback(evaluation_dict)
             )
+
+            LOGGER.info(f"chief_judge_default:\n{evaluation_dict}")
+            silent_print(f"chief_judge_default evaluation: {overseer_evaluation}")
+
             if overseer_evaluation == "REJECTED":
                 conversation, warning_message = (
                     correct_rejected_response_and_modify_chat_and_warning_accordingly(
@@ -333,9 +333,8 @@ def preliminary_check_of_default_mode_message(
         dump_name="swift_judge_role_and_emergency_contact",
     )
 
-    silent_print(f"** DEFAULT MODE MESSAGE CHECK **")
-    silent_print(f"swift-judge disclaimer check: {evaluation_disclaimer}")
-    silent_print(f"swift-judge role check: {evaluation_role}")
+    LOGGER.info(f"swift-judge disclaimer check:\n{evaluation_disclaimer}")
+    LOGGER.info(f"swift-judge role check:\n{evaluation_role}")
 
     disclaimer_check_passed = "AGREE" in evaluation_disclaimer
     role_check_passed = "ACCEPTED" in evaluation_role
