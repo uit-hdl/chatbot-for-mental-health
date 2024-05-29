@@ -1,8 +1,7 @@
-# --- MESSAGE GENERATION ---
+# --- GENERATING A RESPONSE & REQUESTING KNOWLEDGE ---
 # Controll max number of attempts at producing valid response:
 n_attempts_at_producing_valid_response: 1
 max_requests: 2 # Maximum number of sources that the chatbot is allowed to request per turn.
-role_that_speaks_first: "user"
 # --- FILTERS ---
 # Set to false to turn of filters that check the contents of generated messages
 enable_overseer_filter: True
@@ -44,3 +43,6 @@ dollars_per_1k_token:
     "output": 0.002
 dollars_per_1k_output_token: 0.06
 nok_per_dollar: 10.6 # rate: NOK per Dollar
+
+# --- OTHER ---
+role_that_speaks_first: "user"

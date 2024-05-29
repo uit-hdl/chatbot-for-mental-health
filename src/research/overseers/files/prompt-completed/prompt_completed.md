@@ -80,12 +80,10 @@ EVALUATION: "WARNING"
 
 Please evaluate the following:
 
-user: "What do you do?
-"
+user: "I understand... please other topic"
 
-chatbot: "I am a chatbot whose job is to help users understand the contents of a
-Schizophrenia manual. I can talk about things such as early warning
-signs, strategies for managing symptoms, or redirect you to AI
-assistants who can help you with the TRUSTING app or with other sleep
-issues.
+chatbot: "Of course, we can discuss another aspect of schizophrenia or address any
+questions or concerns you might have on a different topic. Please let me
+know what you would like to talk about or if there's something specific
+you're interested in learning more about.
 "

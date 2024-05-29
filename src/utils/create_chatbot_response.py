@@ -5,17 +5,13 @@ from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import insert_requested_knowledge
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
-from utils.chat_utilities import grab_last_assistant_response
 from utils.backend import SETTINGS
-from utils.backend import SYSTEM_MESSAGES
 from utils.backend import LOGGER
-from utils.backend import MODEL_ID
 from utils.backend import dump_current_conversation_to_json
 from utils.filters import perform_quality_check_and_give_feedback
 from utils.filters import correct_erroneous_show_image_command
 from utils.general import silent_print
-from utils.consumption_of_tokens import count_tokens_in_message
-from utils.overseers import summarize_if_response_too_long
+from utils.manage_response_length import manage_length_of_chatbot_response
 
 
 def respond_to_user(conversation, chatbot_id: str) -> tuple[list, dict]:
@@ -92,29 +88,3 @@ def create_tentative_bot_response(conversation, chatbot_id):
     conversation = correct_erroneous_show_image_command(conversation)
     harvested_syntax = process_syntax_of_bot_response(conversation, chatbot_id)
     return conversation, harvested_syntax
-
-
-def manage_length_of_chatbot_response(conversation) -> list:
-    """Appends system warning to chat if message is too long. Very long messages
-    get summarized."""
-    bot_response = grab_last_assistant_response(conversation)
-    response_length = count_tokens_in_message(bot_response, MODEL_ID)
-    warning = None
-
-    if response_length >= SETTINGS["max_tokens_before_summarization"]:
-        silent_print("Response exceeds max length, shortening message with GPT-3.5...")
-        conversation = summarize_if_response_too_long(conversation)
-        warning = SYSTEM_MESSAGES["max_tokens_before_summarization"]
-
-    elif response_length > SETTINGS["limit_2_tokens_per_message"]:
-        silent_print(f"Response has length {response_length} tokens...")
-        warning = SYSTEM_MESSAGES["limit_2_tokens_per_message"]
-
-    elif response_length > SETTINGS["limit_1_tokens_per_message"]:
-        silent_print(f"Response has length {response_length} tokens...")
-        warning = SYSTEM_MESSAGES["limit_1_tokens_per_message"]
-
-    if warning:
-        conversation.append({"role": "system", "content": warning})
-
-    return conversation

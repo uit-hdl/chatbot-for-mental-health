@@ -43,7 +43,7 @@ response = gen_llm_response(prompt)
 print_wrap(response)
 
 # %%
-test_name = "chatbot_explains_its_functionalities"
+test_name = "chatbot_offers_to_discuss_other_topic"
 test_cases = load_test_cases()
 
 test_cases = test_cases[test_name]

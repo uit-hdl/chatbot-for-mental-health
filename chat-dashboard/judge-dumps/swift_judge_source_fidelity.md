@@ -84,43 +84,90 @@ challenge or educate other people, so it is NOT_SUPPORTED"
 
 # Actual content to evaluate
 
-source: """Stress is a common trigger for schizophrenia and, unfortunately, it is extremely
-difficult to avoid stress completely because having schizophrenia can be
-extremely stressful in itself. Nevertheless, it is possible to manage your
-stress levels and to reduce the impact that stress has on your life.
+source: """[Present over 2 messages or only what is relevant]
 
-[show: 82_how_to_avoid_stress.png | illustrates points below]
+# Networking and other sources of information
 
-- Learn which situations you find stressful and avoid them
-- Talk to someone – a problem shared is a problem halved
-- Avoid alcohol, caffeine and illicit drugs, as these can cause
-  anxiety
-- Learn some relaxation techniques
-- Simplify your life - just do one thing at a time
-- Stick to a schedule for each day
-- Exercise - this can prevent as well as relieve stress
-- Withdraw gradually from situations you find stressful
+## International organizations
 
-[`relaxation` assistant provides in-depth info if user is interested]
+### EUFAMI
+
+European Federation of Associations of Families of People with Mental Illness
+
+The European representative organization for family support
+associations across Europe. EUFAMI promotes the interests and
+wellbeing of families and caregivers affected by severe mental
+illness. http://www.eufami.org/
+
+## GAMIAN-Europe
+
+Global Alliance of Mental Illness Advocacy Networks-Europe
+
+A patient-driven, pan-European organization that represents the
+interests of people affected by mental illness and advocates for their
+rights. http://www.gamian.eu/
+
+## ISF
+
+International Schizophrenia Foundation
+
+A non-profit organization with international affiliates dedicated to
+raising the levels of diagnosis, treatment and prevention of the
+schizophrenias and allied disorders.
+
+[`Inform that the website is currently unavailable`]
+
+## WFMH
+
+World Federation for Mental Health
+
+An international organization for the promotion of mental health.
+http://wfmh.com/
+
+## Patient groups, support groups and other useful websites
+
+### Intervoice
+
+The International Hearing Voices Network
+
+A network of people who hear voices, see visions or have other unusual
+perceptions. http://www.intervoiceonline.org/
+
+## Mind
+
+A charity that provides advice and support to empower anyone
+experiencing a mental health problem.
+
+https://www.mind.org.uk/information-support/types-of-mental-health-problems/schizophrenia/about-schizophrenia/
+
+## Rethink Mental Illness
+
+A charity working to help everyone affected by severe mental illness
+to recover a better quality of life.
+https://www.rethink.org/advice-and-information/about-mental-illness/learn-more-about-conditions/schizophrenia/
+
+# Further reading
+Anoiksis. Psychosis? Me? Anoiksis, 2014. Available from:
+https://www.gamian.eu/activities/archive/message-ge-members/
+
+[If they are curious: this booklet has been written by and for people
+who are susceptible to psychosis. This is the updated link]
 """
 
-chatbot-message: """While it's not always possible to completely control or avoid stress, there are ways you can manage it as part of living with schizophrenia:
+chatbot-message: """For additional resources and support on stigma and schizophrenia, you can connect with international organizations like EUFAMI and GAMIAN-Europe, which support families and individuals affected by mental illness. 
 
-- Identify situations that are stressful for you and try to avoid them when possible.
-- Share your concerns with someone you trust. Talking about problems can help reduce their weight.
-- Stay away from alcohol, caffeine, and illicit drugs; they can increase anxiety.
-- Practice relaxation techniques that can help calm your mind.
-- Simplify your routines; focus on doing one thing at a time.
-- Maintain a daily schedule to add structure to your life.
-- Regular exercise can help prevent and relieve stress.
-- If certain situations are stressful, try to gradually reduce your exposure to them.
+The World Federation for Mental Health also offers resources for mental health promotion. For peer support, Intervoice serves as a network for those who hear voices or have other unusual perceptions.
 
-If you're interested in learning relaxation techniques in-depth, I can refer you to a specialist assistant. Let me know if that would be helpful to you."""
+Mental health charities like Mind and Rethink Mental Illness provide guidance and support for those experiencing mental health issues, including schizophrenia.
+
+For further reading, Anoiksis has a booklet written for those susceptible to psychosis, which you can find through the GAMIAN-Europe website.
+
+Would you like links to any of these resources, or information on other specific topics?"""
 
 
 
 # OUPUT
 
-RELEVANT_PART_OF_SOURCE: "The source suggests several ways to manage stress in individuals with schizophrenia, including identifying and avoiding stressful situations, talking to someone, avoiding alcohol, caffeine, and illicit drugs, learning relaxation techniques, simplifying routines, sticking to a schedule, exercising, and gradually withdrawing from stressful situations."
-CHATBOT_ASSERTIONS: "The chatbot provides a list of strategies to manage stress in individuals with schizophrenia."
-EXPLICITLY_SUPPORTED: "The chatbot's message is explicitly supported by the source, as it accurately summarizes and conveys the strategies mentioned in the source. Therefore, it is SUPPORTED."
+RELEVANT_PART_OF_SOURCE: "The relevant part of the source provides a list of international organizations, patient groups, support groups, charities, and websites that offer information and support for individuals and families affected by schizophrenia and mental illness."
+CHATBOT_ASSERTIONS: "The chatbot mentions specific international organizations such as EUFAMI and GAMIAN-Europe, and also mentions mental health charities like Mind and Rethink Mental Illness. It also mentions peer support through Intervoice and provides information about a booklet from Anoiksis."
+EXPLICITLY_SUPPORTED: "The chatbot accurately summarizes the relevant information from the source, so it is SUPPORTED."

@@ -349,32 +349,6 @@ def preliminary_check_of_default_mode_message(
         return "WARNING"
 
 
-def summarize_if_response_too_long(
-    conversation,
-    prompt=PROMPTS["message_summarizer"],
-    model="gpt-35-turbo-16k",
-    max_tokens_per_message=SETTINGS["max_tokens_chat_completion"],
-) -> list:
-    """Chatbot responsible for summarizing messages that are too long. Returns
-    the conversation with a trimmed version of the last assistant message."""
-    chatbot_message = grab_last_assistant_response(conversation)
-    dump_file(chatbot_message, PRE_SUMMARY_DUMP_PATH)
-    commands = get_commands(chatbot_message)
-    # Insert variables into prompt
-    prompt_completed = prompt.format(
-        max_tokens=max_tokens_per_message, chatbot_message=chatbot_message
-    )
-    shortened_message = generate_single_response_to_prompt(
-        prompt_completed,
-        model,
-    )
-    # Re-insert commands
-    shortened_message = insert_commands(commands, shortened_message)
-    # Replace with original message with shortened message
-    conversation[-1]["content"] = shortened_message
-    return conversation
-
-
 def user_confirms_they_want_redirect(
     conversation,
     model="gpt-35-turbo-16k",

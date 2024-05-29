@@ -12,8 +12,8 @@ from utils.general import silent_print
 
 def remove_inactive_sources(conversation) -> list:
     """Scans the conversation for sources that have not been used recently
-    (inactive sources) and removes them from the conversation (updates system messages).
-    """
+    (inactive sources) and removes them from the conversation (updates system
+    messages)."""
     inserted_sources = get_names_of_currently_inserted_sources(conversation)
 
     if inserted_sources:
@@ -128,15 +128,16 @@ def remove_inserted_sources_from_conversation(
     return conversation
 
 
-def remove_nones(array: list):
+def remove_nones(array: list) -> list:
     """Remove elements of list of type `None`"""
     return [x for x in array if x is not None]
 
 
 def insert_requested_knowledge(conversation, knowledge_requests: list[dict]):
-    """Goes through a list of knowledge requests (dictionaries with `name` and `content`)
-    and inserts the source content into the chat if they are not already in the chat.
-    First checks if there sources are already in the chat."""
+    """Goes through a list of knowledge requests (dictionaries with `name` and
+    content`) and inserts the source content into the chat if they are not
+    already in the chat. First checks if there sources are already in the
+    chat."""
     inserted_sources = get_names_of_currently_inserted_sources(conversation)
 
     for knowledge_request in knowledge_requests:
