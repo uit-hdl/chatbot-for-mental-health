@@ -2,8 +2,14 @@
     "knowledge_extensions": [],
     "referral": [],
     "citations": [
-        "61_personal_relationships"
+        "21_causes"
     ],
-    "images": [],
+    "images": [
+        {
+            "name": "schizophrenia_genes_environment_interactions",
+            "path": "/home/per/UIt/chatbots/TRUSTING/insomnia-assistant/media/images/mental-health/schizophrenia_genes_environment_interactions.png",
+            "file_exists": true
+        }
+    ],
     "videos": []
 }

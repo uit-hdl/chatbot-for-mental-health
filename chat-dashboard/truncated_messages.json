@@ -1,42 +1,26 @@
 [
     {
         "role": "user",
-        "content": "hi"
+        "content": "Hello"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information on schizophrenia from a manual. If you have any questions or need some information, please feel free to ask. Remember, I'll keep my responses simple and brief. If you need me to adjust my explanations at any time, just let me know. How can I assist you today?"
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide information about schizophrenia, based on a specific manual. If you have any questions related to this topic, feel free to ask, and I'll do my best to help. Just remind me to keep things simple and clear if that's what you prefer. How may I assist you today?"
     },
     {
         "role": "user",
-        "content": "What can you help me with?"
+        "content": "Are there different subtypes of schizophrenia friend?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 I can help you with information on several topics related to schizophrenia, such as:\n\n- Understanding a diagnosis of schizophrenia\n- Symptoms and how schizophrenia is diagnosed\n- Management strategies including medication and therapy\n- How schizophrenia may affect personal relationships and social life\n- Information on general health, lifestyle, and living with schizophrenia\n- Understanding and dealing with stigma\n- Legal rights and advocacy\n\nIf you have specific questions or need information on a particular aspect of schizophrenia, feel free to ask, and I will provide information from the manual."
+        "content": "\u00a4:request_knowledge(12_what_is_schizophrenia):\u00a4"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"12_what_is_schizophrenia\"]):\u00a4 Schizophrenia is a condition that encompasses a range of symptoms and presentations. While it used to be classified into subtypes, such as paranoid, disorganized, and catatonic schizophrenia, this categorization is no longer used in the most recent version of the Diagnostic and Statistical Manual of Mental Disorders (DSM-5). Instead, the current understanding focuses on schizophrenia as a single diagnosis that includes a range of symptoms that can vary widely from person to person.\n\nIf you have further questions or need clarification, feel free to ask!"
     },
     {
         "role": "user",
-        "content": "Can you support me?"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 I can offer support in the form of information and guidance on schizophrenia based on the manual I have. While I am not a therapist or a healthcare provider, I can help answer questions, clarify concepts, and provide information that may assist you in understanding and managing schizophrenia. If you're looking for a listening ear, it's important to reach out to friends, family, or a professional who can offer you the emotional support you need.\n\nIf you're experiencing distress or an emergency situation, I strongly recommend contacting a professional for immediate help. Would you like to learn more about a specific topic related to schizophrenia?"
-    },
-    {
-        "role": "user",
-        "content": "yes please"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Great, I'd be happy to help with that. Could you please specify which topic related to schizophrenia you would like more information on? Here are a few options you might consider:\n\n- Diagnosis and symptoms of schizophrenia\n- Treatment and management strategies\n- Living with schizophrenia and maintaining relationships\n- Coping with stigma and public perception\n- Tips for general health and lifestyle changes\n\nLet me know which area you're interested in, or if there's something else specific on your mind."
-    },
-    {
-        "role": "user",
-        "content": "How can I get better? what can I do?"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 To provide you with accurate information on how to manage schizophrenia and improve your condition, I will need to reference specific sections of the manual. Topics related to treatment and improving symptoms can include medication, therapy, lifestyle adjustments, and support systems. \n\nMay I request the relevant source to share with you detailed information on management strategies and what you can do to get better? Or, if you prefer, I can refer you to more specialized assistance. Which option would you like to proceed with?"
+        "content": "Can you say in one sentence what the role of medication is to managing schizophrenia?"
     }
 ]

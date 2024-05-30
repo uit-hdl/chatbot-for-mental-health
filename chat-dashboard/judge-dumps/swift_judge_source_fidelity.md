@@ -86,81 +86,47 @@ challenge or educate other people, so it is NOT_SUPPORTED"
 
 source: """[Present over 2 messages or only what is relevant]
 
-Schizophrenia is not easy to live with. It can put strain on your relationships
-with people in your family or those you share a home with. During relapses in
-your illness, you may not realize the demands that are being made of people
-around you; when you emerge into recovery, you may find yourself feeling rather
-lonely. Likewise, it can be difficult to live with a person with schizophrenia.
-Nevertheless, there are some practical steps you can take together to make
-things easier.
+If you are affected by schizophrenia, you may wonder at some point whether it is
+your fault. The answer to that question is no. No one is to blame for
+schizophrenia. The reasons why some people develop the condition and some do not
+are currently unknown, although there are some factors that are thought to
+increase a person’s susceptibility to the condition.
 
-[Present only if relevant] If you are planning a family, there are a number of
-issues that you need to discuss with your partner early on, such as the risk of
-your child developing schizophrenia, how you will manage having a child, and, if
-you are a woman, the possibility that you will relapse after giving birth or
-during the pregnancy. There will be decisions that are not easy to make, but
-information from your healthcare team can aid in difficult discussions. As
-mentioned in Chapter 5, some medications used to treat schizophrenia may not be
-suitable for use during pregnancy. Therefore, you should discuss your options
-with your doctor before trying to conceive a child.
+Schizophrenia is sometimes referred to as a heritable condition, which means
+that if there are certain genes in a person’s DNA their risk of developing the
+illness is increased compared with people without those genes. The chance that a
+person will develop schizophrenia is increased from about 1 in 100 to about 1 in
+10 if one of their parents has the condition.
 
-[present `S` to schizophrenia patients and `F` for family members (ask if
-unsure)]
+In identical twins with exactly the same genetic make-up, however, the chance of
+one twin developing schizophrenia if the other twin has the condition is only
+50%, and so we know that genetics are not the sole cause of the condition.
 
-- Learn more about schizophrenia
-  - S: Explain it to your friends and family
-  - F: Try to be understanding of your family member’s behaviour
-- Be honest
-  - S: Explain it to your friends and family
-  - F: For example, about your fears and your hopes
-- Agree on boundaries
-  - S: Tell people close to you what you want them to do and,
-    importantly, what you don’t want them to do
-  - F: Respect your family member’s wishes as far as possible
-- Build trust
-  - S: Trust that your family want what is best for you
-  - F: Show the person that you have their best interests at heart
-- Don’t be ashamed
-  - S: You are not to blame for your illness and it is nothing to be
-    ashamed of
-  - F: There is nothing shameful about caring for someone with
-    schizophrenia
-- Learn from others
-  - S and F: Support groups will have members who have been in similar
-    situations and can help
+Likewise, there is no single `environmental factor` that is known to cause
+schizophrenia, although there are certain factors that can increase a person’s
+chances of having the illness: these include growing up in a city center,
+abusing drugs such as cannabis and amphetamines, and experiencing stressful life
+events. There is some evidence that the environment a person is exposed to can
+interact with their genes. Research into this phenomenon is ongoing, but not
+enough is currently known to say who will or won’t develop schizophrenia.
+
+[show: schizophrenia_genes_environment_interactions.png | relationship between
+genes, environment, and illness]
+
+A key feature of schizophrenia is that different combinations of symptoms are
+seen both between individuals and within an individual over time – whether this
+has anything to do with an individual’s genes and/or environment is still
+unclear.
 """
 
-chatbot-message: """Managing relationships when dealing with schizophrenia involves effort from both the individual with the illness and their family members. Here are some practical steps for patients and family members:
+chatbot-message: """The exact causes of schizophrenia are unknown, but a combination of genetic factors and environmental influences is thought to increase susceptibility to the condition. No single environmental factor is known to cause schizophrenia. Genetics play a role, but they are not the sole cause, as evidenced by the fact that identical twins with the same genetic make-up do not always both develop schizophrenia. Research on the interaction between genes and environment is ongoing. 
 
-1. Educate yourselves about schizophrenia:
- - Patients: Explain the illness to friends and family to foster understanding.
- - Family Members: Try to understand your family member's behavior and experiences.
-
-2. Be honest in communication:
- - Patients: Share your feelings and boundaries clearly.
- - Family Members: Discuss your fears and hopes openly.
-
-3. Set boundaries:
- - Patients: Communicate your needs and limits to those close to you.
- - Family Members: Respect the wishes of your family member with schizophrenia.
-
-4. Build trust:
- - Patients: Trust that your family wants the best for you.
- - Family Members: Show your compassion and commitment to their well-being.
-
-5. No shame:
- - Patients: Remember that your illness is not your fault, and there is no shame in it.
- - Family Members: Caring for someone with schizophrenia is an act of love and should not be seen as shameful.
-
-6. Learn from others:
- - Both Patients and Family Members: Join support groups to gain insights from others in similar situations.
-
-Whether you're a patient or family member, would you like to explore any of these areas in more detail, or is there another aspect of managing family relationships you'd like to discuss?"""
+Here's a visual representation of the relationship between genes, environment, and the development of schizophrenia:"""
 
 
 
 # OUPUT
 
-RELEVANT_PART_OF_SOURCE: "The source provides practical steps for managing relationships when dealing with schizophrenia, for both individuals with the illness and their family members"
-CHATBOT_ASSERTIONS: "The chatbot summarizes and gives practical steps for managing relationships when dealing with schizophrenia, both for patients and family members"
-EXPLICITLY_SUPPORTED: "The chatbot's assertions accurately summarize the practical steps mentioned in the source, so it is SUPPORTED"
+RELEVANT_PART_OF_SOURCE: "The source states that the causes of schizophrenia are currently unknown, but a combination of genetic factors and environmental influences is thought to increase susceptibility to the condition. It also mentions that genetics are not the sole cause, as evidenced by identical twins not always both developing schizophrenia. Research on the interaction between genes and environment is ongoing."
+CHATBOT_ASSERTIONS: "The chatbot claims that a combination of genetic factors and environmental influences increase susceptibility to schizophrenia. It also claims that genetics are not the sole cause of schizophrenia."
+EXPLICITLY_SUPPORTED: "The chatbot is accurately summarizing the information from the source, so it is SUPPORTED."
