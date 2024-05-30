@@ -86,47 +86,71 @@ challenge or educate other people, so it is NOT_SUPPORTED"
 
 source: """[Present over 2 messages or only what is relevant]
 
-If you are affected by schizophrenia, you may wonder at some point whether it is
-your fault. The answer to that question is no. No one is to blame for
-schizophrenia. The reasons why some people develop the condition and some do not
-are currently unknown, although there are some factors that are thought to
-increase a person’s susceptibility to the condition.
+If you have experienced hallucinations, delusions, severe paranoia or
+disorganized behaviour leading to a crisis, it may be time to think about
+seeking help to identify whether or not there is an underlying mental health
+condition.
 
-Schizophrenia is sometimes referred to as a heritable condition, which means
-that if there are certain genes in a person’s DNA their risk of developing the
-illness is increased compared with people without those genes. The chance that a
-person will develop schizophrenia is increased from about 1 in 100 to about 1 in
-10 if one of their parents has the condition.
+These could be the symptoms of a condition called schizophrenia; however, the
+symptoms of many mental illnesses overlap, so your first step towards getting
+help should be to consult your doctor. They can advise you on whether it is
+necessary for you to see a psychiatrist.
 
-In identical twins with exactly the same genetic make-up, however, the chance of
-one twin developing schizophrenia if the other twin has the condition is only
-50%, and so we know that genetics are not the sole cause of the condition.
+A diagnosis of schizophrenia should only be made by a qualified psychiatrist.
+There is currently no test that can be used to show that a person has
+schizophrenia so, to make a diagnosis, the psychiatrist will need to talk with
+the person and their family or friends about the symptoms they are experiencing.
+The psychiatrist will also need to observe the person’s behaviour over several
+weeks to identify any signs of the condition.
 
-Likewise, there is no single `environmental factor` that is known to cause
-schizophrenia, although there are certain factors that can increase a person’s
-chances of having the illness: these include growing up in a city center,
-abusing drugs such as cannabis and amphetamines, and experiencing stressful life
-events. There is some evidence that the environment a person is exposed to can
-interact with their genes. Research into this phenomenon is ongoing, but not
-enough is currently known to say who will or won’t develop schizophrenia.
+Early signs of schizophrenia vary from person to person and can be very
+difficult to recognize. Depression, compulsive behaviour, decreased motivation
+and asocial behaviour may be mistaken for normal changes that take place during
+adolescence or linked to drug abuse. As the following figure shows, however,
+these symptoms may be early warning signs of schizophrenia [show:
+schizophrenia_early_signs.png | contents shown in enumerated list below].
 
-[show: schizophrenia_genes_environment_interactions.png | relationship between
-genes, environment, and illness]
+# Schizophrenia early signs
 
-A key feature of schizophrenia is that different combinations of symptoms are
-seen both between individuals and within an individual over time – whether this
-has anything to do with an individual’s genes and/or environment is still
-unclear.
+- Changes in mood
+  - Inability to cry or laugh
+  - Excessive crying or laughing
+  - Depression, moodiness
+- Sensory changes
+  - Hearing voices
+  - Increased sensitivity to noise or light
+- Changes in appearance
+  - Wearing strange clothes
+  - Poor personal hygiene
+- Changes in activity
+  - Extreme activity or inactivity
+  - Fatigue
+  - Changes in sleep patterns
+- Problems at school or work
+  - Difficulty concentrating
+  - Declining academic performance
+- Changes in behaviour
+  - Prolonged staring
+  - Using illegal drugs
+  - Avoiding social situations
+
 """
 
-chatbot-message: """The exact causes of schizophrenia are unknown, but a combination of genetic factors and environmental influences is thought to increase susceptibility to the condition. No single environmental factor is known to cause schizophrenia. Genetics play a role, but they are not the sole cause, as evidenced by the fact that identical twins with the same genetic make-up do not always both develop schizophrenia. Research on the interaction between genes and environment is ongoing. 
+chatbot-message: """Schizophrenia is diagnosed by a qualified psychiatrist through a clinical assessment because there is no single test for it. Diagnosis usually involves:
 
-Here's a visual representation of the relationship between genes, environment, and the development of schizophrenia:"""
+1. Evaluating symptoms through direct interviews with you and discussions with your family or friends.
+2. Observing behavior over a period to identify signs of the condition.
+
+Common symptoms prompting evaluation can include hallucinations, delusions, severe paranoia, or disorganized behavior. 
+
+Early signs may also indicate a need for help and can vary greatly, but they often include changes in mood, sensory experiences, appearance, activity, school or work performance, and social behavior.
+
+Have I answered your question on how schizophrenia is diagnosed? Would you like more information on this or any other topic?"""
 
 
 
 # OUPUT
 
-RELEVANT_PART_OF_SOURCE: "The source states that the causes of schizophrenia are currently unknown, but a combination of genetic factors and environmental influences is thought to increase susceptibility to the condition. It also mentions that genetics are not the sole cause, as evidenced by identical twins not always both developing schizophrenia. Research on the interaction between genes and environment is ongoing."
-CHATBOT_ASSERTIONS: "The chatbot claims that a combination of genetic factors and environmental influences increase susceptibility to schizophrenia. It also claims that genetics are not the sole cause of schizophrenia."
-EXPLICITLY_SUPPORTED: "The chatbot is accurately summarizing the information from the source, so it is SUPPORTED."
+RELEVANT_PART_OF_SOURCE: "The source states that schizophrenia is diagnosed through a clinical assessment by a qualified psychiatrist, involving evaluating symptoms through direct interviews with the individual and discussions with family or friends, as well as observing behavior over a period of time."
+CHATBOT_ASSERTIONS: "The chatbot claims that schizophrenia is diagnosed by a qualified psychiatrist through a clinical assessment, involving evaluating symptoms and observing behavior over time."
+EXPLICITLY_SUPPORTED: "The chatbot's claims accurately reflect the information provided in the source, so it is SUPPORTED."
