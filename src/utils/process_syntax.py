@@ -40,7 +40,40 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List
     a dictionary with keys being the command types, with each type containing the
     information collected for that command type. Commands are 'referral',
     'request_knowledge', 'display_image', 'play_video', and 'show_sources'. Dumps the
-    resulting dictionary to chat-info/harvested_syntax.json."""
+    resulting dictionary to chat-info/harvested_syntax.json.
+
+    Format of output:
+
+    {
+        "knowledge_extensions": list[
+            {
+                "content": str,
+                "file_exists": bool,
+                "name": str,
+                "type": "knowledge_extension" | "referral"
+            }
+        ],
+        "referral": list[str],
+        "citations": list[str],
+        "images": list[
+            {
+                "file_exists": true,
+                "name": str,
+                "path": str
+            }
+        ],
+        "videos": list[
+            {
+                "file_exists": true,
+                "name": str,
+                "path": str
+            }
+        ],
+    }
+
+    Lists are empty if the assoated commands are not detected
+    """
+
     available_files = get_available_files(chatbot_id)
 
     chatbot_response = grab_last_assistant_response(conversation)
