@@ -61,10 +61,7 @@ Text enclosed by backticks is a submodule (a source) you can request:
 1. `1_what_is_schizophrenia`
 2. `2_what_are_the_symptoms`
 3. `3_what_causes_it`
-4. `4_importance_of_early_detection`
-5. `5_how_to_detect_early_detection`
-6. `6_what_to_do_when_early_signs_are_detected`
-7. `7_preventative_measurs_to_lower_risk_of_relapse`
+4. `4_preventing_relapses`
 
 The source are split into enumerated subsections. For example,
 `2_what_are_the_symptoms` has subsections 2.1, 2.2, ... The subsesctions are

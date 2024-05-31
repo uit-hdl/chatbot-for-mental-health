@@ -47,7 +47,7 @@ S1: True
 S2: False [Correct]
 
 Q: Which of the following are correct:
-S1: Schizophrenia long-term condition, meaning it cannot be treated or get better
+S1: Schizophrenia is long-term condition, meaning it cannot be treated or get better
 S2: Schizophrenia long-term condition - it cannot be cured in the traditional sense, but its symptoms can be managed and many go on to live normal lives
 S3: A good life is not possible with Schizophrenia since its symptoms are [Correct]
 disabling and cannot be managed. [effective strategies exist for managing symptoms]

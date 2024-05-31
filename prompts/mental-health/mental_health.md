@@ -98,22 +98,21 @@ Text enclosed by backticks is a source or assistant you can request, such as
   - `13_stigma`:
     - misconceptions
       - effect on patient and family
-      - understanding them and handling the feelings they cause
-    - understanding the heterogeneity of the illness
+      - internalization
+    - Separating identity from illness
     - history of the name Schizophrenia
   - `14_who_gets_schizophrenia`:
     - prevalence
-    - examples of successful famous people with Schizophrenia
-    - benefits users with low self-esteem
+    - famous successful people with Schizophrenia
+    - for users with low self-esteem
 2. WHY ME?
   - `21_causes`:
-    - About causes of illness
+    - understanding the causes
     - genes and environment
-    - benefits users who blame self
+    - Not blaming self or others
 3. SYMPTOMS OF SCHIZOPHRENIA
   - `31_symptoms`:
-    - more indepth about symptoms
-    - positive, negative, and cognitive symptoms
+    - scientific classifications of symptoms: positive, negative, and cognitive
     - motivation, attention, memory, emotions, delusions etc...
   - `32_illness_progression`:
     - 3 main stages of progression
