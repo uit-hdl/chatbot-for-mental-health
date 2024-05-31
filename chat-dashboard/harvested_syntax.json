@@ -1,8 +1,15 @@
 {
-    "knowledge_extensions": [],
+    "knowledge_extensions": [
+        {
+            "name": "4_importance_of_early_detection",
+            "content": null,
+            "type": "knowledge_extension",
+            "file_exists": false
+        }
+    ],
     "referral": [],
     "citations": [
-        "support_phone_number"
+        "initial_prompt"
     ],
     "images": [],
     "videos": []

@@ -1,6 +1,8 @@
 """General utilities."""
 
 import re
+import ast
+from utils.backend import LOGGER
 
 RESET_COLOR = "\033[0m"
 COLOR_TO_ANSI_MAP = {
@@ -35,7 +37,8 @@ def list_intersection(list_1, list_2) -> list:
 
 
 def list_subtraction(list_1, list_2) -> list:
-    """Returns "list_1 - list_2" (removes the elements of list 2 from list 1)."""
+    """Returns "list_1 - list_2" (removes the elements of list 2 from list
+    1)."""
     return list(set(list_1).difference(set(list_2)))
 
 
@@ -63,9 +66,9 @@ def message_is_intended_for_user(message: str) -> bool:
 
 
 def remove_quotes_and_backticks(input_str) -> str:
-    """Removes quotation marks, `"` or `'`, from a string. Used for standardization
-    in cases where bot is not always consistent, such as play_video("video_name") instead
-    of play_video(video_name)."""
+    """Removes quotation marks, `"` or `'`, from a string. Used for
+    standardization in cases where bot is not always consistent, such as
+    play_video("video_name") instead of play_video(video_name)."""
     pattern = r"[\'\"]"  # Pattern that recognizes single and double quotes
     result_str = re.sub(pattern, "", input_str)  # Remove single and double quotes
     result_str = result_str.replace("`", "")  # Remove backticks
@@ -84,8 +87,8 @@ def remove_superflous_linebreaks(message):
 
 
 def remove_trailing_newlines(text):
-    """Removes trailing newline characters (may emerge after stripping away commands from
-    bot messages)."""
+    """Removes trailing newline characters (may emerge after stripping away
+    commands from bot messages)."""
     if len(text) == 1:
         return ""
     while text[-1] == " " or text[-1] == "\n":
@@ -97,7 +100,18 @@ def remove_trailing_newlines(text):
 
 
 def remove_superflous_linebreaks_between_paragraphs(text: str):
-    """Replaces consecutive line breaks with just two line breaks (may emerge after
-    ""stripping away commands from bot messages)."""
+    """Replaces consecutive line breaks with just two line breaks (may emerge
+    after stripping away commands from bot messages)."""
     cleaned_text = re.sub(r"\n{3,}", "\n\n", text)
     return cleaned_text
+
+
+def parse_literal(string):
+    """Converts a string representation of a Python literal into the
+    corresponding Python object."""
+    try:
+        result = ast.literal_eval(string)
+    except (SyntaxError, ValueError):
+        result = string
+        LOGGER.info("Could not evaluate as literal: %s", string)
+    return result

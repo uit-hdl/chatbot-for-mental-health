@@ -1,26 +1,14 @@
-¤:cite(["61_personal_relationships"]):¤ Managing relationships when dealing with schizophrenia is a dual effort involving both the individual with the illness and their family members. Here are some practical steps for patients and family members:
+¤:cite(["3_what_causes_it"]):¤ Let's discuss the causes of schizophrenia. Firstly, it's important to understand that it's not anyone's fault. Schizophrenia is complex and isn't caused by any single factor. The exact reasons why some individuals develop the condition and others don't are still unknown, but research has identified several factors that may increase a person's susceptibility. Here's what we know:
 
-1. **Educate yourselves about schizophrenia**:
-   - Patients: Explain the illness to friends and family to foster understanding.
-   - Family Members: Try to understand your family member's behavior and the nature of their experiences.
+1. **Genetics:** Schizophrenia can be heritable. If someone has certain genes, their risk of developing the illness is higher compared to those without those genes. For example, if one parent has schizophrenia, the risk of their child developing the condition increases from about 1% to about 10%.
 
-2. **Be honest in communication**:
-   - Patients: Share your feelings and boundaries clearly.
-   - Family Members: Discuss your fears and hopes openly.
+2. **Environment:** While no single environmental factor causes schizophrenia, certain conditions may increase the chances of developing the illness. Examples of these factors include living in a city center, substance abuse, and experiencing significant stress.
 
-3. **Agree on boundaries**:
-   - Patients: Communicate your needs and limits to those close to you.
-   - Family Members: Respect the wishes of your family member with schizophrenia as much as possible.
+3. **Genes and Environment Interaction:** Although genetics play a significant role, they don't act alone. Studies show that even in identical twins who share the same genetic makeup, if one twin has schizophrenia, the other twin only has a 50% chance of developing it. This suggests that environmental factors also play a crucial role.
 
-4. **Build trust**:
-   - Patients: Trust that your family wants the best for you.
-   - Family Members: Demonstrate your compassion and commitment to the person's well-being.
+It's an active area of research to understand how environmental factors might interact with genetics to contribute to the development of schizophrenia.
 
-5. **Don't be ashamed**:
-   - Patients: Remember that your illness is not your fault, and there is no shame in it.
-   - Family Members: Caring for someone with schizophrenia is an act of love and should not be seen as shameful.
+Here is an illustration showing the relationship between genes, environment, and the risk of schizophrenia:
+¤:display_image(schizophrenia_genes_environment_interactions.png):¤
 
-6. **Learn from others**:
-   - Both Patients and Family Members: Participate in support groups to gain insights from individuals in similar situations.
-
-Whether you're a patient or a family member, would you like to explore any of these areas in more detail, or is there another aspect of managing family relationships
+Do you

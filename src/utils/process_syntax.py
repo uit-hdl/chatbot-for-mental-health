@@ -12,7 +12,6 @@ is
 
 import re
 import os
-import ast
 
 from typing import List
 from typing import Dict
@@ -20,6 +19,7 @@ from typing import Tuple
 
 from utils.chat_utilities import grab_last_assistant_response
 from utils.general import remove_quotes_and_backticks
+from utils.general import parse_literal
 from utils.backend import IMAGES_DIR
 from utils.backend import VIDEOS_DIR
 from utils.backend import LIBRARY_DIR
@@ -108,7 +108,7 @@ def get_commands(chatbot_response: str) -> list[str]:
 
 def extract_command_argument(command_string: str) -> str:
     """Extract command argument from strings. E.g. 'play_video(video_name)' ->
-    'play_video'."""
+    'video_name'."""
     arg = re.search(r"\((.*?)\)", command_string)
     if arg:
         return arg.group(1)
@@ -142,45 +142,66 @@ def get_knowledge_requests(
     referral = []
     names_of_available_assistants = available_files["assistants"]["name"]
     names_of_available_sources = available_files["sources"]["name"]
-    if commands:
-        for command, name in zip(commands, arguments):
-            if command == "request_knowledge":
-                name = standardize_name(name)
-                LOGGER.info(f"Bot requests: {name}")
 
-                if name in names_of_available_assistants:
-                    # Referral requested
-                    referral = {
-                        "name": name,
-                        "content": None,
-                        "type": "referral",
-                        "file_exists": True,
-                    }
-                elif name in names_of_available_sources:
-                    # Knowledge insertion requested
-                    path = available_files["sources"]["path"][
-                        available_files["sources"]["name"].index(name)
-                    ]
-                    knowledge_extensions.append(
-                        {
-                            "name": name,
-                            "content": load_textfile_as_string(path),
-                            "type": "knowledge_extension",
-                            "file_exists": True,
-                        }
-                    )
-                else:
-                    # Requests for non-existing files are arbitrarily treated as insertions
-                    knowledge_extensions.append(
-                        {
-                            "name": name,
-                            "content": None,
-                            "type": "knowledge_extension",
-                            "file_exists": False,
-                        }
-                    )
+    if not commands:
+        return knowledge_extensions, referral
+
+    for command, argument in zip(commands, arguments):
+        if command == "request_knowledge":
+            knowledge_request_id = standardize_string_argument(argument)
+            LOGGER.info(f"Bot requests knowledge {argument}")
+
+            knowledge_dict = get_knowledge_request_details(
+                knowledge_request_id,
+                names_of_available_assistants,
+                names_of_available_sources,
+                available_files,
+            )
+            knowledge_extensions.append(knowledge_dict)
 
     return knowledge_extensions, referral
+
+
+def get_knowledge_request_details(
+    knowledge_request_id: str,
+    names_of_available_assistants: list[str],
+    names_of_available_sources: list[str],
+    available_files: dict,
+):
+    """Takes the id of the requested knowledge (points to an assistant or
+    source, such as "13_stigma" or "sleep_assistant"), determines if it is a
+    source, an assistant. Collects information pertaining to the request in a
+    dictionary."""
+
+    if knowledge_request_id in names_of_available_assistants:
+        # Referral requested
+        knowledge_dict = {
+            "name": knowledge_request_id,
+            "content": None,
+            "type": "referral",
+            "file_exists": True,
+        }
+    elif knowledge_request_id in names_of_available_sources:
+        # Knowledge insertion requested
+        path = available_files["sources"]["path"][
+            available_files["sources"]["name"].index(knowledge_request_id)
+        ]
+        knowledge_dict = {
+            "name": knowledge_request_id,
+            "content": load_textfile_as_string(path),
+            "type": "knowledge_extension",
+            "file_exists": True,
+        }
+    else:
+        # Requests for non-existing files are arbitrarily treated as insertions
+        knowledge_dict = {
+            "name": knowledge_request_id,
+            "content": None,
+            "type": "knowledge_extension",
+            "file_exists": False,
+        }
+
+    return knowledge_dict
 
 
 def get_assistant_citations(
@@ -196,10 +217,7 @@ def get_assistant_citations(
             if argument is None:
                 LOGGER.info("Empty citation argument.")
             else:
-                try:
-                    citations = ast.literal_eval(argument)
-                except (SyntaxError, ValueError):
-                    LOGGER.info("Could not evaluate as literal: %s", argument)
+                citations = parse_literal(argument)
 
     return citations
 
@@ -212,7 +230,7 @@ def get_image_requests(commands, arguments, available_files) -> list[dict]:
     images = []
     for command, argument in zip(commands, arguments):
         if command == "display_image":
-            name = standardize_name(argument)
+            name = standardize_string_argument(argument)
 
             if name in available_files["images"]["name"]:
                 path = available_files["images"]["path"][
@@ -234,7 +252,7 @@ def get_video_requests(commands, arguments, available_files) -> list[dict]:
     videos = []
     for command, argument in zip(commands, arguments):
         if command == "play_video":
-            name = standardize_name(argument)
+            name = standardize_string_argument(argument)
 
             if name in available_files["videos"]["name"]:
                 path = available_files["videos"]["path"][
@@ -249,9 +267,9 @@ def get_video_requests(commands, arguments, available_files) -> list[dict]:
     return videos
 
 
-def standardize_name(name: str):
+def standardize_string_argument(name: str):
     """Standardized the filename that has been extracted from
-    ¤:command(name_of_file):¤ by removing extra strings and backticks."""
+    ¤:command(filename):¤ by removing extra strings and backticks."""
     name_standardized = remove_quotes_and_backticks(name)
     name_standardized = remove_extension(name_standardized)
     return name_standardized
