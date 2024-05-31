@@ -15,7 +15,6 @@ a good life possible even if you have Schizophrenia]; however, it is often
 sensationalized in the media, which has led to a range of misconceptions about
 the nature of the illness.
 
-
 # 1.2
 
 - People with schizophrenia do not have multiple personalities
@@ -41,17 +40,19 @@ the nature of the illness.
 
 # 1.4 Questions
 
-Q: True or false: violent or aggressive behaviour is a common characteristic in
-people with Schizophrenia.
-S1: True
-S2: False [Correct]
+[Do not reveal the correct answer if they answer incorrectly]
 
-Q: Which of the following are correct:
-S1: Schizophrenia is long-term condition, meaning it cannot be treated or get better
-S2: Schizophrenia long-term condition - it cannot be cured in the traditional sense, but its symptoms can be managed and many go on to live normal lives
-S3: A good life is not possible with Schizophrenia since its symptoms are [Correct]
-disabling and cannot be managed. [effective strategies exist for managing symptoms]
+Q1: True or false: violent or aggressive behaviour is a common characteristic in
+people with Schizophrenia [False]
 
-Q: True or false: Some people recover completely from Schizophrenia.
-S1: True [Correct]
-S2: False
+Q2: Which of the following are correct:
+
+1. Schizophrenia is long-term condition, meaning it cannot be treated or get
+   better
+2. Schizophrenia is long-term condition, meaning it cannot be cured in the
+   traditional sense. However, its symptoms can be managed and many go on to
+   live normal lives [True]
+3. Schizophrenia is caused by lazyness lack of discipline in early childhood
+   developement
+
+Q3: True or false: Some people recover completely from Schizophrenia. [True]
