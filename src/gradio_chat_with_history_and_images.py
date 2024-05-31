@@ -9,6 +9,7 @@ from console_chat import dump_current_conversation_to_json
 from console_chat import direct_to_new_assistant
 from console_chat import truncate_if_too_long
 from utils.general import remove_syntax_from_message
+from utils.backend import reset_files_that_track_cumulative_variables
 from utils.chat_utilities import grab_last_assistant_response
 
 DEEP_CHAT = []
@@ -24,6 +25,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     global DEEP_CHAT
 
     def initiate_new_chat():
+        reset_files_that_track_cumulative_variables()
         return initiate_conversation_with_prompt(
             PROMPTS[chatbot_id],
         )

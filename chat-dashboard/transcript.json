@@ -1,18 +1,18 @@
 [
     {
         "role": "user",
-        "content": "Hello there!"
+        "content": "Do you remember me? Answer in 5 words"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello and welcome! My purpose is to provide information on Schizophrenia from a manual. Please feel free to ask any questions you might have. If needed, I'll present information in a way that is easier to understand. What can I help you with today? If you have feedback on how I present information, don't hesitate to let me know."
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 I cannot remember past interactions."
     },
     {
         "role": "user",
-        "content": "Hello there!"
+        "content": "Do you remember me? Answer in 5 words"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello and welcome! My purpose is to provide information on Schizophrenia from a manual. Please feel free to ask any questions you might have. If needed, I'll present information in a way that is easier to understand. What can I help you with today? If you have feedback on how I present information, don't hesitate to let me know."
+        "content": "\u00a4:cite([\"no_advice_or_claims\"]):\u00a4 I cannot remember past interactions."
     }
 ]
