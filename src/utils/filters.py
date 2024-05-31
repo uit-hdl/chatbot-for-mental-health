@@ -41,8 +41,9 @@ def perform_quality_check_and_give_feedback(
 
         if hard_warnings:
             flag = "REJECTED"
-            LOGGER.info(all_warnings)
-            log_failure(conversation, harvested_syntax, hard_warnings)
+            log_rejection_details(
+                conversation, harvested_syntax, hard_warnings, all_warnings
+            )
 
     # -- OVERSEER FILTER --
     if SETTINGS["enable_overseer_filter"] and not hard_warnings:
@@ -53,8 +54,9 @@ def perform_quality_check_and_give_feedback(
 
         if overseer_evaluation == "REJECTED":
             flag = "REJECTED"
-            LOGGER.info(all_warnings)
-            log_failure(conversation, harvested_syntax, warning_overseer)
+            log_rejection_details(
+                conversation, harvested_syntax, hard_warnings, all_warnings
+            )
             silent_print(all_warnings)
 
         dump_current_conversation_to_json(conversation)
@@ -152,11 +154,16 @@ def correct_erroneous_show_image_command(conversation) -> list:
     return conversation
 
 
-def log_failure(conversation, harvested_syntax, hard_warnings: list[str]):
+def log_rejection_details(
+    conversation, harvested_syntax, hard_warnings: list[str], all_warnings: list[str]
+):
     """Dumps logging information about the failed attempt to
-    chat-info/rejected_messages.py."""
-    message = f"""
-    REJECTED RESPONSE:\n{grab_last_assistant_response(conversation)}\n
-    HARVESTED SYNTAX:\n {harvested_syntax}\n
-    REASONS FOR REJECTION:\n{hard_warnings}"""
+    chat-info/rejected_messages.log and chat-dashboard/chat.log."""
+    LOGGER.info(all_warnings)
+    rejected_response = grab_last_assistant_response(conversation)
+    message = "".join(
+        f"*** REJECTED RESPONSE ***\n{rejected_response}\n"
+        f"HARVESTED SYNTAX:\n {harvested_syntax}\n"
+        f"REASONS FOR REJECTION:\n{hard_warnings}"
+    )
     LOGGER_REJECTED_RESPONSES.info(message)
