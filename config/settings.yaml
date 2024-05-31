@@ -1,6 +1,6 @@
 # --- GENERATING A RESPONSE & REQUESTING KNOWLEDGE ---
 # Controll max number of attempts at producing valid response:
-n_attempts_at_producing_valid_response: 1
+n_attempts_at_producing_valid_response: 2
 max_requests: 2 # Maximum number of sources that the chatbot is allowed to request per turn.
 # --- FILTERS ---
 # Set to false to turn of filters that check the contents of generated messages

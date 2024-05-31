@@ -71,7 +71,7 @@ def process_syntax_of_bot_response(conversation, chatbot_id) -> Tuple[dict, List
         ],
     }
 
-    Lists are empty if the assoated commands are not detected
+    Lists are empty if the associated commands are not detected
     """
 
     available_files = get_available_files(chatbot_id)
@@ -184,13 +184,16 @@ def get_knowledge_requests(
             knowledge_request_id = standardize_string_argument(argument)
             LOGGER.info(f"Bot requests knowledge {argument}")
 
-            knowledge_dict = get_knowledge_request_details(
+            knowledge_request_dict = get_knowledge_request_details(
                 knowledge_request_id,
                 names_of_available_assistants,
                 names_of_available_sources,
                 available_files,
             )
-            knowledge_extensions.append(knowledge_dict)
+            if knowledge_request_dict["type"] == "referral":
+                referral = knowledge_request_dict
+            else:
+                knowledge_extensions.append(knowledge_request_dict)
 
     return knowledge_extensions, referral
 
@@ -203,12 +206,13 @@ def get_knowledge_request_details(
 ):
     """Takes the id of the requested knowledge (points to an assistant or
     source, such as "13_stigma" or "sleep_assistant"), determines if it is a
-    source, an assistant. Collects information pertaining to the request in a
+    source or an assistant. Collects information pertaining to the request in a
     dictionary."""
+    knowledge_request_dict = []
 
     if knowledge_request_id in names_of_available_assistants:
         # Referral requested
-        knowledge_dict = {
+        knowledge_request_dict = {
             "name": knowledge_request_id,
             "content": None,
             "type": "referral",
@@ -219,7 +223,7 @@ def get_knowledge_request_details(
         path = available_files["sources"]["path"][
             available_files["sources"]["name"].index(knowledge_request_id)
         ]
-        knowledge_dict = {
+        knowledge_request_dict = {
             "name": knowledge_request_id,
             "content": load_textfile_as_string(path),
             "type": "knowledge_extension",
@@ -227,14 +231,14 @@ def get_knowledge_request_details(
         }
     else:
         # Requests for non-existing files are arbitrarily treated as insertions
-        knowledge_dict = {
+        knowledge_request_dict = {
             "name": knowledge_request_id,
             "content": None,
             "type": "knowledge_extension",
             "file_exists": False,
         }
 
-    return knowledge_dict
+    return knowledge_request_dict
 
 
 def get_assistant_citations(

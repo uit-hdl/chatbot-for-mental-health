@@ -1,9 +1,12 @@
 {
     "knowledge_extensions": [],
-    "referral": [],
-    "citations": [
-        "no_advice_or_claims"
-    ],
+    "referral": {
+        "name": "ehealth_module2",
+        "content": null,
+        "type": "referral",
+        "file_exists": true
+    },
+    "citations": [],
     "images": [],
     "videos": []
 }
