@@ -39,6 +39,13 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
         DEEP_CHAT = initiate_new_chat()
         return "", []
 
+    def authenticate(password):
+        """Function to authenticate the user."""
+        if password == "123":  # Hardcoded password for demonstration
+            return gr.update(visible=False), gr.update(visible=True)
+        else:
+            return gr.update(value="", label="Incorrect password, try again!")
+
     DEEP_CHAT = initiate_new_chat()
 
     with gr.Blocks() as demo:
@@ -76,12 +83,11 @@ def create_response(user_message, surface_chat, chatbot_id):
     dump_current_conversation_to_json(DEEP_CHAT)
 
     if harvested_syntax["referral"]:
-        if harvested_syntax["referral"]["file_exists"]:
-            assistant_name = harvested_syntax["referral"]["name"]
-            DEEP_CHAT = direct_to_new_assistant(assistant_name)
-            surface_response = grab_last_assistant_response(DEEP_CHAT)
-            surface_response_no_syntax = remove_syntax_from_message(surface_response)
-            surface_chat.append((None, surface_response_no_syntax))
+        assistant_name = harvested_syntax["referral"]["name"]
+        DEEP_CHAT = direct_to_new_assistant(assistant_name)
+        surface_response = grab_last_assistant_response(DEEP_CHAT)
+        surface_response_no_syntax = remove_syntax_from_message(surface_response)
+        surface_chat.append((None, surface_response_no_syntax))
 
     DEEP_CHAT = remove_inactive_sources(DEEP_CHAT)
     DEEP_CHAT = truncate_if_too_long(DEEP_CHAT)
