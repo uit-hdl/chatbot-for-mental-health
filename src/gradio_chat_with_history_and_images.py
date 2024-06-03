@@ -1,5 +1,6 @@
 import gradio as gr
 import sys
+import os
 
 from console_chat import PROMPTS
 from console_chat import initiate_conversation_with_prompt
@@ -12,6 +13,7 @@ from utils.general import remove_syntax_from_message
 from utils.backend import reset_files_that_track_cumulative_variables
 from utils.chat_utilities import grab_last_assistant_response
 
+CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
 DEEP_CHAT = []
 
 
@@ -41,7 +43,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
 
     def authenticate(password):
         """Function to authenticate the user."""
-        if password == "123":  # Hardcoded password for demonstration
+        if password == CHATBOT_PASSWORD:  # Hardcoded password for demonstration
             return gr.update(visible=False), gr.update(visible=True)
         else:
             return gr.update(value="", label="Incorrect password, try again!")
