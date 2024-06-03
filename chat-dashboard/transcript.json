@@ -1,10 +1,18 @@
 [
     {
-        "role": "assistant",
-        "content": "Hello, and welcome to the TRUSTING project e-health course!\n\nFirst and foremost, I want to express my gratitude for your interest and participation. I have some updates regarding the course content, particularly Module 2: \"What is the TRUSTING project and the Relapse indicator?\u201d.\n\nCurrently, we're at a stage where Module 2 is still in development and has not been completed yet. Thus, you won't be able to take this part of the course at this moment. However, there's an opportunity for contribution to Module 2's creation.\n\nMay I confirm, is your name Brita? If so, you are invited to begin writing the content for Module 2. You can do this within the Notion database titled \"Asset files for chatbot,\" which can be found at the following link: [Notion Database](https://www.notion.so/uit-trusting/Asset-files-for-E-health-course-ca415e14666f48b2a12c005b3aafa57c).\n\nIf you're Brita, I am here to help guide you on how to use Notion to proceed with the content development.\n\nPlease let me know if you're Brita so I can assist you accordingly. If you're not Brita, but you need any further information or assistance regarding the TRUSTING project or Module 1, feel free to ask."
+        "role": "user",
+        "content": "Hello?"
     },
     {
         "role": "assistant",
-        "content": "Hello, and welcome to the TRUSTING project e-health course!\n\nFirst and foremost, I want to express my gratitude for your interest and participation. I have some updates regarding the course content, particularly Module 2: \"What is the TRUSTING project and the Relapse indicator?\u201d.\n\nCurrently, we're at a stage where Module 2 is still in development and has not been completed yet. Thus, you won't be able to take this part of the course at this moment. However, there's an opportunity for contribution to Module 2's creation.\n\nMay I confirm, is your name Brita? If so, you are invited to begin writing the content for Module 2. You can do this within the Notion database titled \"Asset files for chatbot,\" which can be found at the following link: [Notion Database](https://www.notion.so/uit-trusting/Asset-files-for-E-health-course-ca415e14666f48b2a12c005b3aafa57c).\n\nIf you're Brita, I am here to help guide you on how to use Notion to proceed with the content development.\n\nPlease let me know if you're Brita so I can assist you accordingly. If you're not Brita, but you need any further information or assistance regarding the TRUSTING project or Module 1, feel free to ask."
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide you with information on schizophrenia from a manual. How can I assist you today? If you need me to use simpler language or slow down, please let me know."
+    },
+    {
+        "role": "user",
+        "content": "Hello?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide you with information on schizophrenia from a manual. How can I assist you today? If you need me to use simpler language or slow down, please let me know."
     }
 ]

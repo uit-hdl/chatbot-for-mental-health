@@ -49,17 +49,29 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     DEEP_CHAT = initiate_new_chat()
 
     with gr.Blocks() as demo:
-        surface_chat = gr.Chatbot(label="Your input")
-        user_message = gr.Textbox(label="Enter message and hit enter")
-        reset_button = gr.Button("Restart conversation")
+        with gr.Column(visible=True) as auth_interface:
+            password_input = gr.Textbox(label="Enter Password", type="password")
+            auth_button = gr.Button("Submit")
 
-        user_message.submit(
-            respond,
-            inputs=[user_message, surface_chat],
-            outputs=[user_message, surface_chat],
-        )
-        reset_button.click(
-            reset_conversation, inputs=[], outputs=[user_message, surface_chat]
+        # Chatbot interface (initially hidden)
+        with gr.Column(visible=False, elem_id="chat_interface") as chat_interface:
+            surface_chat = gr.Chatbot(label="Your input")
+            user_message = gr.Textbox(label="Enter message and hit enter")
+            reset_button = gr.Button("Restart conversation")
+
+            user_message.submit(
+                respond,
+                inputs=[user_message, surface_chat],
+                outputs=[user_message, surface_chat],
+            )
+            reset_button.click(
+                reset_conversation, inputs=[], outputs=[user_message, surface_chat]
+            )
+
+        auth_button.click(
+            authenticate,
+            inputs=password_input,
+            outputs=[auth_interface, chat_interface],
         )
 
     demo.launch(share=True, server_port=server_port)
