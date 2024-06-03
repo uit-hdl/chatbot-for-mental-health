@@ -33,10 +33,15 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
         )
 
     def respond(user_message, surface_chat):
-        """Submit expects a function handle that takes only two arguments."""
-        return create_response(user_message, surface_chat, chatbot_id)
+        """Updates the surface chat by generating and adding chatbot response."""
+        user_message, surface_chat = create_response(
+            user_message, surface_chat, chatbot_id
+        )
+        return user_message, surface_chat
 
     def reset_conversation():
+        """Function that gets called when 'Reset conversation' button gets
+        clicked."""
         global DEEP_CHAT
         DEEP_CHAT = initiate_new_chat()
         return "", []
@@ -44,16 +49,21 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     def authenticate(password):
         """Function to authenticate the user."""
         if password == CHATBOT_PASSWORD:  # Hardcoded password for demonstration
-            return gr.update(visible=False), gr.update(visible=True)
+            return gr.update(visible=False), gr.update(visible=True), ""
         else:
-            return gr.update(value="", label="Incorrect password, try again!")
+            return (
+                gr.update(visible=True),
+                gr.update(visible=False),
+                gr.update(value="Wrong password, please try again.", visible=True),
+            )
 
     DEEP_CHAT = initiate_new_chat()
 
     with gr.Blocks() as demo:
         with gr.Column(visible=True) as auth_interface:
-            password_input = gr.Textbox(label="Enter Password", type="password")
+            password_input = gr.Textbox(label="Enter Password")
             auth_button = gr.Button("Submit")
+            error_message = gr.Label(value="", visible=False, label="")
 
         # Chatbot interface (initially hidden)
         with gr.Column(visible=False, elem_id="chat_interface") as chat_interface:
@@ -67,13 +77,15 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
                 outputs=[user_message, surface_chat],
             )
             reset_button.click(
-                reset_conversation, inputs=[], outputs=[user_message, surface_chat]
+                reset_conversation,
+                inputs=[],
+                outputs=[auth_interface, chat_interface, error_message],
             )
 
         auth_button.click(
             authenticate,
-            inputs=password_input,
-            outputs=[auth_interface, chat_interface],
+            inputs=[password_input],
+            outputs=[auth_interface, chat_interface, error_message],
         )
 
     demo.launch(share=True, server_port=server_port)
