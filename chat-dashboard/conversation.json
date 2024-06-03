@@ -5,10 +5,10 @@
     },
     {
         "role": "user",
-        "content": "Hello?"
+        "content": "Hello"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Welcome to Module 1 of the E-health course! In this module, I will support you in learning about Schizophrenia, including its nature, symptoms, causes, and strategies for preventing relapses. This module is divided into several sections, which I'll present to you step-by-step. Along the way, I'll ask you multiple-choice questions to assess your understanding. Answering these questions correctly is necessary to proceed. If at any point you have questions or need clarification, please ask, and let me know if I need to slow down or if any concepts are unclear. Are you ready to begin?"
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Welcome to Module 1 of the E-health course! This module will help you understand what Schizophrenia is, the symptoms, causes, and how to prevent relapses. We'll cover this topic through a series of submodules, each ending with a few questions to test your understanding. It's important to answer these questions correctly before we can move on to the next section. Please feel free to ask any questions along the way, and let's make this an interactive learning experience. Are you ready to begin?"
     }
 ]
