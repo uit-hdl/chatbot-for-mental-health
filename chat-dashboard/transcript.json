@@ -5,7 +5,7 @@
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide you with information on schizophrenia from a manual. How can I assist you today? If you need me to use simpler language or slow down, please let me know."
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Welcome to Module 1 of the E-health course! In this module, I will support you in learning about Schizophrenia, including its nature, symptoms, causes, and strategies for preventing relapses. This module is divided into several sections, which I'll present to you step-by-step. Along the way, I'll ask you multiple-choice questions to assess your understanding. Answering these questions correctly is necessary to proceed. If at any point you have questions or need clarification, please ask, and let me know if I need to slow down or if any concepts are unclear. Are you ready to begin?"
     },
     {
         "role": "user",
@@ -13,6 +13,6 @@
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Hello! I'm here to provide you with information on schizophrenia from a manual. How can I assist you today? If you need me to use simpler language or slow down, please let me know."
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Welcome to Module 1 of the E-health course! In this module, I will support you in learning about Schizophrenia, including its nature, symptoms, causes, and strategies for preventing relapses. This module is divided into several sections, which I'll present to you step-by-step. Along the way, I'll ask you multiple-choice questions to assess your understanding. Answering these questions correctly is necessary to proceed. If at any point you have questions or need clarification, please ask, and let me know if I need to slow down or if any concepts are unclear. Are you ready to begin?"
     }
 ]
