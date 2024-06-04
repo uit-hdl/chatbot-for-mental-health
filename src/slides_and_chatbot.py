@@ -1,6 +1,8 @@
 import gradio as gr
 import sys
 import os
+import re
+import numpy as np
 
 from console_chat import PROMPTS
 from console_chat import initiate_conversation_with_prompt
@@ -17,50 +19,65 @@ from utils.backend import get_full_path
 from utils.chat_utilities import grab_last_assistant_response
 
 CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
+SLIDES_DIR = "library/e-companion/slides"
+CHATBOT_SHEETS_DIR = "library/e-companion/chatbot-sheets"
+CHATBOT_ID = "e_companion"
 
 
-def e_health_course_prototype(chatbot_id, server_port=None):
+def e_health_course_prototype():
     """Guides you trough module 1 with slides and chatbot in Gradio interface.
     racks two versions of the chat in parallell. DEEP_CHAT contains the raw
     conversation history, including system messages and raw chatbot responses
     which commands intended for backend interpretation. The surface_chat is the
     representation of the chat which is seen by the user and presented in the
     gradio interface."""
-    global DEEP_CHAT, SLIDE_CONTENTS, MAX_SLIDE_INDEX, CHATBOT_ID, CURRENT_SLIDE_FLAT_INDEX
+    global DEEP_CHAT, SLIDES, MAX_SLIDE_INDEX, SHEETS, SHEET_CURRENT
 
-    # Set global variables
-    CHATBOT_ID = chatbot_id
-    SLIDE_CONTENTS = get_slide_content()
-    MAX_SLIDE_INDEX = len(SLIDE_CONTENTS) - 1
-    CURRENT_SLIDE_FLAT_INDEX = 0
-    CURRENT_SLIDE_ID = "0.0"
+    # Get static global variables
+    SLIDES = collect_textfile_info_in_dicts(SLIDES_DIR)
+    MAX_SLIDE_INDEX = len(SLIDES) - 1
+    SHEETS = collect_textfile_info_in_dicts(CHATBOT_SHEETS_DIR)
     DEEP_CHAT = initiate_new_chat()
 
     with gr.Blocks() as demo:
+        slide_index = gr.State(0)
+        sheet_content = gr.State(
+            get_sheet_associated_with_slide(
+                slide_name=SLIDES[slide_index.value]["name"]
+            )
+        )
 
         with gr.Row():
 
             with gr.Column():
                 # Text content of slide
-                slide_text = gr.Markdown(SLIDE_CONTENTS[CURRENT_SLIDE_FLAT_INDEX])
-
+                # slide_content = gr.Markdown(SLIDES[slide_index.value]["content"])
+                slide_content = gr.TextArea(SLIDES[slide_index.value]["content"])
                 # Buttons for navigating slides
                 with gr.Row():
-                    back_button = gr.Button("Back")
+                    # back_button = gr.Button("Back")
                     next_button = gr.Button("Next")
-                    back_button.click(previous_slide, outputs=slide_text)
-                    next_button.click(next_slide, outputs=slide_text)
+                    # back_button.click(
+                    #     update_slide_index,
+                    #     inputs=[back_button, slide_index, slide_content],
+                    #     outputs=[slide_index, slide_content],
+                    # )
+                    next_button.click(
+                        update_slide_index,
+                        inputs=[next_button, slide_index, slide_content],
+                        outputs=[slide_index, slide_content],
+                    )
 
-            # Chatbot interface (initially hidden)
-            with gr.Column(visible=True, elem_id="chat_interface") as chat_interface:
+            # Chatbot interface
+            with gr.Column():
                 surface_chat = gr.Chatbot(label="Your input")
                 user_message = gr.Textbox(label="Enter message and hit enter")
                 reset_button = gr.Button("Restart conversation")
 
                 user_message.submit(
                     create_response,
-                    inputs=[user_message, surface_chat],
-                    outputs=[user_message, surface_chat],
+                    inputs=[user_message, surface_chat, slide_index],
+                    outputs=[user_message, surface_chat, slide_index],
                 )
                 reset_button.click(
                     reset_conversation,
@@ -68,18 +85,46 @@ def e_health_course_prototype(chatbot_id, server_port=None):
                     outputs=[user_message, surface_chat],
                 )
 
-    demo.launch(share=True, server_port=server_port)
+    demo.launch(share=True)
+
+
+def collect_textfile_info_in_dicts(dir) -> list[dict[str, str]]:
+    """Collects information about slides/sheets in list of dictionary, each
+    with the name and content of a slide/sheet."""
+    names = get_file_names_in_directory(dir)
+    content = load_text_variables_from_directory(dir)
+    slides = [
+        {
+            "content": content,
+            "name": name,
+        }
+        for content, name in zip(content, names)
+    ]
+    return slides
 
 
 def get_slide_content():
-    slide_contents = []
-    full_directory_path = get_full_path("library/e-companion/slides")
+    """Loads the contents of each slide."""
+    return load_text_variables_from_directory(SLIDES_DIR)
+
+
+def get_chatbot_sheets():
+    """Loads the sheets used by the chatbot to assist the user with each
+    slide."""
+    return load_text_variables_from_directory(CHATBOT_SHEETS_DIR)
+
+
+def load_text_variables_from_directory(dir):
+    """Loads the text-files in the directory and dumps them as strings into a
+    list."""
+    strings = []
+    full_directory_path = get_full_path(dir)
     for dir, _, files in os.walk(full_directory_path):
         for file in files:
             full_path = os.path.join(dir, file)
             content = load_textfile_as_string(full_path)
-            slide_contents.append(content)
-    return slide_contents
+            strings.append(content)
+    return strings
 
 
 def initiate_new_chat():
@@ -97,7 +142,7 @@ def reset_conversation():
     return "", []
 
 
-def create_response(user_message, surface_chat):
+def create_response(user_message, surface_chat, slide_index):
     """Returns a tuple: ("", surface_chat). The surface chat has been updated
     with a response from the chatbot."""
     global DEEP_CHAT
@@ -141,27 +186,26 @@ def get_image_urls(harvested_syntax):
     return image_url_list
 
 
-def previous_slide():
-    """Updates slide index and the content of the slide."""
-    global CURRENT_SLIDE_FLAT_INDEX
+def update_slide_index(button, slide_index, slide_content):
+    """Updates slide index, slide content, and chatbot sheet."""
     # Update current slide index.
-    CURRENT_SLIDE_FLAT_INDEX = cap(CURRENT_SLIDE_FLAT_INDEX - 1)
-    slide_content = SLIDE_CONTENTS[CURRENT_SLIDE_FLAT_INDEX]
-    return gr.update(value=slide_content)
+    print(slide_index)
+    if button == "Next":
+        slide_index = cap(slide_index + 1)
+    elif button == "Back":
+        slide_index = cap(slide_index - 1)
 
-
-def next_slide():
-    """Updates slide index and the content of the slide."""
-    global CURRENT_SLIDE_FLAT_INDEX
-    # Update current slide index.
-    CURRENT_SLIDE_FLAT_INDEX = cap(CURRENT_SLIDE_FLAT_INDEX + 1)
-    slide_content = SLIDE_CONTENTS[CURRENT_SLIDE_FLAT_INDEX]
-    return gr.update(value=slide_content)
+    return slide_index, SLIDES[slide_index]
 
 
 def cap(x):
     """Ensure value stays between 0 and a maximum value."""
-    return min(max(x, 0), MAX_SLIDE_INDEX)
+    if x < 0:
+        return 0
+    elif x > MAX_SLIDE_INDEX:
+        return MAX_SLIDE_INDEX
+    else:
+        return x
 
 
 def authenticate(password):
@@ -176,10 +220,27 @@ def authenticate(password):
         )
 
 
+def get_sheet_associated_with_slide(slide_name) -> dict:
+    """Fetches the sheet which corresponds to the slide. Each submodule consists
+    of multiple slides, and each sheet corresponds to one sub-module."""
+    slide_identifier = extract_trailing_numbers(slide_name)
+    submodule_index = slide_identifier[0]
+    sheet_content = [sheet for sheet in SHEETS if submodule_index in sheet["name"]]
+    if len(sheet_content) != 1:
+        raise ValueError(f"Slide corresponds to {len(sheet_content)} sheets.")
+    return sheet_content[0]["content"]
+
+
+def extract_trailing_numbers(string):
+    match = re.search(r"\d+$", string)
+    if match:
+        return match.group()
+
+
 if __name__ == "__main__":
     chatbot_id = "mental_health"
     if len(sys.argv) == 2:
         chatbot_id = sys.argv[1]
     if len(sys.argv) == 3:
         server_port = sys.argv[2]
-    e_health_course_prototype(chatbot_id)
+    e_health_course_prototype()

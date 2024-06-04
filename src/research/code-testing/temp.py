@@ -4,7 +4,7 @@ import gradio as gr
 import numpy as np
 import os
 
-
+# %%
 slide_filenames = os.listdir("library")
 slide_contents = []
 for name in slide_filenames:
@@ -16,7 +16,6 @@ max_slide_index = len(slide_contents) - 1
 
 # Initialize slide index
 current_slide_index = 0
-
 
 
 def next_slide():
@@ -69,8 +68,8 @@ with gr.Blocks() as demo:
             with gr.Row():
                 back_button = gr.Button("Back")
                 next_button = gr.Button("Next")
-                back_button.click(previous_slide, outputs=info_text_box)
-                next_button.click(next_slide, outputs=info_text_box)
+                back_button.click(previous_slide, outputs=[back_button, info_text_box])
+                next_button.click(next_slide, outputs=[next_button, info_text_box])
 
         # Column 2
         with gr.Column():
@@ -87,30 +86,109 @@ with gr.Blocks() as demo:
 
 
 # %%
+import gradio as gr
 
-slide_contents = [
+# Define the text slides
+slides = [
     "Slide 1: This is the content of slide 1.",
     "Slide 2: This is the content of slide 2.",
     "Slide 3: This is the content of slide 3.",
 ]
-current_slide_index = 0
 
-# What functions do I need here?
+# Function to handle the "Next" button click
+def increase_slide_number(button, slide_index, state_var):
+    if button == "Next":
+        slide_index = (slide_index + 1) % len(
+            slides
+        )  # Loop back to the first slide if at the end
+        state_var = state_var + 1
+    return slide_index, slides[slide_index], state_var
 
+
+# Function to respond to user input (you can define your logic here)
+def respond(user_message):
+    return "Chatbot response: Thanks for your input - " + user_message
+
+
+# Create the interface
 with gr.Blocks() as demo:
+    slide_index = gr.State(0)  # Initialize slide index
+    state_var = gr.State(0)  # Initialize slide index
 
     with gr.Row():
-        gr.Text()
-        info_text_box = gr.Markdown(
-            slide_contents[current_slide_index]
-        )  # Text to be updated when I click next
-        button = gr.Button("Next")
-        button.click()  # What should be arguments here?
-    demo.launch()
+        # Column 1
+        with gr.Column():
+            info_text_box = gr.Markdown(slides[0])
+            info_text_box = gr.TextArea(slides[state_var.value])
+            button = gr.Button("Next")
+            button.click(
+                increase_slide_number,
+                inputs=[button, slide_index, state_var],
+                outputs=[slide_index, info_text_box, state_var],
+            )
+
+        # Column 2
+        with gr.Column():
+            user_message = gr.Textbox(label="Input")
+            chat = gr.Chatbot(label="Chat")
+            user_message.submit(
+                respond,
+                inputs=[user_message],
+                outputs=[chat],
+            )
+
+demo.launch()
 
 # %%
-with gr.Blocks():
-    with gr.Group():
-        gr.Textbox(label="First")
-        gr.Textbox(label="Last")
-    demo.launch()
+import gradio as gr
+
+# Define the text slides
+slides = [
+    "Slide 1: This is the content of slide 1.",
+    "Slide 2: This is the content of slide 2.",
+    "Slide 3: This is the content of slide 3.",
+]
+
+# Initialize slide index
+current_slide_index = 0
+
+
+# Function to update the text with the current slide content
+def update_text(button, global_text_variable):
+    global current_slide_index
+    if button == "Next":
+        current_slide_index = (current_slide_index + 1) % len(slides)
+    elif button == "Back":
+        current_slide_index = (current_slide_index - 1) % len(slides)
+    global_text_variable = global_text_variable + "a"
+    print(global_text_variable)
+    return slides[current_slide_index], gr.update(global_text_variable)
+
+
+# Create the interface
+with gr.Blocks() as demo:
+    global_text_variable = gr.State("abc")
+    x = gr.State(1)
+
+    with gr.Row():
+        # Column 1
+        with gr.Column():
+            text_box = gr.Textbox(
+                slides[current_slide_index], label=global_text_variable.value
+            )
+
+            next_button = gr.Button("Next")
+            next_button.click(
+                update_text,
+                inputs=[next_button, global_text_variable],
+                outputs=[text_box, global_text_variable],
+            )
+
+            back_button = gr.Button("Back")
+            back_button.click(
+                update_text,
+                inputs=[back_button, global_text_variable],
+                outputs=[back_button, global_text_variable],
+            )
+
+demo.launch()
