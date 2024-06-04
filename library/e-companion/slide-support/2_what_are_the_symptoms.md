@@ -1,4 +1,4 @@
-# 2.1
+# SLIDE 1.0
 
 Schizophrenia affects the way you think, feel and act. Each person
 with schizophrenia will have different combinations of symptoms,
@@ -9,7 +9,7 @@ often divide the symptoms of schizophrenia into three categories:
 positive, negative and cognitive. The following pages explain what
 these categories mean and give some examples.
 
-# 2.2
+# SLIDE 1.1
 
 Positive symptoms is used to refer to changes in mental capacity, such as
 difficulties concentrating or remembering things.
@@ -26,7 +26,7 @@ difficulties concentrating or remembering things.
   worst. – Examples include feeling that other people are plotting
   against you or are trying to harm you.
 
-# 2.3
+# SLIDE 1.2
 
 Negative symptoms describes a lack of feelings or behaviours that are usually
 present. Negative symptoms can include low motivation or mood, or withdrawing
@@ -40,7 +40,7 @@ from family and friends.
 - Social withdrawal – This is not wanting to socialize with family or
   friends, preferring to spend most of your time alone.
 
-# 2.4
+# SLIDE 1.3
 
 Cognitive symptoms is used to refer to changes in mental capacity, such as
 difficulties concentrating or remembering things.
@@ -57,7 +57,7 @@ difficulties concentrating or remembering things.
 - Memory problems – Remembering events or information, or learning
   new things, may become challenging.
 
-# 2.5 Questions
+# SLIDE 1.4
 
 Q1: True or False: Individuals that have Schizophrenia hear voices and see
 things that aren't real. [False: different individuals can have different

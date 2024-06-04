@@ -11,92 +11,98 @@ from console_chat import direct_to_new_assistant
 from console_chat import truncate_if_too_long
 from utils.general import remove_syntax_from_message
 from utils.backend import reset_files_that_track_cumulative_variables
+from utils.backend import get_file_names_in_directory
+from utils.backend import load_textfile_as_string
+from utils.backend import get_full_path
 from utils.chat_utilities import grab_last_assistant_response
 
 CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
-DEEP_CHAT = []
 
 
-def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
-    """Allows you to have a conversation with the chatbot in a gradio
-    interface. racks two versions of the chat in parallell. DEEP_CHAT contains
-    the raw conversation history, including system messages and raw chatbot
-    responses which commands intended for backend interpretation. The
-    surface_chat is the representation of the chat which is seen by the user and
-    presented in the gradio interface."""
-    global DEEP_CHAT
+def e_health_course_prototype(chatbot_id, server_port=None):
+    """Guides you trough module 1 with slides and chatbot in Gradio interface.
+    racks two versions of the chat in parallell. DEEP_CHAT contains the raw
+    conversation history, including system messages and raw chatbot responses
+    which commands intended for backend interpretation. The surface_chat is the
+    representation of the chat which is seen by the user and presented in the
+    gradio interface."""
+    global DEEP_CHAT, SLIDE_CONTENTS, MAX_SLIDE_INDEX, CHATBOT_ID, CURRENT_SLIDE_FLAT_INDEX
 
-    def initiate_new_chat():
-        reset_files_that_track_cumulative_variables()
-        return initiate_conversation_with_prompt(
-            PROMPTS[chatbot_id],
-        )
-
-    def respond(user_message, surface_chat):
-        """Updates the surface chat by generating and adding chatbot response."""
-        user_message, surface_chat = create_response(
-            user_message, surface_chat, chatbot_id
-        )
-        return user_message, surface_chat
-
-    def reset_conversation():
-        """Function that gets called when 'Reset conversation' button gets
-        clicked."""
-        global DEEP_CHAT
-        DEEP_CHAT = initiate_new_chat()
-        return "", []
-
-    def authenticate(password):
-        """Function to authenticate the user."""
-        if password == CHATBOT_PASSWORD:  # Hardcoded password for demonstration
-            return gr.update(visible=False), gr.update(visible=True), ""
-        else:
-            return (
-                gr.update(visible=True),
-                gr.update(visible=False),
-                gr.update(value="Wrong password, please try again.", visible=True),
-            )
-
+    # Set global variables
+    CHATBOT_ID = chatbot_id
+    SLIDE_CONTENTS = get_slide_content()
+    MAX_SLIDE_INDEX = len(SLIDE_CONTENTS) - 1
+    CURRENT_SLIDE_FLAT_INDEX = 0
+    CURRENT_SLIDE_ID = "0.0"
     DEEP_CHAT = initiate_new_chat()
 
     with gr.Blocks() as demo:
-        with gr.Column(visible=True) as auth_interface:
-            password_input = gr.Textbox(label="Enter Password")
-            auth_button = gr.Button("Submit")
-            error_message = gr.Label(value="", visible=False, label="")
 
-        # Chatbot interface (initially hidden)
-        with gr.Column(visible=False, elem_id="chat_interface") as chat_interface:
-            surface_chat = gr.Chatbot(label="Your input")
-            user_message = gr.Textbox(label="Enter message and hit enter")
-            reset_button = gr.Button("Restart conversation")
+        with gr.Row():
 
-            user_message.submit(
-                respond,
-                inputs=[user_message, surface_chat],
-                outputs=[user_message, surface_chat],
-            )
-            reset_button.click(
-                reset_conversation,
-                inputs=[],
-                outputs=[auth_interface, chat_interface, error_message],
-            )
+            with gr.Column():
+                # Text content of slide
+                slide_text = gr.Markdown(SLIDE_CONTENTS[CURRENT_SLIDE_FLAT_INDEX])
 
-        auth_button.click(
-            authenticate,
-            inputs=[password_input],
-            outputs=[auth_interface, chat_interface, error_message],
-        )
+                # Buttons for navigating slides
+                with gr.Row():
+                    back_button = gr.Button("Back")
+                    next_button = gr.Button("Next")
+                    back_button.click(previous_slide, outputs=slide_text)
+                    next_button.click(next_slide, outputs=slide_text)
+
+            # Chatbot interface (initially hidden)
+            with gr.Column(visible=True, elem_id="chat_interface") as chat_interface:
+                surface_chat = gr.Chatbot(label="Your input")
+                user_message = gr.Textbox(label="Enter message and hit enter")
+                reset_button = gr.Button("Restart conversation")
+
+                user_message.submit(
+                    create_response,
+                    inputs=[user_message, surface_chat],
+                    outputs=[user_message, surface_chat],
+                )
+                reset_button.click(
+                    reset_conversation,
+                    inputs=[],
+                    outputs=[user_message, surface_chat],
+                )
 
     demo.launch(share=True, server_port=server_port)
 
 
-def create_response(user_message, surface_chat, chatbot_id):
+def get_slide_content():
+    slide_contents = []
+    full_directory_path = get_full_path("library/e-companion/slides")
+    for dir, _, files in os.walk(full_directory_path):
+        for file in files:
+            full_path = os.path.join(dir, file)
+            content = load_textfile_as_string(full_path)
+            slide_contents.append(content)
+    return slide_contents
+
+
+def initiate_new_chat():
+    reset_files_that_track_cumulative_variables()
+    return initiate_conversation_with_prompt(
+        PROMPTS[CHATBOT_ID],
+    )
+
+
+def reset_conversation():
+    """Function that gets called when 'Reset conversation' button gets
+    clicked."""
+    global DEEP_CHAT
+    DEEP_CHAT = initiate_new_chat()
+    return "", []
+
+
+def create_response(user_message, surface_chat):
     """Returns a tuple: ("", surface_chat). The surface chat has been updated
     with a response from the chatbot."""
     global DEEP_CHAT
     DEEP_CHAT.append({"role": "user", "content": user_message})
-    DEEP_CHAT, harvested_syntax = respond_to_user(DEEP_CHAT, chatbot_id)
+    DEEP_CHAT, harvested_syntax = respond_to_user(DEEP_CHAT, CHATBOT_ID)
     raw_response = grab_last_assistant_response(DEEP_CHAT)
     surface_response = remove_syntax_from_message(raw_response)
 
@@ -121,6 +127,12 @@ def create_response(user_message, surface_chat, chatbot_id):
     return "", surface_chat
 
 
+def update_slide_context():
+    """Updates the deep chat so that the user message is always followed by
+    the context that corresponds to that slide."""
+    DEEP_CHAT.append({"role": "system", "content": ""})
+
+
 def get_image_urls(harvested_syntax):
     """Gets the path of the image that the bot is trying to show (if any)."""
     image_url_list = []
@@ -129,10 +141,45 @@ def get_image_urls(harvested_syntax):
     return image_url_list
 
 
+def previous_slide():
+    """Updates slide index and the content of the slide."""
+    global CURRENT_SLIDE_FLAT_INDEX
+    # Update current slide index.
+    CURRENT_SLIDE_FLAT_INDEX = cap(CURRENT_SLIDE_FLAT_INDEX - 1)
+    slide_content = SLIDE_CONTENTS[CURRENT_SLIDE_FLAT_INDEX]
+    return gr.update(value=slide_content)
+
+
+def next_slide():
+    """Updates slide index and the content of the slide."""
+    global CURRENT_SLIDE_FLAT_INDEX
+    # Update current slide index.
+    CURRENT_SLIDE_FLAT_INDEX = cap(CURRENT_SLIDE_FLAT_INDEX + 1)
+    slide_content = SLIDE_CONTENTS[CURRENT_SLIDE_FLAT_INDEX]
+    return gr.update(value=slide_content)
+
+
+def cap(x):
+    """Ensure value stays between 0 and a maximum value."""
+    return min(max(x, 0), MAX_SLIDE_INDEX)
+
+
+def authenticate(password):
+    """Function to authenticate the user."""
+    if password == CHATBOT_PASSWORD:
+        return gr.update(visible=False), gr.update(visible=True), ""
+    else:
+        return (
+            gr.update(visible=True),
+            gr.update(visible=False),
+            gr.update(value="Wrong password, please try again.", visible=True),
+        )
+
+
 if __name__ == "__main__":
     chatbot_id = "mental_health"
     if len(sys.argv) == 2:
         chatbot_id = sys.argv[1]
     if len(sys.argv) == 3:
         server_port = sys.argv[2]
-    chat_with_bot_in_gradio_interface(chatbot_id)
+    e_health_course_prototype(chatbot_id)

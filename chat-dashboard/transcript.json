@@ -1,18 +1,66 @@
 [
     {
         "role": "user",
-        "content": "Hello? in2 words, what are you?"
+        "content": "Hi, what are you in 1 word?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 I'm a guide for Schizophrenia information. How can I assist you today?"
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Informant."
     },
     {
         "role": "user",
-        "content": "Hello? in2 words, what are you?"
+        "content": "What causes schizophrenia?"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 I'm a guide for Schizophrenia information. How can I assist you today?"
+        "content": "\u00a4:request_knowledge(\"21_causes\"):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "source 21_causes: [Present over 2 messages or only what is relevant]\n\nIf you are affected by schizophrenia, you may wonder at some point whether it is\nyour fault. The answer to that question is no. No one is to blame for\nschizophrenia. The reasons why some people develop the condition and some do not\nare currently unknown, although there are some factors that are thought to\nincrease a person\u2019s susceptibility to the condition.\n\nSchizophrenia is sometimes referred to as a heritable condition, which means\nthat if there are certain genes in a person\u2019s DNA their risk of developing the\nillness is increased compared with people without those genes. The chance that a\nperson will develop schizophrenia is increased from about 1 in 100 to about 1 in\n10 if one of their parents has the condition.\n\nIn identical twins with exactly the same genetic make-up, however, the chance of\none twin developing schizophrenia if the other twin has the condition is only\n50%, and so we know that genetics are not the sole cause of the condition.\n\nLikewise, there is no single `environmental factor` that is known to cause\nschizophrenia, although there are certain factors that can increase a person\u2019s\nchances of having the illness: these include growing up in a city center,\nabusing drugs such as cannabis and amphetamines, and experiencing stressful life\nevents. There is some evidence that the environment a person is exposed to can\ninteract with their genes. Research into this phenomenon is ongoing, but not\nenough is currently known to say who will or won\u2019t develop schizophrenia.\n\n[show: schizophrenia_genes_environment_interactions.png | relationship between\ngenes, environment, and illness]\n\nA key feature of schizophrenia is that different combinations of symptoms are\nseen both between individuals and within an individual over time \u2013 whether this\nhas anything to do with an individual\u2019s genes and/or environment is still\nunclear.\n"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"21_causes\"]):\u00a4 Schizophrenia is a complex disorder with both genetic and environmental factors that contribute to its development. Genetics play a significant role: if one parent has schizophrenia, the risk for their child increases from 1% (general population risk) to about 10%. However, genetics alone don't fully determine whether someone will develop the disorder, as evidenced by studies on identical twins, where if one twin has schizophrenia, the other has only a 50% chance of developing it as well.\n\nEnvironmental factors such as urban upbringing, drug abuse (like cannabis and amphetamines), and stressful life events also play a role. Research is ongoing to understand how genetics and environment interact to lead to schizophrenia. No one is to blame for developing this condition.\n\nWould you like to know more about this, or do you have another question?"
+    },
+    {
+        "role": "user",
+        "content": "Can you show me a picture?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"21_causes\"]):\u00a4\u00a4:display_image(schizophrenia_genes_environment_interactions.png):\u00a4 Here is an image that illustrates the interplay between genetic predisposition and environmental factors in the development of schizophrenia. If you have any questions about the image or need further information, please let me know."
+    },
+    {
+        "role": "user",
+        "content": "Hi, what are you in 1 word?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Informant."
+    },
+    {
+        "role": "user",
+        "content": "What causes schizophrenia?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:request_knowledge(\"21_causes\"):\u00a4"
+    },
+    {
+        "role": "system",
+        "content": "source 21_causes: [Present over 2 messages or only what is relevant]\n\nIf you are affected by schizophrenia, you may wonder at some point whether it is\nyour fault. The answer to that question is no. No one is to blame for\nschizophrenia. The reasons why some people develop the condition and some do not\nare currently unknown, although there are some factors that are thought to\nincrease a person\u2019s susceptibility to the condition.\n\nSchizophrenia is sometimes referred to as a heritable condition, which means\nthat if there are certain genes in a person\u2019s DNA their risk of developing the\nillness is increased compared with people without those genes. The chance that a\nperson will develop schizophrenia is increased from about 1 in 100 to about 1 in\n10 if one of their parents has the condition.\n\nIn identical twins with exactly the same genetic make-up, however, the chance of\none twin developing schizophrenia if the other twin has the condition is only\n50%, and so we know that genetics are not the sole cause of the condition.\n\nLikewise, there is no single `environmental factor` that is known to cause\nschizophrenia, although there are certain factors that can increase a person\u2019s\nchances of having the illness: these include growing up in a city center,\nabusing drugs such as cannabis and amphetamines, and experiencing stressful life\nevents. There is some evidence that the environment a person is exposed to can\ninteract with their genes. Research into this phenomenon is ongoing, but not\nenough is currently known to say who will or won\u2019t develop schizophrenia.\n\n[show: schizophrenia_genes_environment_interactions.png | relationship between\ngenes, environment, and illness]\n\nA key feature of schizophrenia is that different combinations of symptoms are\nseen both between individuals and within an individual over time \u2013 whether this\nhas anything to do with an individual\u2019s genes and/or environment is still\nunclear.\n"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"21_causes\"]):\u00a4 Schizophrenia is a complex disorder with both genetic and environmental factors that contribute to its development. Genetics play a significant role: if one parent has schizophrenia, the risk for their child increases from 1% (general population risk) to about 10%. However, genetics alone don't fully determine whether someone will develop the disorder, as evidenced by studies on identical twins, where if one twin has schizophrenia, the other has only a 50% chance of developing it as well.\n\nEnvironmental factors such as urban upbringing, drug abuse (like cannabis and amphetamines), and stressful life events also play a role. Research is ongoing to understand how genetics and environment interact to lead to schizophrenia. No one is to blame for developing this condition.\n\nWould you like to know more about this, or do you have another question?"
+    },
+    {
+        "role": "user",
+        "content": "Can you show me a picture?"
+    },
+    {
+        "role": "assistant",
+        "content": "\u00a4:cite([\"21_causes\"]):\u00a4\u00a4:display_image(schizophrenia_genes_environment_interactions.png):\u00a4 Here is an image that illustrates the interplay between genetic predisposition and environmental factors in the development of schizophrenia. If you have any questions about the image or need further information, please let me know."
     }
 ]

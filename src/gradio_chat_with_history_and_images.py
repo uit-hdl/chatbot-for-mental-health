@@ -60,6 +60,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     DEEP_CHAT = initiate_new_chat()
 
     with gr.Blocks() as demo:
+        # Password authentification
         with gr.Column(visible=True) as auth_interface:
             password_input = gr.Textbox(label="Enter Password")
             auth_button = gr.Button("Submit")
