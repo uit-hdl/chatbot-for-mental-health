@@ -91,14 +91,14 @@ def load_textfile_as_string(file_path, extension=None) -> str:
     if extension:
         file_path = add_extension(file_path, extension)
     file_path = get_full_path(file_path)
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         file_string = file.read()
     return file_string
 
 
 def load_yaml_file(file_path) -> dict:
     file_path = add_extension(file_path, ".json")
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         yaml_data = yaml.safe_load(file)
     return yaml_data
 
@@ -114,7 +114,7 @@ def load_json_from_path(file_path: str) -> dict:
 def load_python_variable(path_relative):
     """Loads a python object stored in the output folder."""
     full_path = get_full_path(path_relative)
-    with open(full_path, "rb") as file:
+    with open(full_path, "rb", encoding="utf-8") as file:
         obj = pickle.load(file)
     return obj
 
@@ -150,7 +150,7 @@ def dump_to_json(dump_dict, file_path):
 def dump_chat_to_markdown(conversation: list[dict], file_path):
     """Dumps a chat to a textfile (.md or .txt) file for better readability."""
     full_path = get_full_path_and_create_dir(file_path)
-    with open(full_path, "w") as file:
+    with open(full_path, "w", encoding="utf-8") as file:
         for message in conversation:
             formatted_message = f"\n{message['role']}: {message['content']}\n\n"
             file.write(formatted_message)
@@ -160,7 +160,7 @@ def dump_file(variable, file_path):
     """Dumps the variable to the specified location (relative to project
     root)."""
     full_path = get_full_path_and_create_dir(file_path)
-    with open(full_path, "w") as file:
+    with open(full_path, "w", encoding="utf-8") as file:
         file.write(variable)
 
 
@@ -197,7 +197,7 @@ def dump_python_variable_to_file(variable, path_relative):
     """Save python object to pickle file. file_path_relative is file path
     relative to the output folder."""
     full_path = get_full_path_and_create_dir(path_relative)
-    with open(full_path, "wb") as file:
+    with open(full_path, "wb", encoding="utf-8") as file:
         pickle.dump(variable, file)
         print(f'Object successfully saved to "{path_relative}"')
 
@@ -425,7 +425,7 @@ def write_to_file(file_path, content):
     """Write content to specified file path (relative to project
     root-folder)."""
     full_path = get_full_path_and_create_dir(file_path)
-    with open(full_path, "w") as file:
+    with open(full_path, "w", encoding="utf-8") as file:
         file.write(content)
 
 

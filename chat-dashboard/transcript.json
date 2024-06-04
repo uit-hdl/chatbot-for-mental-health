@@ -1,18 +1,18 @@
 [
     {
         "role": "user",
-        "content": "Hello? in2 words, what are you?"
+        "content": "Hello!"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 I'm a guide for Schizophrenia information. How can I assist you today?"
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Welcome to Module 1 of the E-health course! In this module, I will guide you through understanding what Schizophrenia is, its symptoms, possible causes, and how to prevent relapses. The module is divided into several submodules, and at the end of each, you'll be asked a few questions to help reinforce your learning. Please feel free to ask questions or let me know if the pace is too fast, if you need more examples, or if any of the words or concepts aren't clear.\n\nAt any time, you can provide feedback on how the information is presented. This will help me adjust the delivery to better suit your needs. Are you ready to begin learning about Schizophrenia, or is there anything else you would like to know before we start?"
     },
     {
         "role": "user",
-        "content": "Hello? in2 words, what are you?"
+        "content": "Hello!"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 I'm a guide for Schizophrenia information. How can I assist you today?"
+        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Welcome to Module 1 of the E-health course! In this module, I will guide you through understanding what Schizophrenia is, its symptoms, possible causes, and how to prevent relapses. The module is divided into several submodules, and at the end of each, you'll be asked a few questions to help reinforce your learning. Please feel free to ask questions or let me know if the pace is too fast, if you need more examples, or if any of the words or concepts aren't clear.\n\nAt any time, you can provide feedback on how the information is presented. This will help me adjust the delivery to better suit your needs. Are you ready to begin learning about Schizophrenia, or is there anything else you would like to know before we start?"
     }
 ]

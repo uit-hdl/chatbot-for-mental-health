@@ -89,6 +89,10 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
         )
 
     demo.launch(share=True, server_port=server_port)
+    from fastapi import FastAPI
+    app = FastAPI(server_port=8008)
+    app = gr.mount_gradio_app(app, demo, path="/")
+    return app
 
 
 def create_response(user_message, surface_chat, chatbot_id):
