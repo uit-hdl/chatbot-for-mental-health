@@ -41,18 +41,11 @@ def e_health_course_prototype():
 
     with gr.Blocks() as demo:
         slide_index = gr.State(0)
-        sheet_content = gr.State(
-            get_sheet_associated_with_slide(
-                slide_name=SLIDES[slide_index.value]["name"]
-            )
-        )
-
         with gr.Row():
 
             with gr.Column():
                 # Text content of slide
                 slide_content = gr.Markdown(SLIDES[slide_index.value]["content"])
-                # slide_content = gr.TextArea(SLIDES[slide_index.value]["content"])
                 # Buttons for navigating slides
                 with gr.Row():
                     back_button = gr.Button("Back")
@@ -142,13 +135,13 @@ def reset_conversation():
     return "", []
 
 
-def create_response(user_message, surface_chat, slide_index):
+def create_response(user_message, surface_chat, slide_index, deep_chat):
     """Returns a tuple: ("", surface_chat). The surface chat has been updated
     with a response from the chatbot."""
-    global DEEP_CHAT
-    DEEP_CHAT.append({"role": "user", "content": user_message})
-    DEEP_CHAT, harvested_syntax = respond_to_user(DEEP_CHAT, CHATBOT_ID)
-    raw_response = grab_last_assistant_response(DEEP_CHAT)
+    print(deep_chat)
+    deep_chat.append({"role": "user", "content": user_message})
+    deep_chat, harvested_syntax = respond_to_user(deep_chat, CHATBOT_ID)
+    raw_response = grab_last_assistant_response(deep_chat)
     surface_response = remove_syntax_from_message(raw_response)
 
     surface_chat.append((user_message, surface_response))
@@ -157,19 +150,19 @@ def create_response(user_message, surface_chat, slide_index):
     for image_url in image_url_list:
         surface_chat.append((None, (image_url,)))
 
-    dump_current_conversation_to_json(DEEP_CHAT)
+    dump_current_conversation_to_json(deep_chat)
 
     if harvested_syntax["referral"]:
         assistant_name = harvested_syntax["referral"]["name"]
-        DEEP_CHAT = direct_to_new_assistant(assistant_name)
-        surface_response = grab_last_assistant_response(DEEP_CHAT)
+        deep_chat = direct_to_new_assistant(assistant_name)
+        surface_response = grab_last_assistant_response(deep_chat)
         surface_response_no_syntax = remove_syntax_from_message(surface_response)
         surface_chat.append((None, surface_response_no_syntax))
 
-    DEEP_CHAT = remove_inactive_sources(DEEP_CHAT)
-    DEEP_CHAT = truncate_if_too_long(DEEP_CHAT)
+    deep_chat = remove_inactive_sources(deep_chat)
+    deep_chat = truncate_if_too_long(deep_chat)
 
-    return "", surface_chat
+    return "", surface_chat, deep_chat
 
 
 def update_slide_context():
@@ -237,10 +230,60 @@ def extract_trailing_numbers(string):
         return match.group()
 
 
-if __name__ == "__main__":
-    chatbot_id = "mental_health"
-    if len(sys.argv) == 2:
-        chatbot_id = sys.argv[1]
-    if len(sys.argv) == 3:
-        server_port = sys.argv[2]
-    e_health_course_prototype()
+# Get static global variables
+SLIDES = collect_textfile_info_in_dicts(SLIDES_DIR)
+MAX_SLIDE_INDEX = len(SLIDES) - 1
+SHEETS = collect_textfile_info_in_dicts(CHATBOT_SHEETS_DIR)
+
+
+with gr.Blocks() as demo:
+    deep_chat = gr.State(initiate_new_chat())
+    slide_index = gr.State(0)
+
+    with gr.Row():
+
+        with gr.Column():
+            # Text content of slide
+            slide_content = gr.Markdown(SLIDES[slide_index.value]["content"])
+            # Buttons for navigating slides
+            with gr.Row():
+                back_button = gr.Button("Back")
+                next_button = gr.Button("Next")
+                back_button.click(
+                    update_slide_index,
+                    inputs=[back_button, slide_index],
+                    outputs=[slide_index, slide_content],
+                )
+                next_button.click(
+                    update_slide_index,
+                    inputs=[next_button, slide_index],
+                    outputs=[slide_index, slide_content],
+                )
+
+        # Chatbot interface
+        with gr.Column():
+            user_message = gr.Textbox(label="Enter message and hit enter")
+            surface_chat = gr.Chatbot(label="Your input")
+            reset_button = gr.Button("Restart conversation")
+
+            user_message.submit(
+                create_response,
+                inputs=[user_message, surface_chat, slide_index, deep_chat],
+                outputs=[user_message, surface_chat, deep_chat],
+            )
+            reset_button.click(
+                reset_conversation,
+                inputs=[],
+                outputs=[user_message, surface_chat],
+            )
+
+demo.launch(share=True)
+
+
+# if __name__ == "__main__":
+#     chatbot_id = "mental_health"
+#     if len(sys.argv) == 2:
+#         chatbot_id = sys.argv[1]
+#     if len(sys.argv) == 3:
+#         server_port = sys.argv[2]
+#     e_health_course_prototype()

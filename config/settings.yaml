@@ -5,7 +5,7 @@ max_requests: 2 # Maximum number of sources that the chatbot is allowed to reque
 # --- FILTERS ---
 # Set to false to turn of filters that check the contents of generated messages
 enable_overseer_filter: False
-enable_hard_coded_filter: True
+enable_hard_coded_filter: False
 
 # --- LIMITATIONS RELATED TO CHAT LENGTH ---
 inactivity_threshold: 2 # Remove source from conversation if it has not been cited in this many consecutive responses

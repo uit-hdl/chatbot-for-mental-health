@@ -95,6 +95,7 @@ slides = [
     "Slide 3: This is the content of slide 3.",
 ]
 
+
 # Function to handle the "Next" button click
 def increase_slide_number(button, slide_index):
     if button == "Next":
@@ -105,14 +106,17 @@ def increase_slide_number(button, slide_index):
 
 
 # Function to respond to user input (you can define your logic here)
-def respond(user_message):
-    return "Chatbot response: Thanks for your input - " + user_message
+def respond(user_message, chat, deep_chat):
+    response = "Thats nice fag"
+    chat.append((user_message, response))
+    deep_chat.append([{"role": "system", "content": "New message"}])
+    return user_message, chat, deep_chat
 
 
 # Create the interface
 with gr.Blocks() as demo:
     slide_index = gr.State(0)  # Initialize slide index
-
+    deep_chat = gr.State([[{"role": "system", "content": "Initial prompt"}]])
     with gr.Row():
         # Column 1
         with gr.Column():
@@ -131,62 +135,46 @@ with gr.Blocks() as demo:
             chat = gr.Chatbot(label="Chat")
             user_message.submit(
                 respond,
-                inputs=[user_message],
-                outputs=[chat],
+                inputs=[user_message, chat, deep_chat],
+                outputs=[user_message, chat, deep_chat],
             )
 
 demo.launch()
 
-# %%
+# %% UPDATE STATE VECTOR
 import gradio as gr
 
-# Define the text slides
-slides = [
-    "Slide 1: This is the content of slide 1.",
-    "Slide 2: This is the content of slide 2.",
-    "Slide 3: This is the content of slide 3.",
-]
 
-# Initialize slide index
-current_slide_index = 0
+def update_list(s, i, l):
+    s += "b"
+    i = i + 1
+    l += "b"
+    return s, i, l, s, i, l
 
 
-# Function to update the text with the current slide content
-def update_text(button, global_text_variable):
-    global current_slide_index
-    if button == "Next":
-        current_slide_index = (current_slide_index + 1) % len(slides)
-    elif button == "Back":
-        current_slide_index = (current_slide_index - 1) % len(slides)
-    global_text_variable = global_text_variable + "a"
-    print(global_text_variable)
-    return slides[current_slide_index], gr.update(global_text_variable)
+def check_state(s, i, l):
+    print(s)
+    print(i)
+    print(l)
 
 
-# Create the interface
 with gr.Blocks() as demo:
-    global_text_variable = gr.State("abc")
-    x = gr.State(1)
+    s = gr.State("a")
+    i = gr.State(0)
+    l = gr.State(["a"])
 
-    with gr.Row():
-        # Column 1
-        with gr.Column():
-            text_box = gr.Textbox(
-                slides[current_slide_index], label=global_text_variable.value
-            )
+    text_s = gr.Textbox(value=s.value, label="State S")
+    text_i = gr.Textbox(value=i.value, label="State I")
+    text_l = gr.Textbox(value=l.value, label="State L")
 
-            next_button = gr.Button("Next")
-            next_button.click(
-                update_text,
-                inputs=[next_button, global_text_variable],
-                outputs=[text_box, global_text_variable],
-            )
+    button = gr.Button("Update State")
+    button_check_state = gr.Button("Print State")
 
-            back_button = gr.Button("Back")
-            back_button.click(
-                update_text,
-                inputs=[back_button, global_text_variable],
-                outputs=[back_button, global_text_variable],
-            )
+    # Here, we connect the button click to the update_list function
+    # And we also update the textbox values with the new state values
+    button.click(
+        update_list, inputs=[s, i, l], outputs=[s, i, l, text_s, text_i, text_l]
+    )
+    button_check_state.click(check_state, inputs=[s, i, l])
 
 demo.launch()
