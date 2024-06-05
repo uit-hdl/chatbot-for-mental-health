@@ -17,10 +17,11 @@ from utils.backend import get_file_names_in_directory
 from utils.backend import load_textfile_as_string
 from utils.backend import get_full_path
 from utils.chat_utilities import grab_last_assistant_response
+from utils.chat_utilities import identify_user_messages
 
 CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
 SLIDES_DIR = "library/e-companion/slides"
-CHATBOT_SHEETS_DIR = "library/e-companion/chatbot-sheets"
+CHATBOT_SOURCES_DIR = "library/e-companion/chatbot-sheets"
 CHATBOT_ID = "e_companion"
 
 
@@ -31,16 +32,17 @@ def e_health_course_prototype():
     which commands intended for backend interpretation. The surface_chat is the
     representation of the chat which is seen by the user and presented in the
     gradio interface."""
-    global DEEP_CHAT, SLIDES, MAX_SLIDE_INDEX, SHEETS, SHEET_CURRENT
+    global DEEP_CHAT, SLIDES, MAX_SLIDE_INDEX, SOURCES
 
     # Get static global variables
     SLIDES = collect_textfile_info_in_dicts(SLIDES_DIR)
+    SOURCES = collect_textfile_info_in_dicts(CHATBOT_SOURCES_DIR)
     MAX_SLIDE_INDEX = len(SLIDES) - 1
-    SHEETS = collect_textfile_info_in_dicts(CHATBOT_SHEETS_DIR)
-    DEEP_CHAT = initiate_new_chat()
 
     with gr.Blocks() as demo:
+        deep_chat = gr.State(initiate_new_chat())
         slide_index = gr.State(0)
+
         with gr.Row():
 
             with gr.Column():
@@ -63,14 +65,14 @@ def e_health_course_prototype():
 
             # Chatbot interface
             with gr.Column():
-                surface_chat = gr.Chatbot(label="Your input")
                 user_message = gr.Textbox(label="Enter message and hit enter")
+                surface_chat = gr.Chatbot(label="Your input")
                 reset_button = gr.Button("Restart conversation")
 
                 user_message.submit(
                     create_response,
-                    inputs=[user_message, surface_chat, slide_index],
-                    outputs=[user_message, surface_chat, slide_index],
+                    inputs=[user_message, surface_chat, slide_index, deep_chat],
+                    outputs=[user_message, surface_chat, deep_chat],
                 )
                 reset_button.click(
                     reset_conversation,
@@ -104,7 +106,7 @@ def get_slide_content():
 def get_chatbot_sheets():
     """Loads the sheets used by the chatbot to assist the user with each
     slide."""
-    return load_text_variables_from_directory(CHATBOT_SHEETS_DIR)
+    return load_text_variables_from_directory(CHATBOT_SOURCES_DIR)
 
 
 def load_text_variables_from_directory(dir):
@@ -138,8 +140,8 @@ def reset_conversation():
 def create_response(user_message, surface_chat, slide_index, deep_chat):
     """Returns a tuple: ("", surface_chat). The surface chat has been updated
     with a response from the chatbot."""
-    print(deep_chat)
     deep_chat.append({"role": "user", "content": user_message})
+    deep_chat = refresh_context_in_chat(deep_chat, slide_index)
     deep_chat, harvested_syntax = respond_to_user(deep_chat, CHATBOT_ID)
     raw_response = grab_last_assistant_response(deep_chat)
     surface_response = remove_syntax_from_message(raw_response)
@@ -165,10 +167,63 @@ def create_response(user_message, surface_chat, slide_index, deep_chat):
     return "", surface_chat, deep_chat
 
 
-def update_slide_context():
-    """Updates the deep chat so that the user message is always followed by
-    the context that corresponds to that slide."""
-    DEEP_CHAT.append({"role": "system", "content": ""})
+def refresh_context_in_chat(deep_chat, slide_index) -> list[dict]:
+    """Deletes old context message and replaces with new one. Assumes last
+    message is from user."""
+    # Delete old context message if there is one
+    context_message, index_context_message = find_context_message(deep_chat)
+    if context_message:
+        del deep_chat[index_context_message]
+    # Add new context message after user message
+    context_message = create_context_message(slide_index)
+    deep_chat.append({"role": "system", "content": context_message})
+    return deep_chat
+
+
+def find_context_message(deep_chat):
+    """Gets the content and index of the slide context message."""
+    context_message = None
+    index_context_message = None
+    for i, d in enumerate(deep_chat):
+        if d["role"] == "system" and "CONTEXT" in d["content"]:
+            context_message = d["content"]
+            index_context_message = i
+    if not context_message:
+        print("No context message")
+    return context_message, index_context_message
+
+
+def create_context_message(slide_index: int) -> str:
+    """Creates a context message of the form 'CONTEXT source {source_name}:
+    {source_content}'"""
+    slide_name = SLIDES[slide_index]["name"]
+    slide_identifiers = extract_trailing_numerical_identifiers(slide_name)
+
+    # Get header in source associated with the current slide
+    slide_header = f"# SLIDE {slide_identifiers[0]}.{slide_identifiers[1]}"
+    # Update source content to indicate relevant section
+    source_content_updated = SOURCES[slide_index]["content"].replace(
+        slide_header, f"{slide_header} [CURRENT]"
+    )
+    source_name = get_source_associated_with_slide(slide_name)["name"]
+    context_message = f"CONTEXT source {source_name}: {source_content_updated}"
+
+    return context_message
+
+
+def get_source_associated_with_slide(slide_name: str) -> dict[str, str]:
+    """Fetches the source which contains the information in the slide. Returns
+    dictionary with keys "name" and "content". Each slide is expected to end in
+    two numerical digits (e.g. name_13), the first of which refers to the
+    submodule, i.e. the source. The sources are expected to start with a
+    digit between 0 and 9 [UPDATE]."""
+    slide_identifiers = extract_trailing_numerical_identifiers(slide_name)
+    submodule_index = slide_identifiers[0]
+    source = [source for source in SOURCES if source["name"][0] == submodule_index]
+    if len(source) != 1:
+        # There should be exactly one source associated with slide
+        raise ValueError(f"Slide corresponds to {len(source)} sheets.")
+    return source[0]
 
 
 def get_image_urls(harvested_syntax):
@@ -180,18 +235,16 @@ def get_image_urls(harvested_syntax):
 
 
 def update_slide_index(button, slide_index):
-    """Updates slide index, slide content, and chatbot sheet."""
-    # Update current slide index.
+    """Updates slide index."""
     print(slide_index)
     if button == "Next":
-        slide_index = cap(slide_index + 1)
+        slide_index = cap_slide_index(slide_index + 1)
     elif button == "Back":
-        slide_index = cap(slide_index - 1)
-    # print(SLIDES[slide_index])
+        slide_index = cap_slide_index(slide_index - 1)
     return slide_index, SLIDES[slide_index]["content"]
 
 
-def cap(x):
+def cap_slide_index(x):
     """Ensure value stays between 0 and a maximum value."""
     if x < 0:
         return 0
@@ -213,27 +266,18 @@ def authenticate(password):
         )
 
 
-def get_sheet_associated_with_slide(slide_name) -> dict:
-    """Fetches the sheet which corresponds to the slide. Each submodule consists
-    of multiple slides, and each sheet corresponds to one sub-module."""
-    slide_identifier = extract_trailing_numbers(slide_name)
-    submodule_index = slide_identifier[0]
-    sheet_content = [sheet for sheet in SHEETS if submodule_index in sheet["name"]]
-    if len(sheet_content) != 1:
-        raise ValueError(f"Slide corresponds to {len(sheet_content)} sheets.")
-    return sheet_content[0]["content"]
-
-
-def extract_trailing_numbers(string):
-    match = re.search(r"\d+$", string)
-    if match:
-        return match.group()
+def extract_trailing_numerical_identifiers(slide_name):
+    """Identifies the numerical identifiers of the slide."""
+    match = re.search(r"(\d+)_(\d+)$", slide_name)
+    if match and len(match.groups()) != 2:
+        raise ValueError(f"Filename {slide_name} should have format name_i_j")
+    return match.groups()
 
 
 # Get static global variables
 SLIDES = collect_textfile_info_in_dicts(SLIDES_DIR)
 MAX_SLIDE_INDEX = len(SLIDES) - 1
-SHEETS = collect_textfile_info_in_dicts(CHATBOT_SHEETS_DIR)
+SOURCES = collect_textfile_info_in_dicts(CHATBOT_SOURCES_DIR)
 
 
 with gr.Blocks() as demo:
@@ -280,10 +324,10 @@ with gr.Blocks() as demo:
 demo.launch(share=True)
 
 
-# if __name__ == "__main__":
-#     chatbot_id = "mental_health"
-#     if len(sys.argv) == 2:
-#         chatbot_id = sys.argv[1]
-#     if len(sys.argv) == 3:
-#         server_port = sys.argv[2]
-#     e_health_course_prototype()
+if __name__ == "__main__":
+    chatbot_id = "mental_health"
+    if len(sys.argv) == 2:
+        chatbot_id = sys.argv[1]
+    if len(sys.argv) == 3:
+        server_port = sys.argv[2]
+    e_health_course_prototype()

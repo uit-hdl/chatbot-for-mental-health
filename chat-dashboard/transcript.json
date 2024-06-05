@@ -1,82 +1,18 @@
 [
     {
-        "role": "user",
-        "content": "hi"
+        "role": "system",
+        "content": "CONTEXT source 3_preventing_relapses: # SLIDE 0.0\n\nIf you have noticed the signs of schizophrenia in yourself or received a\ndiagnosis, one of the first questions you will have is \u201cWhat is schizophrenia?\u201d\nSchizophrenia is a long-term condition that results from changes in the mind and\ncauses a range of different psychological symptoms.\n\nPeople with schizophrenia do not choose their illness, any more than people with\na physical illness do. Importantly, there is no known cause \u2013 no one is\nresponsible for a person developing schizophrenia and no one is to blame.\n\nSchizophrenia is a treatable mental illness and many people with the condition\nlead completely normal lives [show: patient_walking_in_pretty_park.png | Point:\na good life possible even if you have Schizophrenia]; however, it is often\nsensationalized in the media, which has led to a range of misconceptions about\nthe nature of the illness.\n\n# SLIDE 0.1\n\n- People with schizophrenia do not have multiple personalities\n- There is no known relationship between parenting style and schizophrenia, and\n  there is no reason to blame the parents or family of a person with\n  schizophrenia; however, tension in the family may add to the stress of having a\n  mental illness\n- People with schizophrenia are not lazy: A lack of energy can be a symptom of\n  the illness\n- People with schizophrenia can act strangely, but are rarely violent towards\n  others\n\n# SLIDE 0.2\n\n- Symptoms of schizophrenia improve in many people, and some people recover\n  completely\n- Medication can drastically reduce some symptoms of schizophrenia,\n  but may not prevent them all\n- Many people with schizophrenia are in employment; doing something productive\n  can help people to feel better about themselves\n- Symptoms vary widely from person to person; no two people with\n  schizophrenia will have exactly the same experience\n\n# SLIDE 0.3\n\n[Do not reveal the correct answer if they answer incorrectly]\n\nQ1: True or false: violent or aggressive behaviour is a common characteristic in\npeople with Schizophrenia [False]\n\nQ2: Which of the following are correct:\n\n1. Schizophrenia is long-term condition, meaning it cannot be treated or get\n   better\n2. Schizophrenia is long-term condition, meaning it cannot be cured in the\n   traditional sense. However, its symptoms can be managed and many go on to\n   live normal lives [True]\n3. Schizophrenia is caused by lazyness lack of discipline in early childhood\n   developement\n\nQ3: True or false: Some people recover completely from Schizophrenia. [True]\n"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Welcome to Module 1 of the E-health course! In this module, I will guide you through a basic understanding of Schizophrenia, including what it is, its symptoms, causes, and strategies to prevent relapses. We'll cover this information through a series of submodules, each with its own focus and set of questions to help you digest the information.\n\nPlease feel encouraged to ask questions at any time, and let me know if you need me to slow down, clarify anything, or provide examples. Whenever you're ready, we can get started! Are you ready to begin learning about Schizophrenia?"
-    },
-    {
-        "role": "user",
-        "content": "What causes it?"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 We'll definitely cover what causes Schizophrenia as part of this module\u2014in fact, it's one of the core submodules. To give you the most comprehensive information, I will present the topics in a structured order, starting with what Schizophrenia is, followed by its symptoms, the causes, and lastly, how to prevent relapses. Would you like to start at the beginning so you can get a full understanding of the condition, or would you prefer to jump straight to the causes?"
-    },
-    {
-        "role": "user",
-        "content": "ok go"
+        "content": "The first question you're referring to comes from a set of educational material about schizophrenia aimed at clarifying misconceptions about the condition. The question asks:\n\nQ1: True or false: violent or aggressive behavior is a common characteristic in people with Schizophrenia [False]\n\nThis question is designed to address a common stereotype that is portrayed in the media, which falsely suggests that individuals with schizophrenia are often violent or aggressive. The correct answer to this question is \"False,\" which means that violent or aggressive behavior is not a common characteristic of people with schizophrenia. In reality, while some people with schizophrenia can act strangely, they are rarely violent towards others, as indicated in the provided context. This myth has been debunked by various research studies, indicating that most individuals with schizophrenia are not more violent than the general population, especially when they have access to treatment and support.\n\nIf you are having trouble understanding the question or the context in which it is asked, please feel free to ask for more clarification or details."
     },
     {
         "role": "system",
-        "content": "`1_what_is_schizophrenia` does not exist! Request only sources and assistants I have\nreferenced.\n"
-    },
-    {
-        "role": "system",
-        "content": "`1_what_is_schizophrenia` does not exist! Request only sources and assistants I have\nreferenced.\n"
+        "content": "CONTEXT source 3_preventing_relapses: # SLIDE 0.0\n\nIf you have noticed the signs of schizophrenia in yourself or received a\ndiagnosis, one of the first questions you will have is \u201cWhat is schizophrenia?\u201d\nSchizophrenia is a long-term condition that results from changes in the mind and\ncauses a range of different psychological symptoms.\n\nPeople with schizophrenia do not choose their illness, any more than people with\na physical illness do. Importantly, there is no known cause \u2013 no one is\nresponsible for a person developing schizophrenia and no one is to blame.\n\nSchizophrenia is a treatable mental illness and many people with the condition\nlead completely normal lives [show: patient_walking_in_pretty_park.png | Point:\na good life possible even if you have Schizophrenia]; however, it is often\nsensationalized in the media, which has led to a range of misconceptions about\nthe nature of the illness.\n\n# SLIDE 0.1\n\n- People with schizophrenia do not have multiple personalities\n- There is no known relationship between parenting style and schizophrenia, and\n  there is no reason to blame the parents or family of a person with\n  schizophrenia; however, tension in the family may add to the stress of having a\n  mental illness\n- People with schizophrenia are not lazy: A lack of energy can be a symptom of\n  the illness\n- People with schizophrenia can act strangely, but are rarely violent towards\n  others\n\n# SLIDE 0.2\n\n- Symptoms of schizophrenia improve in many people, and some people recover\n  completely\n- Medication can drastically reduce some symptoms of schizophrenia,\n  but may not prevent them all\n- Many people with schizophrenia are in employment; doing something productive\n  can help people to feel better about themselves\n- Symptoms vary widely from person to person; no two people with\n  schizophrenia will have exactly the same experience\n\n# SLIDE 0.3\n\n[Do not reveal the correct answer if they answer incorrectly]\n\nQ1: True or false: violent or aggressive behaviour is a common characteristic in\npeople with Schizophrenia [False]\n\nQ2: Which of the following are correct:\n\n1. Schizophrenia is long-term condition, meaning it cannot be treated or get\n   better\n2. Schizophrenia is long-term condition, meaning it cannot be cured in the\n   traditional sense. However, its symptoms can be managed and many go on to\n   live normal lives [True]\n3. Schizophrenia is caused by lazyness lack of discipline in early childhood\n   developement\n\nQ3: True or false: Some people recover completely from Schizophrenia. [True]\n"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:request_knowledge(\"1_what_is_schizophrenia\"):\u00a4"
-    },
-    {
-        "role": "system",
-        "content": "`1_what_is_schizophrenia` does not exist! Request only sources and assistants I have\nreferenced.\n"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 My apologies for the confusion. Let's start by discussing what Schizophrenia is. I'll provide you with the information in manageable sections to make it easier to understand. \n\nAre you ready to start with the first subsection on Schizophrenia?"
-    },
-    {
-        "role": "user",
-        "content": "hi"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 Welcome to Module 1 of the E-health course! In this module, I will guide you through a basic understanding of Schizophrenia, including what it is, its symptoms, causes, and strategies to prevent relapses. We'll cover this information through a series of submodules, each with its own focus and set of questions to help you digest the information.\n\nPlease feel encouraged to ask questions at any time, and let me know if you need me to slow down, clarify anything, or provide examples. Whenever you're ready, we can get started! Are you ready to begin learning about Schizophrenia?"
-    },
-    {
-        "role": "user",
-        "content": "What causes it?"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 We'll definitely cover what causes Schizophrenia as part of this module\u2014in fact, it's one of the core submodules. To give you the most comprehensive information, I will present the topics in a structured order, starting with what Schizophrenia is, followed by its symptoms, the causes, and lastly, how to prevent relapses. Would you like to start at the beginning so you can get a full understanding of the condition, or would you prefer to jump straight to the causes?"
-    },
-    {
-        "role": "user",
-        "content": "ok go"
-    },
-    {
-        "role": "system",
-        "content": "`1_what_is_schizophrenia` does not exist! Request only sources and assistants I have\nreferenced.\n"
-    },
-    {
-        "role": "system",
-        "content": "`1_what_is_schizophrenia` does not exist! Request only sources and assistants I have\nreferenced.\n"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:request_knowledge(\"1_what_is_schizophrenia\"):\u00a4"
-    },
-    {
-        "role": "system",
-        "content": "`1_what_is_schizophrenia` does not exist! Request only sources and assistants I have\nreferenced.\n"
-    },
-    {
-        "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 My apologies for the confusion. Let's start by discussing what Schizophrenia is. I'll provide you with the information in manageable sections to make it easier to understand. \n\nAre you ready to start with the first subsection on Schizophrenia?"
+        "content": "The first question you're referring to comes from a set of educational material about schizophrenia aimed at clarifying misconceptions about the condition. The question asks:\n\nQ1: True or false: violent or aggressive behavior is a common characteristic in people with Schizophrenia [False]\n\nThis question is designed to address a common stereotype that is portrayed in the media, which falsely suggests that individuals with schizophrenia are often violent or aggressive. The correct answer to this question is \"False,\" which means that violent or aggressive behavior is not a common characteristic of people with schizophrenia. In reality, while some people with schizophrenia can act strangely, they are rarely violent towards others, as indicated in the provided context. This myth has been debunked by various research studies, indicating that most individuals with schizophrenia are not more violent than the general population, especially when they have access to treatment and support.\n\nIf you are having trouble understanding the question or the context in which it is asked, please feel free to ask for more clarification or details."
     }
 ]

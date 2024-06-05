@@ -9,6 +9,3 @@ abusing drugs such as cannabis and amphetamines, and experiencing stressful life
 events. There is some evidence that the environment a person is exposed to can
 interact with their genes. Research into this phenomenon is ongoing, but not
 enough is currently known to say who will develop schizophrenia.
-
-[show: schizophrenia_genes_environment_interactions.png | relationship between
-genes, environment, and illness]

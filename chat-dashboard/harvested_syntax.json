@@ -1,12 +1,5 @@
 {
-    "knowledge_extensions": [
-        {
-            "name": "1_what_is_schizophrenia",
-            "content": null,
-            "type": "knowledge_extension",
-            "file_exists": false
-        }
-    ],
+    "knowledge_extensions": [],
     "referral": [],
     "citations": [],
     "images": [],
