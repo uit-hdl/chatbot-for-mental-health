@@ -51,20 +51,20 @@ def e_health_course_prototype():
 
             with gr.Column():
                 # Text content of slide
-                # slide_content = gr.Markdown(SLIDES[slide_index.value]["content"])
-                slide_content = gr.TextArea(SLIDES[slide_index.value]["content"])
+                slide_content = gr.Markdown(SLIDES[slide_index.value]["content"])
+                # slide_content = gr.TextArea(SLIDES[slide_index.value]["content"])
                 # Buttons for navigating slides
                 with gr.Row():
-                    # back_button = gr.Button("Back")
+                    back_button = gr.Button("Back")
                     next_button = gr.Button("Next")
-                    # back_button.click(
-                    #     update_slide_index,
-                    #     inputs=[back_button, slide_index, slide_content],
-                    #     outputs=[slide_index, slide_content],
-                    # )
+                    back_button.click(
+                        update_slide_index,
+                        inputs=[back_button, slide_index],
+                        outputs=[slide_index, slide_content],
+                    )
                     next_button.click(
                         update_slide_index,
-                        inputs=[next_button, slide_index, slide_content],
+                        inputs=[next_button, slide_index],
                         outputs=[slide_index, slide_content],
                     )
 
@@ -186,7 +186,7 @@ def get_image_urls(harvested_syntax):
     return image_url_list
 
 
-def update_slide_index(button, slide_index, slide_content):
+def update_slide_index(button, slide_index):
     """Updates slide index, slide content, and chatbot sheet."""
     # Update current slide index.
     print(slide_index)
@@ -194,8 +194,8 @@ def update_slide_index(button, slide_index, slide_content):
         slide_index = cap(slide_index + 1)
     elif button == "Back":
         slide_index = cap(slide_index - 1)
-
-    return slide_index, SLIDES[slide_index]
+    # print(SLIDES[slide_index])
+    return slide_index, SLIDES[slide_index]["content"]
 
 
 def cap(x):

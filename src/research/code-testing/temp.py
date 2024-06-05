@@ -96,13 +96,12 @@ slides = [
 ]
 
 # Function to handle the "Next" button click
-def increase_slide_number(button, slide_index, state_var):
+def increase_slide_number(button, slide_index):
     if button == "Next":
         slide_index = (slide_index + 1) % len(
             slides
         )  # Loop back to the first slide if at the end
-        state_var = state_var + 1
-    return slide_index, slides[slide_index], state_var
+    return slide_index, slides[slide_index]
 
 
 # Function to respond to user input (you can define your logic here)
@@ -113,18 +112,17 @@ def respond(user_message):
 # Create the interface
 with gr.Blocks() as demo:
     slide_index = gr.State(0)  # Initialize slide index
-    state_var = gr.State(0)  # Initialize slide index
 
     with gr.Row():
         # Column 1
         with gr.Column():
             info_text_box = gr.Markdown(slides[0])
-            info_text_box = gr.TextArea(slides[state_var.value])
+            # info_text_box = gr.TextArea(slides[state_var.value])
             button = gr.Button("Next")
             button.click(
                 increase_slide_number,
-                inputs=[button, slide_index, state_var],
-                outputs=[slide_index, info_text_box, state_var],
+                inputs=[button, slide_index],
+                outputs=[slide_index, info_text_box],
             )
 
         # Column 2

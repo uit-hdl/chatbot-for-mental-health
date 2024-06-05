@@ -8,7 +8,5 @@ a physical illness do. Importantly, there is no known cause – no one is
 responsible for a person developing schizophrenia and no one is to blame.
 
 Schizophrenia is a treatable mental illness and many people with the condition
-lead completely normal lives [show: patient_walking_in_pretty_park.png | Point:
-a good life possible even if you have Schizophrenia]; however, it is often
-sensationalized in the media, which has led to a range of misconceptions about
-the nature of the illness.
+lead completely normal lives; however, it is often sensationalized in the media,
+which has led to a range of misconceptions about the nature of the illness.

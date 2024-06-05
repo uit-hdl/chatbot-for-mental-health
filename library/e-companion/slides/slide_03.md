@@ -1,7 +1,5 @@
-[Do not reveal the correct answer if they answer incorrectly]
-
 Q1: True or false: violent or aggressive behaviour is a common characteristic in
-people with Schizophrenia [False]
+people with Schizophrenia
 
 Q2: Which of the following are correct:
 
@@ -9,8 +7,8 @@ Q2: Which of the following are correct:
    better
 2. Schizophrenia is long-term condition, meaning it cannot be cured in the
    traditional sense. However, its symptoms can be managed and many go on to
-   live normal lives [True]
+   live normal lives
 3. Schizophrenia is caused by lazyness lack of discipline in early childhood
    developement
 
-Q3: True or false: Some people recover completely from Schizophrenia. [True]
+Q3: True or false: Some people recover completely from Schizophrenia.
