@@ -16,8 +16,8 @@ from utils.backend import reset_files_that_track_cumulative_variables
 from utils.backend import get_file_names_in_directory
 from utils.backend import load_textfile_as_string
 from utils.backend import get_full_path
+from utils.backend import dump_to_json
 from utils.chat_utilities import grab_last_assistant_response
-from utils.chat_utilities import identify_user_messages
 
 CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
 SLIDES_DIR = "library/e-companion/slides"
@@ -37,6 +37,7 @@ def e_health_course_prototype():
     # Get static global variables
     SLIDES = collect_textfile_info_in_dicts(SLIDES_DIR)
     SOURCES = collect_textfile_info_in_dicts(CHATBOT_SOURCES_DIR)
+    SLIDES, SOURCES = sort_by_filename(SLIDES, SOURCES)
     MAX_SLIDE_INDEX = len(SLIDES) - 1
 
     with gr.Blocks() as demo:
@@ -45,6 +46,7 @@ def e_health_course_prototype():
 
         with gr.Row():
 
+            # Slide (left side of screen)
             with gr.Column():
                 # Text content of slide
                 slide_content = gr.Markdown(SLIDES[slide_index.value]["content"])
@@ -63,7 +65,7 @@ def e_health_course_prototype():
                         outputs=[slide_index, slide_content],
                     )
 
-            # Chatbot interface
+            # Chatbot interface (right side of screen)
             with gr.Column():
                 user_message = gr.Textbox(label="Enter message and hit enter")
                 surface_chat = gr.Chatbot(label="Your input")
@@ -71,7 +73,7 @@ def e_health_course_prototype():
 
                 user_message.submit(
                     create_response,
-                    inputs=[user_message, surface_chat, slide_index, deep_chat],
+                    inputs=[user_message, surface_chat, deep_chat, slide_index],
                     outputs=[user_message, surface_chat, deep_chat],
                 )
                 reset_button.click(
@@ -98,17 +100,6 @@ def collect_textfile_info_in_dicts(dir) -> list[dict[str, str]]:
     return slides
 
 
-def get_slide_content():
-    """Loads the contents of each slide."""
-    return load_text_variables_from_directory(SLIDES_DIR)
-
-
-def get_chatbot_sheets():
-    """Loads the sheets used by the chatbot to assist the user with each
-    slide."""
-    return load_text_variables_from_directory(CHATBOT_SOURCES_DIR)
-
-
 def load_text_variables_from_directory(dir):
     """Loads the text-files in the directory and dumps them as strings into a
     list."""
@@ -122,6 +113,14 @@ def load_text_variables_from_directory(dir):
     return strings
 
 
+def sort_by_filename(slides, sources):
+    """Sorts each list of dictionaries so that they are sorted based on the name
+    key."""
+    slides = sorted(slides, key=lambda x: x["name"])
+    sources = sorted(sources, key=lambda x: x["name"])
+    return slides, sources
+
+
 def initiate_new_chat():
     reset_files_that_track_cumulative_variables()
     return initiate_conversation_with_prompt(
@@ -129,7 +128,7 @@ def initiate_new_chat():
     )
 
 
-def reset_conversation():
+def reset_conversation(chat):
     """Function that gets called when 'Reset conversation' button gets
     clicked."""
     global DEEP_CHAT
@@ -137,15 +136,16 @@ def reset_conversation():
     return "", []
 
 
-def create_response(user_message, surface_chat, slide_index, deep_chat):
-    """Returns a tuple: ("", surface_chat). The surface chat has been updated
-    with a response from the chatbot."""
+def create_response(user_message, surface_chat, deep_chat, slide_index):
+    """Returns a tuple: ("", surface_chat, deep_chat). The surface chat has been
+    updated with a response from the chatbot."""
     deep_chat.append({"role": "user", "content": user_message})
     deep_chat = refresh_context_in_chat(deep_chat, slide_index)
+    dump_current_conversation_to_json(deep_chat)
+
     deep_chat, harvested_syntax = respond_to_user(deep_chat, CHATBOT_ID)
     raw_response = grab_last_assistant_response(deep_chat)
     surface_response = remove_syntax_from_message(raw_response)
-
     surface_chat.append((user_message, surface_response))
 
     image_url_list = get_image_urls(harvested_syntax)
@@ -185,11 +185,9 @@ def find_context_message(deep_chat):
     context_message = None
     index_context_message = None
     for i, d in enumerate(deep_chat):
-        if d["role"] == "system" and "CONTEXT" in d["content"]:
+        if i > 0 and d["role"] == "system" and "CONTEXT" in d["content"]:
             context_message = d["content"]
             index_context_message = i
-    if not context_message:
-        print("No context message")
     return context_message, index_context_message
 
 
@@ -198,15 +196,15 @@ def create_context_message(slide_index: int) -> str:
     {source_content}'"""
     slide_name = SLIDES[slide_index]["name"]
     slide_identifiers = extract_trailing_numerical_identifiers(slide_name)
+    source = get_source_associated_with_slide(slide_name)
 
     # Get header in source associated with the current slide
     slide_header = f"# SLIDE {slide_identifiers[0]}.{slide_identifiers[1]}"
     # Update source content to indicate relevant section
-    source_content_updated = SOURCES[slide_index]["content"].replace(
-        slide_header, f"{slide_header} [CURRENT]"
+    source_content_updated = source["content"].replace(
+        slide_header, f"{slide_header} [CURRENT SLIDE]"
     )
-    source_name = get_source_associated_with_slide(slide_name)["name"]
-    context_message = f"CONTEXT source {source_name}: {source_content_updated}"
+    context_message = f"CONTEXT source {source['name']}: {source_content_updated}"
 
     return context_message
 
@@ -236,7 +234,6 @@ def get_image_urls(harvested_syntax):
 
 def update_slide_index(button, slide_index):
     """Updates slide index."""
-    print(slide_index)
     if button == "Next":
         slide_index = cap_slide_index(slide_index + 1)
     elif button == "Back":
@@ -274,54 +271,56 @@ def extract_trailing_numerical_identifiers(slide_name):
     return match.groups()
 
 
-# Get static global variables
-SLIDES = collect_textfile_info_in_dicts(SLIDES_DIR)
-MAX_SLIDE_INDEX = len(SLIDES) - 1
-SOURCES = collect_textfile_info_in_dicts(CHATBOT_SOURCES_DIR)
+# # Get static global variables
+# SLIDES = collect_textfile_info_in_dicts(SLIDES_DIR)
+# SOURCES = collect_textfile_info_in_dicts(CHATBOT_SOURCES_DIR)
+# SLIDES, SOURCES = sort_by_filename(SLIDES, SOURCES)
+# MAX_SLIDE_INDEX = len(SLIDES) - 1
 
+# with gr.Blocks() as demo:
+#     deep_chat = gr.State(initiate_new_chat())
+#     dump_current_conversation_to_json(deep_chat.value)
+#     slide_index = gr.State(0)
 
-with gr.Blocks() as demo:
-    deep_chat = gr.State(initiate_new_chat())
-    slide_index = gr.State(0)
+#     with gr.Row():
 
-    with gr.Row():
+#         # Slide (left side of screen)
+#         with gr.Column():
+#             # Text content of slide
+#             slide_content = gr.Markdown(SLIDES[slide_index.value]["content"])
+#             # Buttons for navigating slides
+#             with gr.Row():
+#                 back_button = gr.Button("Back")
+#                 next_button = gr.Button("Next")
+#                 back_button.click(
+#                     update_slide_index,
+#                     inputs=[back_button, slide_index],
+#                     outputs=[slide_index, slide_content],
+#                 )
+#                 next_button.click(
+#                     update_slide_index,
+#                     inputs=[next_button, slide_index],
+#                     outputs=[slide_index, slide_content],
+#                 )
 
-        with gr.Column():
-            # Text content of slide
-            slide_content = gr.Markdown(SLIDES[slide_index.value]["content"])
-            # Buttons for navigating slides
-            with gr.Row():
-                back_button = gr.Button("Back")
-                next_button = gr.Button("Next")
-                back_button.click(
-                    update_slide_index,
-                    inputs=[back_button, slide_index],
-                    outputs=[slide_index, slide_content],
-                )
-                next_button.click(
-                    update_slide_index,
-                    inputs=[next_button, slide_index],
-                    outputs=[slide_index, slide_content],
-                )
+#         # Chatbot interface (right side of screen)
+#         with gr.Column():
+#             user_message = gr.Textbox(label="Enter message and hit enter")
+#             surface_chat = gr.Chatbot(label="Your input")
+#             reset_button = gr.Button("Restart conversation")
 
-        # Chatbot interface
-        with gr.Column():
-            user_message = gr.Textbox(label="Enter message and hit enter")
-            surface_chat = gr.Chatbot(label="Your input")
-            reset_button = gr.Button("Restart conversation")
+#             user_message.submit(
+#                 create_response,
+#                 inputs=[user_message, surface_chat, deep_chat, slide_index],
+#                 outputs=[user_message, surface_chat, deep_chat],
+#             )
+#             reset_button.click(
+#                 reset_conversation,
+#                 inputs=[],
+#                 outputs=[user_message, surface_chat],
+#             )
 
-            user_message.submit(
-                create_response,
-                inputs=[user_message, surface_chat, slide_index, deep_chat],
-                outputs=[user_message, surface_chat, deep_chat],
-            )
-            reset_button.click(
-                reset_conversation,
-                inputs=[],
-                outputs=[user_message, surface_chat],
-            )
-
-demo.launch(share=True)
+# demo.launch(share=True)
 
 
 if __name__ == "__main__":

@@ -62,19 +62,22 @@ Here are the sub-module identifiers:
 4. `3_preventing_relapses`
 
 I will provide contextual information through messages of the format: `CONTEXT
-source <sub-module identifier>: <sub-module content>`. Example:
+source <sub-module identifier>: <sub-module content>`. This context message
+contains multiple sections, one of which corresponds to the slide that the user
+is currently looking at. I will indicate to you which section this is by writing
+`CURRENT SLIDE` in the header of the associated section.
+
+Example:
 
 ```
 user: Can you explain this more simply?
 
-system: CONTEXT source 1_what_are_the_symptoms: # SLIDE 1.0 ... SLIDE 1.3
-[CURRENT] Cognitive symptoms ...
+system: CONTEXT source 1_what_are_the_symptoms: # SLIDE 1.0 ... # SLIDE 1.3
+[CURRENT SLIDE] Cognitive symptoms ...
 
 assistant: ¤:cite(["1_what_are_the_symptoms"]):¤ Certainly! Cognitive symptoms
 means ...
 ```
-
-Note: `[CURRENT]` is used to indicate which slide the user is looking at.
 
 # Assisting the user
 
