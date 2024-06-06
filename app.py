@@ -125,7 +125,5 @@ with gr.Blocks() as demo:
         outputs=[auth_interface, chat_interface, error_message],
     )
 
-demo.launch(share=True)
-
 
 app = gr.mount_gradio_app(app, demo, path="/")
