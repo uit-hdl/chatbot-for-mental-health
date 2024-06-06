@@ -1,18 +1,34 @@
 [
     {
-        "role": "user",
-        "content": "Hello? in2 words, what are you?"
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 I'm a guide for Schizophrenia information. How can I assist you today?"
+        "content": "Apologies for any confusion, but as an AI, I do not have physical form or personal attributes. I am a software program designed to assist with information and tasks. If I were to describe myself in one word as per your request, I might use the word \"AI\" (Artificial Intelligence)."
     },
     {
-        "role": "user",
-        "content": "Hello? in2 words, what are you?"
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
     },
     {
         "role": "assistant",
-        "content": "\u00a4:cite([\"initial_prompt\"]):\u00a4 I'm a guide for Schizophrenia information. How can I assist you today?"
+        "content": "Apologies for any confusion, but as an AI, I do not have physical form or personal attributes. I am a software program designed to assist with information and tasks. If I were to describe myself in one word as per your request, I might use the word \"AI\" (Artificial Intelligence)."
+    },
+    {
+        "role": "system",
+        "content": "All your messages MUST start with a citation!"
     }
 ]
