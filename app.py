@@ -127,3 +127,9 @@ with gr.Blocks() as demo:
 
 
 app = gr.mount_gradio_app(app, demo, path="/")
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
