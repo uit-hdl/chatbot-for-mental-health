@@ -1,0 +1,30 @@
+
+# Define chatbots and their respective modes and judges
+chatbots:
+  mental_health:
+    modes:
+      source_communicator_mode:
+        stages:
+          preliminary_judges:
+            - swift_source_check
+          chief_judge: chief_judge_default
+      default_mode:
+        stages:
+          preliminary_judges:
+            - swift_judge_role
+            - swift_judge_disclaimer_check
+          chief_judge: chief_judge_default
+
+  e_companion:
+    modes:
+      source_communicator_mode:
+        stages:
+          preliminary_judges:
+            - swift_source_check
+          chief_judge: chief_judge_default
+      default_mode:
+        stages:
+          preliminary_judges:
+            - swift_role_check
+            - swift_disclaimer_check
+          chief_judge: chief_judge_default

@@ -52,6 +52,7 @@ def evaluate_with_overseers(conversation, harvested_syntax, chatbot_id):
     available_sources = get_sources_available_to_chatbot(chatbot_id)
     citations = harvested_syntax["citations"]
 
+    # Check for referals
     if harvested_syntax["referral"]:
         overseer_evaluation = user_confirms_they_want_redirect(conversation)
         if overseer_evaluation == "ACCEPTED":
@@ -61,11 +62,11 @@ def evaluate_with_overseers(conversation, harvested_syntax, chatbot_id):
             warning_message = SYSTEM_MESSAGES["confirm_before_redirect"]
     else:
         LOGGER.info(f"*** AI-filter ***")
+        # Select overseers based on citation
         if list_intersection(available_sources, citations):
             overseer_evaluation, warning_message, conversation = (
                 overseer_evaluates_source_fidelity(conversation, citations, chatbot_id)
             )
-
         else:
             overseer_evaluation, warning_message, conversation = (
                 overseer_evaluates_default_mode_messages(conversation, citations)
