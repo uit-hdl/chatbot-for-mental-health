@@ -30,6 +30,8 @@ CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 
 # Configuration-file paths
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
+CITATIONS_PATH = os.path.join(ROOT_DIR, "config/citations.yaml")
+OVERSEER_CONFIG_PATH = os.path.join(ROOT_DIR, "config/overseer_stage.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 SYSTEM_MESSAGES_PATH = os.path.join(ROOT_DIR, "config/system_messages.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
@@ -353,11 +355,16 @@ def get_filename(file_path, include_extension=False):
     return os.path.splitext(file_name)[0]
 
 
-def collect_prompts_in_dictionary(directory_path=PROMPTS_DIR):
+def collect_prompts_in_dictionary(chatbot_id=None, directory_path=PROMPTS_DIR):
     """Finds paths for all files in directory and subdirectories, and creates a
     dictionary where the keys are file names and the values are file paths."""
     all_files = {}
+    if chatbot_id:
+        directory_path = os.path.join(
+            PROMPTS_DIR, get_subfolder_of_assistant(chatbot_id)
+        )
     file_paths = get_file_paths_in_directory(directory_path)
+
     for file_path in file_paths:
         file_name_without_extension = os.path.splitext(os.path.basename(file_path))[0]
         all_files[file_name_without_extension] = load_textfile_as_string(file_path)
@@ -432,6 +439,8 @@ def write_to_file(file_path, content):
 PROMPTS = collect_prompts_in_dictionary()
 
 CONFIG = load_yaml_file(CONFIG_PATH)
+OVERSEERS_CONFIG = load_yaml_file(OVERSEER_CONFIG_PATH)
+CITATIONS = load_yaml_file(CITATIONS_PATH)
 SETTINGS = load_yaml_file(SETTINGS_PATH)
 SYSTEM_MESSAGES = load_yaml_file(SYSTEM_MESSAGES_PATH)
 API_KEY = os.environ["AZURE_API_KEY"]

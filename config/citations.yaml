@@ -1,0 +1,13 @@
+# Here I define groups of citations that define which "mode" the chatbot was in
+# when it produced a response. The 'mode' determines which judges gets triggered
+# to evaluate the response, and is referenced in 'overseer_stage.yaml'
+
+default:
+  - initial_prompt
+  - sources_dont_contain_answer
+  - no_advice_or_claims
+  - support_phone_number
+  - the_architect
+  - sources_dont_contain_answer
+# The citations associated with this mode are generated dynamically
+source_communication: []

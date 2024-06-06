@@ -26,12 +26,12 @@ Now we are ready to define SUPPORTED:
 
 To be supported, a message needs to satisfy EXPLICITLY_SUPPORTED.
 
-# Response format 
+# Response format
 
-RELEVANT_PART_OF_SOURCE: "Summarize briefly (<20 words) the relevant part of the
-source"
+RELEVANT_PART_OF_SOURCE: "Summarize briefly (<20 words) the parts of the
+source that are relevant to the context"
 CHATBOT_ASSERTIONS: "Summarize briefly the chatbots assertions"
-EXPLICITLY_SUPPORTED: "Reasoning, followed by SUPPORTED/NOT_SUPPORTED"
+EXPLICITLY_SUPPORTED: "Reasoning, followed by SUPPORTED/NOT SUPPORTED"
 
 # Examples of input and output
 
@@ -48,7 +48,7 @@ that a psychotic episode may happen in the near future"
 CHATBOT_ASSERTIONS: "The chatbot claims that sleeping worse than usual could
 indicate that user may have a psychotic episode"
 EXPLICITLY_SUPPORTED: "The chatbot is applying the rule stated in the source
-directly to an individual, so it is SUPPORTED"
+directly to an individual, so message is SUPPORTED"
 
 ## Example 2
 
@@ -63,8 +63,8 @@ can improve sleep"
 CHATBOT_ASSERTIONS: "The chatbot claims that eating ones evening meal at the
 same time every evening can improve sleep"
 EXPLICITLY_SUPPORTED: "The source states that a more regular schedule may
-improve sleep. Eating at the same time every evening is a regular routine, so it
-is SUPPORTED"
+improve sleep. Eating at the same time every evening is a regular routine, so
+message is SUPPORTED"
 
 ## Example 3
 
@@ -75,82 +75,61 @@ chatbot-message: """To challenge someone's false perceptions, you should inform
 them of their misconception, and educate them"""
 
 RELEVANT_PART_OF_SOURCE: "In regard to misconceptions, the sources main point
-seems to be emphasising the importance of not allowing negative perceptions to
+seems to be emphasizing the importance of not allowing negative perceptions to
 be internalized, and is about internal management of emotions and thoughts"
 CHATBOT_ASSERTIONS: "The chatbot encourages challenging false perceptions and
 educating others"
 EXPLICITLY_SUPPORTED: "The source does not explicitly encourage the patient to
-challenge or educate other people, so it is NOT_SUPPORTED"
+challenge or educate other people, so message is NOT SUPPORTED"
 
 # Actual content to evaluate
 
 source: """[Present over 2 messages or only what is relevant]
 
-If you have experienced hallucinations, delusions, severe paranoia or
-disorganized behaviour leading to a crisis, it may be time to think about
-seeking help to identify whether or not there is an underlying mental health
-condition.
+Stigma can refer to the negative perceptions and attitudes surrounding certain
+health conditions or diseases. There are a lot of misconceptions surrounding
+schizophrenia, which can affect both those with the condition and those who care
+for them. Many people believe that a person with schizophrenia will switch
+frequently between normal and bizarre behaviour, as if they have multiple
+personalities. This promotes a perception that people with schizophrenia are
+unpredictable and should be feared.
 
-These could be the symptoms of a condition called schizophrenia; however, the
-symptoms of many mental illnesses overlap, so your first step towards getting
-help should be to consult your doctor. They can advise you on whether it is
-necessary for you to see a psychiatrist.
+They may internalize these misconceptions (self-stigmization). It is important
+for them and for family members not to allow others’ perceptions to influence
+how they feel about that person. It is important that they view their illness as
+something they have, and not something that identifies them.
 
-A diagnosis of schizophrenia should only be made by a qualified psychiatrist.
-There is currently no test that can be used to show that a person has
-schizophrenia so, to make a diagnosis, the psychiatrist will need to talk with
-the person and their family or friends about the symptoms they are experiencing.
-The psychiatrist will also need to observe the person’s behaviour over several
-weeks to identify any signs of the condition.
+**'I have schizophrenia. I am not schizophrenia. I am not my mental illness. My
+illness is a part of me.'** – Jonathan Harnisch, An Alibiography
 
-Early signs of schizophrenia vary from person to person and can be very
-difficult to recognize. Depression, compulsive behaviour, decreased motivation
-and asocial behaviour may be mistaken for normal changes that take place during
-adolescence or linked to drug abuse. As the following figure shows, however,
-these symptoms may be early warning signs of schizophrenia [show:
-schizophrenia_early_signs.png | contents shown in enumerated list below].
+The name ‘schizophrenia’ is derived from the Greek verb skhizein, ‘to split’,
+and phren, denoting ‘soul, spirit or mind’, and originally described a group of
+‘schizophrenias’. Although the current language suggests a single, uniform
+condition, there is great variety in the severity of illness and types of
+symptoms experienced by people with schizophrenia.
 
-# Schizophrenia early signs
-
-- Changes in mood
-  - Inability to cry or laugh
-  - Excessive crying or laughing
-  - Depression, moodiness
-- Sensory changes
-  - Hearing voices
-  - Increased sensitivity to noise or light
-- Changes in appearance
-  - Wearing strange clothes
-  - Poor personal hygiene
-- Changes in activity
-  - Extreme activity or inactivity
-  - Fatigue
-  - Changes in sleep patterns
-- Problems at school or work
-  - Difficulty concentrating
-  - Declining academic performance
-- Changes in behaviour
-  - Prolonged staring
-  - Using illegal drugs
-  - Avoiding social situations
-
+There have been many suggestions for alternative names that better describe the
+diversity of symptoms apparent in people with schizophrenia. Indeed, a new term,
+‘Togo Shitcho Sho’ or ‘integration disorder’, was adopted in Japan in 2002.
+Patient groups in the Netherlands are also taking steps towards realizing a name
+change in their country. The Dutch patient society, Anoiksis, has suggested a
+new name and new concept for schizophrenia, with the aim of reducing the stigma
+associated with the condition.
 """
 
-chatbot-message: """Schizophrenia is diagnosed by a qualified psychiatrist through a clinical assessment because there is no single test for it. Diagnosis usually involves:
+chatbot-message: """Sharing interests with others can create a sense of camaraderie and make it easier to form connections, which might lead people to have a more positive view of you. However, it's essential to be authentic:
 
-1. Evaluating symptoms through direct interviews with you and discussions with your family or friends.
-2. Observing behavior over a period to identify signs of the condition.
+(1.11) Engage in conversations about topics that genuinely interest you. This sincerity tends to be well-received and can make interactions more enjoyable for both you and the other person.
 
-Common symptoms prompting evaluation can include hallucinations, delusions, severe paranoia, or disorganized behavior. 
+(1.12) Ask open-ended questions about their interests to learn more and show that you are genuinely interested in what they have to say.
 
-Early signs may also indicate a need for help and can vary greatly, but they often include changes in mood, sensory experiences, appearance, activity, school or work performance, and social behavior.
+Remember, it's about finding common ground while being true to yourself. You don't have to pretend to like something just to be accepted. Would you like guidance on finding social activities or groups where you might meet people with similar interests?"""
 
-Have I answered your question on how schizophrenia is diagnosed? Would you like more information on this or any other topic?"""
 
 
 
 # OUPUT
 
-RELEVANT_PART_OF_SOURCE: "The source states that schizophrenia is diagnosed through a clinical assessment by a qualified psychiatrist, involving evaluating symptoms through direct interviews with the individual and discussions with family or friends, as well as observing behavior over a period of time."
-CHATBOT_ASSERTIONS: "The chatbot claims that schizophrenia is diagnosed by a qualified psychiatrist through a clinical assessment, involving evaluating symptoms and observing behavior over time."
-EXPLICITLY_SUPPORTED: "The chatbot's claims accurately reflect the information provided in the source, so it is SUPPORTED."
+RELEVANT_PART_OF_SOURCE: "The source discusses the negative perceptions and attitudes surrounding schizophrenia and emphasizes the importance of not allowing others' perceptions to influence how individuals with schizophrenia feel about themselves"
+CHATBOT_ASSERTIONS: "The chatbot suggests that sharing interests with others can create a sense of camaraderie and lead to a more positive view"
+EXPLICITLY_SUPPORTED: "The source does not explicitly mention sharing interests as a way to combat negative perceptions, so the message is NOT SUPPORTED"

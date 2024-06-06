@@ -29,7 +29,7 @@ To be supported, a message needs to satisfy EXPLICITLY_SUPPORTED.
 RELEVANT_PART_OF_SOURCE: "Summarize briefly (<20 words) the parts of the
 source that are relevant to the context"
 CHATBOT_ASSERTIONS: "Summarize briefly the chatbots assertions"
-EXPLICITLY_SUPPORTED: "Reasoning, followed by AGREE/DENY"
+EXPLICITLY_SUPPORTED: "Reasoning, followed by SUPPORTED/NOT SUPPORTED"
 
 # Examples of input and output
 
@@ -46,7 +46,7 @@ that a psychotic episode may happen in the near future"
 CHATBOT_ASSERTIONS: "The chatbot claims that sleeping worse than usual could
 indicate that user may have a psychotic episode"
 EXPLICITLY_SUPPORTED: "The chatbot is applying the rule stated in the source
-directly to an individual, so AGREE"
+directly to an individual, so message is SUPPORTED"
 
 ## Example 2
 
@@ -62,7 +62,7 @@ CHATBOT_ASSERTIONS: "The chatbot claims that eating ones evening meal at the
 same time every evening can improve sleep"
 EXPLICITLY_SUPPORTED: "The source states that a more regular schedule may
 improve sleep. Eating at the same time every evening is a regular routine, so
-AGREE"
+message is SUPPORTED"
 
 ## Example 3
 
@@ -78,7 +78,7 @@ be internalized, and is about internal management of emotions and thoughts"
 CHATBOT_ASSERTIONS: "The chatbot encourages challenging false perceptions and
 educating others"
 EXPLICITLY_SUPPORTED: "The source does not explicitly encourage the patient to
-challenge or educate other people, so DENY"
+challenge or educate other people, so message is NOT SUPPORTED"
 
 # Actual content to evaluate
 
