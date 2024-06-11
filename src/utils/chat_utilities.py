@@ -119,8 +119,8 @@ def identify_assistant_responses(conversation) -> list[int]:
     return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
 
 
-def identify_user_responses(conversation) -> list[int]:
-    """Gets the index/indices for user responses."""
+def identify_user_messages(conversation) -> list[int]:
+    """Gets the index/indices for `assistant` responses."""
     return [i for i, d in enumerate(conversation) if d.get("role") == "user"]
 
 
@@ -150,14 +150,9 @@ def remove_system_messages_following_last_assistant_response(conversation) -> li
     return conversation
 
 
-def identify_user_messages(conversation) -> list[int]:
-    """Gets the index/indices for `assistant` responses."""
-    return [i for i, d in enumerate(conversation) if d.get("role") == "user"]
-
-
 def index_of_assistant_responses_intended_for_user(conversation) -> list[int]:
-    """Finds indices of assistant messages that are and are intended to be seen
-    by the user (ignores messages intended only for backend)."""
+    """Finds indices of assistant messages that are intended to be seen
+    by the user (ignores messages for backend)."""
     responses_with_readable_text = [
         i
         for (i, message) in enumerate(conversation)

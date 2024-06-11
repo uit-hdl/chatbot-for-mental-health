@@ -9,9 +9,9 @@ from utils.backend import get_source_content_and_path
 from utils.backend import convert_json_string_to_dict
 from utils.backend import get_sources_available_to_chatbot
 from utils.backend import dump_prompt_response_pair_to_md
-from utils.backend import PROMPTS_DIR
 from utils.backend import OVERSEERS_CONFIG
 from utils.backend import CITATIONS
+from utils.backend import SYSTEM_MESSAGES
 from utils.backend import collect_prompts_in_dictionary
 from utils.backend import LOGGER
 from utils.chat_utilities import grab_last_assistant_response
@@ -21,39 +21,84 @@ from utils.chat_utilities import (
 )
 from utils.chat_utilities import grab_last_user_message
 from utils.chat_utilities import generate_single_response_to_prompt
+from utils.chat_utilities import index_of_assistant_responses_intended_for_user
 from utils.process_syntax import extract_command_names_and_arguments
 from utils.general import list_intersection
-from utils.general import list_subtraction
 from utils.general import remove_syntax_from_message
 from utils.general import silent_print
-from utils.backend import load_json_from_path
-from utils.backend import get_file_names_in_directory
-from utils.backend import get_subfolder_of_assistant
-import os
 
 
-def evaluate_with_overseers(chatbot_id, conversation, chatbot_citations):
+def ai_filter(chatbot_id, conversation, chatbot_citations, harvested_syntax):
+    """Uses prompted AI-agents to evaluate the chatbots response. Returns the
+    evaluation of the AI-judges (ACCEPT, WARNING, REJECT), and a list of warning
+    messages ([] if no warnings). Currently AI checking stages: 
+    
+    1. Check if the user consents to being redirected (if requesting redirect)
+    2. Preliminary check of response using swift judges (using cheaper LLM)
+    3. If flagged in S2: Evaluate with Chief judges (using expensive LLM)
+    4. If Rejected in S3: Correct response so that it complies with warnings
+    """
+    # from utils.backend import load_json_from_path
+    # from utils.backend import (
+    #     get_file_names_in_directory,
+    #     get_subfolder_of_assistant,
+    #     os,
+    #     PROMPTS_DIR,
+    # )
     # chatbot_id = "mental_health"
     # conversation = load_json_from_path(
     #     "results/chat-dumps/ai_thinks_it_is_socialisation_expert/conversation.json"
-    # )[:-8]
+    # )
     # harvested_syntax = load_json_from_path(
     #     "results/chat-dumps/ai_thinks_it_is_socialisation_expert/harvested_syntax.json"
     # )
-    # # chatbot_citations = harvested_syntax["citations"]
-    # chatbot_citations = ["13_stigma"]
+    # # harvested_syntax["citations"] = []
     # prompts = get_file_names_in_directory(
     #     os.path.join(PROMPTS_DIR, get_subfolder_of_assistant(chatbot_id))
     # )
+
+    chatbot_citations = harvested_syntax["citations"]
+
+    # Set default ouptut values
+    cheif_evaluation = "ACCEPT"
+    warning_messages = []
+
     update_global_variables(chatbot_id)
 
-    # Response type is needed to know which chatbot to activate
+    # Extract the overseer dictionary corresponding to the chatbot
+    overseer_stages = OVERSEERS_CONFIG["chatbots"][chatbot_id]
+
+    # Check for referals
+    redirect_checkers = overseer_stages["redirect_consent_checkers"]
+    if harvested_syntax["referral"] and redirect_checkers:
+        overseer_evaluation = check_if_user_confirms_redirect(
+            conversation, redirect_checkers
+        )
+        if overseer_evaluation == "ACCEPT":
+            silent_print("Overseer confirms that user wants to be referred.")
+        else:
+
+            warning_messages.append(SYSTEM_MESSAGES["confirm_before_redirect"])
+
+    else:
+        # Evaluate with AI-judges
+        cheif_evaluation, warning_messages = evaluate_with_ai_judges(
+            chatbot_id, conversation, chatbot_citations
+        )
+
+    return cheif_evaluation, warning_messages, conversation
+
+
+def evaluate_with_ai_judges(chatbot_id, conversation, chatbot_citations):
+
+    # Response type determines which AI-agents will screen the response
     response_labels = classify_response_based_on_citation(chatbot_citations)
+    # Identify judges that handle that response type
     relevant_prelim_judges, relevant_cheif_judges = fetch_relevant_judges(
         chatbot_id, response_labels
     )
-    # Collect the variables that are required to complete the prompts of the
-    # relevant judges
+
+    # Collect variables required to complete the prompts of the relevant judges
     prompt_variables = collect_relevant_prompt_variables(
         conversation,
         relevant_prelim_judges,
@@ -62,10 +107,12 @@ def evaluate_with_overseers(chatbot_id, conversation, chatbot_citations):
         chatbot_citations,
     )
 
+    # Preliminary check
     preliminary_evaluation = get_evaluation_from_preliminary_judges(
         relevant_prelim_judges, prompt_variables
     )
 
+    # Cheif overseers
     if preliminary_evaluation == "REJECT":
         cheif_evaluation, warning_messages = get_evaluation_from_cheif_judges(
             relevant_cheif_judges, prompt_variables
@@ -73,6 +120,21 @@ def evaluate_with_overseers(chatbot_id, conversation, chatbot_citations):
     else:
         cheif_evaluation = "ACCEPT"
         warning_messages = []
+
+    # Correct rejected responses
+    if cheif_evaluation == "REJECT":
+        response_modifiers = OVERSEERS_CONFIG["chatbots"][chatbot_id][
+            "chatbot_response_modifiers"
+        ]
+        if response_modifiers:
+            # Response modifier takes warning message as an input
+            conversation, warning_message = (
+                correct_rejected_response_and_modify_chat_and_warning(
+                    conversation, prompt_variables, response_modifiers, warning_messages
+                )
+            )
+            warning_messages = [warning_message]
+            cheif_evaluation == "ACCEPT"
 
     return cheif_evaluation, warning_messages
 
@@ -105,8 +167,8 @@ def fetch_relevant_judges(chatbot_id, response_labels):
     """Decide which judges are relevant based on the classification of the
     response."""
     # Check which preliminary judges are relevant
-    overseers_prelim = OVERSEERS_CONFIG["chatbots"][chatbot_id]["preliminary_judges"]
-    relevant_prelim_judges = reduce_to_relevant_only(overseers_prelim, response_labels)
+    prelim_judges = OVERSEERS_CONFIG["chatbots"][chatbot_id]["preliminary_judges"]
+    relevant_prelim_judges = reduce_to_relevant_only(prelim_judges, response_labels)
     # Check which chief judges are relevant
     overseers_cheif = OVERSEERS_CONFIG["chatbots"][chatbot_id]["chief_judges"]
     relevant_cheif_judges = reduce_to_relevant_only(overseers_cheif, response_labels)
@@ -114,74 +176,66 @@ def fetch_relevant_judges(chatbot_id, response_labels):
     return relevant_prelim_judges, relevant_cheif_judges
 
 
-def reduce_to_relevant_only(overseers_dict, response_labels):
+def reduce_to_relevant_only(
+    judge_list: list[dict], response_labels: list[str]
+) -> list[str]:
     """Iterates over the dictionaries, each of which corresponds to a particular
     judge, and determines if it is relevant."""
-    relevant_judges = {}
-    for judge_name, judge_dict in overseers_dict.items():
-        mode_that_triggers_judge = judge_dict["associated_mode"]
-        if mode_that_triggers_judge in response_labels:
-            relevant_judges[judge_name] = judge_dict
+    relevant_judges = []
+    for judge_dict in judge_list:
+        mode_that_activates_judge = judge_dict["associated_mode"]
+        if mode_that_activates_judge in response_labels:
+            relevant_judges.append(judge_dict)
     return relevant_judges
 
 
 def collect_relevant_prompt_variables(
     conversation,
-    relevant_prelim_judges,
-    relevant_cheif_judges,
-    chatbot_id,
-    chatbot_citations,
+    relevant_prelim_judges: list[dict],
+    relevant_cheif_judges: list[dict],
+    chatbot_id: str,
+    chatbot_citations: list[str],
 ) -> dict:
-    """Collects variables (e.g. user message, chatbot message, sources) needed
-    to complete the overseer prompts in a dictionary."""
-    # Get names of prompt variables
+    """Collects variables that are inserted as variables in the overseer prompts
+    in a dictionary, such as chatbot_message. Note: if you want to have a
+    variable "... {var_name} ..." in your prompt, then you need to add it below
+    and make sure the names in the code and prompt are identical."""
+    # Get names of prompt variables needed to complete the prompts
     prompt_variable_names_prelim = get_nessecary_prompt_variables(
         relevant_prelim_judges
     )
     prompt_variable_names_cheif = get_nessecary_prompt_variables(relevant_cheif_judges)
+    # Currently unused (idea is to use it to prevent needless computations)
     names_of_nessecary_prompt_variables = list(
         set(prompt_variable_names_prelim + prompt_variable_names_cheif)
     )
-    cited_sources = get_cited_sources(chatbot_citations, chatbot_id)
 
     nessecary_prompt_variables = {
         "chatbot_message": remove_syntax_from_message(
             grab_last_assistant_response(conversation)
         )
     }
-
-    # Optional prompt variables
-    if "user_message" in names_of_nessecary_prompt_variables:
-        nessecary_prompt_variables["user_message"] = grab_last_user_message(
-            conversation
-        )
-
-    if "sources" in names_of_nessecary_prompt_variables:
+    nessecary_prompt_variables["user_message"] = grab_last_user_message(conversation)
+    # Source-based variables
+    content_cited_sources = get_content_of_cited_sources(chatbot_citations, chatbot_id)
+    if content_cited_sources:
         nessecary_prompt_variables["sources"] = string_together_cited_sources(
-            cited_sources
+            content_cited_sources
         )
-
-    if "source" in names_of_nessecary_prompt_variables:
-        # If source (singular) is requested, grabs only the first cited string
-        # (requires UPDATE)
-        nessecary_prompt_variables["source"] = cited_sources[0]
-
-    if nessecary_prompt_variables == {}:
-        raise ValueError(
-            f"Request prompt variables {names_of_nessecary_prompt_variables} not valid."
-        )
+        # If source (singular) is requested, grabs only the first cited string [UPDATE]
+        nessecary_prompt_variables["source"] = content_cited_sources[0]
 
     return nessecary_prompt_variables
 
 
-def get_nessecary_prompt_variables(judges_dict) -> list[str]:
+def get_nessecary_prompt_variables(judges_list) -> list[str]:
     """Iterates over the values in the dictionary, extracts the names of the
     required prompt variables, and collects them in a list."""
-    prompt_variable_names = [d["prompt_variables"] for d in judges_dict.values()]
+    prompt_variable_names = [d["prompt_variables"] for d in judges_list]
     return sum(prompt_variable_names, [])
 
 
-def get_cited_sources(chatbot_citations, chatbot_id) -> list[str]:
+def get_content_of_cited_sources(chatbot_citations, chatbot_id) -> list[str]:
     """Fetches the content of the sources cited by the chatbot, if any."""
     cited_sources = list_intersection(
         chatbot_citations, CITATIONS["source_communication"]
@@ -212,7 +266,7 @@ def string_together_cited_sources(
 
 
 def get_evaluation_from_preliminary_judges(
-    relevant_prelim_judges: dict, prompt_variables: dict
+    relevant_prelim_judges: list[dict], prompt_variables: dict
 ) -> str:
     """Iterates over the relevant preliminary judges and obtains evaluations
     from each. Converts evaluations to either REJECT or ACCEPT. If one
@@ -220,10 +274,10 @@ def get_evaluation_from_preliminary_judges(
     (that uses GPT 4). prompt_variables contains the variables needed to
     complete the prompt templates of the relevant judges."""
     prelim_evaluations = []
-    for judge_name, judge_dict in relevant_prelim_judges.items():
+    for judge_dict in relevant_prelim_judges:
         prelim_evaluations.append(
             preliminary_evaluation_from_ai_judge(
-                judge_name=judge_name,
+                judge_name=judge_dict["name"],
                 prompt_variables=prompt_variables,
                 failure_keyword=judge_dict["evaluation_keywords"][0],
             )
@@ -264,14 +318,17 @@ def preliminary_evaluation_from_ai_judge(
 # *** CHEIF JUDGES ***
 
 
-def get_evaluation_from_cheif_judges(relevant_cheif_judges, prompt_variables):
+def get_evaluation_from_cheif_judges(
+    relevant_cheif_judges: list[dict], prompt_variables: list[str]
+):
+    """Cheif judges evaluates the chatbots response. Returns evaluation (str) and
+    list of warning messages (list)."""
     cheif_evaluations = []
     warning_messages = []
-    for judge_name, judge_dict in relevant_cheif_judges.items():
+    for judge_dict in relevant_cheif_judges:
         evaluation, warning = cheif_judge_evaluation(
-            prompt_name=judge_name,
+            judge_dict,
             prompt_variables=prompt_variables,
-            evaluation_keywords=judge_dict["evaluation_keywords"],
         )
         cheif_evaluations.append(evaluation)
         warning_messages.append(warning)
@@ -286,14 +343,14 @@ def get_evaluation_from_cheif_judges(relevant_cheif_judges, prompt_variables):
         return "ACCEPT", []
 
 
-def cheif_judge_evaluation(prompt_name, prompt_variables: dict, evaluation_keywords):
+def cheif_judge_evaluation(judge_dict, prompt_variables: dict):
     """Conducts a preliminary evaluation of the chatbots message using GPT-3.5."""
-    prompt_completed = PROMPTS[prompt_name].format(**prompt_variables)
+    prompt_completed = PROMPTS[judge_dict["name"]].format(**prompt_variables)
 
     response = generate_single_response_to_prompt(prompt_completed, model="gpt-4")
 
-    dump_prompt_response_pair_to_md(prompt_completed, response, prompt_name)
-    LOGGER.info(f"{prompt_name}:\n{response}")
+    dump_prompt_response_pair_to_md(prompt_completed, response, judge_dict["name"])
+    LOGGER.info(f"{judge_dict['name']}:\n{response}")
 
     _, overseer_output = extract_command_names_and_arguments(response)
 
@@ -348,41 +405,77 @@ def overseer_response_is_valid(evaluation_dict: dict) -> bool:
 # *** HANDLING REJECTED RESPONSES ***
 
 
-def correct_rejected_response_and_modify_chat_and_warning_accordingly(
-    conversation, chatbot_message, warning_message
+def correct_rejected_response_and_modify_chat_and_warning(
+    conversation,
+    prompt_variables: dict,
+    response_modifiers: dict,
+    warning_messages: list[str],
 ):
     """An AI agent corrects the message generated by the chatbot so that it
     complies with the systems warning. Returns updated conversation and
     warning_message."""
-    response_corrected = correct_rejected_response(
-        user_message=grab_last_user_message(conversation),
-        chatbot_message=chatbot_message,
-        system_message=warning_message,
-    )
+
+    response_modifier = response_modifiers[0]  # Currently only one response modifier
+    prompt_variables["system_message"] = "\n\n".join(warning_messages)
+    response_corrected = correct_rejected_response(prompt_variables, response_modifier)
     conversation = replace_last_assistant_response(
         conversation, replacement_content=response_corrected
     )
-    # Warnings, such as length warnings, following corrected response are not needed
+    # Remove old warnings that no longer apply, such as length warnings
     conversation = remove_system_messages_following_last_assistant_response(
         conversation
     )
     warning_message = [
-        f"Your message was corrected to comply with the following: '{warning_message}'"
+        f"Your message was corrected to comply with the following: '{warning_messages}'"
     ]
     return conversation, warning_message
 
 
-def correct_rejected_response(user_message, chatbot_message, system_message) -> str:
+def correct_rejected_response(prompt_variables: dict, response_modifier: dict) -> str:
     """An AI agent has been prompted to correct the message generated by the
     chatbot so that it complies with the systems warning. Typically replaces an
     out-of-scope response with a more standard 'I am not allowed to talk about
     that'-type message."""
-    prompt_completed = PROMPTS["conversation_killer"].format(
-        user_message=user_message,
-        chatbot_message=chatbot_message,
-        system_message=system_message,
-    )
+    prompt_completed = PROMPTS[response_modifier["name"]].format(**prompt_variables)
     corrected_response = generate_single_response_to_prompt(prompt_completed, "gpt-4")
+    # Use the no_advice_or_claims or claims response label
     corrected_response = f'¤:cite(["no_advice_or_claims"]):¤ {corrected_response}'
     silent_print("** Rejected message substituted **")
+    dump_prompt_response_pair_to_md(
+        prompt_completed, corrected_response, "corrected_response.md"
+    )
     return corrected_response
+
+
+def check_if_user_confirms_redirect(
+    conversation,
+    redirect_checkers: list,
+    model="gpt-35-turbo-16k",
+) -> str:
+    """Checks if the user has confirmed that they want to be referred to another
+    assistant, assuming that a referral request has been issued. AI agent checks
+    the two messages preceeding the redirect command."""
+    # Grab the last two messages before the referral request (initial prompt excluded)
+    chat_last2 = conversation[1:-1][-2:]
+    # Extract and put into formatted string
+    last_2_messages = "\n\n".join(
+        [f"{message['role']}: {message['content']}" for message in chat_last2]
+    )
+    # Currently only one agent used in this stage
+    redirect_checker = redirect_checkers[0]
+    # Insert variables into prompt
+    prompt_completed = PROMPTS[redirect_checker["name"]].format(
+        last_2_messages=last_2_messages
+    )
+    # Generate response
+    response = generate_single_response_to_prompt(prompt_completed, model)
+    dump_prompt_response_pair_to_md(
+        prompt_completed, response, "referral_consent_checker"
+    )
+    failure_keyword = redirect_checker["evaluation_keywords"][0]
+    if failure_keyword in response:
+        silent_print(f"Message fails preliminary check by {redirect_checker['name']}")
+        return "REJECT"
+    else:
+        silent_print(f"Message passes preliminary check by {redirect_checker['name']}")
+        return "ACCEPT"

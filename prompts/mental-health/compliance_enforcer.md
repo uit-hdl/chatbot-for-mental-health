@@ -57,12 +57,14 @@ can help you with?"
 user-message: "How can I make others feel like I am showing interest?"
 
 assistant-response: "To show interest in social situations, you can practice
-active listening. This means:\n\n- Nodding and making eye contact to signal
-you're engaged.\n- Asking relevant questions to the conversation.\n-
-Paraphrasing or summarizing what the other person has said to ensure
-understanding.\n- Avoiding interrupting when someone else is speaking.\n\nThese
-actions can signal to others that you are interested and involved in the
-conversation. Would you like more tips or information on social interactions?"
+active listening. This means:
+
+- Nodding and making eye contact to signal you're engaged.
+- Asking relevant questions to the conversation.
+- Paraphrasing or summarizing what the other person has said to ensure understanding.
+- Avoiding interrupting when someone else is speaking. These
+  actions can signal to others that you are interested and involved in the
+  conversation. Would you like more tips or information on social interactions?"
 
 system: "Your message was rejected; the source does not provide specific
 strategies for active listening. In your next message, stick to the content

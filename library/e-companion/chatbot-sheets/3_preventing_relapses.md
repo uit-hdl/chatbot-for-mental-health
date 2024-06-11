@@ -23,8 +23,8 @@ if your symptoms have gone away.
 
 # SLIDE 3.1
 
-It is important to know that relapses are not pre-determined. There are external
-triggers that you can influence and learn to controll and early signs you can
+It is important to know that relapses are not predetermined. There are external
+triggers that you can influence and learn to control and early signs you can
 learn to detect. Early detection is an important factor in whether or not the
 re-emerging symptoms escalate or not; the earlier you detect the signs and
 contact your therapist, the better your chances of preventing them from

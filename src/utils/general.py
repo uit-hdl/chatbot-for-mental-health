@@ -55,8 +55,8 @@ def remove_syntax_from_message(message_content: str):
 
 
 def message_is_intended_for_user(message: str) -> bool:
-    """Checks if message is strictly for backend (starts and ends with code
-    syntax) or intended to be read by user."""
+    """Checks if message is strictly for backend (messages enclosed by command
+    delimiters ¤: and :¤) or intended to be read by user."""
     message = remove_superflous_linebreaks(message)
     message = message.replace(" ", "")
     if message[:2] == "¤:" and message[-2:] == ":¤":

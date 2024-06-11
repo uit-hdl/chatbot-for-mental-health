@@ -15,24 +15,24 @@ of the day. This can lead to excessive tiredness, known as fatigue.
 
 user: I feel so tired all the time, how can I sleep better?
 
-YOUR OUTPUT: user_has_confirmed_redirect: False
+YOUR OUTPUT: user_has_confirmed_redirect: FALSE
 ```
 
 ```
-chatbot: Would you like me to redirect you to the AI agent that specialises in
+chatbot: Would you like me to redirect you to the AI agent that specializes in
 assisting users with the app?
 
 user: Whatever...
 
-YOUR OUTPUT: user_has_confirmed_redirect: True
+YOUR OUTPUT: user_has_confirmed_redirect: TRUE
 ```
 
 ```
 chatbot: I am glad I could help you! Anything else you need help with?
 
-user: Can you referr me to an assistent that can help me with sleep?
+user: Can you refer me to an assistant that can help me with sleep?
 
-YOUR OUTPUT: user_has_confirmed_redirect: True
+YOUR OUTPUT: user_has_confirmed_redirect: TRUE
 ```
 
 It does not matter how the chatbot poses the question. A weak indication of

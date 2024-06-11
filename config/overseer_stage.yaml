@@ -1,28 +1,42 @@
-# Define chatbots and their respective modes and judges. Each judge is triggered
-# by a set of citations; these sets are defined in 'response_types.yaml'
+# Define chatbots and their respective modes and judges. The structure is
+# [chatbots][chatbot][AI-filter-stage][dictionary-specifying each AI-agent].
+# Each judge is triggered by a set of citations; these citation groups are
+# defined in 'citations.yaml'. If you want to skip a certain AI-filter stage is
+# not desired, such as 'chatbot_response_modifiers', set it to an empty list.
 chatbots:
   mental_health:
     # AI-judges that use GPT-3.5
     preliminary_judges:
-      swift_judge_role_and_emergency_contact:
-        evaluation_keywords: [DENY, WARNING, ACCEPT]
+      - name: swift_judge_role_and_emergency_contact
+        evaluation_keywords: ["DENY", "WARNING", "ACCEPT"]
         prompt_variables: [user_message, chatbot_message]
         associated_mode: default
-      swift_judge_disclaimer_check:
+      - name: swift_judge_disclaimer_check
         evaluation_keywords: [DENY, AGREE]
         prompt_variables: [user_message, chatbot_message]
         associated_mode: default
-      swift_judge_source_fidelity:
-        evaluation_keywords: [NOT SUPPORTED, SUPPORTED]
+      - name: swift_judge_source_fidelity
+        evaluation_keywords: ["NOT SUPPORTED", "SUPPORTED"]
         prompt_variables: [source, chatbot_message]
         associated_mode: source_communication
     # Final verdict AI-judges that use GPT-4
     chief_judges:
-      chief_judge_default:
-        evaluation_keywords: [REJECT, WARNING, ACCEPT]
+      - name: chief_judge_default
+        evaluation_keywords: ["REJECT", "WARNING", "ACCEPT"]
         prompt_variables: [user_message, chatbot_message]
         associated_mode: default
-      chief_judge_source_fidelity:
-        evaluation_keywords: [REJECT, WARNING, ACCEPT]
+      - name: chief_judge_source_fidelity
+        evaluation_keywords: ["REJECT", "WARNING", "ACCEPT"]
         prompt_variables: [sources, chatbot_message]
         associated_mode: source_communication
+    # AI-agents that modifies the chatbots response (set to [] if not wanted)
+    chatbot_response_modifiers:
+      - name: compliance_enforcer
+        prompt_variables: [user_message, chatbot_message, system_message]
+    # AI-agents that check if the user has confirmed that they want to be
+    # redirected
+    redirect_consent_checkers:
+      - name: referral_consent_checker
+        prompt_variables: [last_2_messages]
+        evaluation_keywords: ["FALSE", "TRUE"]
+    
