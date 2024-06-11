@@ -28,11 +28,11 @@ from utils.general import remove_syntax_from_message
 from utils.general import silent_print
 
 
-def ai_filter(chatbot_id, conversation, chatbot_citations, harvested_syntax):
+def ai_filter(conversation, harvested_syntax, chatbot_id):
     """Uses prompted AI-agents to evaluate the chatbots response. Returns the
     evaluation of the AI-judges (ACCEPT, WARNING, REJECT), and a list of warning
-    messages ([] if no warnings). Currently AI checking stages: 
-    
+    messages ([] if no warnings). Currently AI checking stages:
+
     1. Check if the user consents to being redirected (if requesting redirect)
     2. Preliminary check of response using swift judges (using cheaper LLM)
     3. If flagged in S2: Evaluate with Chief judges (using expensive LLM)
@@ -82,7 +82,7 @@ def ai_filter(chatbot_id, conversation, chatbot_citations, harvested_syntax):
 
     else:
         # Evaluate with AI-judges
-        cheif_evaluation, warning_messages = evaluate_with_ai_judges(
+        cheif_evaluation, warning_messages, conversation = evaluate_with_ai_judges(
             chatbot_id, conversation, chatbot_citations
         )
 
@@ -90,7 +90,13 @@ def ai_filter(chatbot_id, conversation, chatbot_citations, harvested_syntax):
 
 
 def evaluate_with_ai_judges(chatbot_id, conversation, chatbot_citations):
-
+    """Runs the AI-response through the AI-filters - first the preliminary
+    AI-judges (cheap LLMs) and, if flagged by the preliminary judges, then the
+    Chief judges are activated to get the final evaluation. Each stage produces
+    an evaluation (ACCEPT or REJECT) and a list of warning messages. If the
+    message is rejected by the Chief judges, then another AI-agent will take the
+    message and warning messages and modify it so that it complies with the
+    system warnings."""
     # Response type determines which AI-agents will screen the response
     response_labels = classify_response_based_on_citation(chatbot_citations)
     # Identify judges that handle that response type
@@ -128,15 +134,14 @@ def evaluate_with_ai_judges(chatbot_id, conversation, chatbot_citations):
         ]
         if response_modifiers:
             # Response modifier takes warning message as an input
-            conversation, warning_message = (
+            conversation, warning_messages = (
                 correct_rejected_response_and_modify_chat_and_warning(
                     conversation, prompt_variables, response_modifiers, warning_messages
                 )
             )
-            warning_messages = [warning_message]
             cheif_evaluation == "ACCEPT"
 
-    return cheif_evaluation, warning_messages
+    return cheif_evaluation, warning_messages, conversation
 
 
 def update_global_variables(chatbot_id):
@@ -425,10 +430,10 @@ def correct_rejected_response_and_modify_chat_and_warning(
     conversation = remove_system_messages_following_last_assistant_response(
         conversation
     )
-    warning_message = [
+    warning_messages = [
         f"Your message was corrected to comply with the following: '{warning_messages}'"
     ]
-    return conversation, warning_message
+    return conversation, warning_messages
 
 
 def correct_rejected_response(prompt_variables: dict, response_modifier: dict) -> str:

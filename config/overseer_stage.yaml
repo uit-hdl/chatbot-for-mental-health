@@ -40,3 +40,13 @@ chatbots:
         prompt_variables: [last_2_messages]
         evaluation_keywords: ["FALSE", "TRUE"]
     
+  ehealth_module1:
+    # AI-judges that use GPT-3.5
+    preliminary_judges: []
+    # Final verdict AI-judges that use GPT-4
+    chief_judges: []
+    # AI-agents that modifies the chatbots response (set to [] if not wanted)
+    chatbot_response_modifiers: []
+    # AI-agents that check if the user has confirmed that they want to be
+    # redirected
+    redirect_consent_checkers: []

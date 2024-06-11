@@ -7,6 +7,7 @@ from utils.chat_utilities import append_system_messages
 from utils.managing_sources import get_names_of_currently_inserted_sources
 from utils.overseers import MESSAGE_CLASSIFICATIONS
 from utils.overseers import evaluate_with_overseers
+from utils.overseers_v2 import ai_filter
 from utils.general import silent_print
 from utils.backend import SETTINGS
 from utils.backend import SYSTEM_MESSAGES
@@ -24,7 +25,7 @@ def perform_quality_check_and_give_feedback(
     conversation so that the chatbot can learn from its mistakes. Certain errors (those
     that get hard warnings) will result in the bot having to regenerate its
     response."""
-    flag = "ACCEPTED"
+    flag = "ACCEPT"
 
     # -- HARD CODED FILTER --
     if SETTINGS["enable_hard_coded_filter"]:
@@ -45,12 +46,17 @@ def perform_quality_check_and_give_feedback(
                 conversation, harvested_syntax, hard_warnings, all_warnings
             )
 
+    if harvested_syntax["knowledge_extensions"]:
+        # Don't apply AI-filter for knowledge requests
+        return conversation, flag
+
     # -- OVERSEER FILTER --
     if SETTINGS["enable_overseer_filter"] and not hard_warnings:
-        overseer_evaluation, warning_overseer, conversation = evaluate_with_overseers(
+
+        overseer_evaluation, warnings_from_ai_filter, conversation = ai_filter(
             conversation, harvested_syntax, chatbot_id
         )
-        conversation = append_system_messages(conversation, warning_overseer)
+        conversation = append_system_messages(conversation, warnings_from_ai_filter)
 
         if overseer_evaluation == "REJECT":
             flag = "REJECT"
