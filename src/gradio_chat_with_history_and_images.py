@@ -73,9 +73,10 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
         with gr.Row(visible=False, elem_id="chat_interface") as chat_interface:
 
             # Left column with images
-            with gr.Column(scale=0.6):
-                image_window = gr.Chatbot(height=500)
+            with gr.Column(scale=0.5):
+                # Window that shows history of dispayed images
                 reset_button = gr.Button("Restart conversation")
+                image_window = gr.Chatbot(height=600, label="Images")
                 reset_button.click(
                     reset_conversation,
                     inputs=[],
