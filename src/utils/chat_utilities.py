@@ -107,6 +107,8 @@ def grab_last_assistant_response(conversation: list) -> str:
     index_assistant_messages = identify_assistant_responses(conversation)
     if index_assistant_messages:
         return conversation[index_assistant_messages[-1]]["content"]
+    else:
+        print("WARNING: no assistant messages to grab.")
 
 
 def identify_system_responses(conversation) -> list[int]:

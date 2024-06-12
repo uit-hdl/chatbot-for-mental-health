@@ -13,6 +13,7 @@ from utils.general import remove_syntax_from_message
 from utils.backend import reset_files_that_track_cumulative_variables
 from utils.backend import SETTINGS
 from utils.chat_utilities import grab_last_assistant_response
+from utils.chat_utilities import generate_and_add_raw_bot_response
 
 CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
 DEEP_CHAT = []
@@ -76,7 +77,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
             with gr.Column(scale=0.5):
                 # Window that shows history of dispayed images
                 reset_button = gr.Button("Restart conversation")
-                image_window = gr.Chatbot(height=600, label="Images")
+                image_window = gr.Chatbot(height=700, label="Images")
                 reset_button.click(
                     reset_conversation,
                     inputs=[],
@@ -111,8 +112,6 @@ def create_response(user_text, surface_chat, chatbot_id, image_window):
     raw_response = grab_last_assistant_response(DEEP_CHAT)
     surface_response = remove_syntax_from_message(raw_response)
 
-    surface_chat.append((user_text, surface_response))
-
     image_url_list = get_image_urls(harvested_syntax)
     if image_url_list:
         image_url = image_url_list[0]
@@ -123,12 +122,15 @@ def create_response(user_text, surface_chat, chatbot_id, image_window):
     if harvested_syntax["referral"]:
         assistant_name = harvested_syntax["referral"]["name"]
         DEEP_CHAT = direct_to_new_assistant(assistant_name)
-        surface_response = grab_last_assistant_response(DEEP_CHAT)
-        surface_response_no_syntax = remove_syntax_from_message(surface_response)
-        surface_chat.append((None, surface_response_no_syntax))
+        DEEP_CHAT = generate_and_add_raw_bot_response(DEEP_CHAT)
+        surface_response = remove_syntax_from_message(
+            grab_last_assistant_response(DEEP_CHAT)
+        )
 
     DEEP_CHAT = remove_inactive_sources(DEEP_CHAT)
     DEEP_CHAT = truncate_if_too_long(DEEP_CHAT)
+
+    surface_chat.append((user_text, surface_response))
 
     return "", surface_chat, image_window
 
