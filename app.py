@@ -10,4 +10,4 @@ from src.gradio_chat_with_history_and_images import (
     chat_with_bot_in_gradio_interface,
 )
 
-chat_with_bot_in_gradio_interface(chatbot_id="ehealth_module1")
+chat_with_bot_in_gradio_interface(chatbot_id="mental_health")

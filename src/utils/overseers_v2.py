@@ -128,7 +128,7 @@ def evaluate_with_ai_judges(chatbot_id, conversation, chatbot_citations):
     if relevant_cheif_judges:
         if preliminary_evaluation == "REJECT":
             cheif_evaluation, warning_messages = get_evaluation_from_cheif_judges(
-                relevant_cheif_judges, prompt_variables, preliminary_evaluation
+                relevant_cheif_judges, prompt_variables
             )
 
         # Correct rejected responses so it complies with cheif judge feedback
@@ -340,7 +340,7 @@ def get_evaluation_from_cheif_judges(
     for judge_dict in relevant_cheif_judges:
         evaluation, warning = cheif_judge_evaluation(
             judge_dict,
-            prompt_variables=prompt_variables,
+            prompt_variables,
         )
         cheif_evaluations.append(evaluation)
         warning_messages.append(warning)
