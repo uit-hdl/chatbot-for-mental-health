@@ -76,7 +76,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
             with gr.Column(scale=0.5):
                 # Window that shows history of dispayed images
                 reset_button = gr.Button("Restart conversation")
-                image_window = gr.Chatbot(height=600, label="Images")
+                image_window = gr.Chatbot(height=700, label="Images")
                 reset_button.click(
                     reset_conversation,
                     inputs=[],
