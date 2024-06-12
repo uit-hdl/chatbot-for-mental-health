@@ -33,12 +33,12 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
             PROMPTS[chatbot_id],
         )
 
-    def respond(user_text, surface_chat, image):
+    def respond(user_text, surface_chat, image_window):
         """Updates the surface chat by generating and adding chatbot response."""
-        user_text, surface_chat, image = create_response(
-            user_text, surface_chat, chatbot_id, image
+        user_text, surface_chat, image_window = create_response(
+            user_text, surface_chat, chatbot_id, image_window
         )
-        return "", surface_chat, image
+        return user_text, surface_chat, image_window
 
     def reset_conversation():
         """Function that gets called when 'Reset conversation' button gets
@@ -71,23 +71,25 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
 
         # Chatbot interface (initially hidden)
         with gr.Row(visible=False, elem_id="chat_interface") as chat_interface:
+
+            # Left column with images
             with gr.Column(scale=0.6):
-                image = gr.Image(
-                    "media/images/e-health-course/patient_walking_in_pretty_park.png"
-                )
+                image_window = gr.Chatbot(height=500)
                 reset_button = gr.Button("Restart conversation")
                 reset_button.click(
                     reset_conversation,
                     inputs=[],
                     outputs=[auth_interface, chat_interface, error_message],
                 )
+
+            # Right column with chat window
             with gr.Column():
                 user_message = gr.Textbox(label="Enter message and hit enter")
                 surface_chat = gr.Chatbot(label="Chat", height=650)
                 user_message.submit(
                     respond,
-                    inputs=[user_message, surface_chat, image],
-                    outputs=[user_message, surface_chat, image],
+                    inputs=[user_message, surface_chat, image_window],
+                    outputs=[user_message, surface_chat, image_window],
                 )
 
         auth_button.click(
@@ -99,7 +101,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     demo.launch(share=True, server_port=server_port)
 
 
-def create_response(user_text, surface_chat, chatbot_id, image_url):
+def create_response(user_text, surface_chat, chatbot_id, image_window):
     """Returns a tuple: ("", surface_chat). The surface chat has been updated
     with a response from the chatbot."""
     global DEEP_CHAT
@@ -113,6 +115,7 @@ def create_response(user_text, surface_chat, chatbot_id, image_url):
     image_url_list = get_image_urls(harvested_syntax)
     if image_url_list:
         image_url = image_url_list[0]
+        image_window.append((None, (image_url,)))
 
     dump_current_conversation_to_json(DEEP_CHAT)
 
@@ -126,7 +129,7 @@ def create_response(user_text, surface_chat, chatbot_id, image_url):
     DEEP_CHAT = remove_inactive_sources(DEEP_CHAT)
     DEEP_CHAT = truncate_if_too_long(DEEP_CHAT)
 
-    return "", surface_chat, image_url
+    return "", surface_chat, image_window
 
 
 def get_image_urls(harvested_syntax):

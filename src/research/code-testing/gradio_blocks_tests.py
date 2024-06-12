@@ -220,21 +220,23 @@ def toggle_image(image_url, image_chat):
         image_url = image_genes
 
     image = image_url
-    # Here I want to update the chat with the new image 
+    # Here I want to update the chat with the new image
     image_chat.append((None, (image_url,)))
-    
+
     return image_url, image_chat, image
 
 
-def respond(user_message, surface_chat, image):
+def respond(user_message, surface_chat, image, image_chat):
     surface_chat.append((user_message, "Hi asshole"))
     if "park" in user_message:
         image = image_park
     elif "gene" in user_message:
         image = image_genes
+
+    image_chat.append((None, (image,)))
     time.sleep(1)
     user_message = ""
-    return user_message, surface_chat, image_url, image
+    return user_message, surface_chat, image_url, image, image_chat
 
 
 with gr.Blocks() as demo:
@@ -258,8 +260,8 @@ with gr.Blocks() as demo:
             surface_chat = gr.Chatbot(height=800)
             user_message.submit(
                 respond,
-                inputs=[user_message, surface_chat, image],
-                outputs=[user_message, surface_chat, image_url, image],
+                inputs=[user_message, surface_chat, image, image_chat],
+                outputs=[user_message, surface_chat, image_url, image, image_chat],
             )
 
 
