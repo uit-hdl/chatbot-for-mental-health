@@ -11,6 +11,7 @@ from console_chat import direct_to_new_assistant
 from console_chat import truncate_if_too_long
 from utils.general import remove_syntax_from_message
 from utils.backend import reset_files_that_track_cumulative_variables
+from utils.backend import SETTINGS
 from utils.chat_utilities import grab_last_assistant_response
 
 CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
@@ -48,7 +49,9 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
 
     def authenticate(password):
         """Function to authenticate the user."""
-        if password == CHATBOT_PASSWORD:  # Hardcoded password for demonstration
+        if (
+            SETTINGS["gradio_password_disabled"] or password == CHATBOT_PASSWORD
+        ):  # Hardcoded password for demonstration
             return gr.update(visible=False), gr.update(visible=True), ""
         else:
             return (
@@ -67,21 +70,23 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
             error_message = gr.Label(value="", visible=False, label="")
 
         # Chatbot interface (initially hidden)
-        with gr.Column(visible=False, elem_id="chat_interface") as chat_interface:
-            surface_chat = gr.Chatbot(label="Your input")
-            user_message = gr.Textbox(label="Enter message and hit enter")
-            reset_button = gr.Button("Restart conversation")
+        with gr.Row(visible=False, elem_id="chat_interface") as chat_interface:
+            with gr.Column():
+                surface_chat = gr.Chatbot(label="Your input")
+                user_message = gr.Textbox(label="Enter message and hit enter")
+                user_message.submit(
+                    respond,
+                    inputs=[user_message, surface_chat],
+                    outputs=[user_message, surface_chat],
+                )
 
-            user_message.submit(
-                respond,
-                inputs=[user_message, surface_chat],
-                outputs=[user_message, surface_chat],
-            )
-            reset_button.click(
-                reset_conversation,
-                inputs=[],
-                outputs=[auth_interface, chat_interface, error_message],
-            )
+            with gr.Column():
+                reset_button = gr.Button("Restart conversation")
+                reset_button.click(
+                    reset_conversation,
+                    inputs=[],
+                    outputs=[auth_interface, chat_interface, error_message],
+                )
 
         auth_button.click(
             authenticate,

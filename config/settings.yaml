@@ -18,6 +18,9 @@ limit_2_tokens_per_message: 250 # threshold for more severe warning message
 # If exceeded, message gets shortened by GPT-3.5:
 max_tokens_before_summarization: 300
 
+# --- GRADIO INTERFACE ---
+gradio_password_disabled: True
+
 # --- APPEARANCES ---
 word_wrap: 80 # N.o. characters before line gets wrapped.
 plot_duration: 10000 # The duration of time for which the figures are shown (uggly solution...)

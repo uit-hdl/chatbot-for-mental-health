@@ -97,6 +97,11 @@ def evaluate_with_ai_judges(chatbot_id, conversation, chatbot_citations):
     message is rejected by the Chief judges, then another AI-agent will take the
     message and warning messages and modify it so that it complies with the
     system warnings."""
+    # Set default values
+    preliminary_evaluation = "ACCEPT"
+    cheif_evaluation = "ACCEPT"
+    warning_messages = []
+
     # Response type determines which AI-agents will screen the response
     response_labels = classify_response_based_on_citation(chatbot_citations)
     # Identify judges that handle that response type
@@ -113,32 +118,34 @@ def evaluate_with_ai_judges(chatbot_id, conversation, chatbot_citations):
         chatbot_citations,
     )
 
-    # Preliminary check
-    preliminary_evaluation = get_evaluation_from_preliminary_judges(
-        relevant_prelim_judges, prompt_variables
-    )
-
-    # Cheif overseers
-    if preliminary_evaluation == "REJECT":
-        cheif_evaluation, warning_messages = get_evaluation_from_cheif_judges(
-            relevant_cheif_judges, prompt_variables
+    # ** Preliminary check **
+    if relevant_prelim_judges:
+        preliminary_evaluation = get_evaluation_from_preliminary_judges(
+            relevant_prelim_judges, prompt_variables
         )
-    else:
-        cheif_evaluation = "ACCEPT"
-        warning_messages = []
 
-    # Correct rejected responses
-    if cheif_evaluation == "REJECT":
+    # ** Cheif overseers **
+    if relevant_cheif_judges:
+        if preliminary_evaluation == "REJECT":
+            cheif_evaluation, warning_messages = get_evaluation_from_cheif_judges(
+                relevant_cheif_judges, prompt_variables, preliminary_evaluation
+            )
+
+        # Correct rejected responses so it complies with cheif judge feedback
         response_modifiers = OVERSEERS_CONFIG["chatbots"][chatbot_id][
             "chatbot_response_modifiers"
         ]
-        if response_modifiers:
+        if response_modifiers and cheif_evaluation == "REJECT":
             # Response modifier takes warning message as an input
             conversation, warning_messages = (
                 correct_rejected_response_and_modify_chat_and_warning(
-                    conversation, prompt_variables, response_modifiers, warning_messages
+                    conversation,
+                    prompt_variables,
+                    response_modifiers,
+                    warning_messages,
                 )
             )
+            # Set to ACCEPT again since response is corrected
             cheif_evaluation == "ACCEPT"
 
     return cheif_evaluation, warning_messages, conversation
@@ -349,7 +356,8 @@ def get_evaluation_from_cheif_judges(
 
 
 def cheif_judge_evaluation(judge_dict, prompt_variables: dict):
-    """Conducts a preliminary evaluation of the chatbots message using GPT-3.5."""
+    """Conducts a preliminary evaluation of the chatbots message using smart but
+    expensive LLM."""
     prompt_completed = PROMPTS[judge_dict["name"]].format(**prompt_variables)
 
     response = generate_single_response_to_prompt(prompt_completed, model="gpt-4")

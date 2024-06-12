@@ -39,7 +39,7 @@ chatbots:
       - name: referral_consent_checker
         prompt_variables: [last_2_messages]
         evaluation_keywords: ["FALSE", "TRUE"]
-    
+
   ehealth_module1:
     # AI-judges that use GPT-3.5
     preliminary_judges: []
