@@ -93,7 +93,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
 
 def create_response(user_message, surface_chat, chatbot_id):
     """Returns a tuple: ("", surface_chat). The surface chat has been updated
-    with a response from the chatbot."""
+    with a response from the chatbot. UPDATE"""
     global DEEP_CHAT
     DEEP_CHAT.append({"role": "user", "content": user_message})
     DEEP_CHAT, harvested_syntax = respond_to_user(DEEP_CHAT, chatbot_id)
