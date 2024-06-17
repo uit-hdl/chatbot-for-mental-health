@@ -23,6 +23,7 @@ from src.gradio_chat_with_history_and_images import (
     CHATBOT_PASSWORD,
     initiate_conversation_with_prompt,
     get_image_urls,
+    create_response
 )
 
 
@@ -38,36 +39,6 @@ def initiate_new_chat():
     return initiate_conversation_with_prompt(
         PROMPTS[chatbot_id],
     )
-
-
-def create_response(user_message, surface_chat, chatbot_id):
-    """Returns a tuple: ("", surface_chat). The surface chat has been updated
-    with a response from the chatbot."""
-    global DEEP_CHAT
-    DEEP_CHAT.append({"role": "user", "content": user_message})
-    DEEP_CHAT, harvested_syntax = respond_to_user(DEEP_CHAT, chatbot_id)
-    raw_response = grab_last_assistant_response(DEEP_CHAT)
-    surface_response = remove_syntax_from_message(raw_response)
-
-    surface_chat.append((user_message, surface_response))
-
-    image_url_list = get_image_urls(harvested_syntax)
-    for image_url in image_url_list:
-        surface_chat.append((None, (image_url,)))
-
-    dump_current_conversation_to_json(DEEP_CHAT)
-
-    if harvested_syntax["referral"]:
-        assistant_name = harvested_syntax["referral"]["name"]
-        DEEP_CHAT = direct_to_new_assistant(assistant_name)
-        surface_response = grab_last_assistant_response(DEEP_CHAT)
-        surface_response_no_syntax = remove_syntax_from_message(surface_response)
-        surface_chat.append((None, surface_response_no_syntax))
-
-    DEEP_CHAT = remove_inactive_sources(DEEP_CHAT)
-    DEEP_CHAT = truncate_if_too_long(DEEP_CHAT)
-
-    return "", surface_chat
 
 
 def respond(user_message, surface_chat):
