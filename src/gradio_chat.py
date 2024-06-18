@@ -56,7 +56,9 @@ def chat_with_bot_in_gradio_interface(server_port=None):
         with gr.Column(visible=True) as auth_interface:
             password = gr.Textbox(label="Enter Password")
             chatbot_selection = gr.Radio(
-                choices=["Schizophrenia", "E-health course"], label="Select Chatbot"
+                choices=["Schizophrenia", "E-health course"],
+                label="Select Chatbot",
+                value="Schizophrenia",
             )
             auth_button = gr.Button("Submit")
             wrong_password_message = gr.Label(
@@ -67,32 +69,35 @@ def chat_with_bot_in_gradio_interface(server_port=None):
         with gr.Row(visible=False) as chat_interface:
 
             # Left column with images
-            with gr.Column(scale=0.5):
+            with gr.Column(scale=0.7):
                 # Window that shows history of dispayed images
-                reset_button = gr.Button("Restart conversation")
-                image_window = gr.Chatbot(height=700, label="Images")
+                image_window = gr.Chatbot(height=500, label="Images")
+                with gr.Row():
+                    # Create row to place them side-by-side
+                    reset_button = gr.Button("Restart conversation", scale=0.20)
+                    user_message = gr.Textbox(label="Enter message and hit enter")
 
             # Right column with chat window
             with gr.Column():
-                surface_chat = gr.Chatbot(label="Chat", height=650)
-                user_message = gr.Textbox(label="Enter message and hit enter")
-                user_message.submit(
-                    respond,
-                    inputs=[
-                        user_message,
-                        deep_chat,
-                        surface_chat,
-                        chatbot_id,
-                        image_window,
-                    ],
-                    outputs=[
-                        user_message,
-                        deep_chat,
-                        surface_chat,
-                        chatbot_id,
-                        image_window,
-                    ],
-                )
+                surface_chat = gr.Chatbot(height=600, label="Chat")
+
+            user_message.submit(
+                respond,
+                inputs=[
+                    user_message,
+                    deep_chat,
+                    surface_chat,
+                    chatbot_id,
+                    image_window,
+                ],
+                outputs=[
+                    user_message,
+                    deep_chat,
+                    surface_chat,
+                    chatbot_id,
+                    image_window,
+                ],
+            )
 
         reset_button.click(
             reset_conversation,
