@@ -1,5 +1,4 @@
 import gradio as gr
-import sys
 import os
 
 from console_chat import PROMPTS
@@ -18,7 +17,7 @@ from utils.chat_utilities import generate_and_add_raw_bot_response
 CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
 
 
-def chat_with_bot_in_gradio_interface(server_port=None):
+def chat_with_bot_in_gradio_interface():
     """Allows you to have a conversation with the chatbot in a gradio
     interface. racks two versions of the chat in parallell. DEEP_CHAT contains
     the raw conversation history, including system messages and raw chatbot
@@ -26,33 +25,12 @@ def chat_with_bot_in_gradio_interface(server_port=None):
     surface_chat is the representation of the chat which is seen by the user and
     presented in the gradio interface."""
 
-    def initiate_new_chat(chatbot_id):
-        reset_files_that_track_cumulative_variables()
-        deep_chat = initiate_conversation_with_prompt(
-            PROMPTS[chatbot_id],
-        )
-        return deep_chat
-
-    def respond(user_message, deep_chat, surface_chat, chatbot_id, image_window):
-        """Updates the surface chat by generating and adding chatbot response."""
-        user_message, deep_chat, surface_chat, image_window = create_response(
-            user_message, deep_chat, surface_chat, chatbot_id, image_window
-        )
-        return user_message, deep_chat, surface_chat, chatbot_id, image_window
-
-    def reset_conversation(deep_chat, chatbot_id):
-        """Function that gets called when 'Reset conversation' button gets
-        clicked."""
-        deep_chat = initiate_new_chat(chatbot_id)
-        surface_chat = []
-        return surface_chat, deep_chat
-
     with gr.Blocks() as demo:
-        # Initiate chat
+        # Initiate state variables
         chatbot_id = gr.State(value="mental_health")
-        deep_chat = gr.State(initiate_conversation_with_prompt(chatbot_id.value))
+        deep_chat = gr.State(initiate_new_chat(chatbot_id.value))
 
-        # Password authentification & chatbot selection
+        # ** Password authentification & chatbot selection screen **
         with gr.Column(visible=True) as auth_interface:
             password = gr.Textbox(label="Enter Password")
             chatbot_selection = gr.Radio(
@@ -65,7 +43,7 @@ def chat_with_bot_in_gradio_interface(server_port=None):
                 value="Wrong password, try again", visible=False, label=""
             )
 
-        # Chatbot interface (initially hidden)
+        # ** Chatbot interface - revealed after authentification **
         with gr.Row(visible=False) as chat_interface:
 
             # Left column with images
@@ -81,32 +59,10 @@ def chat_with_bot_in_gradio_interface(server_port=None):
             with gr.Column():
                 surface_chat = gr.Chatbot(height=600, label="Chat")
 
-            user_message.submit(
-                respond,
-                inputs=[
-                    user_message,
-                    deep_chat,
-                    surface_chat,
-                    chatbot_id,
-                    image_window,
-                ],
-                outputs=[
-                    user_message,
-                    deep_chat,
-                    surface_chat,
-                    chatbot_id,
-                    image_window,
-                ],
-            )
-
-        reset_button.click(
-            reset_conversation,
-            inputs=[deep_chat, chatbot_id],
-            outputs=[surface_chat, deep_chat],
-        )
-
+        # ** Clicks **
         # Authentfication click
-        @auth_button.click(
+        auth_button.click(
+            authenticate,
             inputs=[password, chatbot_selection],
             outputs=[
                 auth_interface,
@@ -116,38 +72,65 @@ def chat_with_bot_in_gradio_interface(server_port=None):
                 chatbot_id,
             ],
         )
-        def authenticate(password, chatbot_selection):
-            """Function to authenticate the user."""
-            if (
-                SETTINGS["gradio_password_disabled"] or password == CHATBOT_PASSWORD
-            ):  # Password correct
-                auth_interface = gr.update(visible=False)
-                chat_interface = gr.update(visible=True)
-                wrong_password_message = gr.update(visible=False)
-            else:
-                # Password incorrect
-                auth_interface = gr.update(visible=True)
-                chat_interface = gr.update(visible=False)
-                wrong_password_message = gr.update(visible=True)
-
-            if chatbot_selection == "Schizophrenia":
-                chatbot_id = "mental_health"
-            else:
-                chatbot_id = "ehealth_module1"
-            deep_chat = initiate_new_chat(chatbot_id)
-
-            return (
-                auth_interface,
-                chat_interface,
-                wrong_password_message,
+        # Submitting user message
+        user_message.submit(
+            respond,
+            inputs=[
+                user_message,
                 deep_chat,
+                surface_chat,
                 chatbot_id,
-            )
+                image_window,
+            ],
+            outputs=[
+                user_message,
+                deep_chat,
+                surface_chat,
+                chatbot_id,
+                image_window,
+            ],
+        )
+        # Resetting chat
+        reset_button.click(
+            reset_conversation,
+            inputs=[deep_chat, chatbot_id],
+            outputs=[surface_chat, deep_chat],
+        )
 
     demo.launch(share=True)
 
 
-def create_response(user_message, deep_chat, surface_chat, chatbot_id, image_window):
+def authenticate(password, chatbot_selection):
+    """Function run when user clicks "submit" on screen 1. Checks
+    authentification attempt and chatbot selection."""
+    if (
+        SETTINGS["gradio_password_disabled"] or password == CHATBOT_PASSWORD
+    ):  # Password correct
+        auth_interface = gr.update(visible=False)
+        chat_interface = gr.update(visible=True)
+        wrong_password_message = gr.update(visible=False)
+    else:
+        # Password incorrect
+        auth_interface = gr.update(visible=True)
+        chat_interface = gr.update(visible=False)
+        wrong_password_message = gr.update(visible=True)
+
+    if chatbot_selection == "Schizophrenia":
+        chatbot_id = "mental_health"
+    else:
+        chatbot_id = "ehealth_module1"
+    deep_chat = initiate_new_chat(chatbot_id)
+
+    return (
+        auth_interface,
+        chat_interface,
+        wrong_password_message,
+        deep_chat,
+        chatbot_id,
+    )
+
+
+def respond(user_message, deep_chat, surface_chat, chatbot_id, image_window):
     """Returns a tuple: ("", surface_chat). The surface chat has been updated
     with a response from the chatbot."""
 
@@ -179,7 +162,25 @@ def create_response(user_message, deep_chat, surface_chat, chatbot_id, image_win
     surface_chat.append((user_message, surface_response))
     user_message = ""
 
-    return user_message, deep_chat, surface_chat, image_window
+    return user_message, deep_chat, surface_chat, chatbot_id, image_window
+
+
+def initiate_new_chat(chatbot_id):
+    """Initiates new chat object by using the chatbot ID to fetch the associated
+    prompt."""
+    reset_files_that_track_cumulative_variables()
+    deep_chat = initiate_conversation_with_prompt(
+        PROMPTS[chatbot_id],
+    )
+    return deep_chat
+
+
+def reset_conversation(deep_chat, chatbot_id):
+    """Function that gets called when 'Reset conversation' button gets
+    clicked."""
+    deep_chat = initiate_new_chat(chatbot_id)
+    surface_chat = []
+    return surface_chat, deep_chat
 
 
 def get_image_urls(harvested_syntax):
@@ -191,9 +192,4 @@ def get_image_urls(harvested_syntax):
 
 
 if __name__ == "__main__":
-    chatbot_id = "mental_health"
-    if len(sys.argv) == 2:
-        chatbot_id = sys.argv[1]
-    if len(sys.argv) == 3:
-        server_port = sys.argv[2]
-    chat_with_bot_in_gradio_interface(chatbot_id)
+    chat_with_bot_in_gradio_interface()
