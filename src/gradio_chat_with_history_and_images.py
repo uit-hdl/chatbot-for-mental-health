@@ -16,7 +16,6 @@ from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
 
 CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
-DEEP_CHAT = []
 
 
 def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
@@ -26,7 +25,6 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     responses which commands intended for backend interpretation. The
     surface_chat is the representation of the chat which is seen by the user and
     presented in the gradio interface."""
-    global DEEP_CHAT
 
     def initiate_new_chat():
         reset_files_that_track_cumulative_variables()
@@ -41,12 +39,13 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
         )
         return user_text, deep_chat, surface_chat, image_window
 
-    def reset_conversation():
+    def reset_conversation(deep_chat):
         """Function that gets called when 'Reset conversation' button gets
         clicked."""
-        global DEEP_CHAT
-        DEEP_CHAT = initiate_new_chat()
-        return "", []
+        deep_chat = initiate_new_chat()
+        surface_chat = []
+        user_message = ""
+        return user_message, surface_chat, deep_chat
 
     def authenticate(password):
         """Function to authenticate the user."""
@@ -64,6 +63,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     with gr.Blocks() as demo:
         # Initiate chat
         deep_chat = gr.State(initiate_new_chat())
+        # surface_chat = gr.Chatbot(height=700, visible=False)
 
         # Password authentification
         with gr.Column(visible=True) as auth_interface:
@@ -79,11 +79,6 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
                 # Window that shows history of dispayed images
                 reset_button = gr.Button("Restart conversation")
                 image_window = gr.Chatbot(height=700, label="Images")
-                reset_button.click(
-                    reset_conversation,
-                    inputs=[],
-                    outputs=[auth_interface, chat_interface, error_message],
-                )
 
             # Right column with chat window
             with gr.Column():
@@ -95,6 +90,11 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
                     outputs=[user_message, deep_chat, surface_chat, image_window],
                 )
 
+        reset_button.click(
+            reset_conversation,
+            inputs=[deep_chat],
+            outputs=[user_message, surface_chat, deep_chat],
+        )
         auth_button.click(
             authenticate,
             inputs=[password_input],
@@ -107,7 +107,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
 def create_response(user_text, deep_chat, surface_chat, chatbot_id, image_window):
     """Returns a tuple: ("", surface_chat). The surface chat has been updated
     with a response from the chatbot."""
-    global DEEP_CHAT
+
     deep_chat.append({"role": "user", "content": user_text})
     deep_chat, harvested_syntax = respond_to_user(deep_chat, chatbot_id)
     raw_response = grab_last_assistant_response(deep_chat)
