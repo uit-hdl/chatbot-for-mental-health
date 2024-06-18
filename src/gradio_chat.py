@@ -46,29 +46,35 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
         surface_chat = []
         return surface_chat, deep_chat
 
-    def authenticate(password):
-        """Function to authenticate the user."""
-        if (
-            SETTINGS["gradio_password_disabled"] or password == CHATBOT_PASSWORD
-        ):  # Hardcoded password for demonstration
-            return gr.update(visible=False), gr.update(visible=True), ""
-        else:
-            return (
-                gr.update(visible=True),
-                gr.update(visible=False),
-                gr.update(value="Wrong password, please try again.", visible=True),
-            )
+    # def select_chatbot(chatbot_id):
+    #     """Function to authenticate the user."""
+    #     available_chatbots = ["mental_health", "ehealth_module1"]
+    #     if chatbot_id in available_chatbots:
+    #         return gr.update(visible=False), gr.update(visible=True), ""
+    #     else:
+    #         return (
+    #             gr.update(visible=True),
+    #             gr.update(visible=False),
+    #             gr.update(value="Wrong password, please try again.", visible=True),
+    #         )
 
     with gr.Blocks() as demo:
         # Initiate chat
         deep_chat = gr.State(initiate_new_chat())
-        # surface_chat = gr.Chatbot(height=700, visible=False)
 
         # Password authentification
         with gr.Column(visible=True) as auth_interface:
             password_input = gr.Textbox(label="Enter Password")
             auth_button = gr.Button("Submit")
-            error_message = gr.Label(value="", visible=False, label="")
+            error_message = gr.Label(value="Wrong, try again", visible=False, label="")
+
+        # # Select chatbot ID
+        # with gr.Column(visible=True) as auth_interface:
+        #     chatbot_selection_box = gr.Textbox(
+        #         label="Name of chatbot (mental_health or ehealth_module1)"
+        #     )
+        #     chatbot_selection__submit_button = gr.Button("Submit choice")
+        #     error_message = gr.Label(value="", visible=False, label="")
 
         # Chatbot interface (initially hidden)
         with gr.Row(visible=False, elem_id="chat_interface") as chat_interface:
@@ -94,11 +100,25 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
             inputs=[deep_chat],
             outputs=[surface_chat, deep_chat],
         )
-        auth_button.click(
-            authenticate,
+
+        @auth_button.click(
             inputs=[password_input],
             outputs=[auth_interface, chat_interface, error_message],
         )
+        def authenticate(password):
+            """Function to authenticate the user."""
+            if (
+                SETTINGS["gradio_password_disabled"] or password == CHATBOT_PASSWORD
+            ):  # Password correct
+                auth_interface = gr.update(visible=False)
+                chat_interface = gr.update(visible=True)
+                error_message = gr.update(visible=False)
+            else:
+                # Password incorrect
+                auth_interface = gr.update(visible=True)
+                chat_interface = gr.update(visible=False)
+                error_message = gr.update(visible=True)
+            return auth_interface, chat_interface, error_message
 
     demo.launch(share=True, server_port=server_port)
 
