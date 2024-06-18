@@ -47,4 +47,3 @@ schizophrenia_early_signs.png | contents shown in enumerated list below].
   - Prolonged staring
   - Using illegal drugs
   - Avoiding social situations
-
