@@ -44,8 +44,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
         clicked."""
         deep_chat = initiate_new_chat()
         surface_chat = []
-        user_message = ""
-        return user_message, surface_chat, deep_chat
+        return surface_chat, deep_chat
 
     def authenticate(password):
         """Function to authenticate the user."""
@@ -93,7 +92,7 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
         reset_button.click(
             reset_conversation,
             inputs=[deep_chat],
-            outputs=[user_message, surface_chat, deep_chat],
+            outputs=[surface_chat, deep_chat],
         )
         auth_button.click(
             authenticate,
