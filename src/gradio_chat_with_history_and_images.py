@@ -34,12 +34,12 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
             PROMPTS[chatbot_id],
         )
 
-    def respond(user_text, surface_chat, image_window):
+    def respond(user_text, deep_chat, surface_chat, image_window):
         """Updates the surface chat by generating and adding chatbot response."""
-        user_text, surface_chat, image_window = create_response(
-            user_text, surface_chat, chatbot_id, image_window
+        user_text, deep_chat, surface_chat, image_window = create_response(
+            user_text, deep_chat, surface_chat, chatbot_id, image_window
         )
-        return user_text, surface_chat, image_window
+        return user_text, deep_chat, surface_chat, image_window
 
     def reset_conversation():
         """Function that gets called when 'Reset conversation' button gets
@@ -61,9 +61,10 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
                 gr.update(value="Wrong password, please try again.", visible=True),
             )
 
-    DEEP_CHAT = initiate_new_chat()
-
     with gr.Blocks() as demo:
+        # Initiate chat
+        deep_chat = gr.State(initiate_new_chat())
+
         # Password authentification
         with gr.Column(visible=True) as auth_interface:
             password_input = gr.Textbox(label="Enter Password")
@@ -90,8 +91,8 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
                 surface_chat = gr.Chatbot(label="Chat", height=650)
                 user_message.submit(
                     respond,
-                    inputs=[user_message, surface_chat, image_window],
-                    outputs=[user_message, surface_chat, image_window],
+                    inputs=[user_message, deep_chat, surface_chat, image_window],
+                    outputs=[user_message, deep_chat, surface_chat, image_window],
                 )
 
         auth_button.click(
@@ -103,36 +104,37 @@ def chat_with_bot_in_gradio_interface(chatbot_id, server_port=None):
     demo.launch(share=True, server_port=server_port)
 
 
-def create_response(user_text, surface_chat, chatbot_id, image_window):
+def create_response(user_text, deep_chat, surface_chat, chatbot_id, image_window):
     """Returns a tuple: ("", surface_chat). The surface chat has been updated
     with a response from the chatbot."""
     global DEEP_CHAT
-    DEEP_CHAT.append({"role": "user", "content": user_text})
-    DEEP_CHAT, harvested_syntax = respond_to_user(DEEP_CHAT, chatbot_id)
-    raw_response = grab_last_assistant_response(DEEP_CHAT)
+    deep_chat.append({"role": "user", "content": user_text})
+    deep_chat, harvested_syntax = respond_to_user(deep_chat, chatbot_id)
+    raw_response = grab_last_assistant_response(deep_chat)
     surface_response = remove_syntax_from_message(raw_response)
 
     image_url_list = get_image_urls(harvested_syntax)
     if image_url_list:
         image_url = image_url_list[0]
+        # The image window is a chatbot component where there is no user inputs.
         image_window.append((None, (image_url,)))
 
-    dump_current_conversation_to_json(DEEP_CHAT)
+    dump_current_conversation_to_json(deep_chat)
 
     if harvested_syntax["referral"]:
         assistant_name = harvested_syntax["referral"]["name"]
-        DEEP_CHAT = direct_to_new_assistant(assistant_name)
-        DEEP_CHAT = generate_and_add_raw_bot_response(DEEP_CHAT)
+        deep_chat = direct_to_new_assistant(assistant_name)
+        deep_chat = generate_and_add_raw_bot_response(deep_chat)
         surface_response = remove_syntax_from_message(
-            grab_last_assistant_response(DEEP_CHAT)
+            grab_last_assistant_response(deep_chat)
         )
 
-    DEEP_CHAT = remove_inactive_sources(DEEP_CHAT)
-    DEEP_CHAT = truncate_if_too_long(DEEP_CHAT)
+    deep_chat = remove_inactive_sources(deep_chat)
+    deep_chat = truncate_if_too_long(deep_chat)
 
     surface_chat.append((user_text, surface_response))
 
-    return "", surface_chat, image_window
+    return "", deep_chat, surface_chat, image_window
 
 
 def get_image_urls(harvested_syntax):
