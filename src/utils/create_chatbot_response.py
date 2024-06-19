@@ -37,7 +37,7 @@ def respond_to_user(conversation, chatbot_id: str) -> tuple[list, dict]:
         ) = generate_valid_chatbot_output(conversation, chatbot_id)
         knowledge_requests = harvested_syntax["knowledge_extensions"]
         counter += 1
-        dump_current_conversation_to_json(conversation)
+        dump_current_conversation_to_json(conversation, also_dump_formatted=True)
 
     return conversation, harvested_syntax
 
@@ -45,7 +45,7 @@ def respond_to_user(conversation, chatbot_id: str) -> tuple[list, dict]:
 def generate_valid_chatbot_output(conversation, chatbot_id):
     """Attempts to generate a response untill the response passes quality check
     based on criteria such as whether or not the requested files exist."""
-
+    
     for attempt in range(SETTINGS["n_attempts_at_producing_valid_response"]):
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id

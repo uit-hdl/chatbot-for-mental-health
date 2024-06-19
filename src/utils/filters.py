@@ -56,6 +56,7 @@ def perform_quality_check_and_give_feedback(
         overseer_evaluation, warnings_from_ai_filter, conversation = ai_filter(
             conversation, harvested_syntax, chatbot_id
         )
+        all_warnings.append(warnings_from_ai_filter)
         conversation = append_system_messages(conversation, warnings_from_ai_filter)
 
         if overseer_evaluation == "REJECT":

@@ -178,10 +178,14 @@ def dump_prompt_response_pair_to_md(prompt, output, dump_name):
     )
 
 
-def dump_current_conversation_to_json(conversation, filename="conversation"):
+def dump_current_conversation_to_json(
+    conversation, filename="conversation", also_dump_formatted=False
+):
     """Dumps the conversation to the conversation directory as a json file."""
     dump_to_json(conversation, f"{CONVERSATIONS_CURRENT_DIR}/{filename}.json")
     dump_to_json(conversation, f"{CHAT_DASHBOARD_DIR}/{filename}.json")
+    if also_dump_formatted:
+        dump_chat_to_markdown(conversation, f"{CHAT_DASHBOARD_DIR}/{filename}.md")
 
 
 def dump_conversation(conversation: list, label: str = "conversation"):
@@ -360,14 +364,15 @@ def collect_prompts_in_dictionary(chatbot_id=None, directory_path=PROMPTS_DIR):
     dictionary where the keys are file names and the values are file paths."""
     all_files = {}
     if chatbot_id:
-        directory_path = os.path.join(
-            PROMPTS_DIR, get_subfolder_of_assistant(chatbot_id)
-        )
+        # Collect only prompts in subfolder associated with chatbot
+        subfolder_path = get_subfolder_of_assistant(chatbot_id)
+        directory_path = os.path.join(directory_path, subfolder_path)
     file_paths = get_file_paths_in_directory(directory_path)
 
     for file_path in file_paths:
         file_name_without_extension = os.path.splitext(os.path.basename(file_path))[0]
         all_files[file_name_without_extension] = load_textfile_as_string(file_path)
+
     return all_files
 
 

@@ -1,7 +1,7 @@
 import gradio as gr
 import os
 
-from console_chat import PROMPTS
+from console_chat import collect_prompts_in_dictionary
 from console_chat import initiate_conversation_with_prompt
 from console_chat import remove_inactive_sources
 from console_chat import respond_to_user
@@ -15,6 +15,11 @@ from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
 
 CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
+
+CHAT_WINDOW_HEIGHT = 750
+IMAGES_WINDOW_HEIGHT = 650
+IMAGES_WINDOW_SCALE = 0.7
+RESET_BUTTON_SCALE = 0.05
 
 
 def chat_with_bot_in_gradio_interface():
@@ -47,17 +52,19 @@ def chat_with_bot_in_gradio_interface():
         with gr.Row(visible=False) as chat_interface:
 
             # Left column with images
-            with gr.Column(scale=0.7):
+            with gr.Column(scale=IMAGES_WINDOW_SCALE):
                 # Window that shows history of dispayed images
-                image_window = gr.Chatbot(height=500, label="Images")
+                image_window = gr.Chatbot(height=IMAGES_WINDOW_HEIGHT, label="Images")
                 with gr.Row():
                     # Create row to place them side-by-side
-                    reset_button = gr.Button("Restart conversation", scale=0.20)
+                    reset_button = gr.Button(
+                        "Restart conversation", scale=RESET_BUTTON_SCALE
+                    )
                     user_message = gr.Textbox(label="Enter message and hit enter")
 
             # Right column with chat window
             with gr.Column():
-                surface_chat = gr.Chatbot(height=600, label="Chat")
+                surface_chat = gr.Chatbot(height=CHAT_WINDOW_HEIGHT, label="Chat")
 
         # ** Clicks **
         # Authentfication click
@@ -145,7 +152,7 @@ def respond(user_message, deep_chat, surface_chat, chatbot_id, image_window):
         # The image window is a chatbot component where there is no user inputs.
         image_window.append((None, (image_url,)))
 
-    dump_current_conversation_to_json(deep_chat)
+    dump_current_conversation_to_json(deep_chat, also_dump_formatted=True)
 
     if harvested_syntax["referral"]:
         chatbot_id = harvested_syntax["referral"]["name"]
@@ -169,9 +176,8 @@ def initiate_new_chat(chatbot_id):
     """Initiates new chat object by using the chatbot ID to fetch the associated
     prompt."""
     reset_files_that_track_cumulative_variables()
-    deep_chat = initiate_conversation_with_prompt(
-        PROMPTS[chatbot_id],
-    )
+    prompt = collect_prompts_in_dictionary(chatbot_id)[chatbot_id]
+    deep_chat = initiate_conversation_with_prompt(prompt)
     return deep_chat
 
 
