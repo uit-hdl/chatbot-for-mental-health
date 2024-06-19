@@ -178,10 +178,14 @@ def dump_prompt_response_pair_to_md(prompt, output, dump_name):
     )
 
 
-def dump_current_conversation_to_json(conversation, filename="conversation"):
+def dump_current_conversation_to_json(
+    conversation, filename="conversation", also_dump_formatted=False
+):
     """Dumps the conversation to the conversation directory as a json file."""
     dump_to_json(conversation, f"{CONVERSATIONS_CURRENT_DIR}/{filename}.json")
     dump_to_json(conversation, f"{CHAT_DASHBOARD_DIR}/{filename}.json")
+    if also_dump_formatted:
+        dump_chat_to_markdown(conversation, f"{CHAT_DASHBOARD_DIR}/{filename}.md")
 
 
 def dump_conversation(conversation: list, label: str = "conversation"):

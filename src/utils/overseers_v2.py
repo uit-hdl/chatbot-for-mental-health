@@ -48,13 +48,16 @@ def ai_filter(conversation, harvested_syntax, chatbot_id):
     # chatbot_id = "mental_health"
     # conversation = load_json_from_path(
     #     "results/chat-dumps/ai_thinks_it_is_socialisation_expert/conversation.json"
-    # )
+    # )[:-10]
+    # # conversation = load_json_from_path(
+    # #     "chat-dashboard/conversation.json"
+    # # )[]
     # harvested_syntax = load_json_from_path(
     #     "results/chat-dumps/ai_thinks_it_is_socialisation_expert/harvested_syntax.json"
     # )
     # # harvested_syntax["citations"] = []
     # prompts = get_file_names_in_directory(
-    #     os.path.join(PROMPTS_DIR, get_subfolder_of_assistant(chatbot_id))
+    #     # os.path.join(PROMPTS_DIR, get_subfolder_of_assistant(chatbot_id))
     # )
 
     chatbot_citations = harvested_syntax["citations"]
@@ -63,6 +66,7 @@ def ai_filter(conversation, harvested_syntax, chatbot_id):
     cheif_evaluation = "ACCEPT"
     warning_messages = []
 
+    # Update PROMPTS dictionary
     update_global_variables(chatbot_id)
 
     # Extract the overseer dictionary corresponding to the chatbot
@@ -131,7 +135,7 @@ def evaluate_with_ai_judges(chatbot_id, conversation, chatbot_citations):
                 relevant_cheif_judges, prompt_variables
             )
 
-        # Correct rejected responses so it complies with cheif judge feedback
+        # Correct rejected responses so that it complies with cheif judge feedback
         response_modifiers = OVERSEERS_CONFIG["chatbots"][chatbot_id][
             "chatbot_response_modifiers"
         ]
@@ -146,7 +150,7 @@ def evaluate_with_ai_judges(chatbot_id, conversation, chatbot_citations):
                 )
             )
             # Set to ACCEPT again since response is corrected
-            cheif_evaluation == "ACCEPT"
+            cheif_evaluation = "ACCEPT"
 
     return cheif_evaluation, warning_messages, conversation
 

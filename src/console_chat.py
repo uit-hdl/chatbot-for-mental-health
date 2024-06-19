@@ -30,6 +30,7 @@ from utils.console_chat_display import play_videos
 from utils.console_chat_display import print_whole_conversation_with_backend_info
 from utils.console_chat_display import display_images
 from utils.manage_chat_length import truncate_if_too_long
+from convert_json_chat_to_markdown import convert_json_chat_to_markdown
 
 
 # Initiate global variables
@@ -67,7 +68,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         print_last_assistant_response(conversation)
         display_images(harvested_syntax["images"])
         play_videos(harvested_syntax["videos"])
-        dump_current_conversation_to_json(conversation)
+        dump_current_conversation_to_json(conversation, also_dump_formatted=True)
 
         if harvested_syntax["referral"]:
             chatbot_id = harvested_syntax["referral"]["name"]

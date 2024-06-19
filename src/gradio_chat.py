@@ -16,8 +16,8 @@ from utils.chat_utilities import generate_and_add_raw_bot_response
 
 CHATBOT_PASSWORD = os.environ["CHATBOT_PASSWORD"]
 
-CHAT_WINDOW_HEIGHT = 650
-IMAGES_WINDOW_HEIGHT = 550
+CHAT_WINDOW_HEIGHT = 750
+IMAGES_WINDOW_HEIGHT = 650
 IMAGES_WINDOW_SCALE = 0.7
 RESET_BUTTON_SCALE = 0.05
 
@@ -152,7 +152,7 @@ def respond(user_message, deep_chat, surface_chat, chatbot_id, image_window):
         # The image window is a chatbot component where there is no user inputs.
         image_window.append((None, (image_url,)))
 
-    dump_current_conversation_to_json(deep_chat)
+    dump_current_conversation_to_json(deep_chat, also_dump_formatted=True)
 
     if harvested_syntax["referral"]:
         chatbot_id = harvested_syntax["referral"]["name"]
@@ -178,7 +178,6 @@ def initiate_new_chat(chatbot_id):
     reset_files_that_track_cumulative_variables()
     prompt = collect_prompts_in_dictionary(chatbot_id)[chatbot_id]
     deep_chat = initiate_conversation_with_prompt(prompt)
-    # print(deep_chat)
     return deep_chat
 
 

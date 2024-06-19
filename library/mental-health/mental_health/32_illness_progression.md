@@ -7,7 +7,7 @@ patterns in your condition emerge. Having a different range of
 symptoms at different times is to be expected; there are distinct
 ‘phases’ of schizophrenia, which can occur in cycles.
 
-[show: 32_stages_of_progression.png | illustrates stages below]
+[show: 32_stages_of_progression.png | show before presenting the 3 stages]
 
 ## Prodromal (beginning) phase
 

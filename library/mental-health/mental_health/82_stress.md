@@ -15,4 +15,5 @@ stress levels and to reduce the impact that stress has on your life.
 - Exercise - this can prevent as well as relieve stress
 - Withdraw gradually from situations you find stressful
 
-[`relaxation` assistant provides in-depth info if user is interested]
+[`relaxation` assistant provides in-depth info if user is interested | Not
+implemented, but might be implemented in the future]
