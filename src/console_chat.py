@@ -16,6 +16,7 @@ from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.backend import reset_files_that_track_cumulative_variables
 from utils.backend import PROMPTS
+from utils.backend import collect_prompts_in_dictionary
 from utils.command_line_utils import offer_to_store_conversation
 from utils.command_line_utils import get_user_message_from_console
 from utils.command_line_utils import search_for_console_command
@@ -42,6 +43,9 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
     """Have a chat with a chatbot assistant in the console. The chatbot id is
     the name of the file (no extension) that contains the prompt of the chatbot.
     Supply path to json file if you want to continue a previous conversation."""
+    global PROMPTS
+
+    PROMPTS = collect_prompts_in_dictionary(chatbot_id)
 
     if chat_filepath:
         conversation = continue_previous_conversation(chat_filepath, chatbot_id)
@@ -66,8 +70,8 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         dump_current_conversation_to_json(conversation)
 
         if harvested_syntax["referral"]:
-            assistant_name = harvested_syntax["referral"]["name"]
-            conversation = direct_to_new_assistant(assistant_name)
+            chatbot_id = harvested_syntax["referral"]["name"]
+            conversation = direct_to_new_assistant(chatbot_id)
             conversation = generate_and_add_raw_bot_response(conversation)
             print_last_response(conversation)
 
