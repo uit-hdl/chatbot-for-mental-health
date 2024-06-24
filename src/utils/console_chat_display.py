@@ -131,7 +131,7 @@ def display_image(image_path: str):
     plt.gca().yaxis.set_major_locator(plt.NullLocator())
 
     plt.show(block=False)
-    plt.pause(SETTINGS["plot_duration"])
+    plt.pause(100)
     plt.close()
 
 

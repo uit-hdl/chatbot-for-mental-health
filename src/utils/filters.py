@@ -6,7 +6,6 @@ from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import append_system_messages
 from utils.managing_sources import get_names_of_currently_inserted_sources
 from utils.overseers import MESSAGE_CLASSIFICATIONS
-from utils.overseers import evaluate_with_overseers
 from utils.overseers_v2 import ai_filter
 from utils.general import silent_print
 from utils.backend import SETTINGS

@@ -1,9 +1,9 @@
 # --- GENERATING A RESPONSE & REQUESTING KNOWLEDGE ---
-# Controll max number of attempts at producing valid response:
+# Controll max number of attempts for producing valid response:
 n_attempts_at_producing_valid_response: 2
-max_requests: 2 # Maximum number of sources that the chatbot is allowed to request per turn.
-# --- FILTERS ---
-# Set to false to turn of filters that check the contents of generated messages
+# Maximum number of sources that the chatbot is allowed to request per turn:
+max_requests: 2
+# --- FILTERS --- 'True' turns on filters that monitor the AI messages
 enable_overseer_filter: True
 enable_hard_coded_filter: True
 
@@ -23,8 +23,7 @@ gradio_password_disabled: True
 
 # --- APPEARANCES ---
 word_wrap: 80 # N.o. characters before line gets wrapped.
-plot_duration: 10000 # The duration of time for which the figures are shown (uggly solution...)
-# Printing
+# Printing when chatbot requests knowledge
 print_knowledge_requests: True
 
 # --- RATES USED TO CALCULATE COSTS ---

@@ -3,6 +3,10 @@
 # Each judge is triggered by a set of citations; these citation groups are
 # defined in 'citations.yaml'. If you want to skip a certain AI-filter stage is
 # not desired, such as 'chatbot_response_modifiers', set it to an empty list.
+#
+# prompt_variables: list of variables that gets plugged into the prompt
+# template. These variables must have a corresponding operation in
+# utils.overseers.collect_relevant_prompt_variables for anything to happen.
 chatbots:
   mental_health:
     # AI-judges that use GPT-3.5

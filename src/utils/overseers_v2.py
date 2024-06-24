@@ -62,11 +62,11 @@ def ai_filter(conversation, harvested_syntax, chatbot_id):
 
     chatbot_citations = harvested_syntax["citations"]
 
-    # Set default ouptut values
+    # Set default output values
     cheif_evaluation = "ACCEPT"
     warning_messages = []
 
-    # Update PROMPTS dictionary
+    # Update PROMPTS dictionary and CITATIONS (UPDATE)
     update_global_variables(chatbot_id)
 
     # Extract the overseer dictionary corresponding to the chatbot
@@ -212,10 +212,10 @@ def collect_relevant_prompt_variables(
     chatbot_id: str,
     chatbot_citations: list[str],
 ) -> dict:
-    """Collects variables that are inserted as variables in the overseer prompts
-    in a dictionary, such as chatbot_message. Note: if you want to have a
-    variable "... {var_name} ..." in your prompt, then you need to add it below
-    and make sure the names in the code and prompt are identical."""
+    """Creates and collects variables that are inserted as variables in the
+    overseer prompts in a dictionary, such as chatbot_message. Note: if you want
+    to have a variable ("Here is a summary of X: {var_name} ...") in a prompt,
+    then you need to add the corresponding code in this function."""
     # Get names of prompt variables needed to complete the prompts
     prompt_variable_names_prelim = get_nessecary_prompt_variables(
         relevant_prelim_judges
@@ -226,12 +226,14 @@ def collect_relevant_prompt_variables(
         set(prompt_variable_names_prelim + prompt_variable_names_cheif)
     )
 
+    # Chatbot message and user message are always collected
     nessecary_prompt_variables = {
         "chatbot_message": remove_syntax_from_message(
             grab_last_assistant_response(conversation)
         )
     }
     nessecary_prompt_variables["user_message"] = grab_last_user_message(conversation)
+
     # Source-based variables
     content_cited_sources = get_content_of_cited_sources(chatbot_citations, chatbot_id)
     if content_cited_sources:
