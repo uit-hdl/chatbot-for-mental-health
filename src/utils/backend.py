@@ -167,9 +167,9 @@ def dump_file(variable, file_path):
 
 
 def dump_prompt_response_pair_to_md(prompt, output, dump_name):
-    """Use to dump prompt and response into a single formatted .md (markdown)
+    """Dumps prompt and response into a single formatted .md (markdown)
     file for convenience and readability. Makes it easier to debug
-    monitoring/overseer agents when they are behaving strangely."""
+    monitoring/overseer agents."""
     dump_path = os.path.join(OVERSEER_DUMP_DIR, add_extension(dump_name, ".md"))
     full_path = get_full_path_and_create_dir(dump_path)
     dump_file(

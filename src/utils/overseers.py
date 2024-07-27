@@ -229,7 +229,7 @@ def correct_rejected_response_and_modify_chat_and_warning_accordingly(
         system_message=warning_message,
     )
     conversation = replace_last_assistant_response(
-        conversation, replacement_content=response_corrected
+        conversation, subsitute_message=response_corrected
     )
     # Warnings, such as length warnings, following corrected response are not needed
     conversation = remove_system_messages_following_last_assistant_response(

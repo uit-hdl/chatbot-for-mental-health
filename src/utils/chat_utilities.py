@@ -133,10 +133,10 @@ def grab_last_user_message(conversation: list) -> str:
         return conversation[index_user_messages[-1]]["content"]
 
 
-def replace_last_assistant_response(conversation, replacement_content: str) -> list:
+def replace_last_assistant_response(conversation, subsitute_message: str) -> list:
     """Substitutes the last assistant response with a new message."""
     index_assistant_messages = identify_assistant_responses(conversation)
-    conversation[index_assistant_messages[-1]]["content"] = replacement_content
+    conversation[index_assistant_messages[-1]]["content"] = subsitute_message
     return conversation
 
 
