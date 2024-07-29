@@ -9,23 +9,34 @@ mental_health:
   # AI-judges that use GPT-3.5
   preliminary_judges:
     - name: swift_judge_role_and_emergency_contact
-      evaluation_keywords: ["DENY", "WARNING", "ACCEPT"]
       prompt_variables: [user_message, chatbot_message]
       associated_mode: default
+      verdict:
+        DENY: REJECT
+        WARNING: REJECT
+        ACCEPT: ACCEPT
     - name: swift_judge_disclaimer_check
-      evaluation_keywords: [DENY, AGREE]
       prompt_variables: [user_message, chatbot_message]
       associated_mode: default
+      verdict:
+        DENY: REJECT
+        AGREE: ACCEPT
     - name: swift_judge_source_fidelity
-      evaluation_keywords: ["NOT SUPPORTED", "SUPPORTED"]
       prompt_variables: [source, chatbot_message]
       associated_mode: source_communication
+      verdict:
+        NOT SUPPORTED: REJECT
+        SUPPORTED: ACCEPT
   # Final verdict AI-judges that use GPT-4
   chief_judges:
     - name: chief_judge_default
       evaluation_keywords: ["REJECT", "WARNING", "ACCEPT"]
       prompt_variables: [user_message, chatbot_message]
       associated_mode: default
+      verdict:
+        REJECT: REJECT
+        WARNING: WARNING
+        ACCEPT: ACCEPT
     - name: chief_judge_source_fidelity
       evaluation_keywords: ["REJECT", "WARNING", "ACCEPT"]
       prompt_variables: [sources, chatbot_message]

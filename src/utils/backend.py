@@ -166,16 +166,16 @@ def dump_file(variable, file_path):
         file.write(variable)
 
 
-def dump_prompt_response_pair_to_md(prompt, output, dump_name):
+def dump_prompt_response_pair_to_md(prompt, output, dump_name, verdict=None):
     """Dumps prompt and response into a single formatted .md (markdown)
     file for convenience and readability. Makes it easier to debug
     monitoring/overseer agents."""
     dump_path = os.path.join(OVERSEER_DUMP_DIR, add_extension(dump_name, ".md"))
     full_path = get_full_path_and_create_dir(dump_path)
-    dump_file(
-        f"# PROMPT\n\n{prompt}\n\n\n\n# OUPUT\n\n{output}",
-        full_path,
-    )
+    dump_text = f"# PROMPT\n\n{prompt}\n\n\n\n# OUPUT\n\n{output}"
+    if verdict:
+        dump_text += f"\n\n# VERDICT\n\n{verdict}"
+    dump_file(dump_text, full_path)
 
 
 def dump_current_conversation_to_json(

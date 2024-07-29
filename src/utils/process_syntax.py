@@ -114,11 +114,13 @@ def get_available_files(chatbot_id: str) -> dict:
     return available_files
 
 
-def extract_command_names_and_arguments(chatbot_response: str) -> Tuple[List, List]:
-    """Takes a response, identifies substrings of the form ¤:command_name(argument):¤, and
-    extracts command names and command arguments, which are returned as two synchronized
-    lists: commands and arguments.
-    """
+def extract_command_names_and_arguments(
+    chatbot_response: str,
+) -> Tuple[List[str], List[str]]:
+    """Takes a response, identifies substrings of the form
+    ¤:command_name(argument):¤, and extracts command names and command
+    arguments, which are returned as two synchronized lists of strings: commands
+    and arguments."""
     command_strings = get_commands(chatbot_response)
     commands = []
     arguments = []

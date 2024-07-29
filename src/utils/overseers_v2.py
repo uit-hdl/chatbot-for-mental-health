@@ -4,6 +4,7 @@ identity drift. Overseer bots are assumed to generate a message on the form
 `¤:provide_feedback(<data on JSON format>):¤`"""
 
 from typing import Tuple
+import re
 
 from utils.backend import get_source_content_and_path
 from utils.backend import convert_json_string_to_dict
@@ -128,8 +129,8 @@ def evaluate_with_ai_judges(
     system warnings."""
 
     # Set default values
-    preliminary_evaluation = "ACCEPT"
-    cheif_evaluation = "ACCEPT"
+    preliminary_verdict = "ACCEPT"
+    cheif_verdict = "ACCEPT"
     warning_messages = []
 
     # Find judges that are suitable for the current response categories
@@ -146,19 +147,19 @@ def evaluate_with_ai_judges(
 
     # ** Preliminary check **
     if relevant_prelim_judges:
-        preliminary_evaluation = get_evaluation_from_preliminary_judges(
+        preliminary_verdict = get_evaluation_from_preliminary_judges(
             relevant_prelim_judges, prompt_variables
         )
 
     # ** Cheif overseers **
     if relevant_cheif_judges:
-        if preliminary_evaluation == "REJECT":
-            cheif_evaluation, warning_messages = get_evaluation_from_cheif_judges(
+        if preliminary_verdict == "REJECT":
+            cheif_verdict, warning_messages = get_evaluation_from_cheif_judges(
                 relevant_cheif_judges, prompt_variables
             )
 
         # ** Response modification **
-        if response_modifiers and cheif_evaluation == "REJECT":
+        if response_modifiers and cheif_verdict == "REJECT":
             # Modify response to comply with feedback from cheif-judges
             conversation, warning_messages = (
                 correct_rejected_response_and_modify_chat_and_warning(
@@ -169,9 +170,9 @@ def evaluate_with_ai_judges(
                 )
             )
             # Set to ACCEPT again since response is now corrected
-            cheif_evaluation = "ACCEPT"
+            cheif_verdict = "ACCEPT"
 
-    return cheif_evaluation, warning_messages, conversation
+    return cheif_verdict, warning_messages, conversation
 
 
 def inferr_response_categories(chatbot_citations) -> list[str]:
@@ -275,10 +276,10 @@ def get_evaluation_from_preliminary_judges(
 
     for judge_dict in relevant_prelim_judges:
         prelim_evaluations.append(
-            preliminary_evaluation_from_ai_judge(
+            get_verdict_from_preliminary_judge(
                 judge_name=judge_dict["name"],
                 prompt_variables=prompt_variables,
-                failure_keyword=judge_dict["evaluation_keywords"][0],
+                keyword_to_verdict_map=judge_dict["verdict"],
             )
         )
 
@@ -291,8 +292,8 @@ def get_evaluation_from_preliminary_judges(
         return "ACCEPT"
 
 
-def preliminary_evaluation_from_ai_judge(
-    judge_name: str, prompt_variables: dict, failure_keyword="REJECT"
+def get_verdict_from_preliminary_judge(
+    judge_name: str, prompt_variables: dict, keyword_to_verdict_map: dict
 ):
     """Uses GPT-3.5-turbo-instruct to do a preliminary check of fidelity to
     cited sources. This evaluation is decent at catching deviations from source
@@ -301,18 +302,32 @@ def preliminary_evaluation_from_ai_judge(
     evaluation."""
     prompt = PROMPTS[judge_name]
     prompt_completed = prompt.format(**prompt_variables)
-    evaluation = generate_single_response_to_prompt(
+    judge_response = generate_single_response_to_prompt(
         prompt_completed, model="gpt-35-turbo-16k"
     )
-    dump_prompt_response_pair_to_md(prompt_completed, evaluation, judge_name)
-    LOGGER.info(f"{judge_name}:\n{evaluation}")
+    verdict = convert_overseer_response_to_official_verdict(
+        judge_response, keyword_to_verdict_map
+    )
+    dump_prompt_response_pair_to_md(
+        prompt_completed, judge_response, judge_name, verdict
+    )
+    LOGGER.info(f"{judge_name}:\n{judge_response}")
 
-    if failure_keyword in evaluation:
-        silent_print(f"Message fails preliminary check by {judge_name}")
-        return "REJECT"
-    else:
-        silent_print(f"Message passes preliminary check by {judge_name}")
-        return "ACCEPT"
+    return verdict
+
+
+def convert_overseer_response_to_official_verdict(
+    overseer_response, keyword_to_verdict_map: dict
+):
+    """The overseer outputs a string which contains evaluation keywords like
+    AGREE or WARNING. This functions map these keywords to official verdicts
+    which are used in subsequent nodes in the decision tree. The verdict map
+    shows the verdict that each keyword maps to."""
+    verdict = "ACCEPT"
+    for keyword in keyword_to_verdict_map.keys():
+        if keyword in overseer_response:
+            verdict = keyword_to_verdict_map[keyword]
+    return verdict
 
 
 # *** CHEIF JUDGES ***
@@ -326,12 +341,13 @@ def get_evaluation_from_cheif_judges(
     cheif_evaluations = []
     warning_messages = []
     for judge_dict in relevant_cheif_judges:
-        evaluation, warning = cheif_judge_evaluation(
+        evaluation, feedback = get_cheif_judge_feedback_and_verdict(
             judge_dict,
             prompt_variables,
         )
         cheif_evaluations.append(evaluation)
-        warning_messages.append(warning)
+        if feedback:
+            warning_messages.append(feedback)
 
     silent_print(f"chief_judge_source_fidelity evaluations: {cheif_evaluations}")
 
@@ -343,64 +359,44 @@ def get_evaluation_from_cheif_judges(
         return "ACCEPT", []
 
 
-def cheif_judge_evaluation(judge_dict, prompt_variables: dict):
-    """Conducts a preliminary evaluation of the chatbots message using smart but
-    expensive LLM."""
+def get_cheif_judge_feedback_and_verdict(judge_dict, prompt_variables: dict):
+    """Produces a final verdict and feedback for the chatbot response using
+    smart but expensive LLM."""
     prompt_completed = PROMPTS[judge_dict["name"]].format(**prompt_variables)
+    overseer_response = generate_single_response_to_prompt(
+        prompt_completed, model="gpt-4"
+    )
+    verdict = extract_field_content(overseer_response, "VERDICT")
+    feedback = extract_field_content(overseer_response, "FEEDBACK")
+    if verdict == "ACCEPT":
+        feedback = None
 
-    response = generate_single_response_to_prompt(prompt_completed, model="gpt-4")
+    dump_prompt_response_pair_to_md(
+        prompt_completed, overseer_response, judge_dict["name"], verdict
+    )
+    LOGGER.info(f"{judge_dict['name']}:\n{overseer_response}")
 
-    dump_prompt_response_pair_to_md(prompt_completed, response, judge_dict["name"])
-    LOGGER.info(f"{judge_dict['name']}:\n{response}")
-
-    _, overseer_output = extract_command_names_and_arguments(response)
-
-    overseer_evaluation = "ACCEPT"
-    warning_message = []
-
-    if overseer_output:
-        evaluation_dict = convert_json_string_to_dict(overseer_output[0])
-        overseer_evaluation, warning_message = extract_overseer_evaluation_and_feedback(
-            evaluation_dict
+    if not verdict:
+        raise ValueError(
+            "'verdict' must be present in the cheif judges response."
         )
-
-    return overseer_evaluation, warning_message
-
-
-def extract_overseer_evaluation_and_feedback(
-    evaluation_dict: dict,
-    evaluation_keywords=["REJECT", "WARNING", "ACCEPT"],
-) -> Tuple[str, str]:
-    """Appends warning message under system if the overseer evaluation is
-    WARNING` or NOT ACCEPTED`."""
-    overseer_evaluation = "ACCEPT"
-    warning_message = []
-    if not overseer_response_is_valid(evaluation_dict):
-        return overseer_evaluation, warning_message
-
-    if evaluation_dict["evaluation"] == evaluation_keywords[0]:
-        overseer_evaluation = "REJECT"
-        warning_message = evaluation_dict["message_to_bot"]
-
-    elif evaluation_dict["evaluation"] == evaluation_keywords[1]:
-        overseer_evaluation = "WARNING"
-        warning_message = evaluation_dict["message_to_bot"]
-
     else:
-        overseer_evaluation = "ACCEPT"
-
-    return overseer_evaluation, warning_message
+        return verdict, feedback
 
 
-def overseer_response_is_valid(evaluation_dict: dict) -> bool:
-    """Checks the dictionary extracted from the overseer response follows the
-    expected conventions."""
-    if not evaluation_dict:
-        return False
-    if "evaluation" in evaluation_dict.keys():
-        if "message_to_bot" in evaluation_dict.keys():
-            return True
-    return False
+def extract_field_content(text, field_name="VERDICT"):
+    """Extracts the content of the specified field from the string.
+    Assumes that the following format is used in the response:
+
+    FIELD_NAME: "..."."""
+    # Define regular expression pattern to extract the field content
+    pattern = rf'{field_name}:\s*"([^"]*)"'
+    match = re.search(pattern, text, re.DOTALL)
+
+    if match:
+        return match.group(1).strip()
+    else:
+        return None
 
 
 # *** HANDLING REJECTED RESPONSES ***
