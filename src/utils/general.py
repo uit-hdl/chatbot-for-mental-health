@@ -54,9 +54,9 @@ def remove_syntax_from_message(message_content: str):
     return message_cleaned
 
 
-def message_is_intended_for_user(message: str) -> bool:
+def message_is_readable(message: str) -> bool:
     """Checks if message is strictly for backend (messages enclosed by command
-    delimiters ¤: and :¤) or intended to be read by user."""
+    delimiters ¤: and :¤) or intended visisble to user."""
     message = remove_superflous_linebreaks(message)
     message = message.replace(" ", "")
     if message[:2] == "¤:" and message[-2:] == ":¤":
@@ -73,6 +73,17 @@ def remove_quotes_and_backticks(input_str) -> str:
     result_str = re.sub(pattern, "", input_str)  # Remove single and double quotes
     result_str = result_str.replace("`", "")  # Remove backticks
     return result_str
+
+
+def find_longest_string(strings: list[str]):
+    """Returns the longest string in a list of strings."""
+    if not strings:
+        return None  # Return None if the list is empty
+    longest = strings[0]
+    for s in strings:
+        if len(s) > len(longest):
+            longest = s
+    return longest
 
 
 # -- Dealing with linebreak characters --

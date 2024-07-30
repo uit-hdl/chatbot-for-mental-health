@@ -10,10 +10,10 @@ from utils.general import list_intersection
 from utils.create_chatbot_response import respond_to_user
 from utils.console_chat_display import print_message_without_syntax
 from utils.chat_utilities import generate_and_add_raw_bot_response
-from utils.chat_utilities import message_is_intended_for_user
+from utils.chat_utilities import message_is_readable
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import grab_last_user_message
-from utils.chat_utilities import identify_assistant_responses
+from utils.chat_utilities import index_of_assistant_responses
 from utils.chat_utilities import grab_last_user_message
 from utils.console_chat_display import remove_syntax_from_message
 import numpy as np

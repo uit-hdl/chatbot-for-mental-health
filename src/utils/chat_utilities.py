@@ -8,7 +8,7 @@ import re
 import time
 
 import copy
-from utils.general import message_is_intended_for_user
+from utils.general import message_is_readable
 from utils.general import list_intersection
 from utils.backend import SETTINGS
 from utils.backend import API_KEY
@@ -104,7 +104,7 @@ def grab_last_response(conversation: list) -> str:
 
 def grab_last_assistant_response(conversation: list) -> str:
     """Grab the latest assistant response string."""
-    index_assistant_messages = identify_assistant_responses(conversation)
+    index_assistant_messages = index_of_assistant_responses(conversation)
     if index_assistant_messages:
         return conversation[index_assistant_messages[-1]]["content"]
     else:
@@ -116,7 +116,7 @@ def identify_system_responses(conversation) -> list[int]:
     return [i for i, d in enumerate(conversation) if d.get("role") == "system"]
 
 
-def identify_assistant_responses(conversation) -> list[int]:
+def index_of_assistant_responses(conversation) -> list[int]:
     """Gets the index/indices for assistant responses."""
     return [i for i, d in enumerate(conversation) if d.get("role") == "assistant"]
 
@@ -135,14 +135,14 @@ def grab_last_user_message(conversation: list) -> str:
 
 def replace_last_assistant_response(conversation, subsitute_message: str) -> list:
     """Substitutes the last assistant response with a new message."""
-    index_assistant_messages = identify_assistant_responses(conversation)
+    index_assistant_messages = index_of_assistant_responses(conversation)
     conversation[index_assistant_messages[-1]]["content"] = subsitute_message
     return conversation
 
 
 def remove_system_messages_following_last_assistant_response(conversation) -> list:
     """Removes all system messages following the last assistant response."""
-    index_last_assistant_message = identify_assistant_responses(conversation)[-1]
+    index_last_assistant_message = index_of_assistant_responses(conversation)[-1]
     index_system_messages = identify_system_responses(conversation)
     subsequent_system_messages = [
         i for i in index_system_messages if i > index_last_assistant_message
@@ -152,21 +152,27 @@ def remove_system_messages_following_last_assistant_response(conversation) -> li
     return conversation
 
 
-def index_of_assistant_responses_intended_for_user(conversation) -> list[int]:
+def index_of_assistant_responses_visible_to_user(conversation) -> list[int]:
     """Finds indices of assistant messages that are intended to be seen
     by the user (ignores messages for backend)."""
-    responses_with_readable_text = [
-        i
-        for (i, message) in enumerate(conversation)
-        if message_is_intended_for_user(message["content"])
-    ]
-    assistant_messages = identify_assistant_responses(conversation)
-    idx_responses_intended_for_user = list_intersection(
-        assistant_messages, responses_with_readable_text
+    idx_visible_messages = get_index_of_visible_messages(conversation)
+    idx_assistant_messages = index_of_assistant_responses(conversation)
+    # Grab assistent messages that are visible to user
+    idx_visible_assistant_responses = list_intersection(
+        idx_assistant_messages, idx_visible_messages
     )
-    idx_responses_intended_for_user = sorted(idx_responses_intended_for_user)
+    idx_visible_assistant_responses = sorted(idx_visible_assistant_responses)
+    return idx_visible_assistant_responses
 
-    return idx_responses_intended_for_user
+
+def get_index_of_visible_messages(conversation) -> list[int]:
+    """Gets the index of messages that are visible in the chat to the user,
+    i.e., not backend messages."""
+    index_visible_messages = []
+    for i, message in enumerate(conversation):
+        if message_is_readable(message["content"]) and message["role"] != "system":
+            index_visible_messages.append(i)
+    return index_visible_messages
 
 
 def append_system_messages(conversation, system_messages: list[str]) -> list:
@@ -183,6 +189,6 @@ def delete_last_bot_response(conversation) -> list:
     """Identifies which responses are from the assistant, and deletes the last
     response from the conversation. Used when the bot response has broken some
     rule, and we want it to create a new response."""
-    assistant_indices = identify_assistant_responses(conversation)
+    assistant_indices = index_of_assistant_responses(conversation)
     del conversation[assistant_indices[-1]]
     return conversation

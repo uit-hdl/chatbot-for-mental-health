@@ -166,7 +166,7 @@ def dump_file(variable, file_path):
         file.write(variable)
 
 
-def dump_prompt_response_pair_to_md(prompt, output, dump_name, verdict=None):
+def dump_prompt_response_pair(prompt, output, dump_name, verdict=None):
     """Dumps prompt and response into a single formatted .md (markdown)
     file for convenience and readability. Makes it easier to debug
     monitoring/overseer agents."""

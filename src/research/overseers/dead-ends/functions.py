@@ -1,8 +1,8 @@
 import copy
-from utils.chat_utilities import message_is_intended_for_user
-from utils.chat_utilities import message_is_intended_for_user
+from utils.chat_utilities import message_is_readable
+from utils.chat_utilities import message_is_readable
 from utils.console_chat_display import remove_syntax_from_message
-from utils.chat_utilities import identify_assistant_responses
+from utils.chat_utilities import index_of_assistant_responses
 from utils.general import list_intersection
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.create_chatbot_response import respond_to_user
@@ -63,7 +63,7 @@ def add_initial_prompt(chat, prompt):
 def remove_invisible_part_of_conversation(chat):
     chat = copy(chat)
     chat = [
-        message for message in chat if message_is_intended_for_user(message["content"])
+        message for message in chat if message_is_readable(message["content"])
     ]
     for i, message in enumerate(chat):
         chat[i]["content"] = remove_syntax_from_message(message["content"])
@@ -88,9 +88,9 @@ def flip_user_and_assistant_role(chat):
 def grab_last_response_intended_for_user(chat) -> int:
     """Returns the list index of the last message that was intended to be read
     by the user."""
-    index_assistant = identify_assistant_responses(chat)
+    index_assistant = index_of_assistant_responses(chat)
     index_intended_for_user = [
-        i for i, msg in enumerate(chat) if message_is_intended_for_user(msg["content"])
+        i for i, msg in enumerate(chat) if message_is_readable(msg["content"])
     ]
     responses_for_user = list_intersection(index_assistant, index_intended_for_user)
     if not responses_for_user:

@@ -29,7 +29,7 @@ To be supported, a message needs to satisfy EXPLICITLY_SUPPORTED.
 RELEVANT_PART_OF_SOURCE: "Summarize briefly (<20 words) the parts of the
 source that are relevant to the context"
 CHATBOT_ASSERTIONS: "Summarize briefly the chatbots assertions"
-EXPLICITLY_SUPPORTED: "Reasoning, followed by SUPPORTED/NOT SUPPORTED"
+EXPLICITLY_SUPPORTED: "Reasoning, followed by SUPPORTED/UNSUPPORTED"
 
 # Examples of input and output
 
@@ -78,7 +78,7 @@ be internalized, and is about internal management of emotions and thoughts"
 CHATBOT_ASSERTIONS: "The chatbot encourages challenging false perceptions and
 educating others"
 EXPLICITLY_SUPPORTED: "The source does not explicitly encourage the patient to
-challenge or educate other people, so message is NOT SUPPORTED"
+challenge or educate other people, so message is UNSUPPORTED"
 
 # Actual content to evaluate
 

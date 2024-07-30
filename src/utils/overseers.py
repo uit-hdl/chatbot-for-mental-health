@@ -8,7 +8,7 @@ from typing import Tuple
 from utils.backend import get_source_content_and_path
 from utils.backend import convert_json_string_to_dict
 from utils.backend import get_sources_available_to_chatbot
-from utils.backend import dump_prompt_response_pair_to_md
+from utils.backend import dump_prompt_response_pair
 from utils.backend import PROMPTS
 from utils.backend import SYSTEM_MESSAGES
 from utils.backend import LOGGER
@@ -145,7 +145,7 @@ def preliminary_check_of_source_fidelity(
     evaluation = generate_single_response_to_prompt(
         prompt_completed, model="gpt-35-turbo-16k"
     )
-    dump_prompt_response_pair_to_md(
+    dump_prompt_response_pair(
         prompt_completed, evaluation, "swift_judge_source_fidelity"
     )
     LOGGER.info(f"swift_judge_source_fidelity:\n{evaluation}")
@@ -187,7 +187,7 @@ def generate_overseer_response(
         evaluation_dict = convert_json_string_to_dict(overseer_evaluation[0])
     else:
         evaluation_dict = None
-    dump_prompt_response_pair_to_md(prompt, response, "chief_judge_evaluation")
+    dump_prompt_response_pair(prompt, response, "chief_judge_evaluation")
 
     return evaluation_dict
 
@@ -315,7 +315,7 @@ def preliminary_check_of_default_mode_message(
     evaluation_disclaimer = generate_single_response_to_prompt(
         prompt_disclaimer_check, model="gpt-35-turbo-16k"
     )
-    dump_prompt_response_pair_to_md(
+    dump_prompt_response_pair(
         prompt_disclaimer_check,
         evaluation_disclaimer,
         dump_name="swift_judge_disclaimer_check",
@@ -328,7 +328,7 @@ def preliminary_check_of_default_mode_message(
     evaluation_role = generate_single_response_to_prompt(
         prompt_role_check, model="gpt-35-turbo-16k"
     )
-    dump_prompt_response_pair_to_md(
+    dump_prompt_response_pair(
         prompt_role_check,
         evaluation_role,
         dump_name="swift_judge_role_and_emergency_contact",
@@ -368,7 +368,7 @@ def user_confirms_they_want_redirect(
     )
     # Generate response
     response = generate_single_response_to_prompt(prompt_completed, model)
-    dump_prompt_response_pair_to_md(
+    dump_prompt_response_pair(
         prompt_completed, response, "referral_consent_checker"
     )
     if "True" in response:

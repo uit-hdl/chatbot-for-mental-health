@@ -1,57 +1,79 @@
-# Define chatbots and their respective modes and judges. The structure is
-# [chatbot][AI-filter-stage][dictionary-specifying each AI-agent].
-# Each judge is triggered by a set of citations; these citation groups are
-# defined in 'citations.yaml'. If you want to skip a certain AI-filter stage is
-# not desired, such as 'chatbot_response_modifiers', set it to an empty list.
+# This settings file defines the overseers associated with each chatbot.
+# Overseers are agents used in the AI-filter, take part in processing and
+# refinement the chatbots responses to ensure its integrity is maintained. An
+# AI-judge is type of overseer that evaluates the chatbots response and produces
+# a verdict. Chief judges use GPT-4 and have the final say in what happens to
+# the chatbots response, and also produce the feedback messages that are
+# presented to the chatbot encourage it to correct its behaviour. Which judge is
+# activated in the filter pipeline depends on which 'mode' the chatbot is in,
+# which is determined based on its citations (defined in citations.yaml). If you
+# want to skip a certain AI-filter stage, such as 'chatbot_response_modifiers',
+# set it to an empty list.
+
+# The structure of the settings is: [chatbot][AI-filter-stage][dictionary
+# specifying agents]. Parameters:
+#
+# 1. name: name of the overseers prompt file (without extension)
+# 2. prompt_variables: variables needed to complete the prompt template (must
+#    match the names used in overseer.py)
+# 3. associated_mode: name of mode which activates the overseer (judges only)
+# 4. verdict: dictionary that maps keywords (specified in the prompt of the
+#    overseer) in the overseers response to official verdicts: a decision
+#    variable, such as "ACCEPT", that is used in later stages of the filter
+#    pipeline.
 
 # *** SUPPORT AGENTS FOR SCHIZOPHRENIA CHATBOT ***
 mental_health:
   # AI-judges that use GPT-3.5
-  preliminary_judges:
-    - name: swift_judge_role_and_emergency_contact
+  preliminary_judgement:
+    swift_judge_role_and_emergency_contact:
       prompt_variables: [user_message, chatbot_message]
       associated_mode: default
       verdict:
         DENY: REJECT
         WARNING: REJECT
         ACCEPT: ACCEPT
-    - name: swift_judge_disclaimer_check
+    swift_judge_disclaimer_check:
       prompt_variables: [user_message, chatbot_message]
       associated_mode: default
       verdict:
         DENY: REJECT
         AGREE: ACCEPT
-    - name: swift_judge_source_fidelity
+    swift_judge_source_fidelity:
       prompt_variables: [source, chatbot_message]
       associated_mode: source_communication
       verdict:
-        NOT SUPPORTED: REJECT
+        UNSUPPORTED: REJECT
         SUPPORTED: ACCEPT
   # Final verdict AI-judges that use GPT-4
-  chief_judges:
-    - name: chief_judge_default
-      evaluation_keywords: ["REJECT", "WARNING", "ACCEPT"]
+  final_judgement:
+    chief_judge_default:
       prompt_variables: [user_message, chatbot_message]
       associated_mode: default
       verdict:
         REJECT: REJECT
         WARNING: WARNING
         ACCEPT: ACCEPT
-    - name: chief_judge_source_fidelity
-      evaluation_keywords: ["REJECT", "WARNING", "ACCEPT"]
+    chief_judge_source_fidelity:
       prompt_variables: [sources, chatbot_message]
       associated_mode: source_communication
+      verdict:
+        REJECT: REJECT
+        WARNING: WARNING
+        ACCEPT: ACCEPT
   # AI-agents that modifies the chatbots response (potentially using outputs
   # from AI-monitors)
-  chatbot_response_modifiers:
-    - name: compliance_enforcer
+  response_refinement:
+    compliance_enforcer:
       prompt_variables: [user_message, chatbot_message, system_message]
   # AI-agents that check if the user has confirmed that they want to be
   # redirected
-  redirect_consent_checkers:
-    - name: referral_consent_checker
+  redirect_consent_check:
+    redirect_consent_checker:
       prompt_variables: [last_2_messages]
-      evaluation_keywords: ["FALSE", "TRUE"]
+      verdict:
+        FALSE: REJECT
+        TRUE: ACCEPT
 
 # *** SUPPORT AGENTS FOR E-HEALTH CHATBOT ***
 ehealth_module1:

@@ -9,10 +9,10 @@ from console_chat import direct_to_new_assistant
 from console_chat import initiate_conversation_object
 from convert_json_chat_to_markdown import convert_json_chat_to_markdown
 
-from utils.chat_utilities import message_is_intended_for_user
+from utils.chat_utilities import message_is_readable
 from utils.chat_utilities import grab_last_user_message
 from utils.chat_utilities import grab_last_assistant_response
-from utils.chat_utilities import identify_assistant_responses
+from utils.chat_utilities import index_of_assistant_responses
 from utils.chat_utilities import generate_single_response_to_prompt
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.managing_sources import remove_inactive_sources
@@ -157,11 +157,11 @@ def grab_last_visible_chatbot_message(conversation) -> str:
 def grab_last_response_intended_for_user(conversation) -> int:
     """Returns the list index of the last message that was intended to be read
     by the user."""
-    index_assistant = identify_assistant_responses(conversation)
+    index_assistant = index_of_assistant_responses(conversation)
     index_intended_for_user = [
         i
         for i, msg in enumerate(conversation)
-        if message_is_intended_for_user(msg["content"])
+        if message_is_readable(msg["content"])
     ]
     responses_for_user = list_intersection(index_assistant, index_intended_for_user)
     if responses_for_user:

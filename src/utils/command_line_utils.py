@@ -7,7 +7,7 @@ from utils.backend import dump_conversation
 from utils.backend import dump_copy_of_chat_info_to_results
 from utils.backend import get_input_from_command_line
 from utils.backend import collect_prompts_in_dictionary
-from utils.chat_utilities import index_of_assistant_responses_intended_for_user
+from utils.chat_utilities import index_of_assistant_responses_visible_to_user
 from utils.general import ROLE_TO_ANSI_COLOR_MAP
 from utils.general import RESET_COLOR
 from utils.general import silent_print
@@ -41,7 +41,7 @@ def rewind_chat_by_n_assistant_responses(n_rewind: int, conversation: list) -> l
     overall conversation to the state it was in at the time that message was
     produced (for instance, the prompt might have been altered)."""
     # Get index of assistant responses that are part of the non-backend chat
-    assistant_indices = index_of_assistant_responses_intended_for_user(conversation)
+    assistant_indices = index_of_assistant_responses_visible_to_user(conversation)
     # Ensure that chat always has at least initial prompt + one response
     n_rewind_capped = min([n_rewind, len(assistant_indices) - 1])
     highest_index_to_keep = assistant_indices[-(n_rewind_capped + 1)]

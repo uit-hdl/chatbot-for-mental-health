@@ -6,7 +6,7 @@ import re
 
 from utils.backend import SETTINGS
 from utils.backend import LOGGER
-from utils.general import message_is_intended_for_user
+from utils.general import message_is_readable
 from utils.general import silent_print
 
 
@@ -90,7 +90,7 @@ def count_time_since_last_citation(conversation, source_name: str) -> list[int]:
         message["content"]
         for message in conversation
         if message["role"] == "assistant"
-        and message_is_intended_for_user(message["content"])
+        and message_is_readable(message["content"])
     ]
     inactivity_time = 0
     # Look backwards in conversation to find how long ago since the source was last cited
