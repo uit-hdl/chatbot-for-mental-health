@@ -5,14 +5,13 @@ import re
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import append_system_messages
 from utils.managing_sources import get_names_of_currently_inserted_sources
-from utils.overseers import MESSAGE_CLASSIFICATIONS
-from utils.overseers import evaluate_with_overseers
-from utils.overseers_v2 import ai_filter
+from utils.overseers import ai_filter
 from utils.general import silent_print
 from utils.backend import SETTINGS
 from utils.backend import SYSTEM_MESSAGES
 from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import LOGGER
+from utils.backend import CHATBOT_MODES_TO_CITATIONS
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import get_sources_available_to_chatbot
 
@@ -99,7 +98,11 @@ def check_if_requested_files_exist(harvested_syntax) -> list:
     return hard_warnings
 
 
-def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):
+def citation_check(
+    harvested_syntax: dict,
+    chatbot_id: str,
+    conversation: list,
+):
     """Compares validity of chatbot citations. Checks for the following errors:
 
     1. The bot response contains no citation at all
@@ -134,7 +137,7 @@ def citation_check(harvested_syntax: dict, chatbot_id: str, conversation: list):
                     )
                 )
         else:
-            if citation not in MESSAGE_CLASSIFICATIONS:
+            if citation not in CHATBOT_MODES_TO_CITATIONS["default"]:
                 hard_warnings.append(
                     SYSTEM_MESSAGES["invalid_citation"].format(citation=citation)
                 )
