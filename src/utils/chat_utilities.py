@@ -10,9 +10,8 @@ import time
 import copy
 from utils.general import message_is_readable
 from utils.general import list_intersection
-from utils.backend import SETTINGS
+from utils.backend import CHATBOT_CONFIG
 from utils.backend import API_KEY
-from utils.backend import SETTINGS
 from utils.backend import AZURE_CONFIG
 from utils.consumption_of_tokens import update_chats_total_consumption
 
@@ -26,7 +25,7 @@ def generate_and_add_raw_bot_response(
     conversation,
     model="gpt-4",
     calc_tokens=True,
-    max_tokens=SETTINGS["max_tokens_chat_completion"],
+    max_tokens=CHATBOT_CONFIG["max_tokens_chat_completion"],
     temperature=None,
 ):
     """Takes the conversation log, and updates it with the response of the

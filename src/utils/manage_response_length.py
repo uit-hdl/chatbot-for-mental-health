@@ -10,7 +10,7 @@ from utils.process_syntax import get_commands
 from utils.process_syntax import insert_commands
 from utils.backend import MODEL_ID
 from utils.backend import SYSTEM_MESSAGES
-from utils.backend import SETTINGS
+from utils.backend import CHATBOT_CONFIG
 from utils.backend import PROMPTS
 from utils.backend import PRE_SUMMARY_DUMP_PATH
 from utils.backend import dump_file
@@ -23,16 +23,16 @@ def manage_length_of_chatbot_response(conversation) -> list:
     response_length = count_tokens_in_message(bot_response, MODEL_ID)
     warning = None
 
-    if response_length >= SETTINGS["max_tokens_before_summarization"]:
+    if response_length >= CHATBOT_CONFIG["max_tokens_before_summarization"]:
         silent_print("Response exceeds max length, shortening message with GPT-3.5...")
         conversation = summarize_if_response_too_long(conversation)
         warning = SYSTEM_MESSAGES["max_tokens_before_summarization"]
 
-    elif response_length > SETTINGS["limit_2_tokens_per_message"]:
+    elif response_length > CHATBOT_CONFIG["limit_2_tokens_per_message"]:
         silent_print(f"Response has length {response_length} tokens...")
         warning = SYSTEM_MESSAGES["limit_2_tokens_per_message"]
 
-    elif response_length > SETTINGS["limit_1_tokens_per_message"]:
+    elif response_length > CHATBOT_CONFIG["limit_1_tokens_per_message"]:
         silent_print(f"Response has length {response_length} tokens...")
         warning = SYSTEM_MESSAGES["limit_1_tokens_per_message"]
 
@@ -46,7 +46,7 @@ def summarize_if_response_too_long(
     conversation,
     prompt=PROMPTS["message_summarizer"],
     model="gpt-35-turbo-16k",
-    max_tokens_per_message=SETTINGS["max_tokens_chat_completion"],
+    max_tokens_per_message=CHATBOT_CONFIG["max_tokens_chat_completion"],
 ) -> list:
     """Chatbot responsible for summarizing messages that are too long. Returns
     the conversation with a trimmed version of the last assistant message."""

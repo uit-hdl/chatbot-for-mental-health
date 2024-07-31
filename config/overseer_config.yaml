@@ -17,7 +17,7 @@
 # 2. prompt_variables: variables needed to complete the prompt template (must
 #    match the names used in overseer.py)
 # 3. associated_mode: name of mode which activates the overseer (judges only)
-# 4. verdict: dictionary that maps keywords (specified in the prompt of the
+# 4. verdict_map: dictionary that maps keywords (specified in the prompt of the
 #    overseer) in the overseers response to official verdicts: a decision
 #    variable, such as "ACCEPT", that is used in later stages of the filter
 #    pipeline.
@@ -29,20 +29,20 @@ mental_health:
     swift_judge_role_and_emergency_contact:
       prompt_variables: [user_message, chatbot_message]
       associated_mode: default
-      verdict:
+      verdict_map:
         DENY: REJECT
         WARNING: REJECT
         ACCEPT: ACCEPT
     swift_judge_disclaimer_check:
       prompt_variables: [user_message, chatbot_message]
       associated_mode: default
-      verdict:
+      verdict_map:
         DENY: REJECT
         AGREE: ACCEPT
     swift_judge_source_fidelity:
       prompt_variables: [source, chatbot_message]
       associated_mode: source_communication
-      verdict:
+      verdict_map:
         UNSUPPORTED: REJECT
         SUPPORTED: ACCEPT
   # Final verdict AI-judges that use GPT-4
@@ -50,14 +50,14 @@ mental_health:
     chief_judge_default:
       prompt_variables: [user_message, chatbot_message]
       associated_mode: default
-      verdict:
+      verdict_map:
         REJECT: REJECT
         WARNING: WARNING
         ACCEPT: ACCEPT
     chief_judge_source_fidelity:
       prompt_variables: [sources, chatbot_message]
       associated_mode: source_communication
-      verdict:
+      verdict_map:
         REJECT: REJECT
         WARNING: WARNING
         ACCEPT: ACCEPT
@@ -71,7 +71,7 @@ mental_health:
   redirect_consent_check:
     redirect_consent_checker:
       prompt_variables: [last_2_messages]
-      verdict:
+      verdict_map:
         FALSE: REJECT
         TRUE: ACCEPT
 

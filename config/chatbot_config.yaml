@@ -1,0 +1,26 @@
+# Settings that controll the behaviour of the chatbot
+
+# --- GENERATING RESPONSE ---
+# Controll max number of attempts at producing valid response:
+n_attempts_at_producing_valid_response: 2
+# Maximum number of sources that the chatbot is allowed to request per turn:
+max_requests: 2
+
+# --- FILTERS ---
+# Set to false to turn of filters that check the contents of generated messages:
+enable_overseer_filter: True
+enable_hard_coded_filter: True
+
+# --- CONTROLLING LENGTH OF CHAT AND RESPONSE ---
+inactivity_threshold: 2 # Remove source from conversation if it has not been cited in this many consecutive responses
+max_tokens_before_truncation: 4500 # Length above which chat gets truncated
+max_inserted_sources: 4 # Maximum number of sources that can be inserted at any given point.
+# max tokens when calling ChatCompletion():
+max_tokens_chat_completion: 320 # Longer responses are truncated
+limit_1_tokens_per_message: 200 # threshold for mild warning message
+limit_2_tokens_per_message: 250 # threshold for more severe warning message
+# If exceeded, message gets shortened by GPT-3.5:
+max_tokens_before_summarization: 300
+
+# --- OTHER ---
+role_that_speaks_first: "user"

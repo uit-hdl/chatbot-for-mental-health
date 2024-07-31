@@ -10,7 +10,7 @@ from console_chat import direct_to_new_assistant
 from console_chat import truncate_if_too_long
 from utils.general import remove_syntax_from_message
 from utils.backend import reset_files_that_track_cumulative_variables
-from utils.backend import SETTINGS
+from utils.backend import MISC_CONFIG
 from utils.chat_utilities import grab_last_assistant_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
 
@@ -111,7 +111,7 @@ def authenticate(password, chatbot_selection):
     """Function run when user clicks "submit" on screen 1. Checks
     authentification attempt and chatbot selection."""
     if (
-        SETTINGS["gradio_password_disabled"] or password == CHATBOT_PASSWORD
+        MISC_CONFIG["gradio_password_disabled"] or password == CHATBOT_PASSWORD
     ):  # Password correct
         auth_interface = gr.update(visible=False)
         chat_interface = gr.update(visible=True)

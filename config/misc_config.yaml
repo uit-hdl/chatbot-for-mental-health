@@ -1,0 +1,33 @@
+# Miscellaneous settings that dont fit in any other config file.
+
+# --- APPEARANCES ---
+word_wrap: 80 # N.o. characters before line gets wrapped.
+plot_duration: 10000 # The duration of time for which the figures are shown (uggly solution...)
+# Printing
+print_knowledge_requests: True
+
+# --- GRADIO INTERFACE ---
+gradio_password_disabled: False
+
+# --- RATES USED TO CALCULATE COSTS ---
+dollars_per_1k_token:
+  "gpt-4":
+    "input": 0.03
+    "output": 0.06
+  "gpt-35-turbo":
+    "input": 0.0005
+    "output": 0.0015
+  "gpt-35-turbo-16k":
+    "input": 0.003
+    "output": 0.004
+  "gpt-35-turbo-1106":
+    "input": 0.0005
+    "output": 0.0015
+  "gpt-35-turbo-instruct":
+    "input": 0.0015
+    "output": 0.002
+dollars_per_1k_output_token: 0.06
+nok_per_dollar: 10.6 # rate: NOK per Dollar
+
+# --- OTHER ---
+role_that_speaks_first: "user"

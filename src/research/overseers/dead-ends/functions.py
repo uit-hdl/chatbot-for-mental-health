@@ -8,14 +8,14 @@ from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.create_chatbot_response import respond_to_user
 from utils.chat_utilities import openai
 from utils.backend import AZURE_CONFIG
-from utils.backend import SETTINGS
+from utils.backend import CHATBOT_CONFIG
 
 
 def generate_single_response_using_gpt35_turbo_instruct(
     prompt: str,
     model_id="gpt-3.5-turbo-instruct",
     deployment_name=AZURE_CONFIG["deployment_name_single_response"],
-    max_tokens=SETTINGS["max_tokens_turbo_instruct"],
+    max_tokens=CHATBOT_CONFIG["max_tokens_turbo_instruct"],
     temperature=None,
     return_everything=False,
 ):

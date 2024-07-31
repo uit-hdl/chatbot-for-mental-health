@@ -34,7 +34,8 @@ CHATBOT_MODES_TO_CITATIONS_PATH = os.path.join(
     ROOT_DIR, "config/chatbot_modes_to_citations.yaml"
 )
 OVERSEER_CONFIG_PATH = os.path.join(ROOT_DIR, "config/overseer_config.yaml")
-SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
+CHATBOT_CONFIG_PATH = os.path.join(ROOT_DIR, "config/chatbot_config.yaml")
+MISC_CONFIG_PATH = os.path.join(ROOT_DIR, "config/misc_config.yaml")
 SYSTEM_MESSAGES_PATH = os.path.join(ROOT_DIR, "config/system_messages.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
@@ -448,7 +449,8 @@ PROMPTS = collect_prompts_in_dictionary()
 AZURE_CONFIG = load_yaml_file(AZURE_CONFIG_PATH)
 OVERSEERS_CONFIG = load_yaml_file(OVERSEER_CONFIG_PATH)
 CHATBOT_MODES_TO_CITATIONS = load_yaml_file(CHATBOT_MODES_TO_CITATIONS_PATH)
-SETTINGS = load_yaml_file(SETTINGS_PATH)
+CHATBOT_CONFIG = load_yaml_file(CHATBOT_CONFIG_PATH)
+MISC_CONFIG = load_yaml_file(MISC_CONFIG_PATH)
 SYSTEM_MESSAGES = load_yaml_file(SYSTEM_MESSAGES_PATH)
 API_KEY = os.environ["AZURE_API_KEY"]
 

@@ -4,7 +4,8 @@ conversation and removing inactive sources that are not being actively cited."""
 import numpy as np
 import re
 
-from utils.backend import SETTINGS
+from utils.backend import CHATBOT_CONFIG
+from utils.backend import MISC_CONFIG
 from utils.backend import LOGGER
 from utils.general import message_is_readable
 from utils.general import silent_print
@@ -89,8 +90,7 @@ def count_time_since_last_citation(conversation, source_name: str) -> list[int]:
     assistant_messages = [
         message["content"]
         for message in conversation
-        if message["role"] == "assistant"
-        and message_is_readable(message["content"])
+        if message["role"] == "assistant" and message_is_readable(message["content"])
     ]
     inactivity_time = 0
     # Look backwards in conversation to find how long ago since the source was last cited
@@ -104,7 +104,7 @@ def count_time_since_last_citation(conversation, source_name: str) -> list[int]:
 def get_inactive_sources(cited_sources, inactivity_times):
     """Identifies sources whose inactivity time exceeds inactivity threshold."""
     return np.array(cited_sources)[
-        np.array(inactivity_times) >= SETTINGS["inactivity_threshold"]
+        np.array(inactivity_times) >= CHATBOT_CONFIG["inactivity_threshold"]
     ]
 
 
@@ -153,7 +153,7 @@ def insert_requested_knowledge(conversation, knowledge_requests: list[dict]):
                 # Put source content in system message
                 message = f"source {source_name}: {source_content}"
                 LOGGER.info("Source %s inserted in conversation.", source_name)
-                if SETTINGS["print_knowledge_requests"]:
+                if MISC_CONFIG["print_knowledge_requests"]:
                     silent_print(f"Source {source_name} inserted in conversation.")
 
             # Insert system message into conversation

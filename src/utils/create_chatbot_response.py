@@ -5,7 +5,7 @@ from utils.process_syntax import process_syntax_of_bot_response
 from utils.managing_sources import insert_requested_knowledge
 from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
-from utils.backend import SETTINGS
+from utils.backend import CHATBOT_CONFIG
 from utils.backend import LOGGER
 from utils.backend import dump_current_conversation_to_json
 from utils.filters import perform_quality_check_and_give_feedback
@@ -29,7 +29,7 @@ def respond_to_user(conversation, chatbot_id: str) -> tuple[list, dict]:
     knowledge_requests = harvested_syntax["knowledge_extensions"]
     counter = 0
     # Iteratively create responses untill the output is NOT a request for sources
-    while knowledge_requests and counter < SETTINGS["max_requests"]:
+    while knowledge_requests and counter < CHATBOT_CONFIG["max_requests"]:
         conversation = insert_requested_knowledge(conversation, knowledge_requests)
         (
             conversation,
@@ -46,7 +46,7 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
     """Attempts to generate a response untill the response passes quality check
     based on criteria such as whether or not the requested files exist."""
     
-    for attempt in range(SETTINGS["n_attempts_at_producing_valid_response"]):
+    for attempt in range(CHATBOT_CONFIG["n_attempts_at_producing_valid_response"]):
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id
         )

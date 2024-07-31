@@ -7,7 +7,7 @@ from moviepy.editor import VideoFileClip
 import textwrap
 
 from utils.backend import file_exists
-from utils.backend import SETTINGS
+from utils.backend import MISC_CONFIG
 from utils.chat_utilities import grab_last_assistant_response
 from utils.general import remove_syntax_from_message
 from utils.general import RESET_COLOR
@@ -131,7 +131,7 @@ def display_image(image_path: str):
     plt.gca().yaxis.set_major_locator(plt.NullLocator())
 
     plt.show(block=False)
-    plt.pause(SETTINGS["plot_duration"])
+    plt.pause(MISC_CONFIG["plot_duration"])
     plt.close()
 
 

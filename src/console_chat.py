@@ -9,13 +9,13 @@ import sys
 from utils.general import silent_print
 from utils.backend import LOGGER
 from utils.backend import TRANSCRIPT_DUMP_PATH
-from utils.backend import SETTINGS
+from utils.backend import CHATBOT_CONFIG
+from utils.backend import PROMPTS
 from utils.backend import CONVERSATION_DUMP_PATH
 from utils.backend import dump_to_json
 from utils.backend import dump_current_conversation_to_json
 from utils.backend import load_yaml_file
 from utils.backend import reset_files_that_track_cumulative_variables
-from utils.backend import PROMPTS
 from utils.backend import collect_prompts_in_dictionary
 from utils.command_line_utils import offer_to_store_conversation
 from utils.command_line_utils import get_user_message_from_console
@@ -34,9 +34,9 @@ from utils.manage_chat_length import truncate_if_too_long
 
 # Initiate global variables
 BREAK_CONVERSATION = False
-ASSISTANT_SPEAKS_FIRST = SETTINGS["role_that_speaks_first"] == "assistant"
+ASSISTANT_SPEAKS_FIRST = CHATBOT_CONFIG["role_that_speaks_first"] == "assistant"
 reset_files_that_track_cumulative_variables()
-silent_print(f"Overseer filters enabled: {SETTINGS['enable_overseer_filter']}")
+silent_print(f"Overseer filters enabled: {CHATBOT_CONFIG['enable_overseer_filter']}")
 
 
 def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):

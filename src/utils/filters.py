@@ -7,7 +7,7 @@ from utils.chat_utilities import append_system_messages
 from utils.managing_sources import get_names_of_currently_inserted_sources
 from utils.overseers import ai_filter
 from utils.general import silent_print
-from utils.backend import SETTINGS
+from utils.backend import CHATBOT_CONFIG
 from utils.backend import SYSTEM_MESSAGES
 from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import LOGGER
@@ -27,7 +27,7 @@ def perform_quality_check_and_give_feedback(
     flag = "ACCEPT"
 
     # -- HARD CODED FILTER --
-    if SETTINGS["enable_hard_coded_filter"]:
+    if CHATBOT_CONFIG["enable_hard_coded_filter"]:
         existance_hard_warnings = check_if_requested_files_exist(harvested_syntax)
         citation_soft_warnings, citation_hard_warnings = citation_check(
             harvested_syntax, chatbot_id, conversation
@@ -50,7 +50,7 @@ def perform_quality_check_and_give_feedback(
         return conversation, flag
 
     # -- OVERSEER FILTER --
-    if SETTINGS["enable_overseer_filter"] and not hard_warnings:
+    if CHATBOT_CONFIG["enable_overseer_filter"] and not hard_warnings:
 
         overseer_evaluation, warnings_from_ai_filter, conversation = ai_filter(
             conversation, harvested_syntax, chatbot_id

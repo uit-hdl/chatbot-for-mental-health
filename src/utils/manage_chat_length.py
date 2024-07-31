@@ -14,7 +14,7 @@ from utils.backend import dump_to_json
 from utils.backend import add_element_to_existing_json_file
 from utils.backend import load_json_from_path
 from utils.backend import update_field_value_in_json
-from utils.backend import SETTINGS
+from utils.backend import CHATBOT_CONFIG
 from utils.backend import DELETED_MESSAGES_DUMP_PATH
 from utils.backend import TOKEN_USAGE_DUMP_PATH
 from utils.backend import TRANSCRIPT_DUMP_PATH
@@ -64,7 +64,7 @@ def trim_sources(conversation):
     exceed a maximum number (specified in the settings). Preferentially keeps
     the most recently cited sources. In case of ties, keeps the most recently
     inserted sources."""
-    n_inserted_sources_allowed = SETTINGS["max_inserted_sources"]
+    n_inserted_sources_allowed = CHATBOT_CONFIG["max_inserted_sources"]
     replacement_message = f"Source removed to keep number of inserted sources below {n_inserted_sources_allowed}."
 
     names_inserted_sources = get_names_of_currently_inserted_sources(conversation)
@@ -103,7 +103,7 @@ def find_first_removable_message(conversation):
 
 def exceeding_max_tokens(conversation):
     """Checks if the number of tokens in chat exceeds the maximum allowed number."""
-    return count_tokens_in_chat(conversation) > SETTINGS["max_tokens_before_truncation"]
+    return count_tokens_in_chat(conversation) > CHATBOT_CONFIG["max_tokens_before_truncation"]
 
 
 def update_chat_transcript(conversation_current):

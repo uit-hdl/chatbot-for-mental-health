@@ -3,7 +3,7 @@ Dumps information in chat-info/token-usage/chat_consumption.json."""
 
 import tiktoken
 
-from utils.backend import SETTINGS
+from utils.backend import MISC_CONFIG
 from utils.backend import MODEL_ID
 from utils.backend import TOKEN_USAGE_DUMP_PATH
 from utils.backend import load_json_from_path
@@ -54,12 +54,12 @@ def calculate_cost_of_response(conversation, model):
     assistant)."""
     tokens_in = count_tokens_in_chat(conversation[:-1])
     tokens_out = count_tokens_in_chat(conversation[-1:])
-    cost_per_1k_input_tokens = SETTINGS["dollars_per_1k_token"][model]["input"]
-    cost_per_1k_output_tokens = SETTINGS["dollars_per_1k_token"][model]["output"]
+    cost_per_1k_input_tokens = MISC_CONFIG["dollars_per_1k_token"][model]["input"]
+    cost_per_1k_output_tokens = MISC_CONFIG["dollars_per_1k_token"][model]["output"]
     # Calculate cost in Dollars
     dollars_tokens_in = tokens_in * cost_per_1k_input_tokens / 1000
     dollars_tokens_out = tokens_out * cost_per_1k_output_tokens / 1000
     dollars_total = dollars_tokens_in + dollars_tokens_out
     # Convert to NOK
-    kroners_total = dollars_total * SETTINGS["nok_per_dollar"]
+    kroners_total = dollars_total * MISC_CONFIG["nok_per_dollar"]
     return kroners_total
