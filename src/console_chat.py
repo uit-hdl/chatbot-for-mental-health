@@ -30,7 +30,6 @@ from utils.console_chat_display import play_videos
 from utils.console_chat_display import print_whole_conversation_with_backend_info
 from utils.console_chat_display import display_images
 from utils.manage_chat_length import truncate_if_too_long
-from convert_json_chat_to_markdown import convert_json_chat_to_markdown
 
 
 # Initiate global variables

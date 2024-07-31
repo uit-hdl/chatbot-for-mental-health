@@ -13,13 +13,13 @@ from utils.general import list_intersection
 from utils.backend import SETTINGS
 from utils.backend import API_KEY
 from utils.backend import SETTINGS
-from utils.backend import CONFIG
+from utils.backend import AZURE_CONFIG
 from utils.consumption_of_tokens import update_chats_total_consumption
 
 openai.api_key = API_KEY
-openai.api_type = CONFIG["api_type"]
-openai.api_base = CONFIG["api_base"]
-openai.api_version = CONFIG["api_version"]
+openai.api_type = AZURE_CONFIG["api_type"]
+openai.api_base = AZURE_CONFIG["api_base"]
+openai.api_version = AZURE_CONFIG["api_version"]
 
 
 def generate_and_add_raw_bot_response(
@@ -55,7 +55,7 @@ def generate_and_add_raw_bot_response(
 
 def get_chat_completion(conversation, model, max_tokens=None, temperature=None):
     """Get chat-completion using openai API."""
-    deployment = CONFIG["model_to_deployment_map"][model]
+    deployment = AZURE_CONFIG["model_to_deployment_map"][model]
     return openai.ChatCompletion.create(
         messages=conversation,
         engine=deployment,

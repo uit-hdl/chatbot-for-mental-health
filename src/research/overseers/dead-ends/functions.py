@@ -7,13 +7,14 @@ from utils.general import list_intersection
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.create_chatbot_response import respond_to_user
 from utils.chat_utilities import openai
-from utils.backend import CONFIG
+from utils.backend import AZURE_CONFIG
 from utils.backend import SETTINGS
+
 
 def generate_single_response_using_gpt35_turbo_instruct(
     prompt: str,
     model_id="gpt-3.5-turbo-instruct",
-    deployment_name=CONFIG["deployment_name_single_response"],
+    deployment_name=AZURE_CONFIG["deployment_name_single_response"],
     max_tokens=SETTINGS["max_tokens_turbo_instruct"],
     temperature=None,
     return_everything=False,
@@ -34,6 +35,7 @@ def generate_single_response_using_gpt35_turbo_instruct(
         return_string = response.choices[0]["text"]
         return return_string.replace("\n", "").replace(" .", ".").strip()
 
+
 def load_summarized_source(source_name):
     """Loads prompt from files/prompts/prompt_name"""
     return load_textfile_as_string(
@@ -51,6 +53,7 @@ def remove_text_in_brackets(text):
     """Removes text which is in brackets []."""
     return re.sub(r"\[.*?\]", "", text)
 
+
 def strip_system_messages(chat):
     return [message for message in chat if message["role"] != "system"]
 
@@ -62,9 +65,7 @@ def add_initial_prompt(chat, prompt):
 
 def remove_invisible_part_of_conversation(chat):
     chat = copy(chat)
-    chat = [
-        message for message in chat if message_is_readable(message["content"])
-    ]
+    chat = [message for message in chat if message_is_readable(message["content"])]
     for i, message in enumerate(chat):
         chat[i]["content"] = remove_syntax_from_message(message["content"])
     return chat

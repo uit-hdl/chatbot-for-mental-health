@@ -29,7 +29,7 @@ RESULTS_DIR = os.path.join(ROOT_DIR, "results")
 CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 
 # Configuration-file paths
-CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
+AZURE_CONFIG_PATH = os.path.join(ROOT_DIR, "config/azure_config.yaml")
 CHATBOT_MODES_TO_CITATIONS_PATH = os.path.join(
     ROOT_DIR, "config/chatbot_modes_to_citations.yaml"
 )
@@ -445,12 +445,12 @@ def write_to_file(file_path, content):
 
 PROMPTS = collect_prompts_in_dictionary()
 
-CONFIG = load_yaml_file(CONFIG_PATH)
+AZURE_CONFIG = load_yaml_file(AZURE_CONFIG_PATH)
 OVERSEERS_CONFIG = load_yaml_file(OVERSEER_CONFIG_PATH)
 CHATBOT_MODES_TO_CITATIONS = load_yaml_file(CHATBOT_MODES_TO_CITATIONS_PATH)
 SETTINGS = load_yaml_file(SETTINGS_PATH)
 SYSTEM_MESSAGES = load_yaml_file(SYSTEM_MESSAGES_PATH)
 API_KEY = os.environ["AZURE_API_KEY"]
 
-MODEL_TO_DEPLOYMENT_MAP = CONFIG["model_to_deployment_map"]
-MODEL_ID = CONFIG["model_id"]
+MODEL_TO_DEPLOYMENT_MAP = AZURE_CONFIG["model_to_deployment_map"]
+MODEL_ID = AZURE_CONFIG["model_id"]
