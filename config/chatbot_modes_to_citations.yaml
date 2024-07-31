@@ -10,6 +10,7 @@ default:
     - no_advice_or_claims
     - support_phone_number
     - the_architect
-    - sources_dont_contain_answer
-# The citations associated with this mode are generated dynamically
+# The citations associated with 'source_communication' are the sources available
+# to the chatbot which correspond to files located in library/[CHATBOT]. This
+# list is filled on during the conversation.
 source_communication: []
