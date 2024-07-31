@@ -12,23 +12,24 @@ import shutil
 
 from utils.logging import setup_logger
 
-# Directory paths
+# ** Directory paths **
 ROOT_DIR = pathlib.Path(__file__).parents[2]
-CONVERSATIONS_DIR = os.path.join(ROOT_DIR, "conversations")
-CONVERSATIONS_CURRENT_DIR = os.path.join(ROOT_DIR, "conversations/current")
-CONVERSATIONS_RAW_DIR = os.path.join(CONVERSATIONS_DIR, "raw")
-CONVERSATIONS_FORMATTED_DIR = os.path.join(CONVERSATIONS_DIR, "formatted")
-USER_DATA_DIR = os.path.join(ROOT_DIR, "user-data")
+RESULTS_DIR = os.path.join(ROOT_DIR, "results")
+# Conversations
+CONVERSATIONS_DIR = os.path.join(RESULTS_DIR, "conversations")
+CONVERSATIONS_RAW_DIR = os.path.join(CONVERSATIONS_DIR, "general/raw")
+CONVERSATIONS_FORMATTED_DIR = os.path.join(CONVERSATIONS_DIR, "general/formatted")
+CHAT_DUMPS_DIR = os.path.join(CONVERSATIONS_DIR, "chat-dumps")
+# Media
 IMAGES_DIR = os.path.join(ROOT_DIR, "media/images")
 VIDEOS_DIR = os.path.join(ROOT_DIR, "media/videos")
 LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
+# Other
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 CHAT_DASHBOARD_DIR = os.path.join(ROOT_DIR, "chat-dashboard")
 OVERSEER_DUMP_DIR = os.path.join(CHAT_DASHBOARD_DIR, "judge-dumps")
-RESULTS_DIR = os.path.join(ROOT_DIR, "results")
-CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 
-# Configuration-file paths
+# ** Configuration file paths **
 AZURE_CONFIG_PATH = os.path.join(ROOT_DIR, "config/azure_config.yaml")
 CHATBOT_MODES_TO_CITATIONS_PATH = os.path.join(
     ROOT_DIR, "config/chatbot_modes_to_citations.yaml"
@@ -39,7 +40,8 @@ MISC_CONFIG_PATH = os.path.join(ROOT_DIR, "config/misc_config.yaml")
 SYSTEM_MESSAGES_PATH = os.path.join(ROOT_DIR, "config/system_messages.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")
 
-# File-dump paths
+# ** File-dump paths **
+# Logfiles
 LOGFILE_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "chat.log")
 LOGFILE_REJECTED_RESPONSES_DUMP_PATH = os.path.join(
     CHAT_DASHBOARD_DIR, "rejected_responses.log"
@@ -48,12 +50,6 @@ DELETED_MESSAGES_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "truncated_message
 PRE_SUMMARY_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "pre_summary_response.md")
 TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "transcript.json")
 CONVERSATION_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "conversation.json")
-OVERSEER_DUMP_PATH = os.path.join(
-    CHAT_DASHBOARD_DIR, "prompts-&-evaluations/overseer.md"
-)
-SWIFT_JUDGEMENT_DUMP_PATH = os.path.join(
-    CHAT_DASHBOARD_DIR, "prompts-&-evaluations/prelim_judgement.md"
-)
 HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "harvested_syntax.json")
 TOKEN_USAGE_DUMP_PATH = os.path.join(
     CHAT_DASHBOARD_DIR, "token-usage/chat_consumption.json"
@@ -185,17 +181,16 @@ def dump_current_conversation_to_json(
     conversation, filename="conversation", also_dump_formatted=False
 ):
     """Dumps the conversation to the conversation directory as a json file."""
-    dump_to_json(conversation, f"{CONVERSATIONS_CURRENT_DIR}/{filename}.json")
     dump_to_json(conversation, f"{CHAT_DASHBOARD_DIR}/{filename}.json")
     if also_dump_formatted:
         dump_chat_to_markdown(conversation, f"{CHAT_DASHBOARD_DIR}/{filename}.md")
 
 
-def dump_conversation(conversation: list, label: str = "conversation"):
+def dump_conversation(conversation: list, filename: str = "conversation"):
     """Stores conversation in json format in conversations/raw and in formatted
     markdown file in conversations/formatted. Default name is `conversation`."""
-    json_file_path = f"{CONVERSATIONS_RAW_DIR}/{label}.json"
-    txt_file_path = f"{CONVERSATIONS_FORMATTED_DIR}/{label}.md"
+    json_file_path = f"{CONVERSATIONS_RAW_DIR}/{filename}.json"
+    txt_file_path = f"{CONVERSATIONS_FORMATTED_DIR}/{filename}.md"
     if conversation[-1]["content"] == "break":
         conversation = conversation[:-1]
     dump_to_json(conversation, json_file_path)
