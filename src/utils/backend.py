@@ -31,7 +31,7 @@ CHAT_DUMPS_DIR = os.path.join(RESULTS_DIR, "chat-dumps")
 # Configuration-file paths
 CONFIG_PATH = os.path.join(ROOT_DIR, "config/config.yaml")
 CITATIONS_PATH = os.path.join(ROOT_DIR, "config/citations.yaml")
-OVERSEER_CONFIG_PATH = os.path.join(ROOT_DIR, "config/overseer_stage.yaml")
+OVERSEER_CONFIG_PATH = os.path.join(ROOT_DIR, "config/overseer_config.yaml")
 SETTINGS_PATH = os.path.join(ROOT_DIR, "config/settings.yaml")
 SYSTEM_MESSAGES_PATH = os.path.join(ROOT_DIR, "config/system_messages.yaml")
 URL_MAP_PATH = os.path.join(ROOT_DIR, "config/url.yaml")

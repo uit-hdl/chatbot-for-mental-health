@@ -3,7 +3,6 @@ conversation and chatbot messages and provides feedback to prevent chatbot
 identity drift. Overseer bots are assumed to generate a message on the form
 `¤:provide_feedback(<data on JSON format>):¤`"""
 
-from typing import Tuple
 import re
 
 from utils.backend import get_source_content_and_path
