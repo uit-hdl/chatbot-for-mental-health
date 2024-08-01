@@ -7,7 +7,7 @@ from utils.chat_utilities import delete_last_bot_response
 from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.backend import CHATBOT_CONFIG
 from utils.backend import LOGGER
-from utils.backend import dump_current_conversation_to_json
+from utils.backend import dump_chat_to_dashboard
 from utils.filters import perform_quality_check_and_give_feedback
 from utils.filters import correct_erroneous_show_image_command
 from utils.general import silent_print
@@ -37,7 +37,7 @@ def respond_to_user(conversation, chatbot_id: str) -> tuple[list, dict]:
         ) = generate_valid_chatbot_output(conversation, chatbot_id)
         knowledge_requests = harvested_syntax["knowledge_extensions"]
         counter += 1
-        dump_current_conversation_to_json(conversation, also_dump_formatted=True)
+        dump_chat_to_dashboard(conversation, dump_md_copy=True)
 
     return conversation, harvested_syntax
 

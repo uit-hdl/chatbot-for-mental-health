@@ -3,7 +3,7 @@ chat. These functions are primarily used in `console_chat.py`."""
 
 import re
 
-from utils.backend import dump_conversation
+from utils.backend import dump_chat_to_results
 from utils.backend import dump_copy_of_chat_info_to_results
 from utils.backend import get_input_from_command_line
 from utils.backend import collect_prompts_in_dictionary
@@ -12,7 +12,7 @@ from utils.general import ROLE_TO_ANSI_COLOR_MAP
 from utils.general import RESET_COLOR
 from utils.general import silent_print
 from utils.console_chat_display import reprint_whole_conversation_without_syntax
-from utils.backend import dump_current_conversation_to_json
+from utils.backend import dump_chat_to_dashboard
 
 
 def offer_to_store_conversation(conversation):
@@ -23,7 +23,7 @@ def offer_to_store_conversation(conversation):
         label = input("File name (hit enter for default): ").strip().lower()
         if label == "":
             label = "conversation"
-        dump_conversation(conversation, label)
+        dump_chat_to_results(conversation, label)
     else:
         print("Conversation not stored")
 
@@ -112,14 +112,14 @@ def search_for_console_command(user_message, conversation, chatbot_id):
         n_rewind = extract_number_as_int(user_message)
         conversation = rewind_chat_by_n_assistant_responses(n_rewind, conversation)
         reprint_whole_conversation_without_syntax(conversation)
-        dump_current_conversation_to_json(conversation)
+        dump_chat_to_dashboard(conversation)
         role_that_gets_to_speak_next = "user"
 
     elif "rewinduserby" in user_message:
         n_rewind = extract_number_as_int(user_message)
         conversation = rewind_chat_by_n_user_messages(n_rewind, conversation)
         reprint_whole_conversation_without_syntax(conversation)
-        dump_current_conversation_to_json(conversation)
+        dump_chat_to_dashboard(conversation)
 
     elif "dumpinfo" in user_message:
         take_snapshot_of_conversation_status()

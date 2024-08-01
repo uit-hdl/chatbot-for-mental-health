@@ -11,9 +11,9 @@ from utils.backend import LOGGER
 from utils.backend import TRANSCRIPT_DUMP_PATH
 from utils.backend import CHATBOT_CONFIG
 from utils.backend import PROMPTS
-from utils.backend import CONVERSATION_DUMP_PATH
+from utils.backend import CHAT_DUMP_PATH
 from utils.backend import dump_to_json
-from utils.backend import dump_current_conversation_to_json
+from utils.backend import dump_chat_to_dashboard
 from utils.backend import load_yaml_file
 from utils.backend import reset_files_that_track_cumulative_variables
 from utils.backend import collect_prompts_in_dictionary
@@ -67,7 +67,7 @@ def sleep_diary_assistant_bot(chatbot_id, chat_filepath=None):
         print_last_assistant_response(conversation)
         display_images(harvested_syntax["images"])
         play_videos(harvested_syntax["videos"])
-        dump_current_conversation_to_json(conversation, also_dump_formatted=True)
+        dump_chat_to_dashboard(conversation, dump_md_copy=True)
 
         if harvested_syntax["referral"]:
             chatbot_id = harvested_syntax["referral"]["name"]
@@ -87,7 +87,7 @@ def continue_previous_conversation(chat_filepath: str, chatbot_id: str) -> list:
     # Replace original prompt with requested prompt
     conversation[0] = {"role": "system", "content": prompt}
     print_whole_conversation_with_backend_info(conversation)
-    dump_current_conversation_to_json(conversation)
+    dump_chat_to_dashboard(conversation)
     return conversation
 
 
@@ -100,7 +100,7 @@ def initiate_conversation_object(
         PROMPTS[chatbot_id], system_message
     )
     LOGGER.info("Starting new conversation with %s.", chatbot_id)
-    dump_current_conversation_to_json(conversation)
+    dump_chat_to_dashboard(conversation)
     dump_to_json(conversation, TRANSCRIPT_DUMP_PATH)
     return conversation
 
@@ -116,7 +116,7 @@ def get_user_input(conversation, chatbot_id) -> list:
             search_for_console_command(user_message, conversation, chatbot_id)
         )
 
-    dump_current_conversation_to_json(conversation)
+    dump_chat_to_dashboard(conversation)
 
     return conversation
 
@@ -137,7 +137,7 @@ if __name__ == "__main__":
     if len(sys.argv) >= 2:
         first_arg = sys.argv[1]
         if first_arg == "pickup_last_chat":
-            chat_filepath = CONVERSATION_DUMP_PATH
+            chat_filepath = CHAT_DUMP_PATH
         else:
             chatbot_id = first_arg
 

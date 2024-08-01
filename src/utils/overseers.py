@@ -8,9 +8,12 @@ import re
 from utils.backend import get_source_content_and_path
 from utils.backend import get_sources_available_to_chatbot
 from utils.backend import dump_prompt_response_pair
+from utils.backend import write_to_file
 from utils.backend import OVERSEERS_CONFIG
+from utils.backend import OVERSEER_LOG_PATH
 from utils.backend import CHATBOT_MODES_TO_CITATIONS
 from utils.backend import SYSTEM_MESSAGES
+from utils.backend import update_overseer_log
 from utils.backend import collect_prompts_in_dictionary
 from utils.backend import LOGGER
 from utils.chat_utilities import grab_last_assistant_response
@@ -38,8 +41,9 @@ def ai_filter(conversation, harvested_syntax, chatbot_id):
     4. If Rejected in 3: Correct response so that it complies with warnings
     """
     global PROMPTS, CHATBOT_MODES_TO_CITATIONS
-
+    
     # ** PREPARATION **
+    write_to_file(OVERSEER_LOG_PATH, "\n\n\n\n# ** RESPONSE EVALUATION **", mode="a")
     # Update PROMPTS and CITATIONS dictionaries
     PROMPTS = collect_prompts_in_dictionary(chatbot_id)
     CHATBOT_MODES_TO_CITATIONS["source_communication"] = (
@@ -327,6 +331,7 @@ def get_verdict_from_single_preliminary_judge(judge: dict, prompt_variables: dic
     )
     verdict = extract_verdict(judge_response, judge["verdict_map"])
     dump_prompt_response_pair(prompt_filled, judge_response, judge["name"], verdict)
+    update_overseer_log(judge["name"], judge_response, verdict)
     if verdict == "REJECT":
         silent_print(f"{judge['name']} rejected the response")
     LOGGER.info(f"{judge['name']}:\n{judge_response}")
@@ -370,6 +375,7 @@ def get_single_cheif_judge_evaluation(judge: dict, prompt_variables: dict):
         feedback = None
 
     dump_prompt_response_pair(prompt_filled, overseer_response, judge["name"], verdict)
+    update_overseer_log(judge["name"], overseer_response, verdict)
     LOGGER.info(f"{judge['name']}:\n{overseer_response}")
 
     if not verdict:

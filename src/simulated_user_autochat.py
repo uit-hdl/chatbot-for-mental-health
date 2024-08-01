@@ -22,7 +22,7 @@ from utils.create_chatbot_response import respond_to_user
 from utils.general import remove_syntax_from_message
 from utils.general import list_intersection
 from utils.general import silent_print
-from utils.backend import dump_current_conversation_to_json
+from utils.backend import dump_chat_to_dashboard
 from utils.backend import dump_to_json
 from utils.backend import add_extension
 from utils.backend import PROMPTS
@@ -97,7 +97,7 @@ def automated_roleplay_conversation_between_chatbots(
         if truncate_chat:
             conversation_chatbot_pow = truncate_if_too_long(conversation_chatbot_pow)
 
-        dump_current_conversation_to_json(conversation_chatbot_pow)
+        dump_chat_to_dashboard(conversation_chatbot_pow)
         cool_off(cooldown_time)
 
         counter += 1

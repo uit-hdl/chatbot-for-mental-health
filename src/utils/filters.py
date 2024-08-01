@@ -12,7 +12,7 @@ from utils.backend import SYSTEM_MESSAGES
 from utils.backend import LOGGER_REJECTED_RESPONSES
 from utils.backend import LOGGER
 from utils.backend import CHATBOT_MODES_TO_CITATIONS
-from utils.backend import dump_current_conversation_to_json
+from utils.backend import dump_chat_to_dashboard
 from utils.backend import get_sources_available_to_chatbot
 
 
@@ -65,7 +65,7 @@ def perform_quality_check_and_give_feedback(
             )
             silent_print(all_warnings)
 
-        dump_current_conversation_to_json(conversation)
+        dump_chat_to_dashboard(conversation)
 
     return conversation, flag
 

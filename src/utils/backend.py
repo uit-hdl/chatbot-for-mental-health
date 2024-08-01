@@ -27,7 +27,7 @@ LIBRARY_DIR = os.path.join(ROOT_DIR, "library")
 # Other
 PROMPTS_DIR = os.path.join(ROOT_DIR, "prompts")
 CHAT_DASHBOARD_DIR = os.path.join(ROOT_DIR, "chat-dashboard")
-OVERSEER_DUMP_DIR = os.path.join(CHAT_DASHBOARD_DIR, "judge-dumps")
+OVERSEER_DUMP_DIR = os.path.join(CHAT_DASHBOARD_DIR, "overseer-dump")
 
 # ** Configuration file paths **
 AZURE_CONFIG_PATH = os.path.join(ROOT_DIR, "config/azure_config.yaml")
@@ -46,10 +46,14 @@ LOGFILE_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "chat.log")
 LOGFILE_REJECTED_RESPONSES_DUMP_PATH = os.path.join(
     CHAT_DASHBOARD_DIR, "rejected_responses.log"
 )
+OVERSEER_LOG_PATH = os.path.join(OVERSEER_DUMP_DIR, "overseer_log.md")
 DELETED_MESSAGES_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "truncated_messages.json")
-PRE_SUMMARY_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "pre_summary_response.md")
-TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "transcript.json")
-CONVERSATION_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "conversation.json")
+PRE_SUMMARY_DUMP_PATH = os.path.join(
+    CHAT_DASHBOARD_DIR, "other/pre_summary_response.md"
+)
+TRANSCRIPT_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "other/transcript.json")
+CHAT_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "conversation.json")
+CHAT_FORMATTED_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "other/conversation.md")
 HARVESTED_SYNTAX_DUMP_PATH = os.path.join(CHAT_DASHBOARD_DIR, "harvested_syntax.json")
 TOKEN_USAGE_DUMP_PATH = os.path.join(
     CHAT_DASHBOARD_DIR, "token-usage/chat_consumption.json"
@@ -171,24 +175,38 @@ def dump_prompt_response_pair(prompt, output, dump_name, verdict=None):
     monitoring/overseer agents."""
     dump_path = os.path.join(OVERSEER_DUMP_DIR, add_extension(dump_name, ".md"))
     full_path = get_full_path_and_create_dir(dump_path)
-    dump_text = f"# PROMPT\n\n{prompt}\n\n\n\n# OUPUT\n\n{output}"
-    if verdict:
-        dump_text += f"\n\n# VERDICT\n\n{verdict}"
+    dump_text = concatenate_overseer_prompt_and_response(prompt, output, verdict)
     dump_file(dump_text, full_path)
 
 
-def dump_current_conversation_to_json(
-    conversation, filename="conversation", also_dump_formatted=False
-):
-    """Dumps the conversation to the conversation directory as a json file."""
-    dump_to_json(conversation, f"{CHAT_DASHBOARD_DIR}/{filename}.json")
-    if also_dump_formatted:
-        dump_chat_to_markdown(conversation, f"{CHAT_DASHBOARD_DIR}/{filename}.md")
+def concatenate_overseer_prompt_and_response(prompt, output, verdict=None):
+    """Concatenates the filled prompt and the associated response produced by an
+    overseer into a formatted string."""
+    concatenated_text = f"# PROMPT\n\n{prompt}\n\n# OUPUT\n\n{output}"
+    if verdict:
+        concatenated_text += f"\n\n# VERDICT\n\n{verdict}"
+    return concatenated_text
 
 
-def dump_conversation(conversation: list, filename: str = "conversation"):
-    """Stores conversation in json format in conversations/raw and in formatted
-    markdown file in conversations/formatted. Default name is `conversation`."""
+def update_overseer_log(overseer_name, output, verdict="--"):
+    """Dumps response and output of overseer into a single formatted .md
+    markdown) file for convenience and readability. Makes it easier to debug
+    monitoring/overseer agents."""
+    file_path = get_full_path_and_create_dir(OVERSEER_LOG_PATH)
+    text = f"\n\n# {overseer_name} OUTPUT\n\n{output}\n\n# VERDICT\n\n{verdict}"
+    write_to_file(file_path, text, mode="a")
+
+
+def dump_chat_to_dashboard(conversation, dump_md_copy=False):
+    """Dumps the current chat to the chat-dashboard."""
+    dump_to_json(conversation, CHAT_DUMP_PATH)
+    if dump_md_copy:
+        dump_chat_to_markdown(conversation, CHAT_FORMATTED_DUMP_PATH)
+
+
+def dump_chat_to_results(conversation: list, filename: str = "conversation"):
+    """Dumps the chat in json and .md format results/conversations/general/.
+    Allows specification of the filename."""
     json_file_path = f"{CONVERSATIONS_RAW_DIR}/{filename}.json"
     txt_file_path = f"{CONVERSATIONS_FORMATTED_DIR}/{filename}.md"
     if conversation[-1]["content"] == "break":
@@ -213,7 +231,7 @@ def update_field_value_in_json(file_path, field: str, new_value):
     dump_to_json(dictionary, file_path)
 
 
-def add_element_to_existing_json_file(dump_object, file_path):
+def add_item_to_json_file(dump_object, file_path):
     """Adds the object to the specified json file."""
     # Load or initiate JSON file
     if file_exists(file_path):
@@ -232,7 +250,7 @@ def add_element_to_existing_json_file(dump_object, file_path):
 
 
 def reset_json_file(file_path):
-    """Resets json file to an empty list"""
+    """Resets json file to an empty list."""
     if file_exists(file_path):
         dump_to_json([], file_path)
 
@@ -384,6 +402,7 @@ def reset_files_that_track_cumulative_variables():
         {"token_usage_total": 0, "chat_cost_kr_total": 0}, TOKEN_USAGE_DUMP_PATH
     )
     reset_json_file(DELETED_MESSAGES_DUMP_PATH)
+    dump_file("", OVERSEER_LOG_PATH)
 
 
 def dump_copy_of_chat_info_to_results(dump_name: str):
@@ -431,11 +450,11 @@ def get_input_from_command_line(commandline_prompt):
     return input(f"{commandline_prompt} ").strip().lower()
 
 
-def write_to_file(file_path, content):
+def write_to_file(file_path, content, mode="w"):
     """Write content to specified file path (relative to project
     root-folder)."""
     full_path = get_full_path_and_create_dir(file_path)
-    with open(full_path, "w") as file:
+    with open(full_path, mode) as file:
         file.write(content)
 
 

@@ -8,7 +8,7 @@ from console_chat import PROMPTS
 from console_chat import initiate_conversation_with_prompt
 from console_chat import remove_inactive_sources
 from console_chat import respond_to_user
-from console_chat import dump_current_conversation_to_json
+from console_chat import dump_chat_to_dashboard
 from console_chat import direct_to_new_assistant
 from console_chat import truncate_if_too_long
 from utils.general import remove_syntax_from_message
@@ -141,7 +141,7 @@ def create_response(user_message, surface_chat, deep_chat, slide_index):
     updated with a response from the chatbot."""
     deep_chat.append({"role": "user", "content": user_message})
     deep_chat = refresh_context_in_chat(deep_chat, slide_index)
-    dump_current_conversation_to_json(deep_chat)
+    dump_chat_to_dashboard(deep_chat)
 
     deep_chat, harvested_syntax = respond_to_user(deep_chat, CHATBOT_ID)
     raw_response = grab_last_assistant_response(deep_chat)
@@ -152,7 +152,7 @@ def create_response(user_message, surface_chat, deep_chat, slide_index):
     for image_url in image_url_list:
         surface_chat.append((None, (image_url,)))
 
-    dump_current_conversation_to_json(deep_chat)
+    dump_chat_to_dashboard(deep_chat)
 
     if harvested_syntax["referral"]:
         assistant_name = harvested_syntax["referral"]["name"]

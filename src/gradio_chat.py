@@ -5,7 +5,7 @@ from console_chat import collect_prompts_in_dictionary
 from console_chat import initiate_conversation_with_prompt
 from console_chat import remove_inactive_sources
 from console_chat import respond_to_user
-from console_chat import dump_current_conversation_to_json
+from console_chat import dump_chat_to_dashboard
 from console_chat import direct_to_new_assistant
 from console_chat import truncate_if_too_long
 from utils.general import remove_syntax_from_message
@@ -152,7 +152,7 @@ def respond(user_message, deep_chat, surface_chat, chatbot_id, image_window):
         # The image window is a chatbot component where there is no user inputs.
         image_window.append((None, (image_url,)))
 
-    dump_current_conversation_to_json(deep_chat, also_dump_formatted=True)
+    dump_chat_to_dashboard(deep_chat, dump_md_copy=True)
 
     if harvested_syntax["referral"]:
         chatbot_id = harvested_syntax["referral"]["name"]

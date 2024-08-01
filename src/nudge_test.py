@@ -22,7 +22,7 @@ from utils.general import remove_syntax_from_message
 from utils.general import list_intersection
 from utils.general import silent_print
 from utils.backend import load_json_from_path
-from utils.backend import dump_current_conversation_to_json
+from utils.backend import dump_chat_to_dashboard
 from utils.backend import dump_to_json
 from utils.backend import add_extension
 from utils.backend import PROMPTS

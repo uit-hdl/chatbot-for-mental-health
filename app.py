@@ -1,4 +1,5 @@
-"""Script for doing E-health course in gradio chatbot interface."""
+"""Script for doing E-health course in gradio chatbot interface. This script has
+to be here in order for the Azure app to function."""
 
 import os
 import sys
@@ -13,7 +14,7 @@ from src.utils.general import remove_syntax_from_message
 from src.utils.managing_sources import remove_inactive_sources
 from src.utils.manage_chat_length import truncate_if_too_long
 from src.utils.backend import reset_files_that_track_cumulative_variables
-from src.utils.backend import dump_current_conversation_to_json
+from src.utils.backend import dump_chat_to_dashboard
 from src.utils.chat_utilities import initiate_conversation_with_prompt
 from src.utils.chat_utilities import grab_last_assistant_response
 from src.utils.chat_utilities import re

@@ -11,7 +11,7 @@ from utils.managing_sources import get_names_of_currently_inserted_sources
 from utils.managing_sources import get_inactivity_times_for_sources
 from utils.managing_sources import remove_inserted_sources_from_conversation
 from utils.backend import dump_to_json
-from utils.backend import add_element_to_existing_json_file
+from utils.backend import add_item_to_json_file
 from utils.backend import load_json_from_path
 from utils.backend import update_field_value_in_json
 from utils.backend import CHATBOT_CONFIG
@@ -29,7 +29,7 @@ def truncate_if_too_long(conversation):
     conversation_trimmed, removed_messages = trim_conversation(conversation_trimmed)
 
     if removed_messages:
-        add_element_to_existing_json_file(removed_messages, DELETED_MESSAGES_DUMP_PATH)
+        add_item_to_json_file(removed_messages, DELETED_MESSAGES_DUMP_PATH)
 
     update_chat_transcript(conversation_trimmed)
     update_field_value_in_json(
