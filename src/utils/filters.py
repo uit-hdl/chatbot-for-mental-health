@@ -52,18 +52,11 @@ def perform_quality_check_and_give_feedback(
     # -- OVERSEER FILTER --
     if CHATBOT_CONFIG["enable_overseer_filter"] and not hard_warnings:
 
-        overseer_evaluation, warnings_from_ai_filter, conversation = ai_filter(
+        overseer_warnings, conversation = ai_filter(
             conversation, harvested_syntax, chatbot_id
         )
-        all_warnings.append(warnings_from_ai_filter)
-        conversation = append_system_messages(conversation, warnings_from_ai_filter)
-
-        if overseer_evaluation == "REJECT":
-            flag = "REJECT"
-            log_rejection_details(
-                conversation, harvested_syntax, hard_warnings, all_warnings
-            )
-            silent_print(all_warnings)
+        all_warnings.append(overseer_warnings)
+        conversation = append_system_messages(conversation, overseer_warnings)
 
         dump_chat_to_dashboard(conversation)
 

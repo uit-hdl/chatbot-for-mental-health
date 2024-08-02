@@ -11,7 +11,9 @@ from utils_testing_judges import dump_to_json_locally
 from utils.backend import add_extension
 
 # %%
-prompt_name = "source-fidelity/swift_judge_source_fidelity"
+prompt_name = (
+    "files/prompt-templates/source-fidelity/swift-judges/swift_judge_source_fidelity.md"
+)
 test_case_name = "what_is_stigma_good_answer"
 test_case_name = "starting_a_movement"
 
@@ -22,6 +24,7 @@ test_case = test_cases[test_case_name]
 test_case["source"] = get_source(test_case["source_name"])
 prompt_completed = prompt.format(**test_cases[test_case_name])
 
+# %%
 
 prompt_name = "misc/swift_judge/disclaimers_only.md"
 results_1 = run_experiment_for_test_case(
@@ -38,7 +41,9 @@ results_1 = run_experiment_for_test_case(
 )
 
 # %%
-prompt_name = "source-fidelity/swift_judge_source_fidelity"
+prompt_name = (
+    "files/prompt-templates/source-fidelity/swift-judges/swift_judge_source_fidelity.md"
+)
 results_1 = run_experiment_for_test_case(
     n_exp=10,
     prompt_template_path_relative=prompt_name,
@@ -95,7 +100,7 @@ results_1 = run_experiment_for_test_case(
     prompt_template_path_relative=prompt_name,
     test_case_name="what_is_stigma_good_answer",
     f_correct_response=lambda x: True if "ATTEMPT" in x else False,
-    summarize_source=True
+    summarize_source=True,
 )
 
 results_1 = run_experiment_for_test_case(

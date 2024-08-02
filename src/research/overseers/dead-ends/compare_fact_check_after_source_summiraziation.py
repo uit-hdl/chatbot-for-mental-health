@@ -47,7 +47,7 @@ def get_prompt(test_name, prompt_template):
 
 
 def get_evaluation(test_name, prompt):
-    ground_truth = test_cases[test_name]["value"]
+    ground_truth = test_cases[test_name]["correct_verdict"]
     response = generate_single_response_using_gpt35_turbo_instruct(prompt=prompt)
     if "ACCEPTED" in response:
         return "ACCEPTED", ground_truth, response

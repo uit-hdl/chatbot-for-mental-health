@@ -115,18 +115,10 @@ def run_experiment_for_test_case(
     silent_print(f"** Benchmark: {test_case_name} **")
     test_cases = load_test_cases()
     test_case = test_cases[test_case_name]
-    if "source_name" in test_case.keys():
-        test_case["source"] = get_source(test_case["source_name"])
-        if summarize_source:
-            print("Summarizing source ...")
-            test_case["source"] = gen_llm_response(
-                load_local_prompt_template("other/source_summarizer.md").format(
-                    source_content=test_case["source"]
-                )
-            )
+    test_case = update_with_sources(test_case, summarize_source)
 
     if f_correct_response is None:
-        if test_case["value"] == "ACCEPTED":
+        if test_case["correct_verdict"] == "ACCEPTED":
             f_correct_response = lambda answer: True if "ACCEPTED" in answer else False
         else:
             f_correct_response = lambda answer: (
@@ -145,6 +137,19 @@ def run_experiment_for_test_case(
     dump_to_json_locally(results, "results/current_result.json")
 
     return results
+
+
+def update_with_sources(test_case, summarize_source=False):
+    if "source_name" in test_case.keys():
+        test_case["source"] = get_source(test_case["source_name"])
+        if summarize_source:
+            print("Summarizing source ...")
+            test_case["source"] = gen_llm_response(
+                load_local_prompt_template("other/source_summarizer.md").format(
+                    source_content=test_case["source"]
+                )
+            )
+    return test_case
 
 
 # %% PROMPT GENERATION
