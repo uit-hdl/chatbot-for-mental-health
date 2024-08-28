@@ -208,10 +208,11 @@ def fill_prompt_of_redirect_consent_checker(conversation):
 
 
 def extract_verdict(overseer_response, keyword_to_verdict_map: dict):
-    """The overseer outputs a string which contains evaluation keywords like
+    """The overseer outputs a response containing evaluation keywords like
     AGREE or WARNING. This functions map these keywords to official verdicts
-    which are used in subsequent nodes in the filter stage. The verdict field
-    shows which verdict each keyword maps to, such as DENY -> REJECT."""
+    (REJECT or ACCEPT) which are used in subsequent steps in the filter stage.
+
+    Example of map: {"DENY": "REJECT", "AGREE": "ACCEPT"}."""
     official_verdict = "ACCEPT"
     identified_keywords = []
     for keyword in keyword_to_verdict_map:
@@ -222,6 +223,9 @@ def extract_verdict(overseer_response, keyword_to_verdict_map: dict):
     longest_identified_keyword = find_longest_string(identified_keywords)
     if longest_identified_keyword:
         official_verdict = keyword_to_verdict_map[longest_identified_keyword]
+    else:
+        silent_print(f"No keyword match for response: '{overseer_response}'")
+
     return official_verdict
 
 

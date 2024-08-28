@@ -40,6 +40,4 @@ EVALUATION: "UNSUITABLE_FOR_AI"
 
 Now, here is the actual query:
 
-user-message: "That's interesting. Could you give me some basic tips for starting
-conversations in everyday social settings?
-"
+user-message: "{user_message}"

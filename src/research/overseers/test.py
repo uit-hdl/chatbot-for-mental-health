@@ -9,6 +9,7 @@ from utils_testing_judges import get_source
 from utils_testing_judges import dump_to_json_locally
 
 from utils.backend import add_extension
+from utils.overseers import extract_verdict
 
 # %%
 prompt_name = (
@@ -41,53 +42,67 @@ results_1 = run_experiment_for_test_case(
 )
 
 # %%
+verdict_map = {"NOT_SUPPORTED": "REJECT", "SUPPORTED": "ACCEPT"}
+
 prompt_name = (
     "files/prompt-templates/source-fidelity/swift-judges/swift_judge_source_fidelity.md"
 )
 results_1 = run_experiment_for_test_case(
     n_exp=10,
+    verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
     test_case_name="humor_to_challenge_stigma",
-)
-
-results_1 = run_experiment_for_test_case(
-    n_exp=10,
-    prompt_template_path_relative=prompt_name,
-    test_case_name="what_is_stigma_good_answer",
+    model="gpt-4"
 )
 
 results_2 = run_experiment_for_test_case(
     n_exp=10,
+    verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
-    test_case_name="causes_of_schizo",
+    test_case_name="what_is_stigma_good_answer",
 )
 
 results_3 = run_experiment_for_test_case(
     n_exp=10,
+    verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
-    test_case_name="starting_a_movement",
+    test_case_name="causes_of_schizo",
+    model="gpt-4",
 )
 
 results_4 = run_experiment_for_test_case(
     n_exp=10,
+    verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
-    test_case_name="how_to_start_conversation_about_ignorance",
+    test_case_name="starting_a_movement",
+    model="gpt-4",
 )
 
 results_5 = run_experiment_for_test_case(
     n_exp=10,
+    verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
-    test_case_name="diet_saturatedFats",
+    test_case_name="how_to_start_conversation_about_ignorance",
 )
 
 results_6 = run_experiment_for_test_case(
     n_exp=10,
+    verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
-    test_case_name="body_language_tips",
+    test_case_name="diet_saturatedFats",
+    model="gpt-35"
 )
 
 results_7 = run_experiment_for_test_case(
     n_exp=10,
+    verdict_map=verdict_map,
+    prompt_template_path_relative=prompt_name,
+    test_case_name="body_language_tips",
+)
+
+results_8 = run_experiment_for_test_case(
+    n_exp=10,
+    verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
     test_case_name="explaining_probabilities",
 )
