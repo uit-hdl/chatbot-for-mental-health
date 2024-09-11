@@ -87,53 +87,6 @@ advice relies on external assumptions, so message is NOT_SUPPORTED"
 
 # Actual content to evaluate
 
-source: """[Present over 2 messages or only what is relevant]
+source: """{source}"""
 
-Stigma can refer to the negative perceptions and attitudes surrounding certain
-health conditions or diseases. There are a lot of misconceptions surrounding
-schizophrenia, which can affect both those with the condition and those who care
-for them. Many people believe that a person with schizophrenia will switch
-frequently between normal and bizarre behaviour, as if they have multiple
-personalities. This promotes a perception that people with schizophrenia are
-unpredictable and should be feared.
-
-They may internalize these misconceptions (self-stigmization). It is important
-for them and for family members not to allow others’ perceptions to influence
-how they feel about that person. It is important that they view their illness as
-something they have, and not something that identifies them.
-
-**'I have schizophrenia. I am not schizophrenia. I am not my mental illness. My
-illness is a part of me.'** – Jonathan Harnisch, An Alibiography
-
-The name ‘schizophrenia’ is derived from the Greek verb skhizein, ‘to split’,
-and phren, denoting ‘soul, spirit or mind’, and originally described a group of
-‘schizophrenias’. Although the current language suggests a single, uniform
-condition, there is great variety in the severity of illness and types of
-symptoms experienced by people with schizophrenia.
-
-There have been many suggestions for alternative names that better describe the
-diversity of symptoms apparent in people with schizophrenia. Indeed, a new term,
-‘Togo Shitcho Sho’ or ‘integration disorder’, was adopted in Japan in 2002.
-Patient groups in the Netherlands are also taking steps towards realizing a name
-change in their country. The Dutch patient society, Anoiksis, has suggested a
-new name and new concept for schizophrenia, with the aim of reducing the stigma
-associated with the condition.
-"""
-
-chatbot-message: """Humor can indeed play a role in addressing social issues like stigma. By
-using humor sensitively and creatively to challenge stereotypes and
-misconceptions, it can open up positive conversations and build
-connections between people.
-
-For example, a well-delivered joke or story that highlights the
-absurdity of common misconceptions can prompt reflection and discussion
-about the stigma associated with mental health. This does not trivialize
-the issue but can make the topic approachable and relatable, fostering
-empathy and understanding.
-
-Using humor to humanize and normalize experiences can also help reduce
-self- stigmatization, helping individuals see themselves beyond their
-conditions. This aligns with the perspective that one 'has'
-schizophrenia rather than 'is' schizophrenia, supporting the idea that
-an individual's identity is broader than their mental illness.
-"""
+chatbot-message: """{chatbot_message}"""

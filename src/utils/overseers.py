@@ -423,6 +423,7 @@ def refine_response(
             conversation,
             warning_messages,
             response_corrected,
+            final_verdict,
         )
 
     return conversation, warning_messages

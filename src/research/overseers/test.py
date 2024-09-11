@@ -11,12 +11,13 @@ from utils_testing_judges import dump_to_json_locally
 from utils.backend import add_extension
 from utils.overseers import extract_verdict
 
+
 # %%
 prompt_name = (
-    "files/prompt-templates/source-fidelity/swift-judges/swift_judge_source_fidelity.md"
+    "files/prompt-templates/source-fidelity/swift-judges/swift_judge_source_fidelity(copy 1).md"
 )
-test_case_name = "what_is_stigma_good_answer"
-test_case_name = "starting_a_movement"
+test_case_name = "diet_saturatedFats"
+# test_case_name = "starting_a_movement"
 
 prompt = load_local_prompt_template(prompt_name)
 test_cases = load_test_cases()
@@ -25,6 +26,15 @@ test_case = test_cases[test_case_name]
 test_case["source"] = get_source(test_case["source_name"])
 prompt_completed = prompt.format(**test_cases[test_case_name])
 
+verdict_map = {"SUPPORTED": "ACCEPT", "NOT_SUPPORTED": "REJECT"}
+if input("Run Test? (y/n)") == "y":
+    results_1 = run_experiment_for_test_case(
+        model="gpt-4",
+        n_exp=5,
+        prompt_template_path_relative=prompt_name,
+        test_case_name=test_case_name,
+        verdict_map=verdict_map,
+    )
 # %%
 
 prompt_name = "misc/swift_judge/disclaimers_only.md"
@@ -45,14 +55,14 @@ results_1 = run_experiment_for_test_case(
 verdict_map = {"NOT_SUPPORTED": "REJECT", "SUPPORTED": "ACCEPT"}
 
 prompt_name = (
-    "files/prompt-templates/source-fidelity/swift-judges/swift_judge_source_fidelity.md"
+    "files/prompt-templates/source-fidelity/swift-judges/swift_judge_source_fidelity(copy 1).md"
 )
 results_1 = run_experiment_for_test_case(
     n_exp=10,
     verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
     test_case_name="humor_to_challenge_stigma",
-    model="gpt-4"
+    model="gpt-35-turbo-16k",
 )
 
 results_2 = run_experiment_for_test_case(
@@ -67,7 +77,7 @@ results_3 = run_experiment_for_test_case(
     verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
     test_case_name="causes_of_schizo",
-    model="gpt-4",
+    model="gpt-35-turbo-16k",
 )
 
 results_4 = run_experiment_for_test_case(
@@ -75,7 +85,7 @@ results_4 = run_experiment_for_test_case(
     verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
     test_case_name="starting_a_movement",
-    model="gpt-4",
+    model="gpt-35-turbo-16k",
 )
 
 results_5 = run_experiment_for_test_case(
@@ -90,7 +100,7 @@ results_6 = run_experiment_for_test_case(
     verdict_map=verdict_map,
     prompt_template_path_relative=prompt_name,
     test_case_name="diet_saturatedFats",
-    model="gpt-35"
+    model="gpt-35",
 )
 
 results_7 = run_experiment_for_test_case(

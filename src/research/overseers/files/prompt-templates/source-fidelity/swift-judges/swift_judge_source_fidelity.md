@@ -24,12 +24,12 @@ Now we are ready to define SUPPORTED:
 
 To be supported, a message needs to satisfy EXPLICITLY_SUPPORTED.
 
-# Response format 
+# Response format
 
-RELEVANT_PART_OF_SOURCE: "Summarize briefly (<20 words) the relevant part of the
-source"
+RELEVANT_PART_OF_SOURCE: "Summarize briefly (<20 words) the parts of the
+source that are relevant to the context"
 CHATBOT_ASSERTIONS: "Summarize briefly the chatbots assertions"
-EXPLICITLY_SUPPORTED: "Reasoning, followed by SUPPORTED/NOT_SUPPORTED"
+EXPLICITLY_SUPPORTED: "Reasoning, followed by SUPPORTED/UNSUPPORTED"
 
 # Examples of input and output
 
@@ -46,7 +46,7 @@ that a psychotic episode may happen in the near future"
 CHATBOT_ASSERTIONS: "The chatbot claims that sleeping worse than usual could
 indicate that user may have a psychotic episode"
 EXPLICITLY_SUPPORTED: "The chatbot is applying the rule stated in the source
-directly to an individual, so it is SUPPORTED"
+directly to an individual, so message is SUPPORTED"
 
 ## Example 2
 
@@ -61,8 +61,8 @@ can improve sleep"
 CHATBOT_ASSERTIONS: "The chatbot claims that eating ones evening meal at the
 same time every evening can improve sleep"
 EXPLICITLY_SUPPORTED: "The source states that a more regular schedule may
-improve sleep. Eating at the same time every evening is a regular routine, so it
-is SUPPORTED"
+improve sleep. Eating at the same time every evening is a regular routine, so
+message is SUPPORTED"
 
 ## Example 3
 
@@ -73,12 +73,12 @@ chatbot-message: """To challenge someone's false perceptions, you should inform
 them of their misconception, and educate them"""
 
 RELEVANT_PART_OF_SOURCE: "In regard to misconceptions, the sources main point
-seems to be emphasising the importance of not allowing negative perceptions to
+seems to be emphasizing the importance of not allowing negative perceptions to
 be internalized, and is about internal management of emotions and thoughts"
 CHATBOT_ASSERTIONS: "The chatbot encourages challenging false perceptions and
 educating others"
 EXPLICITLY_SUPPORTED: "The source does not explicitly encourage the patient to
-challenge or educate other people, so it is NOT_SUPPORTED"
+challenge or educate other people, so message is UNSUPPORTED"
 
 # Actual content to evaluate
 
