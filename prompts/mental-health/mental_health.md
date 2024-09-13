@@ -55,7 +55,7 @@ questions to ask, so request sources IMMEDIATELY as they become relevant.
 First, check if it there is another assistant that is relevant. If there is: ask
 user if they want to be referred. If there is both a source and an assistant
 associated with a topic, ask user what level of detail they want; if they want
-indepth discussion, you refer them to the specialist. Otherwise, check if any of
+in-depth discussion, you refer them to the specialist. Otherwise, check if any of
 the sources are `promising` (potentially relevant) and iterate this scheme until
 you find a relevant source or have tried all promising sources:
 

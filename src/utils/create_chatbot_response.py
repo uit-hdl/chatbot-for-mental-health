@@ -8,10 +8,9 @@ from utils.chat_utilities import generate_and_add_raw_bot_response
 from utils.backend import CHATBOT_CONFIG
 from utils.backend import LOGGER
 from utils.backend import dump_chat_to_dashboard
-from utils.filters import perform_quality_check_and_give_feedback
+from utils.filters import filter_response
 from utils.filters import correct_erroneous_show_image_command
 from utils.general import silent_print
-from utils.manage_response_length import manage_length_of_chatbot_response
 
 
 def respond_to_user(conversation, chatbot_id: str) -> tuple[list, dict]:
@@ -45,15 +44,13 @@ def respond_to_user(conversation, chatbot_id: str) -> tuple[list, dict]:
 def generate_valid_chatbot_output(conversation, chatbot_id):
     """Attempts to generate a response untill the response passes quality check
     based on criteria such as whether or not the requested files exist."""
-    
+
     for attempt in range(CHATBOT_CONFIG["n_attempts_at_producing_valid_response"]):
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id
         )
-        conversation = manage_length_of_chatbot_response(conversation)
-        conversation, flag = perform_quality_check_and_give_feedback(
-            conversation, harvested_syntax, chatbot_id
-        )
+        
+        conversation, flag = filter_response(conversation, harvested_syntax, chatbot_id)
 
         if flag == "REJECT":
             conversation = delete_last_bot_response(conversation)
@@ -66,10 +63,7 @@ def generate_valid_chatbot_output(conversation, chatbot_id):
         conversation, harvested_syntax = create_tentative_bot_response(
             conversation, chatbot_id
         )
-        conversation = manage_length_of_chatbot_response(conversation)
-        conversation, flag = perform_quality_check_and_give_feedback(
-            conversation, harvested_syntax, chatbot_id
-        )
+        conversation, flag = filter_response(conversation, harvested_syntax, chatbot_id)
         LOGGER.info("Ran out of attempts to pass quality check.")
 
     return conversation, harvested_syntax

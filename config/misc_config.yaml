@@ -28,6 +28,3 @@ dollars_per_1k_token:
     "output": 0.002
 dollars_per_1k_output_token: 0.06
 nok_per_dollar: 10.6 # rate: NOK per Dollar
-
-# --- OTHER ---
-role_that_speaks_first: "user"

@@ -14,11 +14,10 @@ from utils.backend import LOGGER
 from utils.backend import CHATBOT_MODES_TO_CITATIONS
 from utils.backend import dump_chat_to_dashboard
 from utils.backend import get_sources_available_to_chatbot
+from utils.manage_response_length import manage_length_of_chatbot_response
 
 
-def perform_quality_check_and_give_feedback(
-    conversation, harvested_syntax: dict, chatbot_id: str
-) -> str:
+def filter_response(conversation, harvested_syntax: dict, chatbot_id: str) -> str:
     """Performs a quality check for the bot response based on the extracted
     information. Warnings are produced for undesired behaviours which get appended to the
     conversation so that the chatbot can learn from its mistakes. Certain errors (those
@@ -26,41 +25,52 @@ def perform_quality_check_and_give_feedback(
     response."""
     flag = "ACCEPT"
 
+    conversation = manage_length_of_chatbot_response(conversation)
+
     # -- HARD CODED FILTER --
     if CHATBOT_CONFIG["enable_hard_coded_filter"]:
-        existance_hard_warnings = check_if_requested_files_exist(harvested_syntax)
-        citation_soft_warnings, citation_hard_warnings = citation_check(
-            harvested_syntax, chatbot_id, conversation
-        )
-        # Collect warnings
-        soft_warnings = citation_soft_warnings
-        hard_warnings = existance_hard_warnings + citation_hard_warnings
-        all_warnings = hard_warnings + soft_warnings
-
-        conversation = append_system_messages(conversation, all_warnings)
-
-        if hard_warnings:
-            flag = "REJECT"
-            log_rejection_details(
-                conversation, harvested_syntax, hard_warnings, all_warnings
-            )
-
-    if harvested_syntax["knowledge_extensions"]:
-        # Don't apply AI-filter for knowledge requests
-        return conversation, flag
-
-    # -- OVERSEER FILTER --
-    if CHATBOT_CONFIG["enable_overseer_filter"] and not hard_warnings:
-
-        overseer_warnings, conversation = ai_filter(
+        conversation, flag, filter_warnings = hardcoded_filter(
             conversation, harvested_syntax, chatbot_id
         )
-        all_warnings.append(overseer_warnings)
-        conversation = append_system_messages(conversation, overseer_warnings)
 
-        dump_chat_to_dashboard(conversation)
+    # -- OVERSEER FILTER --
+    if not harvested_syntax["knowledge_extensions"]:
+        if CHATBOT_CONFIG["enable_overseer_filter"] and flag != "REJECT":
+            overseer_warnings, conversation = ai_filter(
+                conversation, harvested_syntax, chatbot_id
+            )
+            filter_warnings.append(overseer_warnings)
+            conversation = append_system_messages(conversation, overseer_warnings)
+            dump_chat_to_dashboard(conversation)
 
     return conversation, flag
+
+
+def hardcoded_filter(conversation, harvested_syntax, chatbot_id):
+    """Checks if the requested files exist, and if the response has a valid
+    citation. Returns conversation with warning messages appended, a flag
+    indicating if the response should be regenerated ('REJECT' if true), and a
+    list of warning messages generated."""
+    existance_hard_warnings = check_if_requested_files_exist(harvested_syntax)
+    citation_soft_warnings, citation_hard_warnings = citation_check(
+        harvested_syntax, chatbot_id, conversation
+    )
+    # Collect warnings
+    soft_warnings = citation_soft_warnings
+    hard_warnings = existance_hard_warnings + citation_hard_warnings
+    all_warnings = hard_warnings + soft_warnings
+
+    conversation_with_warnings = append_system_messages(conversation, all_warnings)
+
+    if hard_warnings:
+        flag = "REJECT"
+        log_rejection_details(
+            conversation_with_warnings, harvested_syntax, hard_warnings, all_warnings
+        )
+    else:
+        flag = "ACCEPT"
+
+    return conversation_with_warnings, flag, all_warnings
 
 
 def check_if_requested_files_exist(harvested_syntax) -> list:

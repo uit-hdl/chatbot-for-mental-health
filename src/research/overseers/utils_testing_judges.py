@@ -67,24 +67,23 @@ def run_experiment_general(
         prompt_template, prompt_variables
     )
     f_llm_response = lambda prompt: gen_llm_response(prompt, model)
-    f_check_response = lambda response: check_answer(
+    f_check_response = lambda response: is_verdict_correct(
         response, verdict_map, correct_verdict
     )
 
     responses = []
     for i in range(n_exp):
         response = f_llm_response(prompt=prompt_filled)
-        responses.append(f_llm_response(prompt=prompt_filled))
+        responses.append(response)
         if print_results:
-            print(f"RESPONSE: {response}")
+            print(f"RESPONSE:\n{response}")
             print(f"VERDICT: {extract_verdict(response, verdict_map)}")
 
     responses = pd.DataFrame({"response": responses})
-
+    
     # Analyze information
     responses["correct_verdict"] = responses["response"].apply(f_check_response)
     responses = responses[["correct_verdict", "response"]]
-    responses["correct_verdict"].mean()
     ci = calc_mean_with_confint(responses["correct_verdict"])
 
     print(f"\n** Results (test name: {test_name}) ** ")
@@ -145,13 +144,12 @@ def run_experiment_for_test_case(
     return results
 
 
-def check_answer(
+def is_verdict_correct(
     response,
     verdict_map={"AGREE": "ACCEPT", "DENY": "REJECT"},
     correct_verdict="ACCEPT",
 ) -> bool:
     verdict = extract_verdict(response, verdict_map)
-    print(verdict)
     # Convert to binary: 1 <--> REJECT or WARNING, 0 otherwhise
     verdict = (verdict == "REJECT" or verdict == "WARNING") * 1
     correct_verdict = (correct_verdict == "REJECT" or correct_verdict == "WARNING") * 1

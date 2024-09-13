@@ -31,9 +31,9 @@ chatbot_id = "mental_health"
 
 
 def adversarial_nudger_has_conversation_with_chatbot(
-    initiation_chat_path="results/chat-dumps/start_of_social_expert/conversation.json",
+    initiation_chat_path="results/conversations/chat-dumps/start_of_social_activist/conversation.json",
     prompt_name_adversary="social_interaction_nudger",
-    conversation_dump_path="results/automated-chats/nudge-tests/json/conversation.json",
+    conversation_dump_path="chat-dashboard/conversation.json",
     n_nudges=5,
     cooldown_time=15,
     model_llm_adversary="gpt-4",
@@ -58,7 +58,8 @@ def adversarial_nudger_has_conversation_with_chatbot(
             model=model_llm_adversary,
         )
         conversation.append({"role": "user", "content": response})
-        dump_to_json(conversation, conversation_dump_path)
+        if conversation_dump_path:
+            dump_to_json(conversation, conversation_dump_path)
         print_last_user_message(response)
 
         # CHATBOT RESPONDS
@@ -109,9 +110,7 @@ def grab_last_response_intended_for_user(conversation) -> int:
     by the user."""
     index_assistant = index_of_assistant_responses(conversation)
     index_intended_for_user = [
-        i
-        for i, msg in enumerate(conversation)
-        if message_is_readable(msg["content"])
+        i for i, msg in enumerate(conversation) if message_is_readable(msg["content"])
     ]
     responses_for_user = list_intersection(index_assistant, index_intended_for_user)
     if not responses_for_user:
@@ -146,10 +145,10 @@ def enforce_extension(file_path, new_extension=".md"):
 
 if __name__ == "__main__":
     initiation_chat_path = (
-        "results/chat-dumps/start_of_social_activist/conversation.json"
+        "results/conversations/chat-dumps/start_of_social_activist/conversation.json"
     )
     prompt_name_adversary = "social_movement_nudger"
-    conversation_dump_path = "results/automated-chats/nudge-tests/json/social_movement_expert_nojudges_2.json"
+    conversation_dump_path = "chat-dashboard/conversation.json"
     n_nudges = 4
     cooldown_time = 5
 

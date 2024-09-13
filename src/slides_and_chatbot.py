@@ -1,3 +1,5 @@
+"""Running this script will trigger a Gradio interface where the schizophrenia
+chatbot guides you though module 1 of the E-health-course."""
 import gradio as gr
 import sys
 import os

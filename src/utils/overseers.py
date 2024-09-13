@@ -8,11 +8,13 @@ import re
 from utils.backend import get_source_content_and_path
 from utils.backend import get_sources_available_to_chatbot
 from utils.backend import dump_prompt_response_pair
+from utils.backend import dump_to_json
 from utils.backend import write_to_file
 from utils.backend import OVERSEERS_CONFIG
 from utils.backend import OVERSEER_LOG_PATH
 from utils.backend import CHATBOT_MODES_TO_CITATIONS
 from utils.backend import SYSTEM_MESSAGES
+from utils.backend import OVERSEERS_CONFIG_DUMP_PATH
 from utils.backend import update_overseer_log
 from utils.backend import collect_prompts_in_dictionary
 from utils.backend import LOGGER
@@ -60,10 +62,9 @@ def ai_filter(conversation, harvested_syntax, chatbot_id):
 
     # Extract stages associated with the chatbot
     filter_stages = OVERSEERS_CONFIG[chatbot_id]
+    dump_to_json(filter_stages, OVERSEERS_CONFIG_DUMP_PATH)
     # Extract various classes of overseers
-    redirect_consent_checker = filter_stages["redirect_consent_check"][
-        "redirect_consent_checker"
-    ]
+    redirect_consent_check = filter_stages["redirect_consent_check"]
 
     # Collect variables needed to fill the prompts of the overseers
     prompt_variables = prepare_prompt_variables(
@@ -72,9 +73,9 @@ def ai_filter(conversation, harvested_syntax, chatbot_id):
     )
 
     # ** CHECK IF CHATBOT IS REQUESTING REDIRECT **
-    if harvested_syntax["referral"] and redirect_consent_checker:
+    if harvested_syntax["referral"] and redirect_consent_check:
         redirect_checker_verdict = check_if_user_confirms_redirect(
-            conversation, redirect_consent_checker
+            conversation, redirect_consent_check["redirect_consent_checker"]
         )
         if redirect_checker_verdict == "ACCEPT":
             silent_print("Overseer confirms that user wants to be referred.")

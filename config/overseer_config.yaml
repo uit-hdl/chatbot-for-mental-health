@@ -78,11 +78,11 @@ mental_health:
 # *** SUPPORT AGENTS FOR E-HEALTH CHATBOT ***
 ehealth_module1:
   # AI-judges that use GPT-3.5
-  preliminary_judges: []
+  preliminary_judgement: {}
   # Final verdict AI-judges that use GPT-4
-  chief_judges: []
+  final_judgement: {}
   # AI-agents that modifies the chatbots response (set to [] if not wanted)
-  chatbot_response_modifiers: []
+  response_refinement: {}
   # AI-agents that check if the user has confirmed that they want to be
   # redirected
-  redirect_consent_checkers: []
+  redirect_consent_check: {}
